@@ -1,0 +1,76 @@
+.screenLogin {
+  height: 100vh;
+  background-image: url("../../../../assets/images/Background/Login_Background.png");
+  background-color: var(--vp-white);
+  background-repeat: no-repeat;
+  background-position: right;
+  background-size: contain;
+  background-attachment: fixed;
+  position: absolute;
+  width: 100%;
+  top: 0;
+  left: 0;
+}
+
+.bgWhite {
+  background-color: var(--vp-white);
+}
+
+.material-card {
+  padding: 2.5rem 1.5rem !important;
+  width: 100% !important;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  box-shadow: rgba(149, 157, 165, 0.2) 4px 8px 24px;
+
+  .bpcloud-logo {
+    width: 80px;
+    height: 70px;
+  }
+
+  .log-img {
+    text-align: center !important;
+  }
+
+  .log-img img {
+    width: 175px !important;
+  }
+  ::placeholder {
+    color: #acacac;
+    opacity: 1;
+    font-size: 10px;
+    letter-spacing: 0.3px;
+  }
+
+  .forgot-password-text{
+    color: var(--vp-venish-blue);
+    cursor: pointer;
+  }
+  .forgot-password-text:hover{
+    text-decoration: underline;
+  }
+
+  .btn-login{
+    background: var(--vp-bluish-violet) !important;
+    color: var(--vp-white);
+    padding: 10px 30px;
+  }
+}
+
+.bp-cloud-text {
+  font-weight: 400;
+  width: 100%;
+  text-align: center;
+}
+
+.tiny-text {
+  color: #acacac;
+  opacity: 1;
+  font-size: 10px;
+  letter-spacing: 0.3px;
+}
+
+.center-text {
+  width: 100%;
+  text-align: center;
+}

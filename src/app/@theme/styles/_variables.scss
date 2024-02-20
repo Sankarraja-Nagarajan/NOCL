@@ -1,0 +1,13 @@
+@import "./color.theme";
+
+:root {
+  --vp-white: var(--white);
+  --vp-bluish-black: var(--bluish-black);
+  --vp-logo-blue: var(--nocil-logo-blue);
+  --vp-venish-blue: var(--nocil-venish-blue);
+  --vp-lynx-blue: var(--nocil-lynx-blue);
+  --vp-bluish-violet: var(--nocil-bluish-violet);
+
+  --vp-sidenav-bg: var(--side-nav-bg-color);
+  --vp-th-background: var(--th-bluish-grey);
+}
