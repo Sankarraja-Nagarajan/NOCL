@@ -1,138 +1,130 @@
-.row,
-.col-6 {
-    padding: 0px;
-    margin: 0px;
-}
-::ng-deep nb-layout-column,nb-layout {
-    padding: 0px !important;
-}
+// .row,
+// .col-6 {
+//   padding: 0px;
+//   margin: 0px;
+// }
+
 .main {
-    height: 100vh;
-    width: 100vw;
-    background-color: var(--white);
+  height: 100vh;
+  width: 100%;
+  background-color: var(--vp-white);
+  position: absolute;
+  left: 0;
+  top: 0;
 
-    .image-portion {
-        height: 100%;
-        padding-left: 60px;
+  .image-portion {
+    height: 100%;
+    padding-left: 60px;
 
-        .image {
-            height: 350px;
-            width: 400px;
-        }
-
-        .caption {
-            height: 120px;
-            width: 400px;
-
-            .bp-cloud {
-                height: 50px;
-                width: 70px;
-            }
-
-            .bg-cloud-title {
-                padding-left: 10px;
-                font-size: var(--vp-fs-15);
-                font-weight: 500;
-                color: var(--vp-otp-title);
-            }
-        }
+    .image {
+      height: 350px;
+      width: 400px;
     }
 
-    .login-portion {
-        ::placeholder {
-            color: #acacac;
-            opacity: 1;
-            font-size: var(--vp-fs-10);
-            letter-spacing: 0.3px;
-        }
+    .caption {
+      height: 120px;
+      width: 400px;
 
-        .tiny-text {
-            color: #acacac;
-            opacity: 1;
-            font-size: var(--vp-fs-10);
-            letter-spacing: 0.3px;
-        }
+      .bp-cloud {
+        height: 50px;
+        width: 70px;
+      }
 
-        .login-content {
-            min-height: 430px;
-            width: 400px;
-            padding: 20px;
-            border-radius: 10px;
-            background-color: var(--white);
-
-            .welcome-title {
-                height: fit-content;
-
-                .welcome-image {
-                    padding: 6px;
-                }
-
-                .welcome-text {
-                    padding: 10px;
-                    font-weight: 600;
-                }
-
-                .nocil-logo {
-                    height: 70px;
-                    width: 100px;
-                }
-            }
-
-            .captions {
-                height: 30px;
-                text-align: center;
-                padding: 6px;
-                font-size: var(--vp-fs-12);
-                color: var(--vp-otp-title);
-                display: flex;
-                justify-content: center;
-                align-items: center;
-            }
-
-            .inputs {
-                min-height: 40px;
-                justify-content: space-evenly;
-                padding: 10px 20px 10px 20px;
-
-
-                .otp-input {
-                    height: 40px;
-                    width: 40px;
-                    border: 1px solid var(--vp-otp-input);
-                    text-align: center;
-                    border-radius: 6px;
-                    appearance: none;
-                }
-            }
-
-            .request-portion {
-                height: 20px;
-                text-align: center;
-
-                .request-text {
-                    color: var(--nocil-logo-blue);
-                    font-size: var(--vp-fs-12);
-                    font-weight: 600;
-                    cursor: pointer;
-                }
-            }
-
-            .request-text:hover {
-                text-decoration: underline;
-            }
-
-            .submit {
-                height: 30px;
-                width: 100%;
-                margin-top: 20px;
-
-                .submit-btn {
-                    width: 100%;
-                    border-radius: 0px;
-                    cursor: pointer;
-                }
-            }
-
-        }
+      .bg-cloud-title {
+        padding-left: 10px;
+        font-size: var(--vp-fs-15);
+        font-weight: 500;
+        color: var(--vp-otp-title);
+      }
     }
+  }
+
+  .login-portion {
+    ::placeholder {
+      color: #acacac;
+      opacity: 1;
+      font-size: var(--vp-fs-10);
+      letter-spacing: 0.3px;
+    }
+
+    .login-content {
+      min-height: 430px;
+      width: 400px;
+      padding: 20px;
+      border-radius: 10px;
+      background-color: var(--vp-white);
+
+      .welcome-title {
+        height: fit-content;
+
+        .welcome-image {
+          padding: 6px;
+        }
+
+        .welcome-text {
+          padding: 10px;
+          font-weight: 600;
+        }
+
+        .nocil-logo {
+          height: 70px;
+          width: 100px;
+        }
+      }
+
+      .captions {
+        height: 30px;
+        text-align: center;
+        padding: 6px;
+        font-size: var(--vp-fs-12);
+        color: var(--vp-otp-title);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .inputs {
+        min-height: 40px;
+        justify-content: space-evenly;
+        padding: 10px 20px 10px 20px;
+
+        .otp-input {
+          height: 40px;
+          width: 40px;
+          border: 1px solid var(--vp-otp-input);
+          text-align: center;
+          border-radius: 6px;
+          appearance: none;
+        }
+      }
+
+      .request-portion {
+        height: 20px;
+        text-align: center;
+
+        .request-text {
+          color: var(--vp-logo-blue);
+          font-size: var(--vp-fs-12);
+          font-weight: 600;
+          cursor: pointer;
+        }
+      }
+
+      .request-text:hover {
+        text-decoration: underline;
+      }
+
+      .submit {
+        height: 30px;
+        width: 100%;
+        margin-top: 20px;
+
+        .submit-btn {
+          width: 100%;
+          border-radius: 0px;
+          cursor: pointer;
+        }
+      }
+    }
+  }
 }
