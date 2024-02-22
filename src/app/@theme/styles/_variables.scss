@@ -1,21 +1,27 @@
 @import "./color.theme";
 
 :root {
-  --vp-white: var(--white);
-  --vp-bluish-black: var(--bluish-black);
-  --vp-logo-blue: var(--nocil-logo-blue);
-  --vp-venish-blue: var(--nocil-venish-blue);
-  --vp-lynx-blue: var(--nocil-lynx-blue);
-  --vp-bluish-violet: var(--nocil-bluish-violet);
+  --vp-white: #fff !important;
+  --vp-bluish-black: #1e2129 !important;
+  --vp-logo-blue: #1d79b5 !important;
+  --vp-venish-blue: #2d6b80 !important;
+  --vp-lynx-blue: #169ae6 !important;
+  --vp-bluish-violet: #0866a1 !important;
 
   --vp-sidenav-bg: var(--side-nav-bg-color);
+  --th-bluish-grey: #e8ebfa !important;
   --vp-th-background: var(--th-bluish-grey);
+  --vp-primary-blue: #035F88 !important;
+  --vp-primary-dark-blue: #394657 !important;
+  --vp-primary-blue-background:#035f881a !important;
   --vp-otp-input: var(--otp-input-gray);
   --vp-otp-title: var(--otp-content-title);
 
   --vp-fs-10: 10px;
   --vp-fs-12: 12px;
+  --vp-fs-14:14px !important;
   --vp-fs-15: 15px;
   --vp-fs-18: 18px;
   --vp-fs-25: 25px
 }
+
