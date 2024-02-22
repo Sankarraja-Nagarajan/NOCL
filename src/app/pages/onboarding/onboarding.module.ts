@@ -1,24 +1,31 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { InitiationFormComponent } from './initiation-form/initiation-form.component';
 import { MaterialModule } from '../material/material.module';
-import { LoginComponent } from './login/login.component';
+
 
 const routes: Routes = [
   {
-    path: 'login',
-    component: LoginComponent
+    path: 'dashboard',
+    component: DashboardComponent
   },
   {
     path: '',
-    redirectTo: 'login',
+    redirectTo: 'dashboard',
     pathMatch: 'full'
+  },
+  {
+    path:'initiation-form',
+    component:InitiationFormComponent
   }
 ];
 
 @NgModule({
   declarations: [
-    LoginComponent
+    DashboardComponent,
+    InitiationFormComponent
   ],
   imports: [
     CommonModule,
@@ -26,4 +33,4 @@ const routes: Routes = [
     RouterModule.forChild(routes)
   ]
 })
-export class AuthModule { }
+export class OnboardingModule { }

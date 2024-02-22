@@ -11,6 +11,7 @@ export class OneColumnLayoutComponent implements OnInit
 {
 
   isLogin: boolean = true;
+  isDashboardShown:boolean=true;
   constructor(private _router: Router, private _nav: LoginService) {}
   ngOnInit(): void 
   {
@@ -27,6 +28,12 @@ export class OneColumnLayoutComponent implements OnInit
             this.isLogin = false;
           } else {
             this.isLogin = true;
+          }
+          if(res.url.includes('onboarding/dashboard')){
+            this.isDashboardShown = false;
+          }
+          else{
+            this.isDashboardShown = true;
           }
         }
       },
