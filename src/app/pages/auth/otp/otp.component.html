@@ -1,0 +1,78 @@
+<div class="main row">
+
+    <div
+        class="d-none col-sm-12 col-md-6 image-portion d-md-flex justify-content-center align-items-center flex-column">
+        <div class="image">
+            <img src="assets/images/Business deal-cuate.svg" alt="">
+        </div>
+        <div class="caption">
+            <div class="pt-2">
+                <img class="bp-cloud" src="assets/images/logo 2.png" alt="">
+                <span class="bg-cloud-title">Vendor On-Boarding</span>
+            </div>
+            <div class="d-flex flex-column pt-2">
+                <span>Thank you for choosing Exalca. We're excited to get you on board.</span>
+                <span>Discover the future of vendor engagement.</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-6 login-portion d-flex justify-content-center align-items-center">
+        <div class="login-content shadow">
+            <div class="welcome-title">
+                <div class="welcome-image d-flex justify-content-center align-items-center">
+                    <img class="nocil-logo" src="assets/logos/nocil-limited-logo.png" alt="">
+                </div>
+                <div class="welcome-text d-flex justify-content-center align-items-center">
+                    <span class=" d-flex justify-content-center align-items-center">Welcome to Nocil Limited</span>
+                </div>
+            </div>
+            <div class="captions">
+                <span>Sign In by OTP</span>
+            </div>
+            <div>
+                <form action="" [formGroup]="onboardingform" (ngSubmit)="Submit()">
+                    <div class="form-field left-flexBox-col mb-4 pt-2">
+                        <label class="tiny-text">Firm Name </label>
+                        <div class="input-group">
+                            <input nbInput class="input-full-width" placeholder="Enter Your Organization Name"
+                                formControlName="firmname" />
+                        </div>
+                    </div>
+                    <div class="form-field left-flexBox-col mb-2">
+                        <label class="tiny-text">Mail Id </label>
+                        <div class="input-group">
+                            <input nbInput type="password" class="input-full-width"
+                                placeholder="Enter Your Organization Mail-Id" formControlName="email" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div *ngIf="requestOtp">
+                <div class="captions">
+                    <span>Please enter the 6 digit OTP to continue</span>
+                </div>
+                <div class="inputs d-flex">
+                    <input class="otp-input" type="text" name="" id="" autofocus maxlength="1"
+                        (keypress)="checkNumber($event)" [(ngModel)]="firstNum">
+                    <input class="otp-input" type="text" name="" id="" maxlength="1" (keypress)="checkNumber($event)"
+                        [(ngModel)]="secondNum">
+                    <input class="otp-input" type="text" name="" id="" maxlength="1" (keypress)="checkNumber($event)"
+                        [(ngModel)]="thirdNum">
+                    <input class="otp-input" type="text" name="" id="" maxlength="1" (keypress)="checkNumber($event)"
+                        [(ngModel)]="fourthNum">
+                    <input class="otp-input" type="text" name="" id="" maxlength="1" (keypress)="checkNumber($event)"
+                        [(ngModel)]="fifthNum">
+                    <input class="otp-input" type="text" name="" id="" maxlength="1" (keypress)="checkNumber($event)"
+                        [(ngModel)]="sixthNum">
+                </div>
+            </div>
+            <div class="request-portion d-flex justify-content-end align-items-center" *ngIf="timeStart">
+                <span class="request-text" (click)="requestForOtp()">Request for OTP</span>
+            </div>
+            <div class="submit d-flex justify-content-center align-items-center">
+                <button class="btn btn-primary btn-sm submit-btn" type="submit" [disabled]="finalOtp != enteredOtp"
+                    (click)="Submit()">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
