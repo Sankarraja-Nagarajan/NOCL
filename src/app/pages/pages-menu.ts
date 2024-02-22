@@ -2,6 +2,19 @@ import { NbMenuItem } from '@nebular/theme';
 
 export const MENU_ITEMS: NbMenuItem[] = [
   {
+    title:'onboarding',
+    children:[
+      {
+        title:'dashboard',
+        link:'onboarding/dashboard',
+      },
+      {
+        title:'initiation form',
+        link:'onboarding/initiation-form',
+      }
+    ]
+  },
+  {
     title: 'E-commerce',
     icon: 'shopping-cart-outline',
     link: '/pages/dashboard',

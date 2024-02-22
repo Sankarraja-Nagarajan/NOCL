@@ -1,0 +1,44 @@
+.btn-review {
+    background: var(--vp-bluish-violet) !important;
+    color: var(--vp-white) !important;
+    font-size: var(--vp-fs-12);
+    height:auto;
+    width: 50%;
+    padding: 4px;
+}
+
+.card-text {
+    font-size: var(--vp-fs-12);
+}
+
+.doc-text {
+    color: var(--vp-primary-dark-blue) !important;
+    font-size: var(--vp-fs-15);
+
+    .doc-count {
+        color: var(--vp-primary-blue) !important;
+        background: var(--vp-primary-blue-background);
+        padding: 6px;
+        border-radius: 8px;
+    }
+}
+
+.mat-table {
+    border-radius: var(--vp-br-10);
+    height: 322px;
+    background-color: var(--vp-white) !important;
+    th {
+        background-color: var(--th-bluish-grey);
+        color: var(--vp-primary-dark-blue);
+        font-size: var(--vp-fs-14);
+        position: sticky;
+        top: 0;
+        z-index: 1;
+        text-wrap: nowrap;
+    }
+
+    td {
+        font-size: var(--vp-fs-12);
+        text-wrap: nowrap;
+    }
+}
