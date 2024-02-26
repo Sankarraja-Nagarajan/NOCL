@@ -1,61 +1,79 @@
 <section class="screenInitiationForm center-flexBox">
-    <div class="initiation-form w-75">
-        <form action="">
-            <div class="row">
-                <div class="col-sm-6">
-                    <div>
-                        <label> Vendor Type </label>
-                        <div class="input-group">
-                            <input nbInput class="input-full-width" placeholder="Enter vendor type" />
+    <div class="bg-white rounded-3 shadow card-div w-100">
+        <div class="form p-md-4 p-3">
+            <form action="" [formGroup]="initiationForm">
+                <div class="row">
+                    <div class="col-sm-6">
+
+                        <!-- vendor type -->
+                        <div class="mb-3">
+                            <label class="input-label-text"> Vendor Type </label>
+                            <div class="input-group">
+                                <input nbInput type="number" fullWidth placeholder="Enter vendor type"
+                                    formControlName="VendorType_Id" required />
+                            </div>
+                        </div>
+
+                        <!-- vendor name -->
+                        <div class="mb-3">
+                            <label class="input-label-text"> Name </label>
+                            <div class="input-group">
+                                <input nbInput fullWidth placeholder="Enter name" formControlName="Vendor_Name"
+                                    required />
+                            </div>
+                        </div>
+
+                        <!-- vendor mail -->
+                        <div class="mb-3">
+                            <label class="input-label-text"> Mail </label>
+                            <div class="input-group">
+                                <input type="email" nbInput fullWidth placeholder="Enter mail"
+                                    formControlName="Vendor_Mail" required />
+                            </div>
+                        </div>
+
+                        <!-- vendor mobile number -->
+                        <div class="mb-3 mb-sm-0">
+                            <label class="input-label-text"> Mobile Number </label>
+                            <div class="input-group">
+                                <input nbInput fullWidth type="tel" placeholder="Enter mobile number"
+                                    formControlName="Vendor_Mobile" required pattern="[0-9]{3} [0-9]{3} [0-9]{4}"
+                                    [maxlength]="12" />
+                            </div>
                         </div>
                     </div>
+                    <div class="col-sm-6">
 
-                    <div>
-                        <label> Name </label>
-                        <div class="input-group">
-                            <input nbInput class="input-full-width" placeholder="Enter name" />
+                        <!-- company code -->
+                        <div class="mb-3">
+                            <label class="input-label-text"> Company Code </label>
+                            <div class="input-group">
+                                <input nbInput fullWidth placeholder="Enter company code" formControlName="Company_Code"
+                                    required />
+                            </div>
                         </div>
-                    </div>
 
-                    <div>
-                        <label> Mail </label>
-                        <div class="input-group">
-                            <input nbInput class="input-full-width" placeholder="Enter mail" />
+                        <!-- department -->
+                        <div class="mb-3">
+                            <label class="input-label-text"> Department </label>
+                            <div class="input-group">
+                                <input nbInput fullWidth placeholder="Enter department" formControlName="Department"
+                                    required />
+                            </div>
                         </div>
-                    </div>
 
-                    <div>
-                        <label> Mobile Number </label>
-                        <div class="input-group">
-                            <input nbInput class="input-full-width" placeholder="Enter mobile number" />
+                        <!-- purchase organization -->
+                        <div>
+                            <label class="input-label-text"> Purchase Organization </label>
+                            <div class="input-group">
+                                <input nbInput fullWidth placeholder="Enter purchase organization"
+                                    formControlName="Purchase_Organization" required />
+                            </div>
                         </div>
+
                     </div>
                 </div>
-                <div class="col-sm-6">
-                    <div>
-                        <label> Company Code </label>
-                        <div class="input-group">
-                            <input nbInput class="input-full-width" placeholder="Enter company code" />
-                        </div>
-                    </div>
-
-                    <div>
-                        <label> Department </label>
-                        <div class="input-group">
-                            <input nbInput class="input-full-width" placeholder="Enter department" />
-                        </div>
-                    </div>
-
-                    <div>
-                        <label> Purchase Organization </label>
-                        <div class="input-group">
-                            <input nbInput class="input-full-width" placeholder="Enter purchase organization" />
-                        </div>
-                    </div>
-
-                    
-                </div>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
 </section>

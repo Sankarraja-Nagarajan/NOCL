@@ -20,8 +20,6 @@ import {
   NbToastrModule,
   NbWindowModule,
 } from '@nebular/theme';
-import { DashboardComponent } from './pages/onboarding/dashboard/dashboard.component';
-import { MaterialModule } from './Pages/material/material.module';
 
 @NgModule({
   declarations: [AppComponent],

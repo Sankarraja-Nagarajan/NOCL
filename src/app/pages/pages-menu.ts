@@ -10,9 +10,13 @@ export const MENU_ITEMS: NbMenuItem[] = [
       },
       {
         title:'initiation form',
-        link:'onboarding/initiation-form',
+        link:'onboarding/initiator-form',
       }
     ]
+  },
+  {
+    title:'registration',
+    link:'registration'
   },
   {
     title: 'E-commerce',

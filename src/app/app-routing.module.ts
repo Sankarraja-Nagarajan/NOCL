@@ -5,13 +5,18 @@ export const routes: Routes = [
   {
     path: "auth",
     loadChildren: () =>
-      import("./pages/auth/auth.module").then((m) => m.AuthModule),
+      import("./Pages/auth/auth.module").then((m) => m.AuthModule),
   },
   { path: "", redirectTo: "auth", pathMatch: "full" },
   {
-    path:'onboarding',
+    path: 'onboarding',
     loadChildren: () =>
       import("./Pages/onboarding/onboarding.module").then((m) => m.OnboardingModule)
+  },
+  {
+    path: 'registration',
+    loadChildren: () =>
+      import("./Pages/registration/registration.module").then((m) => m.RegistrationModule)
   }
 ];
 
