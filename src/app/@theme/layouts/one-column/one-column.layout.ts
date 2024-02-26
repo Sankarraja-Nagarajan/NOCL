@@ -29,7 +29,7 @@ export class OneColumnLayoutComponent implements OnInit
           } else {
             this.isLogin = true;
           }
-          if(res.url.includes('onboarding/dashboard')){
+          if(res.url.includes('onboarding/dashboard') || res.url.includes('masters/user')){
             this.isDashboardShown = false;
           }
           else{
