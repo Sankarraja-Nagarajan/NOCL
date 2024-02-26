@@ -7,7 +7,7 @@
   --vp-lynx-blue: #169ae6 !important;
   --vp-bluish-violet: #0866a1 !important;
 
-  --vp-sidenav-bg: #eaedfa !important;
+  --vp-sidenav-bg: var(--side-nav-bg-color);
   --th-bluish-grey: #e8ebfa !important;
   --vp-th-background: #e8ebfa !important;
   --vp-primary-blue: #035f88 !important;
@@ -15,10 +15,11 @@
   --vp-primary-blue-background: #035f881a !important;
   --vp-otp-input: #8a8a8a !important;
   --vp-otp-title: #666666 !important;
+  --vp-toggle-switch: #2d9c2d !important;
 
   --vp-fs-10: 10px;
   --vp-fs-12: 12px;
-  --vp-fs-14: 14px !important;
+  --vp-fs-14:14px !important;
   --vp-fs-15: 15px;
   --vp-fs-18: 18px;
   --vp-fs-25: 25px;

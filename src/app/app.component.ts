@@ -6,7 +6,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AnalyticsService } from './@core/utils/analytics.service';
 import { SeoService } from './@core/utils/seo.service';
-import { MENU_ITEMS } from './pages/pages-menu';
+import { MENU_ITEMS } from './Pages/pages-menu';
 
 @Component({
   selector: 'ngx-app',
