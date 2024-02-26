@@ -23,22 +23,9 @@
     }
 }
 
-.mat-table {
-    border-radius: var(--vp-br-10);
+.dashboard-table{
     height: 322px;
-    background-color: var(--vp-white) !important;
-    th {
-        background-color: var(--th-bluish-grey);
-        color: var(--vp-primary-dark-blue);
-        font-size: var(--vp-fs-14);
-        position: sticky;
-        top: 0;
-        z-index: 1;
-        text-wrap: nowrap;
-    }
-
-    td {
-        font-size: var(--vp-fs-12);
+    td,th{
         text-wrap: nowrap;
     }
 }

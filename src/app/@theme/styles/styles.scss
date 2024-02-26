@@ -126,6 +126,7 @@ body {
   background: grey;
   border-radius: 10px;
 }
+
 // for scrollbar
 
 // Layout normalization
@@ -144,4 +145,39 @@ nb-layout {
   opacity: 1;
   font-size: var(--vp-fs-12);
   letter-spacing: 0.3px;
+}
+
+//input labe size
+.input-label-text {
+  color: var(--vp-primary-dark-blue) !important;
+  font-size: var(--vp-fs-12);
+}
+
+.btn-design {
+  background: var(--vp-bluish-violet) !important;
+  color: var(--vp-white) !important;
+  font-size: var(--vp-fs-12);
+  height: auto;
+  width: auto;
+}
+
+// for table
+
+.table-container {
+  border: 1px solid var(--vp-border-color);
+  border-radius: var(--vp-br-10) !important;
+  background-color: var(--vp-white) !important;
+
+  th {
+    background-color: var(--th-bluish-grey) !important;
+    color: var(--vp-primary-dark-blue) !important;
+    font-size: var(--vp-fs-14);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  td {
+    font-size: var(--vp-fs-12);
+  }
 }

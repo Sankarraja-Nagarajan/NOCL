@@ -18,6 +18,10 @@ export const routes: Routes = [
       import("./Pages/onboarding/onboarding.module").then((m) => m.OnboardingModule)
   },
   {
+    path: 'registration',
+    loadChildren: () =>
+      import("./Pages/registration/registration.module").then((m) => m.RegistrationModule)
+  }
     path: "",
     redirectTo: "masters",
     pathMatch: "full"

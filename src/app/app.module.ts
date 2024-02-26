@@ -19,7 +19,8 @@ import {
   NbSidebarModule,
   NbToastrModule,
   NbWindowModule,
-} from "@nebular/theme";
+} from '@nebular/theme';
+
 import { AppConfigService } from "./Services/app-config.service";
 
 @NgModule({
