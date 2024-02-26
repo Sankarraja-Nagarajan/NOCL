@@ -5,14 +5,23 @@ export const routes: Routes = [
   {
     path: "auth",
     loadChildren: () =>
-      import("./pages/auth/auth.module").then((m) => m.AuthModule),
+      import("./Pages/auth/auth.module").then((m) => m.AuthModule),
   },
-  { path: "", redirectTo: "auth", pathMatch: "full" },
   {
-    path:'onboarding',
+    path: "masters",
+    loadChildren: () =>
+      import("./Pages/masters/masters.module").then((m) => m.MastersModule),
+  },
+  {
+    path: 'onboarding',
     loadChildren: () =>
       import("./Pages/onboarding/onboarding.module").then((m) => m.OnboardingModule)
-  }
+  },
+  {
+    path: "",
+    redirectTo: "masters",
+    pathMatch: "full"
+  },
 ];
 
 const config: ExtraOptions = {
