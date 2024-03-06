@@ -36,10 +36,10 @@ export class AddressComponent implements OnInit {
   ngOnInit(): void {
     this.addressForm = this._fb.group({
       Address: ['', [Validators.required]],
-      Tel: ['',[Validators.maxLength(15)]],
-      Fax: ['',[Validators.maxLength(15)]],
+      Tel: ['', [Validators.maxLength(15)]],
+      Fax: ['', [Validators.maxLength(15)]],
       Website: [''],
-      AddressType_Id: ['',[Validators.required]]
+      AddressType_Id: ['', [Validators.required]]
     });
   }
 
@@ -49,7 +49,7 @@ export class AddressComponent implements OnInit {
       this.dataSource = new MatTableDataSource(this.data);
       this.addressForm.reset();
     }
-    else{
+    else {
       this.addressForm.markAllAsTouched();
     }
   }

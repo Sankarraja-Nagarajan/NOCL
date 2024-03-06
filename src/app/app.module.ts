@@ -22,9 +22,11 @@ import {
 } from '@nebular/theme';
 
 import { AppConfigService } from "./Services/app-config.service";
+import { AttachmentDialogComponent } from './Dialogs/attachment-dialog/attachment-dialog.component';
+import { MaterialModule } from "./Pages/material/material.module";
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, AttachmentDialogComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -41,6 +43,7 @@ import { AppConfigService } from "./Services/app-config.service";
     }),
     CoreModule.forRoot(),
     ThemeModule.forRoot(),
+    MaterialModule
   ],
   bootstrap: [AppComponent],
   providers: [
