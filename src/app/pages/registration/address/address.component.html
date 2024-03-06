@@ -3,12 +3,12 @@
         <div class="address">
             <form action="" [formGroup]="addressForm">
                 <!-- address textarea -->
-            <div class="row">
+            <div class="row mb-2">
                 <div class="col-sm">
                     <div>
                         <label class="input-label-text"> Address </label>
                         <div class="input-group">
-                            <textarea nbInput fullWidth fieldSize="tiny" formControlName="Address" required></textarea>
+                            <textarea nbInput fullWidth fieldSize="tiny" placeholder="Enter address" formControlName="Address" required></textarea>
                             <mat-error *ngIf="this.addressForm.get('Address').hasError('required') && this.addressForm.get('Address').touched"
                              class="error-msg">Address is <strong>required</strong></mat-error>
                         </div>
@@ -18,12 +18,12 @@
             <!-- address textarea -->
 
             <!-- Tel & Fax -->
-            <div class="row">
-                <div class="col-sm">
+            <div class="row mb-2">
+                <div class="col-sm mb-sm-0 mb-2">
                     <div>
                         <label class="input-label-text"> Tel </label>
                         <div class="input-group">
-                            <input nbInput fullWidth fieldSize="small" type="tel" [maxlength]="15" formControlName="Tel"/>
+                            <input nbInput fullWidth fieldSize="small" type="tel" [maxlength]="15" placeholder="Enter tel number" formControlName="Tel"/>
                         </div>
                     </div>
                 </div>
@@ -31,7 +31,7 @@
                     <div>
                         <label class="input-label-text"> Fax </label>
                         <div class="input-group">
-                            <input nbInput fullWidth fieldSize="small" type="tel" [maxlength]="15" formControlName="Fax"/>
+                            <input nbInput fullWidth fieldSize="small" type="tel" [maxlength]="15" placeholder="Enter fax number" formControlName="Fax"/>
                         </div>
                     </div>
                 </div>
@@ -40,11 +40,11 @@
 
             <!-- website & add btn -->
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-6 mb-sm-0 mb-2">
                     <div>
                         <label class="input-label-text"> Website </label>
                         <div class="input-group">
-                            <input nbInput fullWidth fieldSize="small" formControlName="Website"/>
+                            <input nbInput fullWidth fieldSize="small" placeholder="Enter website" formControlName="Website"/>
                         </div>
                     </div>
                 </div>
@@ -78,8 +78,14 @@
 
             <!-- table starts here -->
             <div class="row">
-                <div class="mt-3 table-responsive w-100 table-container address-table p-0">
+                <div class="mt-3 table-responsive w-100 table-container registration-table address-table p-0">
                     <table mat-table [dataSource]="dataSource">
+                        <!-- AddressType_Id column -->
+                        <ng-container matColumnDef="addressType_id">
+                            <th mat-header-cell *matHeaderCellDef> Address Type </th>
+                            <td mat-cell *matCellDef="let element"> {{element.AddressType_Id =='1' ? 'Office' : element.AddressType_Id =='2' ? 'Manufacturing Unit' : ''}} </td>
+                        </ng-container>
+                        
                         <!-- Address column -->
                         <ng-container matColumnDef="address">
                             <th mat-header-cell *matHeaderCellDef> Address </th>
@@ -89,13 +95,13 @@
                         <!-- Tel column -->
                         <ng-container matColumnDef="tel">
                             <th mat-header-cell *matHeaderCellDef> Tel </th>
-                            <td mat-cell *matCellDef="let element"> {{element.Tel}} </td>
+                            <td mat-cell *matCellDef="let element" class="no-wrap-column"> {{element.Tel}} </td>
                         </ng-container>
 
                         <!-- Fax column -->
                         <ng-container matColumnDef="fax">
                             <th mat-header-cell *matHeaderCellDef> Fax </th>
-                            <td mat-cell *matCellDef="let element"> {{element.Fax}} </td>
+                            <td mat-cell *matCellDef="let element" class="no-wrap-column"> {{element.Fax}} </td>
                         </ng-container>
 
                         <!-- Website column -->
@@ -104,19 +110,13 @@
                             <td mat-cell *matCellDef="let element"> <a class="website-link" href="{{element.Website}}" target="_blank">{{element.Website}}</a> </td>
                         </ng-container>
 
-                        <!-- AddressType_Id column -->
-                        <ng-container matColumnDef="addressType_id">
-                            <th mat-header-cell *matHeaderCellDef> Address Type </th>
-                            <td mat-cell *matCellDef="let element"> {{element.AddressType_Id =='1' ? 'Office' : element.AddressType_Id =='2' ? 'Manufacturing Unit' : ''}} </td>
-                        </ng-container>
-
                         <!-- action column -->
                         <ng-container matColumnDef="action">
                             <th mat-header-cell *matHeaderCellDef> </th>
                             <td mat-cell *matCellDef="let element; let i = index">
                                 <div>
                                     <button mat-mini-fab color="basic" class="cancel-btn" (click)="removeAddress(i)">
-                                        <img src="../../../../assets/images/pngs/xmark.png" height="20" width="20">
+                                        <img src="../../../../assets/images/pngs/xmark.png" height="18" width="18">
                                     </button>
                                   </div>
                             </td>

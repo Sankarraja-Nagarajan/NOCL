@@ -21,7 +21,8 @@ export const routes: Routes = [
     path: 'registration',
     loadChildren: () =>
       import("./Pages/registration/registration.module").then((m) => m.RegistrationModule)
-  }
+  },
+  {
     path: "",
     redirectTo: "masters",
     pathMatch: "full"

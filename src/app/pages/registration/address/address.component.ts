@@ -20,11 +20,11 @@ export class AddressComponent implements OnInit {
   ];
   dataSource = new MatTableDataSource(this.data);
   displayedColumns: string[] = [
+    'addressType_id',
     'address',
     'tel',
     'fax',
     'website',
-    'addressType_id',
     'action'
   ];
   addressForm: FormGroup;
