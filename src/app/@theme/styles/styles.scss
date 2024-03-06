@@ -136,7 +136,10 @@ nb-layout {
   background-color: var(--vp-layout-bg) !important;
 }
 
-
+// checks height
+.checks-fields{
+  height: 40px;
+}
 
 // Text based classes
 
@@ -209,4 +212,10 @@ textarea::placeholder,
   box-shadow: none !important;
   height: 30px !important;
   width: 30px !important;
+}
+
+// Mat-input-error-field
+.mat-mdc-form-field-error-wrapper 
+{
+  padding: 0px !important;
 }

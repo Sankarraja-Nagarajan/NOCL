@@ -1,0 +1,67 @@
+<section class="screenAddress">
+    <div class="container">
+        <div class="profile" style="user-select: none;">
+            <form action="" [formGroup]="technicalProfileForm">
+                <!-- Is_ISO_Certified & Other_Qms_Certified  -->
+                <div class="row">
+                    <div class="col-sm">
+                        <div class="checks-fields">
+                            <div class="check d-flex">
+                                <input type="checkbox" value="" id="isoChecked" checked>
+                                <label class="input-label-text ps-2" style="cursor: pointer;" for="isoChecked">ISO
+                                    Certified</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm">
+                        <div class="checks-fields">
+                            <div class="check d-flex">
+                                <input type="checkbox" value="" id="QmsChecked" checked>
+                                <label class="input-label-text ps-2 cursor-pointer" for="QmsChecked">Other Qms
+                                    Certified</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Is_ISO_Certified & Other_Qms_Certified  -->
+
+                <!-- Planning_for_Qms & Is_Statutory_Provisions_Adheard -->
+                <div class="row" >
+                    <div class="col-sm">
+                        <div class="checks-fields">
+                            <div class="check d-flex">
+                                <input type="checkbox" value="" id="planQmsChecked" checked>
+                                <label class="input-label-text ps-2 cursor-pointer" for="planQmsChecked">Planning
+                                    for Qms</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm">
+                        <div class="checks-fields">
+                            <div class="check d-flex">
+                                <input type="checkbox" value="" id="statusProvisions" checked>
+                                <label class="input-label-text ps-2 cursor-pointer" for="statusProvisions">Statutory
+                                    Provisions Adheard</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Planning_for_Qms & Is_Statutory_Provisions_Adheard -->
+
+                <!--Initiatives_for_Development-->
+                <div class="row"  style="user-select: none;">
+                    <div class="col-md-6 col-sm">
+                        <div>
+                            <label class="input-label-text">Initiatives for Development</label>
+                            <div class="input-group">
+                                <input nbInput fullWidth fieldSize="small"
+                                    formControlName="Initiatives_for_Development" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--Initiatives_for_Development-->
+            </form>
+        </div>
+    </div>
+</section>
