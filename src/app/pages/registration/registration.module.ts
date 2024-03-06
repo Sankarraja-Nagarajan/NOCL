@@ -18,6 +18,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { ReactiveFormsModule } from '@angular/forms';
+import { DomesticVendorOrgProfileComponent } from './domestic-vendor-org-profile/domestic-vendor-org-profile.component';
 
 
 
@@ -42,6 +43,7 @@ const routes: Routes=[
     AddressComponent,
     RegistrationFormLayoutComponent,
     DomesticVendorPersonalInfoComponent,
+    DomesticVendorOrgProfileComponent,
     ContactsComponent,
     VendorBranchesComponent,
     PartnersComponent,

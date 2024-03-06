@@ -1,75 +1,78 @@
 <section class="screenAddress">
     <div class="container">
         <div style="user-select: none;">
-            <form action="" [formGroup]="vendorOrgForm">
-                <!-- Type of organisation & Status_of_Company_Id  -->
-                <div class="row">
-                    <div class="col-sm">
-                        <div>
-                            <label class="input-label-text">Type of organisation</label>
-                            <div class="input-group">
-                                <nb-select fullWidth size="small" status="primary" formControlName="Type_of_Org_Id">
-                                    <nb-option value="1">Office</nb-option>
-                                    <nb-option value="2">Manufacturing unit</nb-option>
-                                </nb-select>
+            <div class="row">
+                <form action="" [formGroup]="vendorOrgForm" class="p-0">
+                    <!-- Type of organisation & Status_of_Company_Id  -->
+                    <div class="row">
+                        <div class="col-sm">
+                            <div>
+                                <label class="input-label-text">Type of organisation</label>
+                                <div class="input-group">
+                                    <nb-select fullWidth size="small" status="primary" formControlName="Type_of_Org_Id">
+                                        <nb-option value="1">Office</nb-option>
+                                        <nb-option value="2">Manufacturing unit</nb-option>
+                                    </nb-select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm d-flex align-items-center">
+                            <div class="checks-fields d-flex align-items-center">
+                                <div class="check d-flex">
+                                    <input type="checkbox" value="" id="relationToNocil" checked>
+                                    <label class="input-label-text ps-2" style="cursor: pointer;"
+                                        for="relationToNocil">Relation To NOCIL</label>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm d-flex align-items-center">
-                        <div class="checks-fields d-flex align-items-center">
-                            <div class="check d-flex">
-                                <input type="checkbox" value="" id="relationToNocil" checked>
-                                <label class="input-label-text ps-2" style="cursor: pointer;"
-                                    for="relationToNocil">Relation To NOCIL</label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Type of organisation & Status_of_Company_Id  -->
+                    <!-- Type of organisation & Status_of_Company_Id  -->
 
-                <!-- RelationToNOCIL & Subsideries -->
-                <div class="row">
-                    <div class="col-sm">
-                        <div>
-                            <label class="input-label-text"> Status of Company</label>
-                            <div class="input-group">
-                                <input nbInput fullWidth fieldSize="small" type="text"
-                                    formControlName="Status_of_Company_Id" />
+                    <!-- RelationToNOCIL & Subsideries -->
+                    <div class="row">
+                        <div class="col-sm">
+                            <div>
+                                <label class="input-label-text"> Status of Company</label>
+                                <div class="input-group">
+                                    <input nbInput fullWidth fieldSize="small" type="text"
+                                        formControlName="Status_of_Company_Id" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm">
+                            <div>
+                                <label class="input-label-text">Subsideries</label>
+                                <div class="input-group">
+                                    <input nbInput fullWidth fieldSize="small" formControlName="Subsideries" />
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm">
-                        <div>
-                            <label class="input-label-text">Subsideries</label>
-                            <div class="input-group">
-                                <input nbInput fullWidth fieldSize="small" formControlName="Subsideries" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- RelationToNOCIL & Subsideries -->
+                    <!-- RelationToNOCIL & Subsideries -->
 
-                <!--AnnualProdCapacity  & ListOfMajaorCustomer-->
-                <div class="row">
-                    <div class="col-sm">
-                        <div>
-                            <label class="input-label-text">Annual Prod Capacity </label>
-                            <div class="input-group">
-                                <input nbInput fullWidth fieldSize="small" formControlName="AnnualProdCapacity" />
+                    <!--AnnualProdCapacity  & ListOfMajaorCustomer-->
+                    <div class="row">
+                        <div class="col-sm">
+                            <div>
+                                <label class="input-label-text">Annual Prod Capacity </label>
+                                <div class="input-group">
+                                    <input nbInput fullWidth fieldSize="small" formControlName="AnnualProdCapacity" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm">
+                            <div>
+                                <label class="input-label-text">List of Major Customer</label>
+                                <div class="input-group">
+                                    <input nbInput fullWidth fieldSize="small" formControlName="ListOfMajorCustomer" />
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm">
-                        <div>
-                            <label class="input-label-text">List of Major Customer</label>
-                            <div class="input-group">
-                                <input nbInput fullWidth fieldSize="small" formControlName="ListOfMajorCustomer" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!--AnnualProdCapacity  & ListOfMajaorCustomer-->
-            </form>
+                    <!--AnnualProdCapacity  & ListOfMajaorCustomer-->
+                </form>
+            </div>
+
         </div>
     </div>
 </section>

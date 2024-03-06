@@ -6,7 +6,7 @@
         <div class="pb-1">
             <mat-form-field class="input-layout">
                 <mat-label>Enter Your Attachments</mat-label>
-                <input placeholder="Type of Attachments" matInput [formControl]="Type" [matAutocomplete]="auto">
+                <input matInput [formControl]="Type" [matAutocomplete]="auto">
                 <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
                     <mat-option [value]="items" *ngFor="let items of filteredOptions | async">{{items}}</mat-option>
                 </mat-autocomplete>
