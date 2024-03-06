@@ -17,7 +17,7 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    path:'initiation-form',
+    path:'initiator-form',
     component:InitiationFormComponent
   }
 ];

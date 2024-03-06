@@ -1,10 +1,7 @@
 .btn-review {
-    background: var(--vp-bluish-violet) !important;
-    color: var(--vp-white) !important;
-    font-size: var(--vp-fs-12);
-    height:auto;
-    width: 50%;
-    padding: 4px;
+    width: 50% !important;
+    height: auto !important;
+    padding: 4px !important;
 }
 
 .card-text {
@@ -23,22 +20,9 @@
     }
 }
 
-.mat-table {
-    border-radius: var(--vp-br-10);
+.dashboard-table{
     height: 322px;
-    background-color: var(--vp-white) !important;
-    th {
-        background-color: var(--th-bluish-grey);
-        color: var(--vp-primary-dark-blue);
-        font-size: var(--vp-fs-14);
-        position: sticky;
-        top: 0;
-        z-index: 1;
-        text-wrap: nowrap;
-    }
-
-    td {
-        font-size: var(--vp-fs-12);
+    td,th{
         text-wrap: nowrap;
     }
 }

@@ -1,0 +1,14 @@
+.address-table {
+    .mat-column-address {
+        min-width: 260px !important;
+        padding: 10px;
+    }
+
+    .website-link {
+        display: inline-block;
+        white-space: nowrap;
+        max-width: 140px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
