@@ -1,12 +1,17 @@
 <div class="main d-flex justify-content-center ailgn-items-center">
+
+    <!-- card-starts-here -->
     <mat-card class="inner-layout row">
         <div class="page-header d-flex justify-content-start align-items-center">
             <span>User Maintanance</span>
         </div>
+
         <div class="row">
+
+            <!-- searchbar-starts-here -->
             <div class="col-md-4 col-lg-3 d-md-flex flex-column d-none menu-bar">
                 <div class="menu-search d-flex align-items-center ">
-                    <input class="search-input" type="text" placeholder="Search">
+                    <input class="search-input" type="search" placeholder="Search">
                     <button mat-mini-fab class="fab-button ">
                         <mat-icon class="plus-icon d-flex justify-content-center align-items-center">add</mat-icon>
                     </button>
@@ -17,7 +22,8 @@
                             <div class="circle-layout d-flex justify-content-center align-items-center">
                                 <div class="circle"></div>
                             </div>
-                            <mat-icon class="person-icon d-flex justify-content-center align-items-center">person</mat-icon>
+                            <mat-icon
+                                class="person-icon d-flex justify-content-center align-items-center">person</mat-icon>
                             <div class="menu-names d-flex align-items-end">
                                 <span class="menu-names-text">Exalca</span>
                                 <div class="count d-flex justify-content-center align-items-center">Id</div>
@@ -26,41 +32,54 @@
                     </div>
                 </div>
             </div>
+            <!-- searchbar-ends-here -->
+
+            <!-- inputfields-starts-here -->
             <div class="col-md-8 col-lg-9 input-fields-layout">
                 <div class="input-header d-flex justify-content-center align-items-center">
                     <span>CREATE AN USER</span>
                 </div>
-                <form action="">
+
+                <!-- forms-starts-here -->
+                <form action="" [formGroup]="userForm" (ngSubmit)="create()">
                     <div class="input-body row">
                         <div class="col-6 input-info">
                             <div class="form-field left-flexBox-col mb-4">
                                 <label class="tiny-text">Employee Id </label>
                                 <div class="input-group">
-                                    <input nbInput class="input-full-width" placeholder="Enter your username" />
+                                    <input nbInput class="input-full-width" formControlName="empId"
+                                        placeholder="Enter your Employee Id" required />
+                                    <mat-error
+                                        *ngIf="userForm.get('empId').hasError('required') && userForm.get('empId').touched"
+                                        class="error-msg">Employee Id is <strong> required</strong></mat-error>
                                 </div>
                             </div>
                             <div class="form-field left-flexBox-col mb-4">
                                 <label class="tiny-text">Middle Name </label>
                                 <div class="input-group">
-                                    <input nbInput class="input-full-width" placeholder="Enter your username" />
+                                    <input nbInput class="input-full-width" formControlName="mname"
+                                        placeholder="Enter your Middle Name" />
                                 </div>
                             </div>
                             <div class="form-field left-flexBox-col mb-4">
                                 <label class="tiny-text">Email ID </label>
                                 <div class="input-group">
-                                    <input nbInput class="input-full-width" placeholder="Enter your username" />
+                                    <input nbInput class="input-full-width" formControlName="email"
+                                        placeholder="Enter your Email ID" />
                                 </div>
                             </div>
                             <div class="form-field left-flexBox-col mb-4">
                                 <label class="tiny-text">Role </label>
                                 <div class="input-group">
-                                    <input nbInput class="input-full-width" placeholder="Enter your username" />
+                                    <input nbInput class="input-full-width" formControlName="role"
+                                        placeholder="Enter your Role" />
                                 </div>
                             </div>
                             <div class="form-field left-flexBox-col mb-4">
                                 <label class="tiny-text">Manager Position ID </label>
                                 <div class="input-group">
-                                    <input nbInput class="input-full-width" placeholder="Enter your username" />
+                                    <input nbInput class="input-full-width" formControlName="managerId"
+                                        placeholder="Enter your Manager Position ID" />
                                 </div>
                             </div>
                         </div>
@@ -68,44 +87,58 @@
                             <div class="form-field left-flexBox-col mb-4">
                                 <label class="tiny-text">First Name</label>
                                 <div class="input-group">
-                                    <input nbInput class="input-full-width" placeholder="Enter your username" />
+                                    <input nbInput class="input-full-width" formControlName="fname"
+                                        placeholder="Enter your First Name" />
                                 </div>
                             </div>
                             <div class="form-field left-flexBox-col mb-4">
                                 <label class="tiny-text">Last Name </label>
                                 <div class="input-group">
-                                    <input nbInput class="input-full-width" placeholder="Enter your username" />
+                                    <input nbInput class="input-full-width" formControlName="lname"
+                                        placeholder="Enter your Last Name" />
                                 </div>
                             </div>
                             <div class="form-field left-flexBox-col mb-4">
                                 <label class="tiny-text">Mobile No </label>
                                 <div class="input-group">
-                                    <input nbInput class="input-full-width" placeholder="Enter your username" />
+                                    <input nbInput class="input-full-width" formControlName="mobile"
+                                        placeholder="Enter your Mobile No" (keypress)="checkNumber($event)"
+                                        maxlength="10" />
                                 </div>
                             </div>
                             <div class="form-field left-flexBox-col mb-4">
                                 <label class="tiny-text">position ID </label>
                                 <div class="input-group">
-                                    <input nbInput class="input-full-width" placeholder="Enter your username" />
+                                    <input nbInput class="input-full-width" formControlName="positionId"
+                                        placeholder="Enter your position ID" />
                                 </div>
                             </div>
                             <div class="form-field left-flexBox-col mb-4">
                                 <label class="tiny-text">User Account Status </label>
                                 <div class="switch d-flex justify-content-start align-items-center">
                                     <div class="form-switch">
-                                        <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault"
-                                            placeholder="Active">
+                                        <input class="form-check-input" type="checkbox" formControlName="status"
+                                            id="flexSwitchCheckDefault" placeholder="Active">
                                         <label class="form-check-label" for="flexSwitchCheckDefault"></label>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <div class="input-button-field d-flex justify-content-end align-items-center">
+                        <button class="input-button" color="primary" type="submit">Create</button>
+                    </div>
                 </form>
-                <div class="input-button-field d-flex justify-content-end align-items-center">
-                    <button class="input-button" color="primary">Create</button>
-                </div>
+                <!-- forms-ends-here -->
+
             </div>
+
+
+
+            <!-- inputfields-ends-here -->
+
         </div>
     </mat-card>
+    <!-- card-ends-here -->
+
 </div>

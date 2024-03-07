@@ -136,7 +136,10 @@ nb-layout {
   background-color: var(--vp-layout-bg) !important;
 }
 
-
+// checks height
+.checks-fields{
+  height: 40px;
+}
 
 // Text based classes
 
@@ -180,4 +183,39 @@ nb-layout {
   td {
     font-size: var(--vp-fs-12);
   }
+}
+
+.registration-table {
+  max-height: 160px;
+
+  .row-header {
+    height: 40px;
+  }
+
+  .no-wrap-column {
+    text-wrap: nowrap;
+  }
+}
+
+input::placeholder,
+textarea::placeholder,
+.select-button.placeholder {
+  font-size: var(--vp-fs-10) !important;
+}
+
+.error-msg {
+  font-size: var(--vp-fs-10);
+}
+
+.cancel-btn {
+  border: 1px solid var(--vp-border-color) !important;
+  box-shadow: none !important;
+  height: 30px !important;
+  width: 30px !important;
+}
+
+// Mat-input-error-field
+.mat-mdc-form-field-error-wrapper 
+{
+  padding: 0px !important;
 }

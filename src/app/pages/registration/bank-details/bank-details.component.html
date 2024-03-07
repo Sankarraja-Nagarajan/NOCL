@@ -1,0 +1,99 @@
+<section class="screenAddress">
+    <div class="container">
+        <div style="user-select: none;">
+            <div class="row">
+                <form action="" [formGroup]="bankDetailsForm" class="p-0">
+                    <!-- AccountHolder & Bank  -->
+                    <div class="row">
+                        <div class="col-sm">
+                            <div>
+                                <label class="input-label-text">AccountHolder</label>
+                                <div class="input-group">
+                                    <input nbInput fullWidth fieldSize="small" formControlName="AccountHolder" />
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm">
+                            <div>
+                                <label class="input-label-text">Bank</label>
+                                <div class="input-group">
+                                    <input nbInput fullWidth fieldSize="small" formControlName="Bank" />
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- AccountHolder & Bank  -->
+
+                    <!-- Branch & Address -->
+                    <div class="row">
+                        <div class="col-sm">
+                            <div>
+                                <label class="input-label-text">Branch</label>
+                                <div class="input-group">
+                                    <input nbInput fullWidth fieldSize="small" formControlName="Branch" />
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm">
+                            <div>
+                                <label class="input-label-text">Address</label>
+                                <div class="input-group">
+                                    <input nbInput fullWidth fieldSize="small" formControlName="Address" />
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Branch & Address -->
+
+                    <!--Account_Number & IFSC-->
+                    <div class="row">
+                        <div class="col-sm">
+                            <div>
+                                <label class="input-label-text">Account Number</label>
+                                <div class="input-group">
+                                    <input nbInput fullWidth fieldSize="small" formControlName="Account_Number" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm">
+                            <div>
+                                <label class="input-label-text">IFSC</label>
+                                <div class="input-group">
+                                    <input nbInput fullWidth fieldSize="small" formControlName="IFSC" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--Account_Number & IFSC-->
+
+                    <!--SWIFT & IBAN-->
+                    <div class="row">
+                        <div class="col-sm">
+                            <div>
+                                <label class="input-label-text">SWIFT</label>
+                                <div class="input-group">
+                                    <input nbInput fullWidth fieldSize="small" formControlName="SWIFT" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm">
+                            <div>
+                                <label class="input-label-text">IBAN</label>
+                                <div class="input-group">
+                                    <input nbInput fullWidth fieldSize="small" formControlName="IBAN" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--SWIFT & IBAN-->
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

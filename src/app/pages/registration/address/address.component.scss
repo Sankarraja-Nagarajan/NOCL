@@ -1,39 +1,14 @@
-.cancel-btn {
-    border: 1px solid var(--vp-border-color) !important;
-}
-
-.mat-mdc-mini-fab {
-    box-shadow: none !important;
-    width: auto;
-    height: auto;
-    padding: 4px;
-}
-
 .address-table {
-    max-height: 160px;
-
-    .row-header {
-        height: 40px;
-    }
-
     .mat-column-address {
         min-width: 260px !important;
-    }
-
-    .mat-column-tel,
-    .mat-column-fax {
-        text-wrap: nowrap;
+        padding: 10px;
     }
 
     .website-link {
         display: inline-block;
         white-space: nowrap;
-        width: 140px;
+        max-width: 140px;
         overflow: hidden;
         text-overflow: ellipsis;
     }
-}
-
-.error-msg {
-    font-size: var(--vp-fs-10);
 }
