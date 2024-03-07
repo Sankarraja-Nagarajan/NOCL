@@ -11,7 +11,7 @@ export class ContactsComponent implements OnInit {
 
   data = [
     {
-      Name:'User',
+      Name: 'User',
       Designation: 'Vendor',
       PhoneNo: '+91 804111 5686',
       EmailId: 'example@exalca.com',
@@ -41,8 +41,8 @@ export class ContactsComponent implements OnInit {
       Designation: [''],
       PhoneNo: [''],
       EmailId: ['', [Validators.email]],
-      MobileNo:[''],
-      ContactTypeId: ['',[Validators.required]],
+      MobileNo: [''],
+      ContactTypeId: ['', [Validators.required]],
     });
   }
 
@@ -52,7 +52,7 @@ export class ContactsComponent implements OnInit {
       this.dataSource = new MatTableDataSource(this.data);
       this.contactForm.reset();
     }
-    else{
+    else {
       this.contactForm.markAllAsTouched();
     }
   }

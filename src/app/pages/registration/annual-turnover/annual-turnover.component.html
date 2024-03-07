@@ -10,7 +10,7 @@
                             <div>
                                 <label class="input-label-text">Year </label>
                                 <div class="input-group">
-                                    <input nbInput fullWidth fieldSize="small" formControlName="Year" required />
+                                    <input nbInput fullWidth fieldSize="small" formControlName="Year" required placeholder="Enter Year"/>
                                     <mat-error
                                         *ngIf="this.turnoverForm.get('Year').hasError('required') && this.turnoverForm.get('Year').touched"
                                         class="error-msg">Year is <strong>required</strong></mat-error>
@@ -22,7 +22,7 @@
                                 <label class="input-label-text">Sales Turnover</label>
                                 <div class="input-group">
                                     <input nbInput fullWidth fieldSize="small" formControlName="SalesTurnOver"
-                                        required />
+                                        required placeholder="Enter Sales Turnover"/>
                                     <mat-error
                                         *ngIf="this.turnoverForm.get('SalesTurnOver').hasError('required') && this.turnoverForm.get('SalesTurnOver').touched"
                                         class="error-msg">SalesTurnOver Share is <strong>required</strong></mat-error>
@@ -38,7 +38,7 @@
                             <div>
                                 <label class="input-label-text">Operating Profit </label>
                                 <div class="input-group">
-                                    <input nbInput fullWidth fieldSize="small" formControlName="OperatingProfit" />
+                                    <input nbInput fullWidth fieldSize="small" formControlName="OperatingProfit" placeholder="Enter Operating Profit"/>
                                 </div>
                             </div>
                         </div>
@@ -46,7 +46,7 @@
                             <div class="col-8">
                                 <label class="input-label-text">Netprofit</label>
                                 <div class="input-group">
-                                    <input nbInput fullWidth fieldSize="small" formControlName="NetProfit" />
+                                    <input nbInput fullWidth fieldSize="small" formControlName="NetProfit" placeholder="Enter Netprofit"/>
                                 </div>
                             </div>
 
