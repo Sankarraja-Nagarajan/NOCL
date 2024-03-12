@@ -21,11 +21,7 @@
                             <div>
                                 <label class="input-label-text">Sales Turnover</label>
                                 <div class="input-group">
-                                    <input nbInput fullWidth fieldSize="small" formControlName="SalesTurnOver"
-                                        required />
-                                    <mat-error
-                                        *ngIf="this.turnoverForm.get('SalesTurnOver').hasError('required') && this.turnoverForm.get('SalesTurnOver').touched"
-                                        class="error-msg">SalesTurnOver Share is <strong>required</strong></mat-error>
+                                    <input nbInput fullWidth fieldSize="small" formControlName="SalesTurnOver"/>
                                 </div>
                             </div>
                         </div>

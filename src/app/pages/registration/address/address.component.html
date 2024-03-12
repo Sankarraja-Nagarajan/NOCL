@@ -9,8 +9,8 @@
                         <div>
                             <label class="input-label-text"> Address </label>
                             <div class="input-group">
-                                <textarea nbInput fullWidth fieldSize="tiny" placeholder="Enter address" formControlName="Address" required></textarea>
-                                <mat-error *ngIf="this.addressForm.get('Address').hasError('required') && this.addressForm.get('Address').touched"
+                                <textarea nbInput fullWidth fieldSize="tiny" placeholder="Enter address" formControlName="AddressData" required></textarea>
+                                <mat-error *ngIf="this.addressForm.get('AddressData').hasError('required') && this.addressForm.get('AddressData').touched"
                                  class="error-msg">Address is <strong>required</strong></mat-error>
                             </div>
                         </div>
@@ -24,15 +24,23 @@
                         <div>
                             <label class="input-label-text"> Tel </label>
                             <div class="input-group">
-                                <input nbInput fullWidth fieldSize="small" type="tel" [maxlength]="15" placeholder="Enter tel number" formControlName="Tel"/>
+                                <input nbInput fullWidth fieldSize="small" maxlength="20" placeholder="Enter tel number" formControlName="Tel"
+                                (keypress)="keyPressValidation($event)"/>
                             </div>
+                            <mat-error *ngIf="addressForm.get('Tel').errors?.['pattern']" class="error-msg">
+                                Invalid telephone number.
+                            </mat-error>
                         </div>
                     </div>
                     <div class="col-sm">
                         <div>
                             <label class="input-label-text"> Fax </label>
                             <div class="input-group">
-                                <input nbInput fullWidth fieldSize="small" type="tel" [maxlength]="15" placeholder="Enter fax number" formControlName="Fax"/>
+                                <input nbInput fullWidth fieldSize="small" maxlength="20" placeholder="Enter fax number" formControlName="Fax"
+                                (keypress)="keyPressValidation($event)"/>
+                                <mat-error *ngIf="addressForm.get('Fax').errors?.['pattern']" class="error-msg">
+                                    Invalid fax number.
+                                </mat-error>
                             </div>
                         </div>
                     </div>
@@ -45,7 +53,7 @@
                         <div>
                             <label class="input-label-text"> Website </label>
                             <div class="input-group">
-                                <input nbInput fullWidth fieldSize="small" placeholder="Enter website" formControlName="Website"/>
+                                <input nbInput fullWidth fieldSize="small" maxlength="100" placeholder="Enter website" formControlName="Website"/>
                             </div>
                         </div>
                     </div>
@@ -91,7 +99,7 @@
                         <!-- Address column -->
                         <ng-container matColumnDef="address">
                             <th mat-header-cell *matHeaderCellDef> Address </th>
-                            <td mat-cell *matCellDef="let element"> {{element.Address}} </td>
+                            <td mat-cell *matCellDef="let element"> {{element.AddressData}} </td>
                         </ng-container>
 
                         <!-- Tel column -->
