@@ -43,10 +43,6 @@ export class ContactsComponent implements OnInit {
       Mobile_Number: ['', [Validators.maxLength(15)]],
     });
   }
-  
-  checkNumber(e: KeyboardEvent) {
-    this._services.numberOnly(e);
-  }
 
   // Allow (numbers, plus, and space) for Mobile & Phone
   keyPressValidation(event) {
