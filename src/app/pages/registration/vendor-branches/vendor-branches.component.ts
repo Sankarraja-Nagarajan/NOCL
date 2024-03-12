@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
+import { LoginService } from '../../../Services/login.service';
 
 @Component({
   selector: 'ngx-vendor-branches',
@@ -29,9 +30,7 @@ export class VendorBranchesComponent implements OnInit {
   ];
   VendorBranchForm: FormGroup;
 
-  constructor(private _fb: FormBuilder) {
-
-  }
+  constructor(private _fb: FormBuilder,private _services:LoginService) {}
 
   ngOnInit(): void {
     this.VendorBranchForm = this._fb.group({
@@ -41,6 +40,10 @@ export class VendorBranchesComponent implements OnInit {
       MobileNo: [''],
       Location: ['']
     });
+  }
+
+  checkNumber(e: KeyboardEvent) {
+    this._services.numberOnly(e);
   }
 
   addVendorBranch() {

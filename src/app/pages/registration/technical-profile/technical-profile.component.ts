@@ -10,7 +10,9 @@ export class TechnicalProfileComponent {
 
   technicalProfileForm: FormGroup;
 
-  constructor(private _fb: FormBuilder) {}
+  disablePlanningOption: boolean;
+
+  constructor(private _fb: FormBuilder) { }
 
   ngOnInit(): void {
     this.technicalProfileForm = this._fb.group({
@@ -22,5 +24,20 @@ export class TechnicalProfileComponent {
       Is_Statutory_Provisions_Adheard: [''],
       Initiatives_for_Development: [''],
     });
+  }
+
+  changeOptions() {
+    if (this.technicalProfileForm.get('Is_ISO_Certified').value == true || this.technicalProfileForm.get('Other_Qms_Certified').value) {
+      this.technicalProfileForm.get('Planning_for_Qms').disable();
+    }
+    else if (this.technicalProfileForm.get('Planning_for_Qms').value == true) {
+      this.technicalProfileForm.get('Is_ISO_Certified').disable();
+      this.technicalProfileForm.get('Other_Qms_Certified').disable();
+    }
+    else {
+      this.technicalProfileForm.get('Planning_for_Qms').enable();
+      this.technicalProfileForm.get('Is_ISO_Certified').enable();
+      this.technicalProfileForm.get('Other_Qms_Certified').enable();
+    }
   }
 }

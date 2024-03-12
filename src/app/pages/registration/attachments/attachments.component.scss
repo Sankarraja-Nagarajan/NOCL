@@ -1,28 +1,9 @@
-.cancel-btn {
-    border: 1px solid var(--vp-border-color) !important;
-}
-
-.mat-mdc-mini-fab {
-    box-shadow: none !important;
-    width: auto;
-    height: auto;
-    padding: 4px;
-}
-
-.partners-table {
-    max-height: 160px;
-
-    .row-header {
-        height: 40px;
-    }
-}
-
 .input-document-alignment {
     font-size: 20px;
 
 
     .attachmentLabel {
-        font-size: 16px;
+        font-size: var(--vp-fs-15);
         background-color: #e4faef;
         width: 180px;
         height: 40px;
@@ -30,15 +11,18 @@
         border: 2px dashed #3aa774;
         border-radius: 5px;
         user-select: none;
-        justify-content: center;
-        padding-left: 0px !important;
-
-        .ping-icon {
-            font-size: 20px;
-        }
-
         padding-left: 10px;
         display: flex;
         align-items: center;
+        justify-content: center;
+
+        .attachment-text{
+            font-size: var(--vp-fs-14);
+        }
+        .ping-icon {
+            font-size: 18px;
+        }
+
+      
     }
 }

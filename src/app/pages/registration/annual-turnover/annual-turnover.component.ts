@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
+import { AnnualTurnOver } from '../../../Models/Dtos';
 
 @Component({
   selector: 'ngx-annual-turnover',
@@ -8,16 +9,8 @@ import { MatTableDataSource } from '@angular/material/table';
   styleUrls: ['./annual-turnover.component.scss']
 })
 export class AnnualTurnoverComponent {
-  data = [
-    {
-      Year: 2024,
-      SalesTurnOver: 1000,
-      OperatingProfit: 2000,
-      NetProfit:3000
-    }
-  ];
-
-  dataSource = new MatTableDataSource(this.data);
+  annualTurnOver:AnnualTurnOver[]=[];
+  dataSource = new MatTableDataSource(this.annualTurnOver);
 
   displayedColumns: string[] = [
    'year',
@@ -28,14 +21,13 @@ export class AnnualTurnoverComponent {
   ];
 
   turnoverForm:FormGroup
+  formId: number = 1;
 
   constructor(private _fb:FormBuilder){
 
     this.turnoverForm=_fb.group({
-      TurnOver_Id: [''],
-      Form_Id: [''],
       Year:['',Validators.required],
-      SalesTurnOver:['',Validators.required],
+      SalesTurnOver:[''],
       OperatingProfit:[''],
       NetProfit:['']
     })
@@ -43,8 +35,8 @@ export class AnnualTurnoverComponent {
 
   addTurnover(){
     if (this.turnoverForm.valid) {
-      this.data.push(this.turnoverForm.value);
-      this.dataSource = new MatTableDataSource(this.data);
+      this.annualTurnOver.push(this.turnoverForm.value);
+      this.dataSource._updateChangeSubscription();
       this.turnoverForm.reset();
     }
     else{
@@ -53,7 +45,24 @@ export class AnnualTurnoverComponent {
   }
 
   removeTurnover(i){
-    this.data.splice(i, 1);
-    this.dataSource = new MatTableDataSource(this.data);
+    this.annualTurnOver.splice(i, 1);
+    this.dataSource._updateChangeSubscription();
   }
+
+    // Make sure the annualTurnOver array has at least one value
+    isValid() {
+      if (this.annualTurnOver.length > 0) {
+        return true;
+      }
+      return false;
+    }
+  
+    // Get annualTurnOver array, calls by layout component
+    getAnnualTurnOvers() {
+      this.annualTurnOver.forEach((element) => {
+        element.TurnOver_Id = 0;
+        element.Form_Id = this.formId;
+      });
+      return this.annualTurnOver;
+    }
 }
