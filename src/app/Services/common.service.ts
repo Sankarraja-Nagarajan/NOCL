@@ -14,7 +14,7 @@ export class CommonService {
   horizontalPosition: MatSnackBarHorizontalPosition = "center";
   verticalPosition: MatSnackBarVerticalPosition = "top";
   mandatorySubject: Subject<boolean> = new Subject<boolean>();
-  constructor(private _snackbar: MatSnackBar) {}
+  constructor(private _snackbar: MatSnackBar) { }
 
   // Opens Snackbar notification
   openSnackbar(
@@ -30,13 +30,21 @@ export class CommonService {
         status === snackbarStatus.Success
           ? "success"
           : status === snackbarStatus.Danger
-          ? "danger"
-          : status === snackbarStatus.Warning
-          ? "warning"
-          : "info",
+            ? "danger"
+            : status === snackbarStatus.Warning
+              ? "warning"
+              : "info",
     };
     this._snackbar.open(message, "", config);
   }
 
+  KeyPressValidation(event): boolean {
+    const k = event.which ? event.which : event.keyCode;
 
+    return (
+      (k == 32) ||
+      (k == 43) ||
+      (k >= 48 && k <= 57)
+    );
+  }
 }

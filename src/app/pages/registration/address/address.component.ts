@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
+import { Address } from '../../../Models/Dtos';
+import { CommonService } from '../../../Services/common.service';
 
 @Component({
   selector: 'ngx-address',
@@ -9,16 +11,8 @@ import { MatTableDataSource } from '@angular/material/table';
 })
 export class AddressComponent implements OnInit {
 
-  data = [
-    {
-      Address: 'First Floor, Kumar Enclave Eripalayam, Tirupur, Main road, Udumalaipettai, Tamil Nadu 642126',
-      Tel: '+91 804111 5686',
-      Fax: '+91 804111 5686',
-      Website: 'https://exalca.com/',
-      AddressType_Id: '1'
-    }
-  ];
-  dataSource = new MatTableDataSource(this.data);
+  addresses: Address[] = [];
+  dataSource = new MatTableDataSource(this.addresses);
   displayedColumns: string[] = [
     'addressType_id',
     'address',
@@ -28,25 +22,34 @@ export class AddressComponent implements OnInit {
     'action'
   ];
   addressForm: FormGroup;
+  formId: number = 1;
 
-  constructor(private _fb: FormBuilder) {
+  constructor(private _fb: FormBuilder,
+    private _commonService: CommonService) {
 
   }
 
   ngOnInit(): void {
+    // address form Initialization
     this.addressForm = this._fb.group({
-      Address: ['', [Validators.required]],
-      Tel: ['', [Validators.maxLength(15)]],
-      Fax: ['', [Validators.maxLength(15)]],
-      Website: [''],
-      AddressType_Id: ['', [Validators.required]]
+      AddressType_Id: ['', [Validators.required]],
+      AddressData: ['', [Validators.required]],
+      Tel: ['', [Validators.maxLength(20)]],
+      Fax: ['', [Validators.maxLength(20)]],
+      Website: ['', [Validators.maxLength(100)]],
     });
   }
 
+  // Allow (numbers, plus, and space) for Tel & Fax
+  keyPressValidation(event) {
+    return this._commonService.KeyPressValidation(event)
+  }
+
+  // Add address to the table
   addAddress() {
     if (this.addressForm.valid) {
-      this.data.push(this.addressForm.value);
-      this.dataSource = new MatTableDataSource(this.data);
+      this.addresses.push(this.addressForm.value);
+      this.dataSource._updateChangeSubscription();
       this.addressForm.reset();
     }
     else {
@@ -54,8 +57,28 @@ export class AddressComponent implements OnInit {
     }
   }
 
+  // Remove Address from table
   removeAddress(i: number) {
-    this.data.splice(i, 1);
-    this.dataSource = new MatTableDataSource(this.data);
+    this.addresses.splice(i, 1);
+    this.dataSource._updateChangeSubscription();
+  }
+
+  // Make sure the addresses array has at least one value
+  isValid() {
+    if (this.addresses.length > 0) {
+      return true;
+    }
+    console.log('Address must be there')
+    return false;
+  }
+
+  // Get addresses, calls by layout component
+  getAddresses() {
+
+    this.addresses.forEach((element) => {
+      element.Address_Id = 0;
+      element.Form_Id = this.formId;
+    });
+    return this.addresses;
   }
 }
