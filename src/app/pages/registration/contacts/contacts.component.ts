@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
+import { LoginService } from '../../../Services/login.service';
 
 @Component({
   selector: 'ngx-contacts',
@@ -11,7 +12,7 @@ export class ContactsComponent implements OnInit {
 
   data = [
     {
-      Name:'User',
+      Name: 'User',
       Designation: 'Vendor',
       PhoneNo: '+91 804111 5686',
       EmailId: 'example@exalca.com',
@@ -31,9 +32,7 @@ export class ContactsComponent implements OnInit {
   ];
   contactForm: FormGroup;
 
-  constructor(private _fb: FormBuilder) {
-
-  }
+  constructor(private _fb: FormBuilder,private _services:LoginService) {}
 
   ngOnInit(): void {
     this.contactForm = this._fb.group({
@@ -41,9 +40,13 @@ export class ContactsComponent implements OnInit {
       Designation: [''],
       PhoneNo: [''],
       EmailId: ['', [Validators.email]],
-      MobileNo:[''],
-      ContactTypeId: ['',[Validators.required]],
+      MobileNo: [''],
+      ContactTypeId: ['', [Validators.required]],
     });
+  }
+  
+  checkNumber(e: KeyboardEvent) {
+    this._services.numberOnly(e);
   }
 
   addContact() {
@@ -52,7 +55,7 @@ export class ContactsComponent implements OnInit {
       this.dataSource = new MatTableDataSource(this.data);
       this.contactForm.reset();
     }
-    else{
+    else {
       this.contactForm.markAllAsTouched();
     }
   }

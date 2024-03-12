@@ -11,6 +11,12 @@
     display: flex;
     align-items: center;
     width: calc(#{nb-theme(sidebar-width)} - #{nb-theme(header-padding)});
+
+    .nocil-logo {
+      padding-left: 10px;
+      height: 50px;
+      width: 90px;
+    }
   }
 
   nb-action {

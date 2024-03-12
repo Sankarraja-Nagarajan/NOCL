@@ -5,67 +5,70 @@
                 <form action="" [formGroup]="vendorOrgForm" class="p-0">
                     <!-- Type of organisation & Status_of_Company_Id  -->
                     <div class="row">
-                        <div class="col-sm">
-                            <div>
-                                <label class="input-label-text">Type of organisation</label>
-                                <div class="input-group">
-                                    <nb-select fullWidth size="small" status="primary" formControlName="Type_of_Org_Id">
-                                        <nb-option value="1">Office</nb-option>
-                                        <nb-option value="2">Manufacturing unit</nb-option>
-                                    </nb-select>
-                                </div>
+                        <div class="col-6">
+                            <label class="input-label-text">Type of Organization</label>
+                            <div class="input-group">
+                                <nb-select fullWidth size="small" status="primary" formControlName="Type_of_Org_Id"
+                                    placeholder="Select Type of Organization">
+                                    <nb-option value="1">Office</nb-option>
+                                    <nb-option value="2">Manufacturing unit</nb-option>
+                                </nb-select>
                             </div>
                         </div>
-                        <div class="col-sm d-flex align-items-center">
-                            <div class="checks-fields d-flex align-items-center">
-                                <div class="check d-flex">
-                                    <input type="checkbox" value="" id="relationToNocil" checked>
-                                    <label class="input-label-text ps-2" style="cursor: pointer;"
-                                        for="relationToNocil">Relation To NOCIL</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Type of organisation & Status_of_Company_Id  -->
-
-                    <!-- RelationToNOCIL & Subsideries -->
-                    <div class="row">
                         <div class="col-sm">
                             <div>
                                 <label class="input-label-text"> Status of Company</label>
                                 <div class="input-group">
                                     <input nbInput fullWidth fieldSize="small" type="text"
-                                        formControlName="Status_of_Company_Id" />
+                                        formControlName="Status_of_Company_Id" placeholder="Enter Status of Company" />
                                 </div>
                             </div>
                         </div>
+                       
+                    </div>
+                    <!-- Type of organisation & RelationToNOCIL -->
+
+                    <!-- Status_of_Company_Id & Subsideries -->
+                    <div class="row">
                         <div class="col-sm">
                             <div>
                                 <label class="input-label-text">Subsideries</label>
                                 <div class="input-group">
-                                    <input nbInput fullWidth fieldSize="small" formControlName="Subsideries" />
+                                    <input nbInput fullWidth fieldSize="small" formControlName="Subsideries"
+                                        placeholder="Enter Subsideries" />
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <!-- RelationToNOCIL & Subsideries -->
-
-                    <!--AnnualProdCapacity  & ListOfMajaorCustomer-->
-                    <div class="row">
                         <div class="col-sm">
                             <div>
                                 <label class="input-label-text">Annual Prod Capacity </label>
                                 <div class="input-group">
-                                    <input nbInput fullWidth fieldSize="small" formControlName="AnnualProdCapacity" />
+                                    <input nbInput fullWidth fieldSize="small" formControlName="AnnualProdCapacity"
+                                        placeholder="Enter Annual Prod Capacity" />
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm">
+                    </div>
+                    <!-- Status_of_Company_Id & Subsideries -->
+
+                    <!--AnnualProdCapacity  & ListOfMajaorCustomer-->
+                    <div class="row">
+                        <div class="col-6">
                             <div>
                                 <label class="input-label-text">List of Major Customer</label>
                                 <div class="input-group">
-                                    <input nbInput fullWidth fieldSize="small" formControlName="ListOfMajorCustomer" />
+                                    <input nbInput fullWidth fieldSize="small" formControlName="ListOfMajorCustomer"
+                                        placeholder="Enter List of Major Customer" />
                                 </div>
+                            </div>
+                        </div>
+                        <div class="checks-fields d-flex align-items-center">
+                            <div class="check d-flex">
+                                <input type="checkbox" value="" id="relationToNocil"
+                                    formControlName="RelationToNOCIL" />
+                                <label class="input-label-text ps-2" style="cursor: pointer;" for="relationToNocil">Any
+                                    of
+                                    Your Directors / Partners/ Employees/ Related To Any Employee of Nocil Ltd ?</label>
                             </div>
                         </div>
                     </div>
