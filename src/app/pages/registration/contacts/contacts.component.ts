@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { Contact } from '../../../Models/Dtos';
 import { CommonService } from '../../../Services/common.service';
+import { LoginService } from '../../../Services/login.service';
 
 @Component({
   selector: 'ngx-contacts',
@@ -12,6 +13,7 @@ import { CommonService } from '../../../Services/common.service';
 export class ContactsComponent implements OnInit {
   contacts: Contact[] = [];
   dataSource = new MatTableDataSource(this.contacts);
+
   displayedColumns: string[] = [
     'contactTypeId',
     'name',
@@ -29,6 +31,7 @@ export class ContactsComponent implements OnInit {
 
   }
 
+
   ngOnInit(): void {
     // contact form Initialization
     this.contactForm = this._fb.group({
@@ -39,6 +42,10 @@ export class ContactsComponent implements OnInit {
       Phone_Number: ['', [Validators.maxLength(15)]],
       Mobile_Number: ['', [Validators.maxLength(15)]],
     });
+  }
+  
+  checkNumber(e: KeyboardEvent) {
+    this._services.numberOnly(e);
   }
 
   // Allow (numbers, plus, and space) for Mobile & Phone
