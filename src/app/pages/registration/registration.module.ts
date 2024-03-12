@@ -15,26 +15,28 @@ import { CommercialProfileComponent } from './commercial-profile/commercial-prof
 import { BankDetailsComponent } from './bank-details/bank-details.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DomesticVendorOrgProfileComponent } from './domestic-vendor-org-profile/domestic-vendor-org-profile.component';
+import { TransportVendorsPersonalDetailsComponent } from './transport-vendors-personal-details/transport-vendors-personal-details.component';
+import { TankerDetailsComponent } from './tanker-details/tanker-details.component';
 
 
 
-const routes: Routes=[
+const routes: Routes = [
   {
-    path:'address',
-    component:AddressComponent
+    path: 'address',
+    component: AddressComponent
   },
   {
-    path:'registration',
-    component:RegistrationFormLayoutComponent
+    path: 'registration',
+    component: RegistrationFormLayoutComponent
   },
   {
-    path:'',
-    redirectTo:'registration',
-    pathMatch:'full'
+    path: '',
+    redirectTo: 'registration',
+    pathMatch: 'full'
   }
 ];
 
@@ -52,6 +54,8 @@ const routes: Routes=[
     AttachmentsComponent,
     CommercialProfileComponent,
     BankDetailsComponent,
+    TransportVendorsPersonalDetailsComponent,
+    TankerDetailsComponent,
   ],
   imports: [
     CommonModule,

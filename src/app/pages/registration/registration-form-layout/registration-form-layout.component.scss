@@ -1,5 +1,10 @@
+.outer-title{
+    font-size: var(--vp-fs-15);
+    font-weight: 500;
+}
+
 .title {
-    font-weight: 600;
+    // font-weight: 600;
     padding-left: 10px;
     text-decoration: solid underline 3px;
     text-underline-position: under;

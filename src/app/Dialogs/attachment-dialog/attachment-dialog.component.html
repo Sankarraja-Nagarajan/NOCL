@@ -6,7 +6,7 @@
         <div class="pb-1">
             <mat-form-field class="input-layout">
                 <mat-label>Enter Your Attachments</mat-label>
-                <input matInput [formControl]="Type" [matAutocomplete]="auto">
+                <input matInput [formControl]="Type" [matAutocomplete]="auto" class="mat-placeholder">
                 <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
                     <mat-option [value]="items" *ngFor="let items of filteredOptions | async">{{items}}</mat-option>
                 </mat-autocomplete>
@@ -44,7 +44,7 @@
         <div class="d-flex justify-content-center align-items-center flex-column pb-1"
             *ngIf="this.Is_Expiry_Available.value">
             <mat-form-field>
-                <mat-label>Choose a date</mat-label>
+                <mat-label>Choose a Expiry date</mat-label>
                 <input matInput [matDatepicker]="picker" [formControl]="Expiry_Date">
                 <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>

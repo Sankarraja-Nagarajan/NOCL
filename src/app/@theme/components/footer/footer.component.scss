@@ -8,13 +8,20 @@
   justify-content: space-between;
   align-items: center;
 
+  .powered-by{
+    font-size: var(--vp-fs-10);
+  }
+
   .socials {
-    font-size: 2rem;
 
     a {
-      padding: 0.4rem;
+      padding: 0px;
       color: nb-theme(text-hint-color);
       transition: color ease-out 0.1s;
+      font-weight: bold;
+      text-decoration: none;
+      font-size: var(--vp-fs-25);
+      cursor: pointer;
 
       &:hover {
         color: nb-theme(text-basic-color);

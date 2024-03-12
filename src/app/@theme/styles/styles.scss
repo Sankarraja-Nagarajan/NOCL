@@ -136,8 +136,29 @@ nb-layout {
   background-color: var(--vp-layout-bg) !important;
 }
 
+// header-layout-height
+nb-layout-header nav {
+  padding: 0px 20px !important;
+  height: 60px !important;
+}
+
+// footer-layout-height
+nb-layout-footer nav {
+  padding: 0px 20px !important;
+  height: 60px !important;
+}
+
+nb-sidebar .scrollable{
+  background-image: linear-gradient(to bottom,#ffff,#E8EBFA);
+}
+
+//overall-layout-padding
+.layout-container {
+  padding-top: 60px !important;
+}
+
 // checks height
-.checks-fields{
+.checks-fields {
   height: 40px;
 }
 
@@ -215,7 +236,6 @@ textarea::placeholder,
 }
 
 // Mat-input-error-field
-.mat-mdc-form-field-error-wrapper 
-{
+.mat-mdc-form-field-error-wrapper {
   padding: 0px !important;
 }

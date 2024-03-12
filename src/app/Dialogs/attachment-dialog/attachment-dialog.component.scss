@@ -1,6 +1,6 @@
 .dialog-main {
     user-select: none;
-  
+
     .attachment-header {
       height: 40px;
       background-color: var(--th-bluish-grey);
@@ -14,7 +14,7 @@
   
     .body-layout {
       padding: 10px 60px;
-  
+
       .input-layout {
         width: 232px;
       }
@@ -53,11 +53,6 @@
       padding-left: 0px !important;
       display: flex;
       align-items: center;
-    }
-  
-  
-    .error-msg {
-      font-size: var(--vp-fs-10);
     }
   
     .expiryLayout {
