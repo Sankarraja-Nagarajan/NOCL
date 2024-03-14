@@ -10,7 +10,10 @@
                             <div>
                                 <label class="input-label-text">Year </label>
                                 <div class="input-group">
-                                    <input nbInput fullWidth fieldSize="small" formControlName="Year" required placeholder="Enter Year"/>
+                                    <nb-select fullWidth size="small" status="primary" formControlName="Year" required
+                                        placeholder="Select Year">
+                                        <nb-option *ngFor="let year of years" [value]="year">{{ year }}</nb-option>
+                                    </nb-select>
                                     <mat-error
                                         *ngIf="this.turnoverForm.get('Year').hasError('required') && this.turnoverForm.get('Year').touched"
                                         class="error-msg">Year is <strong>required</strong></mat-error>
@@ -21,7 +24,8 @@
                             <div>
                                 <label class="input-label-text">Sales Turnover</label>
                                 <div class="input-group">
-                                    <input nbInput fullWidth fieldSize="small" formControlName="SalesTurnOver" placeholder="Enter Sales Turnover"/>
+                                    <input nbInput fullWidth fieldSize="small" class="input-border" formControlName="SalesTurnOver"
+                                        placeholder="Enter Sales Turnover" (keypress)="keyPressValidation($event,'decimal')"/>
                                 </div>
                             </div>
                         </div>
@@ -34,7 +38,8 @@
                             <div>
                                 <label class="input-label-text">Operating Profit </label>
                                 <div class="input-group">
-                                    <input nbInput fullWidth fieldSize="small" formControlName="OperatingProfit" placeholder="Enter Operating Profit"/>
+                                    <input nbInput fullWidth fieldSize="small" class="input-border" formControlName="OperatingProfit"
+                                        placeholder="Enter Operating Profit" (keypress)="keyPressValidation($event,'decimal')"/>
                                 </div>
                             </div>
                         </div>
@@ -42,7 +47,8 @@
                             <div class="col-8">
                                 <label class="input-label-text">Net profit</label>
                                 <div class="input-group">
-                                    <input nbInput fullWidth fieldSize="small" formControlName="NetProfit" placeholder="Enter Net profit"/>
+                                    <input nbInput fullWidth fieldSize="small" class="input-border" formControlName="NetProfit"
+                                        placeholder="Enter Net profit" (keypress)="keyPressValidation($event,'decimal')"/>
                                 </div>
                             </div>
 
@@ -102,6 +108,13 @@
 
                         <tr mat-header-row *matHeaderRowDef="displayedColumns" class="row-header"></tr>
                         <tr mat-row *matRowDef="let row; columns: displayedColumns; let i = index"></tr>
+
+                        <!-- Row shown when there is no matching data that will be provided to the table. -->
+                        <tr class="mat-row" *matNoDataRow>
+                            <td class="mat-cell" colspan="100%" class="no-data-row">
+                                <nb-icon icon="file-text-outline"></nb-icon>
+                                The table does not contain any data</td>
+                        </tr>
                     </table>
                     <!-- table ends here -->
 

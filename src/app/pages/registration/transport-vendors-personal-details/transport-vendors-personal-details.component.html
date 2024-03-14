@@ -2,18 +2,19 @@
     <div class="container">
         <div style="user-select: none;">
             <div class="row">
-                <form action="" [formGroup]="TransporterVendorsForm" class="p-0">
+                <form action="" [formGroup]="transporterVendorsForm" class="p-0">
                     <!-- Name_of_Transporter & Date_of_Establishment -->
                     <div class="row">
                         <div class="col-md-6">
                             <div>
                                 <label class="input-label-text"> Name of Transporter </label>
                                 <div class="input-group">
-                                    <input nbInput fullWidth fieldSize="small" formControlName="Name_of_Transporter"
-                                        placeholder="Enter Name of Transporter" />
+                                    <input nbInput fullWidth fieldSize="small" class="input-border"
+                                        formControlName="Name_of_Transporter" placeholder="Enter Name of Transporter"
+                                        (keypress)="keyPressValidation($event,'text')" />
                                     <mat-error
-                                        *ngIf="this.TransporterVendorsForm.get('Name_of_Transporter').hasError('required') && this.TransporterVendorsForm.get('Name_of_Transporter').touched"
-                                        class="error-msg">Transporter is <strong>required</strong></mat-error>
+                                        *ngIf="this.transporterVendorsForm.get('Name_of_Transporter').hasError('required') && this.transporterVendorsForm.get('Name_of_Transporter').touched"
+                                        class="error-msg">Transporter Name is <strong>required</strong></mat-error>
                                 </div>
                             </div>
                         </div>
@@ -21,9 +22,9 @@
                             <div>
                                 <label class="input-label-text">Date of Establishment</label>
                                 <div class="input-group">
-                                    <input nbInput fullWidth fieldSize="small"
+                                    <input nbInput fullWidth fieldSize="small" class="input-border"
                                         placeholder="Select Date of Establishment" [nbDatepicker]="dateTimePicker"
-                                        formControlName="Date_of_Establishment">
+                                        formControlName="Date_of_Establishment" readonly>
                                     <nb-datepicker #dateTimePicker></nb-datepicker>
                                 </div>
                             </div>
@@ -36,15 +37,23 @@
                         <div class="col-md-6">
                             <label class="input-label-text">No of Own Vehicles</label>
                             <div class="input-group">
-                                <input nbInput fullWidth fieldSize="small" formControlName="No_of_Own_Vehicles"
-                                    placeholder="Enter No of Own Vehicles" (keypress)="checkNumber($event)" />
+                                <input nbInput fullWidth fieldSize="small" class="input-border"
+                                    formControlName="No_of_Own_Vehicles" placeholder="Enter No of Own Vehicles"
+                                    (keypress)="keyPressValidation($event,'number')" />
+                                <mat-error
+                                    *ngIf="this.transporterVendorsForm.get('No_of_Own_Vehicles').hasError('required') && this.transporterVendorsForm.get('No_of_Own_Vehicles').touched"
+                                    class="error-msg">No of Own Vehicles is <strong>required</strong></mat-error>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <label class="input-label-text">No of Drivers</label>
                             <div class="input-group">
-                                <input nbInput fullWidth fieldSize="small" formControlName="No_of_Drivers"
-                                    placeholder="Enter No of Drivers" (keypress)="checkNumber($event)" />
+                                <input nbInput fullWidth fieldSize="small" class="input-border"
+                                    formControlName="No_of_Drivers" placeholder="Enter No of Drivers"
+                                    (keypress)="keyPressValidation($event,'number')" />
+                                <mat-error
+                                    *ngIf="this.transporterVendorsForm.get('No_of_Drivers').hasError('required') && this.transporterVendorsForm.get('No_of_Drivers').touched"
+                                    class="error-msg">No of Drivers is <strong>required</strong></mat-error>
                             </div>
                         </div>
                     </div>
@@ -56,7 +65,7 @@
                             <div>
                                 <label class="input-label-text"> Nicerglobe Registration </label>
                                 <div class="input-group">
-                                    <textarea nbInput fullWidth fieldSize="tiny"
+                                    <textarea nbInput fullWidth fieldSize="tiny" class="input-border"
                                         formControlName="Nicerglobe_Registration"
                                         placeholder="Enter Nicerglobe Registration"></textarea>
                                 </div>

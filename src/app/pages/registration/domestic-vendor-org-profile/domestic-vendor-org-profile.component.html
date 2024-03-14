@@ -5,7 +5,7 @@
                 <form action="" [formGroup]="vendorOrgForm" class="p-0">
                     <!-- Type of organisation & Status_of_Company_Id  -->
                     <div class="row">
-                        <div class="col-6">
+                        <div class="col-sm">
                             <label class="input-label-text">Type of Organization</label>
                             <div class="input-group">
                                 <nb-select fullWidth size="small" status="primary" formControlName="Type_of_Org_Id"
@@ -13,18 +13,28 @@
                                     <nb-option value="1">Office</nb-option>
                                     <nb-option value="2">Manufacturing unit</nb-option>
                                 </nb-select>
+                                <mat-error
+                                    *ngIf="this.vendorOrgForm.get('Type_of_Org_Id').hasError('required') && this.vendorOrgForm.get('Type_of_Org_Id').touched"
+                                    class="error-msg"> Organization Type is <strong>required</strong></mat-error>
                             </div>
                         </div>
                         <div class="col-sm">
                             <div>
                                 <label class="input-label-text"> Status of Company</label>
                                 <div class="input-group">
-                                    <input nbInput fullWidth fieldSize="small" type="text"
-                                        formControlName="Status_of_Company_Id" placeholder="Enter Status of Company" />
+                                    <nb-select fullWidth size="small" status="primary"
+                                        formControlName="Status_of_Company_Id"
+                                        placeholder="Select Status of Company Id">
+                                        <nb-option value="1">Office</nb-option>
+                                        <nb-option value="2">Manufacturing unit</nb-option>
+                                    </nb-select>
+                                    <mat-error
+                                        *ngIf="this.vendorOrgForm.get('Status_of_Company_Id').hasError('required') && this.vendorOrgForm.get('Status_of_Company_Id').touched"
+                                        class="error-msg"> Status of Company is <strong>required</strong></mat-error>
                                 </div>
                             </div>
                         </div>
-                       
+
                     </div>
                     <!-- Type of organisation & RelationToNOCIL -->
 
@@ -34,8 +44,8 @@
                             <div>
                                 <label class="input-label-text">Subsideries</label>
                                 <div class="input-group">
-                                    <input nbInput fullWidth fieldSize="small" formControlName="Subsideries"
-                                        placeholder="Enter Subsideries" />
+                                    <input nbInput fullWidth fieldSize="small" class="input-border"
+                                        formControlName="Subsideries" placeholder="Enter Subsideries" />
                                 </div>
                             </div>
                         </div>
@@ -43,8 +53,8 @@
                             <div>
                                 <label class="input-label-text">Annual Prod Capacity </label>
                                 <div class="input-group">
-                                    <input nbInput fullWidth fieldSize="small" formControlName="AnnualProdCapacity"
-                                        placeholder="Enter Annual Prod Capacity" />
+                                    <input nbInput fullWidth fieldSize="small" class="input-border"
+                                        formControlName="AnnualProdCapacity" placeholder="Enter Annual Prod Capacity" />
                                 </div>
                             </div>
                         </div>
@@ -53,11 +63,12 @@
 
                     <!--AnnualProdCapacity  & ListOfMajaorCustomer-->
                     <div class="row">
-                        <div class="col-6">
+                        <div class="col-sm-6">
                             <div>
                                 <label class="input-label-text">List of Major Customer</label>
                                 <div class="input-group">
-                                    <input nbInput fullWidth fieldSize="small" formControlName="ListOfMajorCustomer"
+                                    <input nbInput fullWidth fieldSize="small" class="input-border"
+                                        formControlName="ListOfMajorCustomer"
                                         placeholder="Enter List of Major Customer" />
                                 </div>
                             </div>

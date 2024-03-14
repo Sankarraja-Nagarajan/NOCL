@@ -9,7 +9,8 @@
                             <div>
                                 <label class="input-label-text"> Name </label>
                                 <div class="input-group">
-                                    <input nbInput fullWidth fieldSize="small" formControlName="Name" required placeholder="Enter Name"/>
+                                    <input nbInput fullWidth fieldSize="small" class="input-border" formControlName="Name" required placeholder="Enter Name"
+                                    (keypress)="keyPressValidation($event,'text')"/>
                                     <mat-error
                                         *ngIf="this.partnersForm.get('Name').hasError('required') && this.partnersForm.get('Name').touched"
                                         class="error-msg">Name is <strong>required</strong></mat-error>
@@ -20,8 +21,8 @@
                             <div class="col-8">
                                 <label class="input-label-text"> Percentage Share </label>
                                 <div class="input-group">
-                                    <input nbInput fullWidth fieldSize="small" formControlName="PercentageShare"
-                                        required placeholder="Enter Percentage Share"/>
+                                    <input nbInput fullWidth fieldSize="small" class="input-border" formControlName="PercentageShare"
+                                        required placeholder="Enter Percentage Share" (keypress)="keyPressValidation($event,'decimal')"/>
                                     <mat-error
                                         *ngIf="this.partnersForm.get('PercentageShare').hasError('required') && this.partnersForm.get('PercentageShare').touched"
                                         class="error-msg">Percentage Share is <strong>required</strong></mat-error>
@@ -73,6 +74,13 @@
 
                         <tr mat-header-row *matHeaderRowDef="displayedColumns" class="row-header"></tr>
                         <tr mat-row *matRowDef="let row; columns: displayedColumns; let i = index"></tr>
+
+                        <!-- Row shown when there is no matching data that will be provided to the table. -->
+                        <tr class="mat-row" *matNoDataRow>
+                            <td class="mat-cell" colspan="100%" class="no-data-row">
+                                <nb-icon icon="file-text-outline"></nb-icon>
+                                The table does not contain any data</td>
+                        </tr>
                     </table>
                     <!-- table ends here -->
 

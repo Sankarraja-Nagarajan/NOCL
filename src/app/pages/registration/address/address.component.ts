@@ -42,7 +42,7 @@ export class AddressComponent implements OnInit {
 
   // Allow (numbers, plus, and space) for Tel & Fax
   keyPressValidation(event) {
-    return this._commonService.KeyPressValidation(event)
+    return this._commonService.KeyPressValidation(event,'tel')
   }
 
   // Add address to the table
@@ -68,8 +68,10 @@ export class AddressComponent implements OnInit {
     if (this.addresses.length > 0) {
       return true;
     }
-    console.log('Address must be there')
-    return false;
+    else{
+      this.addressForm.markAllAsTouched();
+      return false;
+    }
   }
 
   // Get addresses, calls by layout component
