@@ -6,15 +6,21 @@ import {
 } from "@angular/material/snack-bar";
 import { Subject } from "rxjs";
 import { snackbarStatus } from "../Enums/snackbar-status";
+import { NbSidebarService } from "@nebular/theme";
 
 @Injectable({
   providedIn: "root",
 })
 export class CommonService {
+
+  // sidebarFooterLogo: string="";
+
   horizontalPosition: MatSnackBarHorizontalPosition = "center";
   verticalPosition: MatSnackBarVerticalPosition = "top";
   mandatorySubject: Subject<boolean> = new Subject<boolean>();
-  constructor(private _snackbar: MatSnackBar) { }
+  footerLogoVisible:boolean = true;
+
+  constructor(private _snackbar: MatSnackBar,private sidebarService: NbSidebarService) { }
 
   // Opens Snackbar notification
   openSnackbar(
@@ -70,5 +76,14 @@ export class CommonService {
         (k == 46)
       );
     }
+  }
+
+  getStateOfSidebar(){
+    this.sidebarService.getSidebarState('menu-sidebar').subscribe({
+      next:(res)=>{
+        console.log(res);
+        res && res=="expanded" ? this.footerLogoVisible = true : this.footerLogoVisible = false;
+      },
+    });
   }
 }

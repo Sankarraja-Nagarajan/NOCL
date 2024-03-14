@@ -7,3 +7,16 @@
     padding-top: nb-theme(layout-padding-top);
   }
 }
+
+.sidebar-footer {
+  background-color: #E8EBFA;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .sidebar-footer-content {
+    width: 134px;
+    height: 40px;
+  }
+}

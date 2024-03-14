@@ -10,6 +10,7 @@ import { CommonService } from '../../../Services/common.service';
   styleUrls: ['./tanker-details.component.scss']
 })
 export class TankerDetailsComponent {
+
   tankerDetails: TankerDetail[] = [];
   dataSource = new MatTableDataSource(this.tankerDetails);
 

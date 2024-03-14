@@ -1,7 +1,6 @@
 .input-document-alignment {
     font-size: 20px;
 
-
     .attachmentLabel {
         font-size: var(--vp-fs-15);
         background-color: #e4faef;
@@ -15,14 +14,17 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        cursor: pointer;
 
-        .attachment-text{
+
+        .attachment-text {
             font-size: var(--vp-fs-14);
         }
+
         .ping-icon {
             font-size: 18px;
         }
 
-      
+
     }
 }

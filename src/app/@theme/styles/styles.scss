@@ -145,7 +145,7 @@ nb-layout-header nav {
 // footer-layout-height
 nb-layout-footer nav {
   padding: 0px 20px !important;
-  height: 60px !important;
+  height: 40px !important;
 }
 
 nb-sidebar .scrollable {
@@ -159,7 +159,7 @@ nb-sidebar .scrollable {
 
 // checks height
 .checks-fields {
-  height: 40px;
+  min-height: 40px;
 }
 
 // Text based classes
@@ -257,3 +257,9 @@ nb-option-list .option-list {
 textarea{
   min-height: 40px !important;
 }
+
+.mat-mdc-mini-fab .mat-mdc-button-touch-target {
+  height: 0px !important;
+  width: 0px !important;
+}
+

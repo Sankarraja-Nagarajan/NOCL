@@ -11,8 +11,10 @@ import { CommonService } from '../../../Services/common.service';
   styleUrls: ['./vendor-branches.component.scss']
 })
 export class VendorBranchesComponent implements OnInit {
+
   vendorBranches:VendorBranch[]=[];
   dataSource = new MatTableDataSource(this.vendorBranches);
+
   displayedColumns: string[] = [
     'name',
     'designation',
