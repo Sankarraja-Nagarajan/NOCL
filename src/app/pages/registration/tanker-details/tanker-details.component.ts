@@ -8,12 +8,7 @@ import { MatTableDataSource } from '@angular/material/table';
   styleUrls: ['./tanker-details.component.scss']
 })
 export class TankerDetailsComponent {
-  data = [
-    {
-      Tanker_Type: 'Exalca02',
-      Capacity_of_Tanker: '500L'
-    }
-  ];
+  data = [];
   dataSource = new MatTableDataSource(this.data);
 
   displayedColumns: string[] = [

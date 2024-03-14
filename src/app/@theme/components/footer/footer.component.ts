@@ -4,12 +4,12 @@ import { Component } from '@angular/core';
   selector: 'ngx-footer',
   styleUrls: ['./footer.component.scss'],
   template: `
-    <span class="powered-by">
-      Powered by <b><a href="https://exalca.com" target="_blank">Exalca Technologies</a></b> | 
-      <b><a href="https://www.nocil.com/wp-content/uploads/2023/11/Privacy-Policy.pdf" target="_blank">Privacy policy</a></b>
-    </span>
+    <span></span>
     <div class="socials">
-    <a href="#" target="_blank" class="ion ion-social-linkedin"></a>
+    <span> <b><a href="https://www.nocil.com/wp-content/uploads/2023/11/Privacy-Policy.pdf" target="_blank">Privacy policy</a></b>
+    </span>
+    <span class="center-line">|</span>
+    <a href="https://www.linkedin.com/company/nocil-limited/" target="_blank" class="ion ion-social-linkedin linked-icon"></a>
     </div>
   `,
 })

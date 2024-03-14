@@ -1,4 +1,4 @@
-.outer-title{
+.outer-title {
     font-size: var(--vp-fs-15);
     font-weight: 500;
 }
@@ -14,4 +14,34 @@
         border-bottom: 1px solid #000;
         padding-bottom: 3px;
     }
+}
+
+.submission-layout {
+    height: 60px;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+
+    .btn-cancel-design {
+        border: 1px solid var(--vp-bluish-violet);
+        color: var(--vp-bluish-violet);
+        font-size: var(--vp-fs-12);
+        font-weight: 500;
+        height: 34px;
+        width: auto;
+    }
+
+    .submit-icon {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 34px;
+        font-weight: 500;
+
+
+        .submit-button-icon {
+            font-size: 16px;
+        }
+    }
+
 }
