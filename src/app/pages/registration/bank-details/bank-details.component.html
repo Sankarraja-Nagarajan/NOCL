@@ -4,13 +4,16 @@
             <div class="row">
                 <form action="" [formGroup]="bankDetailsForm" class="p-0">
                     <!-- AccountHolder & Bank  -->
-                    <div class="row">
+                    <div class="row mb-2">
                         <div class="col-sm">
                             <div>
                                 <label class="input-label-text">Account Holder</label>
                                 <div class="input-group">
-                                    <input nbInput fullWidth fieldSize="small" formControlName="AccountHolder" placeholder="Enter Account Holder Name"/>
-
+                                    <input nbInput fullWidth fieldSize="small" class="input-border" formControlName="AccountHolder" 
+                                    placeholder="Enter Account Holder Name" maxlength="100"
+                                    (keypress)="keyPressValidation($event,'text')"/>
+                                    <mat-error *ngIf="this.bankDetailsForm.get('AccountHolder').hasError('required') && this.bankDetailsForm.get('AccountHolder').touched"
+                                    class="error-msg"> Account Holder Name is <strong>required</strong></mat-error>
                                 </div>
                             </div>
                         </div>
@@ -18,8 +21,10 @@
                             <div>
                                 <label class="input-label-text">Bank</label>
                                 <div class="input-group">
-                                    <input nbInput fullWidth fieldSize="small" formControlName="Bank" placeholder="Enter Bank Name"/>
-
+                                    <input nbInput fullWidth fieldSize="small" class="input-border" formControlName="Bank" 
+                                    placeholder="Enter Bank Name" maxlength="100"/>
+                                    <mat-error *ngIf="this.bankDetailsForm.get('Bank').hasError('required') && this.bankDetailsForm.get('Bank').touched"
+                                    class="error-msg"> Bank Name is <strong>required</strong></mat-error>
                                 </div>
                             </div>
                         </div>
@@ -27,13 +32,15 @@
                     <!-- AccountHolder & Bank  -->
 
                     <!-- Branch & Address -->
-                    <div class="row">
+                    <div class="row mb-2">
                         <div class="col-sm">
                             <div>
                                 <label class="input-label-text">Branch</label>
                                 <div class="input-group">
-                                    <input nbInput fullWidth fieldSize="small" formControlName="Branch" placeholder="Enter Branch"/>
-
+                                    <input nbInput fullWidth fieldSize="small" class="input-border" formControlName="Branch" 
+                                    placeholder="Enter Branch" maxlength="30"/>
+                                    <mat-error *ngIf="this.bankDetailsForm.get('Branch').hasError('required') && this.bankDetailsForm.get('Branch').touched"
+                                    class="error-msg"> Branch Name is <strong>required</strong></mat-error>
                                 </div>
                             </div>
                         </div>
@@ -41,7 +48,8 @@
                             <div>
                                 <label class="input-label-text">Address</label>
                                 <div class="input-group">
-                                    <input nbInput fullWidth fieldSize="small" formControlName="Address" placeholder="Enter Address"/>
+                                    <input nbInput fullWidth fieldSize="small" class="input-border"
+                                     formControlName="Address" placeholder="Enter Address"/>
 
                                 </div>
                             </div>
@@ -50,12 +58,14 @@
                     <!-- Branch & Address -->
 
                     <!--Account_Number & IFSC-->
-                    <div class="row">
+                    <div class="row mb-2">
                         <div class="col-sm">
                             <div>
                                 <label class="input-label-text">Account Number</label>
                                 <div class="input-group">
-                                    <input nbInput fullWidth fieldSize="small" formControlName="Account_Number" placeholder="Enter Account Number"/>
+                                    <input nbInput fullWidth fieldSize="small" class="input-border" formControlName="Account_Number" 
+                                    placeholder="Enter Account Number" maxlength="30"
+                                    (keypress)="keyPressValidation($event,'number')"/>
                                 </div>
                             </div>
                         </div>
@@ -63,7 +73,10 @@
                             <div>
                                 <label class="input-label-text">IFSC</label>
                                 <div class="input-group">
-                                    <input nbInput fullWidth fieldSize="small" formControlName="IFSC" placeholder="Enter IFSC Code"/>
+                                    <input nbInput fullWidth fieldSize="small" class="input-border" formControlName="IFSC" 
+                                    placeholder="Enter IFSC Code" maxlength="11"/>
+                                    <mat-error *ngIf="this.bankDetailsForm.get('IFSC').hasError('pattern') && this.bankDetailsForm.get('IFSC').touched"
+                                    class="error-msg">Invalid IFSC Code</mat-error>
                                 </div>
                             </div>
                         </div>
@@ -72,12 +85,13 @@
                     <!--Account_Number & IFSC-->
 
                     <!--SWIFT & IBAN-->
-                    <div class="row">
+                    <div class="row mb-2">
                         <div class="col-sm">
                             <div>
                                 <label class="input-label-text">SWIFT</label>
                                 <div class="input-group">
-                                    <input nbInput fullWidth fieldSize="small" formControlName="SWIFT" placeholder="Enter SWIFT"/>
+                                    <input nbInput fullWidth fieldSize="small" class="input-border" formControlName="SWIFT" placeholder="Enter SWIFT"
+                                    maxlength="11"/>
                                 </div>
                             </div>
                         </div>
@@ -85,7 +99,8 @@
                             <div>
                                 <label class="input-label-text">IBAN</label>
                                 <div class="input-group">
-                                    <input nbInput fullWidth fieldSize="small" formControlName="IBAN" placeholder="Enter IBAN"/>
+                                    <input nbInput fullWidth fieldSize="small" class="input-border" formControlName="IBAN" placeholder="Enter IBAN"
+                                    maxlength="34"/>
                                 </div>
                             </div>
                         </div>

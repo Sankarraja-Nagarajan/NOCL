@@ -1,14 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { AnnualTurnOver } from '../../../Models/Dtos';
+import { CommonService } from '../../../Services/common.service';
 
 @Component({
   selector: 'ngx-annual-turnover',
   templateUrl: './annual-turnover.component.html',
   styleUrls: ['./annual-turnover.component.scss']
 })
-export class AnnualTurnoverComponent {
+export class AnnualTurnoverComponent implements OnInit{
   annualTurnOver:AnnualTurnOver[]=[];
   dataSource = new MatTableDataSource(this.annualTurnOver);
 
@@ -22,8 +23,9 @@ export class AnnualTurnoverComponent {
 
   turnoverForm:FormGroup
   formId: number = 1;
+  years: number[] = [];
 
-  constructor(private _fb:FormBuilder){
+  constructor(private _fb:FormBuilder, private _commonService:CommonService){
 
     this.turnoverForm=_fb.group({
       Year:['',Validators.required],
@@ -31,6 +33,9 @@ export class AnnualTurnoverComponent {
       OperatingProfit:[''],
       NetProfit:['']
     })
+  }
+  ngOnInit(): void {
+    this.generateYears();
   }
 
   addTurnover(){
@@ -49,12 +54,28 @@ export class AnnualTurnoverComponent {
     this.dataSource._updateChangeSubscription();
   }
 
+  //generate last 5 years for year
+  generateYears() {
+    const currentYear = new Date().getFullYear();
+    for (let year = currentYear; year >= currentYear-5; year--) {
+      this.years.push(year);
+    }
+  }
+
+  //validations
+  keyPressValidation(event:Event, type:string){
+    return this._commonService.KeyPressValidation(event,type);
+  }
+
     // Make sure the annualTurnOver array has at least one value
     isValid() {
       if (this.annualTurnOver.length > 0) {
         return true;
       }
-      return false;
+      else{
+        this.turnoverForm.markAllAsTouched();
+        return false;
+      }
     }
   
     // Get annualTurnOver array, calls by layout component

@@ -6,15 +6,21 @@ import {
 } from "@angular/material/snack-bar";
 import { Subject } from "rxjs";
 import { snackbarStatus } from "../Enums/snackbar-status";
+import { NbSidebarService } from "@nebular/theme";
 
 @Injectable({
   providedIn: "root",
 })
 export class CommonService {
+
+  // sidebarFooterLogo: string="";
+
   horizontalPosition: MatSnackBarHorizontalPosition = "center";
   verticalPosition: MatSnackBarVerticalPosition = "top";
   mandatorySubject: Subject<boolean> = new Subject<boolean>();
-  constructor(private _snackbar: MatSnackBar) { }
+  footerLogoVisible:boolean = true;
+
+  constructor(private _snackbar: MatSnackBar,private sidebarService: NbSidebarService) { }
 
   // Opens Snackbar notification
   openSnackbar(
@@ -38,13 +44,46 @@ export class CommonService {
     this._snackbar.open(message, "", config);
   }
 
-  KeyPressValidation(event): boolean {
+  KeyPressValidation(event, type): boolean {
     const k = event.which ? event.which : event.keyCode;
+    if (type === 'tel') {
+      return (
+        (k == 32) ||
+        (k == 43) ||
+        (k >= 48 && k <= 57)
+      );
+    }
+    if (type === 'number') {
+      return (
+        (k >= 48 && k <= 57)
+      );
+    }
+    if (type === 'text') {
+      return (
+        (k >= 65 && k <= 90) ||
+        (k >= 97 && k <= 122) ||
+        (k == 46) || (k == 32)
+      );
+    }
+    if (type === 'email') {
+      return (
+        !(k >= 65 && k <= 90)
+      )
+    }
+    if (type === 'decimal') {
+      return (
+        (k >= 48 && k <= 57) ||
+        (k == 46)
+      );
+    }
+  }
 
-    return (
-      (k == 32) ||
-      (k == 43) ||
-      (k >= 48 && k <= 57)
-    );
+  getStateOfSidebar(){
+    this.sidebarService.getSidebarState('menu-sidebar').subscribe({
+      next:(res)=>{
+        console.log(res);
+        res && res=="expanded" ? this.footerLogoVisible = true : this.footerLogoVisible = false;
+      },
+    });
   }
 }

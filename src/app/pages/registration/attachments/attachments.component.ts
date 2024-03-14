@@ -31,15 +31,7 @@ export class AttachmentsComponent{
     'action'
   ];
 
-  data: tableData[] =
-    [
-      {
-        Type: 'PAN',
-        Is_Expiry_Available: false,
-        Expiry_Date: null,
-        Document: ['exalca.png']
-      }
-    ]
+  data: tableData[] = []
 
   dataSource = new MatTableDataSource(this.data);
 

@@ -45,11 +45,11 @@ export class ContactsComponent implements OnInit {
   }
 
   // Allow (numbers, plus, and space) for Mobile & Phone
-  keyPressValidation(event) {
-    return this._commonService.KeyPressValidation(event)
+  keyPressValidation(event,type) {
+    return this._commonService.KeyPressValidation(event,type)
   }
 
-  // Add address to the table
+  // Add contact to the table
   addContact() {
     if (this.contactForm.valid) {
       this.contacts.push(this.contactForm.value);
@@ -61,7 +61,7 @@ export class ContactsComponent implements OnInit {
     }
   }
 
-  // Remove Address from table
+  // Remove contact from table
   removeContact(i: number) {
     this.contacts.splice(i, 1);
     this.dataSource._updateChangeSubscription();
@@ -72,13 +72,14 @@ export class ContactsComponent implements OnInit {
     if (this.contacts.length > 0) {
       return true;
     }
-    console.log('Contact must be there')
-    return false;
+    else{
+      this.contactForm.markAllAsTouched();
+      return false;
+    }
   }
 
   // Get contacts array, calls by layout component
   getContacts() {
-
     this.contacts.forEach((element) => {
       element.Contact_Id = 0;
       element.Form_Id = this.formId;

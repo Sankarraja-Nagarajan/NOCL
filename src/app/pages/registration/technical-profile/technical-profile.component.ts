@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { TechnicalProfile } from '../../../Models/Dtos';
 
 @Component({
   selector: 'ngx-technical-profile',
@@ -11,13 +12,12 @@ export class TechnicalProfileComponent {
   technicalProfileForm: FormGroup;
 
   disablePlanningOption: boolean;
+  formId: number = 1;
 
   constructor(private _fb: FormBuilder) { }
 
   ngOnInit(): void {
     this.technicalProfileForm = this._fb.group({
-      Id: [''],
-      Form_Id: [''],
       Is_ISO_Certified: [''],
       Other_Qms_Certified: [''],
       Planning_for_Qms: [''],
@@ -39,5 +39,14 @@ export class TechnicalProfileComponent {
       this.technicalProfileForm.get('Is_ISO_Certified').enable();
       this.technicalProfileForm.get('Other_Qms_Certified').enable();
     }
+  }
+
+  // Get technical Profile data, calls by layout component
+  getTechnicalProfile() {
+    let technicalProfile = new TechnicalProfile();
+    technicalProfile = this.technicalProfileForm.value;
+    technicalProfile.Id = 0;
+    technicalProfile.Form_Id = this.formId;
+    return technicalProfile;
   }
 }
