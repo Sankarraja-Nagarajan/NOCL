@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { VendorOrganizationProfile } from '../../../Models/Dtos';
 // import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
@@ -10,6 +11,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class DomesticVendorOrgProfileComponent {
 
   vendorOrgForm: FormGroup;
+  formId: number = 1;
 
   subsideriesList = [];
   listOfMajorCustomerList = [];
@@ -18,8 +20,6 @@ export class DomesticVendorOrgProfileComponent {
 
   ngOnInit(): void {
     this.vendorOrgForm = this._fb.group({
-      Id: [''],
-      Form_Id: [''],
       Type_of_Org_Id: ['', Validators.required],
       Status_of_Company_Id: ['', Validators.required],
       RelationToNOCIL: [''],
@@ -27,6 +27,26 @@ export class DomesticVendorOrgProfileComponent {
       AnnualProdCapacity: [''],
       ListOfMajorCustomer: [null, Validators.required],
     });
+  }
+
+  // Make sure the Vendor Organization Profile Form is valid
+  isValid() {
+    if (this.vendorOrgForm.valid) {
+      return true;
+    }
+    else {
+      this.vendorOrgForm.markAllAsTouched();
+      return false;
+    }
+  }
+
+  // Get Vendor Organization Profile data, calls by layout component
+  getDomesticVendorOrgProfile() {
+    let vendorOrganizationProfile = new VendorOrganizationProfile();
+    vendorOrganizationProfile = this.vendorOrgForm.value;
+    vendorOrganizationProfile.Id = 0;
+    vendorOrganizationProfile.Form_Id = this.formId;
+    return vendorOrganizationProfile;
   }
 
   addMultipleSubsideries() {
@@ -39,7 +59,7 @@ export class DomesticVendorOrgProfileComponent {
       this.vendorOrgForm.get('Subsideries').reset();
     }
   }
-
+  
   addMultipleMajorCustomers() {
     if (this.vendorOrgForm.get('ListOfMajorCustomer').value == null) {
       this.vendorOrgForm.get('ListOfMajorCustomer').markAllAsTouched();
@@ -55,6 +75,7 @@ export class DomesticVendorOrgProfileComponent {
     this.subsideriesList.splice(i, 1);
     console.log(this.subsideriesList);
   }
+    
   removeMajorCustomerItems(i: number) {
     this.listOfMajorCustomerList.splice(i, 1);
     console.log(this.subsideriesList);

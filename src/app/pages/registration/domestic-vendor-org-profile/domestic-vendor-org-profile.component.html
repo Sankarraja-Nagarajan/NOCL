@@ -3,10 +3,9 @@
         <div style="user-select: none;">
             <div class="row">
                 <form action="" [formGroup]="vendorOrgForm" class="p-0">
-
-                    <!-- Type of organisation & Status_of_Company_Id -->
-                    <div class="row mb-2">
-                        <div class="col-sm-6">
+                    <!-- Type of organisation & Status_of_Company_Id  -->
+                    <div class="row">
+                        <div class="col-sm">
                             <label class="input-label-text">Type of Organization</label>
                             <div class="input-group">
                                 <nb-select fullWidth size="small" status="primary" formControlName="Type_of_Org_Id"
@@ -14,14 +13,24 @@
                                     <nb-option value="1">Office</nb-option>
                                     <nb-option value="2">Manufacturing unit</nb-option>
                                 </nb-select>
+                                <mat-error
+                                    *ngIf="this.vendorOrgForm.get('Type_of_Org_Id').hasError('required') && this.vendorOrgForm.get('Type_of_Org_Id').touched"
+                                    class="error-msg"> Organization Type is <strong>required</strong></mat-error>
                             </div>
                         </div>
                         <div class="col-sm">
                             <div>
                                 <label class="input-label-text"> Status of Company</label>
                                 <div class="input-group">
-                                    <input nbInput fullWidth fieldSize="small" type="text"
-                                        formControlName="Status_of_Company_Id" placeholder="Enter Status of Company" />
+                                    <nb-select fullWidth size="small" status="primary"
+                                        formControlName="Status_of_Company_Id"
+                                        placeholder="Select Status of Company Id">
+                                        <nb-option value="1">Office</nb-option>
+                                        <nb-option value="2">Manufacturing unit</nb-option>
+                                    </nb-select>
+                                    <mat-error
+                                        *ngIf="this.vendorOrgForm.get('Status_of_Company_Id').hasError('required') && this.vendorOrgForm.get('Status_of_Company_Id').touched"
+                                        class="error-msg"> Status of Company is <strong>required</strong></mat-error>
                                 </div>
                             </div>
                         </div>
@@ -31,15 +40,15 @@
 
                     <!--AnnualProdCapacity  & RelationToNocil-->
                     <div class="row">
-                        <div class="col-sm-6 mb-2">
                             <div>
                                 <label class="input-label-text">Annual Prod Capacity </label>
                                 <div class="input-group">
-                                    <input nbInput fullWidth fieldSize="small" formControlName="AnnualProdCapacity"
-                                        placeholder="Enter Annual Prod Capacity" />
+                                    <input nbInput fullWidth fieldSize="small" class="input-border"
+                                        formControlName="AnnualProdCapacity" placeholder="Enter Annual Prod Capacity" />
                                 </div>
                             </div>
                         </div>
+
                         <div class="checks-fields d-flex align-items-center">
                             <div class="check d-flex">
                                 <input type="checkbox" value="" id="relationToNocil"
@@ -59,7 +68,7 @@
                                 <div class="col-lg-10 col-md-9 col-10 me-4">
                                     <label class="input-label-text">Subsideries</label>
                                     <div class="input-group">
-                                        <input nbInput fullWidth fieldSize="small" formControlName="Subsideries"
+                                        <input nbInput fullWidth fieldSize="small" formControlName="Subsideries" class="input-border"
                                             placeholder="Enter Subsideries" />
                                     </div>
                                     <mat-error
@@ -93,7 +102,7 @@
                                         <label class="input-label-text">List of Major Customer</label>
                                         <div class="input-group">
                                             <input nbInput fullWidth fieldSize="small"
-                                                formControlName="ListOfMajorCustomer"
+                                                formControlName="ListOfMajorCustomer" class="input-border"
                                                 placeholder="Enter List of Major Customer" />
                                         </div>
                                         <mat-error

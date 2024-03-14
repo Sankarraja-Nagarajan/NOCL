@@ -1,12 +1,12 @@
 <div class="main d-flex justify-content-center ailgn-items-center">
 
     <!-- card-starts-here -->
-    <mat-card class="inner-layout row">
+    <div class="inner-layout">
         <div class="page-header d-flex justify-content-start align-items-center">
             <span>User Maintanance</span>
         </div>
 
-        <div class="row">
+        <div class="user-container d-flex">
 
             <!-- searchbar-starts-here -->
             <div class="col-md-4 col-lg-3 d-md-flex flex-column d-none menu-bar">
@@ -75,7 +75,7 @@
                                         placeholder="Enter your Role" />
                                 </div>
                             </div>
-                            <div class="form-field left-flexBox-col mb-4">
+                            <div class="form-field left-flexBox-col">
                                 <label class="tiny-text">Manager Position ID </label>
                                 <div class="input-group">
                                     <input nbInput class="input-full-width" formControlName="managerId"
@@ -113,7 +113,7 @@
                                         placeholder="Enter your position ID" />
                                 </div>
                             </div>
-                            <div class="form-field left-flexBox-col mb-4">
+                            <div class="form-field left-flexBox-col">
                                 <label class="tiny-text">User Account Status </label>
                                 <div class="switch d-flex justify-content-start align-items-center">
                                     <div class="form-switch">
@@ -138,7 +138,7 @@
             <!-- inputfields-ends-here -->
 
         </div>
-    </mat-card>
+    </div>
     <!-- card-ends-here -->
 
 </div>

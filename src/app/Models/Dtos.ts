@@ -92,3 +92,20 @@ export class AnnualTurnOver{
     OperatingProfit:number;
     NetProfit:number;
 }
+
+export class TransportVendorPersonalData {
+    Id:number;
+    Form_Id:number;
+    Name_of_Transporter:string;
+    Date_of_Establishment:Date;
+    No_of_Own_Vehicles:number;
+    No_of_Drivers:number;
+    Nicerglobe_Registration:string;
+}
+
+export class TankerDetail {
+    Id:number;
+    Form_Id:number;
+    Tanker_Type_Id:number;
+    Capacity_of_Tanker:number;
+}

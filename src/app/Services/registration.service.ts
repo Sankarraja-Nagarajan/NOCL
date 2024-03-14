@@ -11,27 +11,27 @@ export class RegistrationService {
 
   constructor(private _http: HttpService) { }
 
-  // Initiate form registration
-  initiateRegistration(form: Form): Observable<any> {
-    const URL = `${this.baseURL}/Registration/InitiateRegistration`;
+  // Initiate form
+  formInitiate(form: Form): Observable<any> {
+    const URL = `${this.baseURL}/Registration/Initiate`;
     return this._http.post(URL, form);
   }
 
   // Form submission
-  submitForm(form: FormSubmitTemplate): Observable<any> {
-    const URL = `${this.baseURL}/Registration/SubmitForm`;
+  formSubmit(form: FormSubmitTemplate): Observable<any> {
+    const URL = `${this.baseURL}/Registration/Submit`;
     return this._http.post(URL, form);
   }
 
   // Form approval
-  approval(approval: Approval): Observable<any> {
-    const URL = `${this.baseURL}/Registration/Approval`;
+  formApproval(approval: Approval): Observable<any> {
+    const URL = `${this.baseURL}/Registration/Approve`;
     return this._http.post(URL, approval);
   }
 
   // Form rejection
-  rejection(rejection: Rejection): Observable<any> {
-    const URL = `${this.baseURL}/Registration/Rejection`;
+  formRejection(rejection: Rejection): Observable<any> {
+    const URL = `${this.baseURL}/Registration/Reject`;
     return this._http.post(URL, rejection);
   }
 }

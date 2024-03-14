@@ -9,7 +9,7 @@
                             <div>
                                 <label class="input-label-text">Financial Credit Rating</label>
                                 <div class="input-group">
-                                    <input nbInput fullWidth fieldSize="small"
+                                    <input nbInput fullWidth fieldSize="small" class="input-border"
                                         formControlName="Financial_Credit_Rating" placeholder="Enter Financial credit rating"/>
                                 </div>
                             </div>
@@ -18,7 +18,8 @@
                             <div>
                                 <label class="input-label-text">Agency Name</label>
                                 <div class="input-group">
-                                    <input nbInput fullWidth fieldSize="small" formControlName="Agency_Name" placeholder="Enter Agency name"/>
+                                    <input nbInput fullWidth fieldSize="small" class="input-border"
+                                     formControlName="Agency_Name" placeholder="Enter Agency name"/>
                                 </div>
                             </div>
                         </div>
@@ -31,7 +32,10 @@
                             <div>
                                 <label class="input-label-text">PAN</label>
                                 <div class="input-group">
-                                    <input nbInput fullWidth fieldSize="small" formControlName="PAN" placeholder="Enter PAN Number"/>
+                                    <input nbInput fullWidth fieldSize="small" class="input-border"
+                                    formControlName="PAN" placeholder="Enter PAN Number" maxlength="10"/>
+                                    <mat-error *ngIf="this.commercialProfileForm.get('PAN').hasError('pattern') && this.commercialProfileForm.get('PAN').touched"
+                                    class="error-msg"> Invalid PAN Number</mat-error>
                                 </div>
                             </div>
                         </div>
@@ -39,7 +43,11 @@
                             <div>
                                 <label class="input-label-text">GSTIN</label>
                                 <div class="input-group">
-                                    <input nbInput fullWidth fieldSize="small" formControlName="GSTIN" placeholder="Enter your GSTIN"/>
+                                    <input nbInput fullWidth fieldSize="small" class="input-border"
+                                    formControlName="GSTIN" placeholder="Enter your GSTIN"
+                                    maxlength="15"/>
+                                    <mat-error *ngIf="this.commercialProfileForm.get('GSTIN').hasError('pattern') && this.commercialProfileForm.get('GSTIN').touched"
+                                    class="error-msg"> Invalid GSTIN Number</mat-error>
                                 </div>
                             </div>
                         </div>
@@ -52,7 +60,8 @@
                             <div>
                                 <label class="input-label-text">MSME Type</label>
                                 <div class="input-group">
-                                    <input nbInput fullWidth fieldSize="small" formControlName="MSME_Type" placeholder="Enter MSME Type"/>
+                                    <input nbInput fullWidth fieldSize="small" class="input-border"
+                                     formControlName="MSME_Type" placeholder="Enter MSME Type"/>
                                 </div>
                             </div>
                         </div>
@@ -60,7 +69,8 @@
                             <div>
                                 <label class="input-label-text">MSME Number</label>
                                 <div class="input-group">
-                                    <input nbInput fullWidth fieldSize="small" formControlName="MSME_Number" placeholder="Enter MSME Number"/>
+                                    <input nbInput fullWidth fieldSize="small" class="input-border"
+                                     formControlName="MSME_Number" placeholder="Enter MSME Number"/>
                                 </div>
                             </div>
                         </div>

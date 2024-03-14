@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { ProprietorOrPartner } from '../../../Models/Dtos';
+import { CommonService } from '../../../Services/common.service';
 
 @Component({
   selector: 'ngx-partners',
@@ -21,7 +22,7 @@ export class PartnersComponent implements OnInit {
   partnersForm: FormGroup;
   formId: number = 1;
 
-  constructor(private _fb: FormBuilder) {
+  constructor(private _fb: FormBuilder, private _commonService:CommonService  ) {
   }
   ngOnInit(): void {
     this.partnersForm = this._fb.group({
@@ -46,12 +47,20 @@ export class PartnersComponent implements OnInit {
     this.dataSource._updateChangeSubscription();
   }
 
+  // validation for name
+  keyPressValidation(event: Event, type) {
+    return this._commonService.KeyPressValidation(event, type);
+  }
+
   // Make sure the proprietOrsOrPartners array has at least one value
   isValid() {
     if (this.proprietOrsOrPartners.length > 0) {
       return true;
     }
-    return false;
+    else{
+      this.partnersForm.markAllAsTouched();
+      return false;
+    }
   }
 
   // Get partners array, calls by layout component

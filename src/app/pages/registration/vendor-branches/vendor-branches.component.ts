@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { LoginService } from '../../../Services/login.service';
+import { VendorBranch } from '../../../Models/Dtos';
+import { CommonService } from '../../../Services/common.service';
 
 @Component({
   selector: 'ngx-vendor-branches',
@@ -10,8 +12,9 @@ import { LoginService } from '../../../Services/login.service';
 })
 export class VendorBranchesComponent implements OnInit {
 
-  data = [];
-  dataSource = new MatTableDataSource(this.data);
+  vendorBranches:VendorBranch[]=[];
+  dataSource = new MatTableDataSource(this.vendorBranches);
+
   displayedColumns: string[] = [
     'name',
     'designation',
@@ -21,27 +24,29 @@ export class VendorBranchesComponent implements OnInit {
     'action'
   ];
   VendorBranchForm: FormGroup;
+  formId: number = 1;
 
-  constructor(private _fb: FormBuilder,private _services:LoginService) {}
+  constructor(private _fb: FormBuilder,private _commonService:CommonService) {}
 
   ngOnInit(): void {
     this.VendorBranchForm = this._fb.group({
-      Name: [''],
+      Name: ['', [Validators.required]],
       Designation: [''],
       EmailId: ['', [Validators.email]],
-      MobileNo: [''],
-      Location: ['']
+      MobileNo: ['', [Validators.required, Validators.maxLength(15)]],
+      Location: ['', [Validators.required]]
     });
   }
 
-  checkNumber(e: KeyboardEvent) {
-    this._services.numberOnly(e);
+  // Allow (numbers, plus, and space) for Mobile & Phone
+  keyPressValidation(event,type) {
+    return this._commonService.KeyPressValidation(event,type)
   }
 
   addVendorBranch() {
     if (this.VendorBranchForm.valid) {
-      this.data.push(this.VendorBranchForm.value);
-      this.dataSource = new MatTableDataSource(this.data);
+      this.vendorBranches.push(this.VendorBranchForm.value);
+      this.dataSource._updateChangeSubscription();
       this.VendorBranchForm.reset();
     }
     else {
@@ -50,7 +55,27 @@ export class VendorBranchesComponent implements OnInit {
   }
 
   removeVendorBranch(i: number) {
-    this.data.splice(i, 1);
-    this.dataSource = new MatTableDataSource(this.data);
+    this.vendorBranches.splice(i, 1);
+    this.dataSource._updateChangeSubscription();
+  }
+
+  // Make sure the vendorBranches array has at least one value
+  isValid() {
+    if (this.vendorBranches.length > 0) {
+      return true;
+    }
+    else{
+      this.VendorBranchForm.markAllAsTouched();
+      return false;
+    }
+  }
+
+  // Get vendorBranches array, calls by layout component
+  getVendorBranches() {
+    this.vendorBranches.forEach((element) => {
+      element.Branch_Id = 0;
+      element.Form_Id = this.formId;
+    });
+    return this.vendorBranches;
   }
 }

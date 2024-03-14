@@ -148,8 +148,8 @@ nb-layout-footer nav {
   height: 40px !important;
 }
 
-nb-sidebar .scrollable{
-  background-image: linear-gradient(to bottom,#ffff,#E8EBFA);
+nb-sidebar .scrollable {
+  background-image: linear-gradient(to bottom, #ffff, #E8EBFA);
 }
 
 //overall-layout-padding
@@ -204,6 +204,11 @@ nb-sidebar .scrollable{
   td {
     font-size: var(--vp-fs-12);
   }
+
+  .no-data-row{
+    padding: 6px;
+    text-align: center;
+}
 }
 
 .registration-table {
@@ -240,8 +245,21 @@ textarea::placeholder,
   padding: 0px !important;
 }
 
-// Mat-fab-button-outer-space
+//max-height for select-option dropdown
+nb-option-list .option-list {
+  max-height: 150px !important;
+}
+
+.input-border {
+  border: 1px solid #99b2ff !important;
+}
+
+textarea{
+  min-height: 40px !important;
+}
+
 .mat-mdc-mini-fab .mat-mdc-button-touch-target {
   height: 0px !important;
   width: 0px !important;
 }
+
