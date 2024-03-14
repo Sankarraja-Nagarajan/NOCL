@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { LoginService } from '../../../Services/login.service';
+import { CommonService } from '../../../Services/common.service';
+import { NbSidebarService } from '@nebular/theme';
 
 @Component({
   selector: 'ngx-one-column-layout',
@@ -12,9 +14,14 @@ export class OneColumnLayoutComponent implements OnInit
 
   isLogin: boolean = true;
   isDashboardShown:boolean=true;
-  constructor(private _router: Router, private _nav: LoginService) {}
+  
+  constructor(private _router: Router, private _nav: LoginService,private commonservice:CommonService) {}
+
   ngOnInit(): void 
   {
+
+    console.log("NgOnInit Called..");
+
     this._router.events.subscribe({
       next: (res) => {
         if (res instanceof NavigationEnd) {
@@ -38,6 +45,8 @@ export class OneColumnLayoutComponent implements OnInit
         }
       },
     });
+
+   
   }
 
 }

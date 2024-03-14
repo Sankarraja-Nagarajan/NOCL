@@ -137,6 +137,10 @@
                         padding: 6px;
                         margin: 0px !important;
 
+                        .error-msg{
+                            font-size: var(--vp-fs-10);
+                            color: #ff0000;
+                        }
                         .tiny-text {
                             color: var(--vp-otp-title);
                             font-weight: 500;

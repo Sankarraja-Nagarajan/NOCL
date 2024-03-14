@@ -8,11 +8,22 @@
   justify-content: space-between;
   align-items: center;
 
-  .powered-by{
-    font-size: var(--vp-fs-10);
-  }
+
 
   .socials {
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .center-line {
+      width: 16px;
+      height: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      user-select: none;
+    }
 
     a {
       padding: 0px;
@@ -20,12 +31,30 @@
       transition: color ease-out 0.1s;
       font-weight: bold;
       text-decoration: none;
-      font-size: var(--vp-fs-25);
+      font-size: var(--vp-fs-12);
       cursor: pointer;
+      user-select: none;
 
       &:hover {
         color: nb-theme(text-basic-color);
       }
+    }
+
+    .linkedin-alignment {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      .linkedin-text {
+        font-size: var(--vp-fs-12);
+        font-weight: bold;
+      }
+
+    }
+
+
+    .ion-social-linkedin {
+      font-size: var(--vp-fs-25);
     }
   }
 

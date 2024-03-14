@@ -10,15 +10,7 @@ import { LoginService } from '../../../Services/login.service';
 })
 export class VendorBranchesComponent implements OnInit {
 
-  data = [
-    {
-      Name: 'User',
-      Designation: 'Vendor',
-      EmailId: 'example@exalca.com',
-      MobileNo: '+91 804111 5686',
-      Location: 'Bangalore'
-    }
-  ];
+  data = [];
   dataSource = new MatTableDataSource(this.data);
   displayedColumns: string[] = [
     'name',
