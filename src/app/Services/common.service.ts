@@ -15,8 +15,8 @@ export class CommonService {
 
   // sidebarFooterLogo: string="";
 
-  horizontalPosition: MatSnackBarHorizontalPosition = "center";
-  verticalPosition: MatSnackBarVerticalPosition = "top";
+  horizontalPosition: MatSnackBarHorizontalPosition = "right";
+  verticalPosition: MatSnackBarVerticalPosition = "bottom";
   mandatorySubject: Subject<boolean> = new Subject<boolean>();
   footerLogoVisible:boolean = true;
 

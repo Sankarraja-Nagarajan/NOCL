@@ -24,7 +24,7 @@ export const routes: Routes = [
   },
   {
     path: "",
-    redirectTo: "masters",
+    redirectTo: "auth",
     pathMatch: "full"
   },
 ];

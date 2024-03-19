@@ -263,3 +263,23 @@ textarea{
   width: 0px !important;
 }
 
+// for snackbar
+.success {
+  background-color: #4caf50 !important;
+  color: #ffffff !important;
+}
+
+.danger {
+  background-color: #f44336;
+  color: #ffffff;
+}
+
+.warning {
+  background-color: #ff9800;
+  color: #ffffff;
+}
+
+.info {
+  background-color: #2196f3;
+  color: #ffffff;
+}

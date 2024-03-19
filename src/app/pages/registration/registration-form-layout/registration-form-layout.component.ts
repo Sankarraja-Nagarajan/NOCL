@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { AddressComponent } from '../address/address.component';
-import { DomesticForm } from '../../../Models/DomesticForm';
+import { DomesticAndImportForm } from '../../../Models/DomesticAndImportForm';
 import { ContactsComponent } from '../contacts/contacts.component';
 import { PartnersComponent } from '../partners/partners.component';
 import { AnnualTurnoverComponent } from '../annual-turnover/annual-turnover.component';
@@ -15,6 +15,10 @@ import { snackbarStatus } from '../../../Enums/snackbar-status';
 import { TransportForm } from '../../../Models/TransportForm';
 import { TransportVendorsPersonalDetailsComponent } from '../transport-vendors-personal-details/transport-vendors-personal-details.component';
 import { TankerDetailsComponent } from '../tanker-details/tanker-details.component';
+import { ActivatedRoute } from '@angular/router';
+import { first } from 'rxjs/operators';
+import { RegistrationService } from '../../../Services/registration.service';
+import { FormSubmitTemplate } from '../../../Models/Registration';
 
 @Component({
   selector: 'ngx-registration-form-layout',
@@ -35,14 +39,38 @@ export class RegistrationFormLayoutComponent implements OnInit {
   @ViewChild(TransportVendorsPersonalDetailsComponent) transportVendorsPersonalDetailsComponent: TransportVendorsPersonalDetailsComponent;
   @ViewChild(TankerDetailsComponent) tankerDetailsComponent: TankerDetailsComponent;
 
-  constructor(private _commonService: CommonService) {
+  form_Id: number;
+  vendorTypeId: number;
+
+  constructor(private _commonService: CommonService,
+    private _activatedRoute: ActivatedRoute,
+    private _registration:RegistrationService) {
 
   }
   ngOnInit(): void {
 
+    this._commonService.openSnackbar('Success',snackbarStatus.Success);
+
+
+    this._activatedRoute.queryParams.pipe(first()).subscribe({
+      next: (params) => {
+        if (params != null && params['data'] != null) {
+          const jsonData = JSON.parse((params['data']));
+          sessionStorage.setItem('Form_Id', jsonData.Form_Id);
+          sessionStorage.setItem('V_Id', jsonData.V_Id);
+          this.form_Id = jsonData.Form_Id;
+          this.vendorTypeId = jsonData.V_Id;
+        }
+      },
+      error: (err) => {
+
+      }
+    });
+
+
   }
 
-  domesticFormPayload() {
+  domesticAndImportFormPayload() {
     let validations = [
       this.domesticVendorPersonalInfoComponent.isValid(),
       this.domesticVendorOrgProfileComponent.isValid(),
@@ -61,23 +89,44 @@ export class RegistrationFormLayoutComponent implements OnInit {
         snackbarStatus.Warning
       );
     } else {
-      let domesticForm = new DomesticForm();
-      domesticForm.DomesticVendorPersonalData = this.domesticVendorPersonalInfoComponent.getDomesticVendorPersonalInfo();
-      domesticForm.VendorOrganizationProfile = this.domesticVendorOrgProfileComponent.getDomesticVendorOrgProfile();
-      domesticForm.TechnicalProfile = this.technicalProfileComponent.getTechnicalProfile();
-      domesticForm.CommercialProfile = this.commercialProfileComponent.getCommercialProfile();
-      domesticForm.BankDetail = this.bankDetailsComponent.getBankDetail();
-      domesticForm.Addresses = this.addressComponent.getAddresses();
-      domesticForm.Contacts = this.contactsComponent.getContacts();
-      domesticForm.VendorBranches = this.vendorBranchesComponent.getVendorBranches();
-      domesticForm.ProprietorOrPartners = this.partnersComponent.getProprietorOrPartners();
-      domesticForm.AnnualTurnOvers = this.annualTurnoverComponent.getAnnualTurnOvers();
+      let domesticAndImportForm = new DomesticAndImportForm();
+      domesticAndImportForm.DomesticVendorPersonalData = this.domesticVendorPersonalInfoComponent.getDomesticVendorPersonalInfo();
+      domesticAndImportForm.VendorOrganizationProfile = this.domesticVendorOrgProfileComponent.getDomesticVendorOrgProfile();
+      domesticAndImportForm.TechnicalProfile = this.technicalProfileComponent.getTechnicalProfile();
+      domesticAndImportForm.Subsideries = this.domesticVendorOrgProfileComponent.getSubsideries();
+      domesticAndImportForm.MajorCustomers = this.domesticVendorOrgProfileComponent.getMajorCustomers();
+      domesticAndImportForm.CommercialProfile = this.commercialProfileComponent.getCommercialProfile();
+      domesticAndImportForm.BankDetail = this.bankDetailsComponent.getBankDetail();
+      domesticAndImportForm.Addresses = this.addressComponent.getAddresses();
+      domesticAndImportForm.Contacts = this.contactsComponent.getContacts();
+      domesticAndImportForm.VendorBranches = this.vendorBranchesComponent.getVendorBranches();
+      domesticAndImportForm.ProprietorOrPartners = this.partnersComponent.getProprietorOrPartners();
+      domesticAndImportForm.AnnualTurnOvers = this.annualTurnoverComponent.getAnnualTurnOvers();
 
-      console.log(domesticForm);
+      console.log(domesticAndImportForm);
+
+      let formSubmitTemplate = new FormSubmitTemplate();
+      formSubmitTemplate.Vendor_Type_Id = this.vendorTypeId;
+      formSubmitTemplate.Form_Id = this.form_Id;
+      formSubmitTemplate.FormData = domesticAndImportForm;
+
+      this._registration.formSubmit(formSubmitTemplate).subscribe({
+        next:(res)=>{
+          console.log(res);
+          if(res.Status === 200){
+            // reset all forms
+
+            this._commonService.openSnackbar(res.Message, snackbarStatus.Success)
+          }
+        },
+        error:(err)=>{
+          this._commonService.openSnackbar(err,snackbarStatus.Danger);
+        }
+      });
     }
   }
 
-  transportFormPayload(){
+  transportFormPayload() {
     let validations = [
       this.transportVendorsPersonalDetailsComponent.isValid(),
       this.tankerDetailsComponent.isValid(),
@@ -85,13 +134,13 @@ export class RegistrationFormLayoutComponent implements OnInit {
       this.commercialProfileComponent.isValid(),
       this.vendorBranchesComponent.isValid()
     ];
-    if(validations.includes(false)){
+    if (validations.includes(false)) {
       this._commonService.openSnackbar(
         'Please fill required fields.',
         snackbarStatus.Warning
       );
     }
-    else{
+    else {
       let transportForm = new TransportForm();
       transportForm.TransportVendorPersonalData = this.transportVendorsPersonalDetailsComponent.getTransportVendorPersonalData();
       transportForm.TankerDetails = this.tankerDetailsComponent.getTankerDetails();
@@ -103,7 +152,12 @@ export class RegistrationFormLayoutComponent implements OnInit {
   }
 
   submit() {
-    this.transportFormPayload();
+    if (this.vendorTypeId === 1) {
+      this.domesticAndImportFormPayload();
+    }
+    else if (this.vendorTypeId === 2) {
+      this.transportFormPayload();
+    }
   }
 
 }

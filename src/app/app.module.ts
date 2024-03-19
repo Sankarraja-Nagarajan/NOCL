@@ -24,9 +24,11 @@ import {
 import { AppConfigService } from "./Services/app-config.service";
 import { AttachmentDialogComponent } from './Dialogs/attachment-dialog/attachment-dialog.component';
 import { MaterialModule } from "./Pages/material/material.module";
+import { AddMajorCustomerDialogComponent } from './Dialogs/attachment-dialog/add-major-customer-dialog/add-major-customer-dialog.component';
+import { Sample } from "./Pages/pages-menu";
 
 @NgModule({
-  declarations: [AppComponent, AttachmentDialogComponent],
+  declarations: [AppComponent, AttachmentDialogComponent, AddMajorCustomerDialogComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -43,7 +45,7 @@ import { MaterialModule } from "./Pages/material/material.module";
     }),
     CoreModule.forRoot(),
     ThemeModule.forRoot(),
-    MaterialModule
+    MaterialModule,
   ],
   bootstrap: [AppComponent],
   providers: [

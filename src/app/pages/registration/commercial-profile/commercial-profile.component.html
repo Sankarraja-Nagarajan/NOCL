@@ -36,6 +36,8 @@
                                     formControlName="PAN" placeholder="Enter PAN Number" maxlength="10"/>
                                     <mat-error *ngIf="this.commercialProfileForm.get('PAN').hasError('pattern') && this.commercialProfileForm.get('PAN').touched"
                                     class="error-msg"> Invalid PAN Number</mat-error>
+                                    <mat-error *ngIf="this.commercialProfileForm.get('PAN').hasError('required') && this.commercialProfileForm.get('PAN').touched"
+                                    class="error-msg"> PAN Number is <strong>required</strong> </mat-error>
                                 </div>
                             </div>
                         </div>
@@ -60,8 +62,12 @@
                             <div>
                                 <label class="input-label-text">MSME Type</label>
                                 <div class="input-group">
-                                    <input nbInput fullWidth fieldSize="small" class="input-border"
-                                     formControlName="MSME_Type" placeholder="Enter MSME Type"/>
+                                    <!-- <input nbInput fullWidth fieldSize="small" class="input-border"
+                                     formControlName="MSME_Type" placeholder="Enter MSME Type"/> -->
+                                     <nb-select fullWidth placeholder="Select MSME Type" size="small" status="primary"
+                                        formControlName="MSME_Type">
+                                        <nb-option *ngFor="let msme of msmeTypes" [value]="msme">{{msme}}</nb-option>
+                                    </nb-select>
                                 </div>
                             </div>
                         </div>
@@ -76,6 +82,20 @@
                         </div>
                     </div>
                     <!--MSME_Type & MSME_Number-->
+
+                    <!-- ServiceCategory -->
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div>
+                                <label class="input-label-text">Service Category</label>
+                                <div class="input-group">
+                                    <input nbInput fullWidth fieldSize="small" class="input-border"
+                                     formControlName="ServiceCategory" placeholder="Enter Service Category"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- ServiceCategory -->
                 </form>
             </div>
         </div>

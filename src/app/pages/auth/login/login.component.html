@@ -32,7 +32,7 @@
             />
             <h2>Welcome to BP Cloud</h2>
           </div>
-          <form action="">
+          <form [formGroup]="loginForm">
             <div class="form-field left-flexBox-col mb-4">
               <label class="tiny-text"> Name </label>
               <div class="input-group">
@@ -40,7 +40,10 @@
                   nbInput
                   class="input-full-width"
                   placeholder="Enter your username"
+                  formControlName="UserName"
                 />
+                <mat-error *ngIf="this.loginForm.get('UserName').hasError('required') && this.loginForm.get('UserName').touched"
+                    class="error-msg"> Username is <strong>required</strong></mat-error>
               </div>
             </div>
             <div class="form-field left-flexBox-col mb-2">
@@ -50,7 +53,10 @@
                   nbInput type="password"
                   class="input-full-width"
                   placeholder="Enter your password"
+                  formControlName="Password"
                 />
+                <mat-error *ngIf="this.loginForm.get('Password').hasError('required') && this.loginForm.get('Password').touched"
+                    class="error-msg"> Password is <strong>required</strong></mat-error>
               </div>
             </div>
           </form>
@@ -58,7 +64,7 @@
             <span class="tiny-text forgot-password-text">Forgot Password?</span>
           </div>
           <div class="mt-2 center-flexBox">
-            <button mat-flat-button class="btn btn-login">Log in</button>
+            <button mat-flat-button class="btn btn-login" (click)="logIn()">Log in</button>
           </div>
         </mat-card>
       </div>

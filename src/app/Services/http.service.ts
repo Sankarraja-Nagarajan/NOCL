@@ -28,7 +28,7 @@ export class HttpService {
             : error.error || error.message || "Server Error";
       }
     }
-    if (message) throwError(message);
+    if (message) return throwError(message);
     else return throwError(error.error || error.message || "Server Error");
   }
 

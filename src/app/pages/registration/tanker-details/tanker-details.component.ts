@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { TankerDetail } from '../../../Models/Dtos';
@@ -9,7 +9,7 @@ import { CommonService } from '../../../Services/common.service';
   templateUrl: './tanker-details.component.html',
   styleUrls: ['./tanker-details.component.scss']
 })
-export class TankerDetailsComponent {
+export class TankerDetailsComponent implements OnInit {
 
   tankerDetails: TankerDetail[] = [];
   dataSource = new MatTableDataSource(this.tankerDetails);
@@ -20,15 +20,19 @@ export class TankerDetailsComponent {
     'action'
   ];
 
-  TankerDetailsForm: FormGroup
-  formId: number = 1;
+  TankerDetailsForm: FormGroup;
+  form_Id: number;
 
   constructor(private _fb: FormBuilder, private _commonService: CommonService) {
-
-    this.TankerDetailsForm = _fb.group({
+  }
+  ngOnInit(): void {
+    this.TankerDetailsForm = this._fb.group({
       Tanker_Type_Id: ['', Validators.required],
       Capacity_of_Tanker: ['', [Validators.required]],
-    })
+    });
+    
+    // get Form Id from session storage
+    this.form_Id = parseInt(sessionStorage.getItem('Form_Id'));
   }
 
   addTanker() {
@@ -67,7 +71,7 @@ export class TankerDetailsComponent {
   getTankerDetails() {
     this.tankerDetails.forEach((element) => {
       element.Id = 0;
-      element.Form_Id = this.formId;
+      element.Form_Id = this.form_Id;
     });
     return this.tankerDetails;
   }

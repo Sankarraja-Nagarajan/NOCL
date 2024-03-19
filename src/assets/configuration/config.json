@@ -1,3 +1,4 @@
 {
-    "BaseURL": "https://uatwhite-digitalonboarding.jkcement.com/CP_API/api"
+    "BaseURL": "https://uatwhite-digitalonboarding.jkcement.com/CP_API/api",
+    "MSME_Types": "Micro,Small,Medium"
 }
