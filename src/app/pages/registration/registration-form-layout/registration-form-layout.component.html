@@ -1,7 +1,7 @@
 <section class="screenRegistration">
     <div class="container bg-white rounded-3">
         <!-- Domestic-vendor-personal-info-->
-        <div class=" p-3 border-bottom">
+        <div *ngIf="vendorTypeId === 1" class=" p-3 border-bottom">
             <div class="row ">
                 <div class="d-none d-sm-flex flex-column align-items-center justify-content-center col-sm-3">
                     <h3 class="outer-title mb-1">Vendor Personal Information</h3>
@@ -16,7 +16,7 @@
             </div>
         </div>
         <!-- Domestic Vendor Organization Profile -->
-        <div class=" p-3 border-bottom">
+        <div *ngIf="vendorTypeId === 1" class=" p-3 border-bottom">
             <div class="row ">
                 <div class="d-none d-sm-flex flex-column align-items-center justify-content-center col-sm-3">
                     <h3 class="outer-title mb-4">Vendor Organization Profile</h3>
@@ -31,7 +31,7 @@
             </div>
         </div>
         <!-- Transport vendor Personal Details-->
-        <div class="p-3 border-bottom">
+        <div *ngIf="vendorTypeId === 2" class="p-3 border-bottom">
             <div class="row">
                 <div class="d-none d-sm-flex flex-column align-items-center justify-content-center col-sm-3">
                     <h3 class="outer-title mb-4">Transport Vendor Details</h3>
@@ -46,7 +46,7 @@
             </div>
         </div>
         <!-- Address -->
-        <div class="p-3 border-bottom">
+        <div *ngIf="vendorTypeId === 1" class="p-3 border-bottom">
             <div class="row">
                 <div class="d-none d-sm-flex flex-column align-items-center justify-content-center col-sm-3">
                     <h3 class="outer-title mb-4">Addresses</h3>
@@ -60,7 +60,7 @@
             </div>
         </div>
         <!-- Tanker Details -->
-        <div class="p-3 border-bottom">
+        <div *ngIf="vendorTypeId === 2" class="p-3 border-bottom">
             <div class="row">
                 <div class="d-none d-sm-flex flex-column align-items-center justify-content-center col-sm-3">
                     <h3 class="outer-title mb-4">Tanker Details</h3>
@@ -74,7 +74,7 @@
             </div>
         </div>
         <!-- Contact -->
-        <div class="p-3 border-bottom">
+        <div *ngIf="vendorTypeId === 1" class="p-3 border-bottom">
             <div class="row">
                 <div class="d-none d-sm-flex flex-column align-items-center justify-content-center col-sm-3">
                     <h3 class="outer-title mb-4">Contacts</h3>
@@ -87,7 +87,7 @@
             </div>
         </div>
         <!-- Proprietor or Partners -->
-        <div class=" p-3 border-bottom">
+        <div *ngIf="vendorTypeId === 1" class=" p-3 border-bottom">
             <div class="row">
                 <div class="d-none d-sm-flex flex-column align-items-center justify-content-center col-sm-3">
                     <h3 class="outer-title mb-4">Proprietor or Partners</h3>
@@ -101,7 +101,7 @@
             </div>
         </div>
         <!-- Annual TurnOver -->
-        <div class=" p-3 border-bottom">
+        <div *ngIf="vendorTypeId === 1" class=" p-3 border-bottom">
             <div class="row">
                 <div class="d-none d-sm-flex flex-column align-items-center justify-content-center col-sm-3">
                     <h3 class="outer-title mb-4">Annual Turnover</h3>
@@ -115,7 +115,7 @@
             </div>
         </div>
         <!-- Technical Profile -->
-        <div class=" p-3 border-bottom">
+        <div *ngIf="vendorTypeId === 1" class=" p-3 border-bottom">
             <div class="row">
                 <div class="d-none d-sm-flex flex-column align-items-center justify-content-center col-sm-3">
                     <h3 class="outer-title mb-4">Technical Profile</h3>
@@ -129,7 +129,7 @@
             </div>
         </div>
         <!-- Attachments -->
-        <div class=" p-3 border-bottom">
+        <div *ngIf="vendorTypeId === 1" class=" p-3 border-bottom">
             <div class="row">
                 <div class="d-none d-sm-flex flex-column align-items-center justify-content-center col-sm-3">
                     <h3 class="outer-title mb-4">Attachments</h3>
@@ -189,7 +189,7 @@
         <button class="btn btn-cancel-design center-flexBox submit-icon me-2">
             <mat-icon
                 class="submit-button-icon d-flex justify-content-center align-items-center">clear</mat-icon>Cancel</button>
-        <button class="btn btn-design center-flexBox submit-icon">
+        <button class="btn btn-design center-flexBox submit-icon" (click)="submit()">
             <mat-icon
                 class="submit-button-icon d-flex justify-content-center align-items-center">done</mat-icon>Submit</button>
     </div>

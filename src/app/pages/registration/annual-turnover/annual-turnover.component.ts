@@ -22,7 +22,7 @@ export class AnnualTurnoverComponent implements OnInit{
   ];
 
   turnoverForm:FormGroup
-  formId: number = 1;
+  form_Id: number;
   years: number[] = [];
 
   constructor(private _fb:FormBuilder, private _commonService:CommonService){
@@ -36,6 +36,9 @@ export class AnnualTurnoverComponent implements OnInit{
   }
   ngOnInit(): void {
     this.generateYears();
+
+    // get Form Id from session storage
+    this.form_Id = parseInt(sessionStorage.getItem('Form_Id'));
   }
 
   addTurnover(){
@@ -82,7 +85,7 @@ export class AnnualTurnoverComponent implements OnInit{
     getAnnualTurnOvers() {
       this.annualTurnOver.forEach((element) => {
         element.TurnOver_Id = 0;
-        element.Form_Id = this.formId;
+        element.Form_Id = this.form_Id;
       });
       return this.annualTurnOver;
     }

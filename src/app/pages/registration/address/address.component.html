@@ -68,12 +68,12 @@
                                 <label class="input-label-text"> Select address type </label>
                                 <div class="input-group">
                                     <nb-select fullWidth placeholder="Select address type" size="small" status="primary"
-                                        formControlName="AddressType_Id" required>
-                                        <nb-option value="1">Office</nb-option>
-                                        <nb-option value="2">Manufacturing unit</nb-option>
+                                        formControlName="Address_Type_Id" required>
+                                        <nb-option *ngFor="let address of addressTypes"
+                                            [value]="address.Address_Type_Id">{{address.Address_Type}}</nb-option>
                                     </nb-select>
                                     <mat-error
-                                        *ngIf="this.addressForm.get('AddressType_Id').hasError('required') && this.addressForm.get('AddressType_Id').touched"
+                                        *ngIf="this.addressForm.get('Address_Type_Id').hasError('required') && this.addressForm.get('Address_Type_Id').touched"
                                         class="error-msg">Address type <strong>required</strong></mat-error>
                                 </div>
                             </div>
@@ -100,8 +100,10 @@
                         <!-- AddressType_Id column -->
                         <ng-container matColumnDef="addressType_id">
                             <th mat-header-cell *matHeaderCellDef> Address Type </th>
-                            <td mat-cell *matCellDef="let element"> {{element.AddressType_Id =='1' ? 'Office' :
-                                element.AddressType_Id =='2' ? 'Manufacturing Unit' : ''}} </td>
+                            <td mat-cell *matCellDef="let element">
+                                <!-- {{addressTypes[element.Address_Type_Id-1].Address_Type}} -->
+                                {{getAddressTypeById(element.Address_Type_Id)}}
+                            </td>
                         </ng-container>
 
                         <!-- Address column -->

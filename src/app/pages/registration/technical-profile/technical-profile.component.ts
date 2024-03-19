@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TechnicalProfile } from '../../../Models/Dtos';
 
@@ -7,21 +7,19 @@ import { TechnicalProfile } from '../../../Models/Dtos';
   templateUrl: './technical-profile.component.html',
   styleUrls: ['./technical-profile.component.scss']
 })
-export class TechnicalProfileComponent {
+export class TechnicalProfileComponent implements OnInit {
 
   technicalProfileForm: FormGroup;
-
   disablePlanningOption: boolean;
-  formId: number = 1;
 
   constructor(private _fb: FormBuilder) { }
 
   ngOnInit(): void {
     this.technicalProfileForm = this._fb.group({
-      Is_ISO_Certified: [''],
-      Other_Qms_Certified: [''],
-      Planning_for_Qms: [''],
-      Is_Statutory_Provisions_Adheard: [''],
+      Is_ISO_Certified: [false],
+      Other_Qms_Certified: [false],
+      Planning_for_Qms: [false],
+      Is_Statutory_Provisions_Adheard: [false],
       Initiatives_for_Development: [''],
     });
   }
@@ -46,7 +44,7 @@ export class TechnicalProfileComponent {
     let technicalProfile = new TechnicalProfile();
     technicalProfile = this.technicalProfileForm.value;
     technicalProfile.Id = 0;
-    technicalProfile.Form_Id = this.formId;
+    technicalProfile.Form_Id = parseInt(sessionStorage.getItem('Form_Id'));
     return technicalProfile;
   }
 }

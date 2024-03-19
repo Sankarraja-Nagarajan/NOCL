@@ -11,7 +11,6 @@ import { CommonService } from '../../../Services/common.service';
 export class DomesticVendorPersonalInfoComponent implements OnInit {
   domesticVendorForm: FormGroup;
   years: number[] = [];
-  formId: number = 1;
 
   constructor(private _fb: FormBuilder, private _commonService: CommonService) {
   }
@@ -61,7 +60,7 @@ export class DomesticVendorPersonalInfoComponent implements OnInit {
     let domesticVendorPersonalData = new DomesticVendorPersonalData();
     domesticVendorPersonalData = this.domesticVendorForm.value;
     domesticVendorPersonalData.Domestic_Personal_Info_Id = 0;
-    domesticVendorPersonalData.Form_Id = this.formId;
+    domesticVendorPersonalData.Form_Id = parseInt(sessionStorage.getItem('Form_Id'));
     return domesticVendorPersonalData;
   }
 }

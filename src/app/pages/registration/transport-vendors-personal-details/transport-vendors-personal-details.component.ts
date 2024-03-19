@@ -11,7 +11,6 @@ import { CommonService } from '../../../Services/common.service';
 })
 export class TransportVendorsPersonalDetailsComponent {
   transporterVendorsForm: FormGroup;
-  formId: number = 1;
 
   constructor(private _fb: FormBuilder,private _commonService: CommonService,) {}
 
@@ -46,7 +45,7 @@ export class TransportVendorsPersonalDetailsComponent {
     let transportVendorPersonalData=  new TransportVendorPersonalData();
     transportVendorPersonalData = this.transporterVendorsForm.value;
     transportVendorPersonalData.Id = 0;
-    transportVendorPersonalData.Form_Id = this.formId;
+    transportVendorPersonalData.Form_Id = parseInt(sessionStorage.getItem('Form_Id'));
     return transportVendorPersonalData;
   }
 

@@ -20,7 +20,7 @@ export class PartnersComponent implements OnInit {
     'action'
   ];
   partnersForm: FormGroup;
-  formId: number = 1;
+  form_Id: number;
 
   constructor(private _fb: FormBuilder, private _commonService:CommonService  ) {
   }
@@ -29,6 +29,9 @@ export class PartnersComponent implements OnInit {
       Name: ['', [Validators.required]],
       PercentageShare: ['', [Validators.required]],
     })
+
+    // get Form Id from session storage
+    this.form_Id = parseInt(sessionStorage.getItem('Form_Id'));
   }
 
   addPartners() {
@@ -67,7 +70,7 @@ export class PartnersComponent implements OnInit {
   getProprietorOrPartners() {
     this.proprietOrsOrPartners.forEach((element) => {
       element.Id = 0;
-      element.Form_Id = this.formId;
+      element.Form_Id = this.form_Id;
     });
     return this.proprietOrsOrPartners;
   }

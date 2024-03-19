@@ -10,7 +10,6 @@ export class Approval {
 }
 
 export class Form {
-    Employee_Id: string;
     Vendor_Type_Id: number;
     Status_Id: number;
     Vendor_Code: string;
@@ -18,8 +17,7 @@ export class Form {
     Vendor_Mail: string;
     Vendor_Mobile: string;
     Company_Code: string;
-    Department: string;
-    Purchase_Organization: string;
+    Department_Id: string;
     CreatedBy: string;
 }
 

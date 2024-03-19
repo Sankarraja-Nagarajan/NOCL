@@ -3,6 +3,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { Address } from '../../../Models/Dtos';
 import { CommonService } from '../../../Services/common.service';
+import { AddressType } from '../../../Models/Master';
+import { MasterService } from '../../../Services/master.service';
+import { snackbarStatus } from '../../../Enums/snackbar-status';
 
 @Component({
   selector: 'ngx-address',
@@ -22,21 +25,36 @@ export class AddressComponent implements OnInit {
     'action'
   ];
   addressForm: FormGroup;
-  formId: number = 1;
+  form_Id: number;
+  addressTypes:AddressType[]=[];
 
   constructor(private _fb: FormBuilder,
-    private _commonService: CommonService) {
+    private _commonService: CommonService,
+    private _master:MasterService) {
 
   }
 
   ngOnInit(): void {
     // address form Initialization
     this.addressForm = this._fb.group({
-      AddressType_Id: ['', [Validators.required]],
+      Address_Type_Id: ['', [Validators.required]],
       AddressData: ['', [Validators.required]],
       Tel: ['', [Validators.maxLength(20)]],
       Fax: ['', [Validators.maxLength(20)]],
       Website: ['', [Validators.maxLength(100)]],
+    });
+
+    // get Form Id from session storage
+    this.form_Id = parseInt(sessionStorage.getItem('Form_Id'));
+
+    // get address types
+    this._master.getAddressTypes().subscribe({
+      next:(res)=>{
+        this.addressTypes = res as AddressType[];
+      },
+      error:(err)=>{
+        this._commonService.openSnackbar(err,snackbarStatus.Danger);
+      }
     });
   }
 
@@ -79,8 +97,13 @@ export class AddressComponent implements OnInit {
 
     this.addresses.forEach((element) => {
       element.Address_Id = 0;
-      element.Form_Id = this.formId;
+      element.Form_Id = this.form_Id;
     });
     return this.addresses;
+  }
+
+  getAddressTypeById(addressTypeId: number): string {
+    const type = this.addressTypes.find(type => type.Address_Type_Id === addressTypeId);
+    return type ? type.Address_Type : '';
   }
 }
