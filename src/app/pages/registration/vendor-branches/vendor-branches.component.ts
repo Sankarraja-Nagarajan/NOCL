@@ -24,7 +24,7 @@ export class VendorBranchesComponent implements OnInit {
     'action'
   ];
   VendorBranchForm: FormGroup;
-  formId: number = 1;
+  form_Id: number;
 
   constructor(private _fb: FormBuilder,private _commonService:CommonService) {}
 
@@ -32,10 +32,13 @@ export class VendorBranchesComponent implements OnInit {
     this.VendorBranchForm = this._fb.group({
       Name: ['', [Validators.required]],
       Designation: [''],
-      EmailId: ['', [Validators.email]],
-      MobileNo: ['', [Validators.required, Validators.maxLength(15)]],
+      Email_Id: ['', [Validators.email]],
+      Mobile_No: ['', [Validators.required, Validators.maxLength(15)]],
       Location: ['', [Validators.required]]
     });
+
+    // get Form Id from session storage
+    this.form_Id = parseInt(sessionStorage.getItem('Form_Id'));
   }
 
   // Allow (numbers, plus, and space) for Mobile & Phone
@@ -74,7 +77,7 @@ export class VendorBranchesComponent implements OnInit {
   getVendorBranches() {
     this.vendorBranches.forEach((element) => {
       element.Branch_Id = 0;
-      element.Form_Id = this.formId;
+      element.Form_Id = this.form_Id;
     });
     return this.vendorBranches;
   }

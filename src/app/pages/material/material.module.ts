@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
-import { NbAccordionModule, NbButtonModule, NbCardModule, NbListModule, NbRouteTabsetModule, NbStepperModule, NbTabsetModule, NbTreeGridModule, NbSelectModule, NbIconModule, NbInputModule, NbTooltipModule, NbCheckboxModule, NbDatepickerModule } from '@nebular/theme';
+import { NbAccordionModule, NbButtonModule, NbCardModule, NbListModule, NbRouteTabsetModule, NbStepperModule, NbTabsetModule, NbTreeGridModule, NbSelectModule, NbIconModule, NbInputModule, NbTooltipModule, NbCheckboxModule, NbDatepickerModule, NbRadioModule } from '@nebular/theme';
 
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
@@ -47,6 +47,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle'
     NbCheckboxModule,
     NbDatepickerModule,
     NbCheckboxModule,
+    NbRadioModule,
 
     MatAutocompleteModule,
     MatButtonModule,
@@ -90,6 +91,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle'
     NbCheckboxModule,
     NbDatepickerModule,
     NbCheckboxModule,
+    NbRadioModule,
 
     MatAutocompleteModule,
     MatButtonModule,

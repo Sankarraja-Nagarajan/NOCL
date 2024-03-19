@@ -1,0 +1,27 @@
+.addMajorDialogScreen{
+    min-height: 300px;
+
+    .dialog-title{
+        border-bottom: 2px solid var(--vp-bluish-violet);
+    }
+    
+    .customer-list {
+        height: 100px;
+        overflow: auto;
+
+        .customer-item{
+            padding: 6px;
+        }
+    }
+    .no-data{
+        height: 90px;
+    }
+    .cancel-btn-design {
+        background: var(--vp-white) !important;
+        color: var(--vp-bluish-violet) !important;
+        border: 1px solid var(--vp-bluish-violet);
+        font-size: var(--vp-fs-12);
+        height: auto;
+        width: auto;
+    }
+}

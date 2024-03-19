@@ -38,10 +38,10 @@
                                 <label class="input-label-text"> Mobile No </label>
                                 <div class="input-group">
                                     <input nbInput fullWidth fieldSize="small" placeholder="Enter mobile number"
-                                        class="input-border" formControlName="MobileNo"
+                                        class="input-border" formControlName="Mobile_No"
                                         (keypress)="keyPressValidation($event,'tel')" maxlength="10" />
                                     <mat-error
-                                        *ngIf="this.VendorBranchForm.get('MobileNo').hasError('required') && this.VendorBranchForm.get('MobileNo').touched"
+                                        *ngIf="this.VendorBranchForm.get('Mobile_No').hasError('required') && this.VendorBranchForm.get('Mobile_No').touched"
                                         class="error-msg">Mobile No is <strong>required</strong></mat-error>
                                 </div>
                             </div>
@@ -51,10 +51,10 @@
                                 <label class="input-label-text"> Email Id </label>
                                 <div class="input-group">
                                     <input nbInput fullWidth fieldSize="small" placeholder="Enter email id"
-                                        class="input-border" formControlName="EmailId"
+                                        class="input-border" formControlName="Email_Id"
                                         (keypress)="keyPressValidation($event,'email')" />
                                     <mat-error
-                                        *ngIf="this.VendorBranchForm.get('EmailId').hasError('email') && this.VendorBranchForm.get('EmailId').touched"
+                                        *ngIf="this.VendorBranchForm.get('Email_Id').hasError('email') && this.VendorBranchForm.get('Email_Id').touched"
                                         class="error-msg"> Invalid EmailId </mat-error>
                                 </div>
                             </div>
@@ -111,13 +111,13 @@
                         <!-- EmailId column -->
                         <ng-container matColumnDef="emailId">
                             <th mat-header-cell *matHeaderCellDef class="no-wrap-column"> Email Id </th>
-                            <td mat-cell *matCellDef="let element">{{element.EmailId}}</td>
+                            <td mat-cell *matCellDef="let element">{{element.Email_Id}}</td>
                         </ng-container>
 
                         <!-- Mobile No column -->
                         <ng-container matColumnDef="mobileNo">
                             <th mat-header-cell *matHeaderCellDef class="no-wrap-column"> Mobile No </th>
-                            <td mat-cell *matCellDef="let element" class="no-wrap-column">{{element.MobileNo}}</td>
+                            <td mat-cell *matCellDef="let element" class="no-wrap-column">{{element.Mobile_No}}</td>
                         </ng-container>
 
                         <!-- Location column -->

@@ -1,0 +1,81 @@
+<section class="addMajorDialogScreen">
+    <div class="container p-3">
+        <div class="d-flex justify-content-center align-items-center mb-2">
+            <h3 class="dialog-title">Major Customers</h3>
+        </div>
+        <div class="mb-2">
+            <!-- form -->
+            <form [formGroup]="majorCustomerForm">
+                <div class="row">
+                    <!-- Customer Name -->
+                    <div class="col-sm mb-sm-0 mb-2">
+                        <div>
+                            <label class="input-label-text"> Customer Name </label>
+                            <div class="input-group">
+                                <input nbInput fullWidth fieldSize="small" class="input-border"
+                                    placeholder="Enter customer name" formControlName="Customer_Name" />
+                               
+                            </div>
+                            <mat-error
+                            *ngIf="majorCustomerForm.get('Customer_Name').hasError('required') && majorCustomerForm.get('Customer_Name').touched"
+                            class="error-msg">
+                            Customer Name is <strong>required.</strong>
+                        </mat-error>
+                        </div>
+                    </div>
+
+                    <!-- Location -->
+                    <div class="col-sm mb-sm-0 mb-2 d-flex justify-content-between align-items-center">
+                        <div class="w-100">
+                            <label class="input-label-text"> Location </label>
+                            <div class="input-group">
+                                <input nbInput fullWidth fieldSize="small" class="input-border"
+                                    placeholder="Enter location" formControlName="Location" />
+                                
+                            </div>
+                            <mat-error
+                                    *ngIf="majorCustomerForm.get('Location').hasError('required') && majorCustomerForm.get('Location').touched"
+                                    class="error-msg">
+                                    Location is <strong>required.</strong>
+                                </mat-error>
+                        </div>
+                        <div class="d-flex justify-content-center align-items-end h-100">
+                            <button class="btn btn-design cancel-btn center-flexBox ms-2">
+                                <img src="../../../../assets/images/pngs/plus.png" width="16" height="16"
+                                    (click)="addMajorCustomer()"></button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <!-- form -->
+        </div>
+
+        <div class="row mb-2 p-2">
+            <div class="border rounded customer-list">
+                <div *ngIf="majorCustomers.length == 0" class="no-data center-flexBox">
+                    <span> No major customers were added.</span>
+                </div>
+                <div *ngFor="let customer of majorCustomers; index as i"
+                    class="d-flex justify-content-between align-items-center border-bottom customer-item">
+                    <div>
+                        <span class="customer-label">{{customer.Customer_Name}} - {{customer.Location}}</span>
+                    </div>
+                    <div>
+                        <img src="assets/images/pngs/xmark.png" height="18" width="18" (click)="removeMajorCustomer(i)">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-center align-items-center gap-2" mat-dialog-actions>
+            <div>
+                <button class="btn btn-design center-flexBox" [mat-dialog-close]="majorCustomers">
+                    Submit</button>
+            </div>
+            <div>
+                <button type="button" class="btn btn-design cancel-btn-design center-flexBox" mat-dialog-close>
+                    Cancel</button>
+            </div>
+        </div>
+    </div>
+</section>

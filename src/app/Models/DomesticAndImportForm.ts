@@ -5,16 +5,20 @@ import {
     CommercialProfile,
     Contact,
     DomesticVendorPersonalData,
+    MajorCustomer,
     ProprietorOrPartner,
+    Subsideries,
     TechnicalProfile,
     VendorBranch,
     VendorOrganizationProfile
 } from "./Dtos";
 
-export class DomesticForm {
+export class DomesticAndImportForm {
     DomesticVendorPersonalData: DomesticVendorPersonalData;
     VendorOrganizationProfile: VendorOrganizationProfile;
     TechnicalProfile: TechnicalProfile;
+    Subsideries: Subsideries[];
+    MajorCustomers: MajorCustomer[];
     CommercialProfile: CommercialProfile;
     BankDetail: Bank_Detail;
     Addresses: Address[];

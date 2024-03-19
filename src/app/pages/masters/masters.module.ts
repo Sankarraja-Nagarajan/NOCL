@@ -14,11 +14,11 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 const routes: Routes = [
   {
     path: "",
-    redirectTo: "vendors",
+    redirectTo: "users",
     pathMatch: "full"
   },
   {
-    path: "user",
+    path: "users",
     component: UserComponent
   },
   {

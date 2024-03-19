@@ -4,6 +4,9 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Contact } from '../../../Models/Dtos';
 import { CommonService } from '../../../Services/common.service';
 import { LoginService } from '../../../Services/login.service';
+import { ContactType } from '../../../Models/Master';
+import { MasterService } from '../../../Services/master.service';
+import { snackbarStatus } from '../../../Enums/snackbar-status';
 
 @Component({
   selector: 'ngx-contacts',
@@ -24,10 +27,12 @@ export class ContactsComponent implements OnInit {
     'action'
   ];
   contactForm: FormGroup;
-  formId: number = 1;
+  form_Id: number;
+  contactTypes: ContactType[] = [];
 
   constructor(private _fb: FormBuilder,
-    private _commonService: CommonService) {
+    private _commonService: CommonService,
+    private _master:MasterService) {
 
   }
 
@@ -42,11 +47,26 @@ export class ContactsComponent implements OnInit {
       Phone_Number: ['', [Validators.maxLength(15)]],
       Mobile_Number: ['', [Validators.maxLength(15)]],
     });
+
+    // get Form Id from session storage
+    this.form_Id = parseInt(sessionStorage.getItem('Form_Id'));
+    
+    // get contact types
+    this._master.getContactTypes().subscribe({
+      next:(res)=>{
+        if(res){
+          this.contactTypes = res as ContactType[];
+        }
+      },
+      error:(err)=>{
+        this._commonService.openSnackbar(err,snackbarStatus.Danger);
+      }
+    });
   }
 
   // Allow (numbers, plus, and space) for Mobile & Phone
-  keyPressValidation(event,type) {
-    return this._commonService.KeyPressValidation(event,type)
+  keyPressValidation(event, type) {
+    return this._commonService.KeyPressValidation(event, type)
   }
 
   // Add contact to the table
@@ -72,7 +92,7 @@ export class ContactsComponent implements OnInit {
     if (this.contacts.length > 0) {
       return true;
     }
-    else{
+    else {
       this.contactForm.markAllAsTouched();
       return false;
     }
@@ -82,8 +102,13 @@ export class ContactsComponent implements OnInit {
   getContacts() {
     this.contacts.forEach((element) => {
       element.Contact_Id = 0;
-      element.Form_Id = this.formId;
+      element.Form_Id = this.form_Id;
     });
     return this.contacts;
+  }
+
+  getContactTypeById(contactTypeId: number): string {
+    const type = this.contactTypes.find(type => type.Contact_Type_Id === contactTypeId);
+    return type ? type.Contact_Type : '';
   }
 }
