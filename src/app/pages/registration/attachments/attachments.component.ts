@@ -1,57 +1,58 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { AttachmentDialogComponent } from '../../../Dialogs/attachment-dialog/attachment-dialog.component';
-
-export interface tableData {
-  Type: string,
-  Is_Expiry_Available: boolean,
-  Expiry_Date: null,
-  Document: string[]
-}
+import { Attachment } from '../../../Models/Dtos';
 
 @Component({
-  selector: 'ngx-attachments',
-  templateUrl: './attachments.component.html',
-  styleUrls: ['./attachments.component.scss']
+  selector: "ngx-attachments",
+  templateUrl: "./attachments.component.html",
+  styleUrls: ["./attachments.component.scss"],
 })
 
 export class AttachmentsComponent{
-
+  @Input() form_Id: number;
+  
   attachmentsForm: FormGroup;
+  role: string = "";
 
-  constructor(public dialog: MatDialog) { }
+  constructor(public dialog: MatDialog) {}
+  ngOnInit(): void {
+    const userData = JSON.parse(sessionStorage.getItem("userDetails"));
+    this.role = userData ? userData.Role : "";
+  }
 
   displayedColumns: string[] = [
     'typeOfAttachments',
-    'expiryAvailable',
     'expiryDate',
     'document',
     'action'
   ];
 
-  data: tableData[] = []
+  data: Attachment[] = [];
 
   dataSource = new MatTableDataSource(this.data);
 
-  openDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
+  openDialog(
+    enterAnimationDuration: string,
+    exitAnimationDuration: string
+  ): void {
     const dialogRef = this.dialog.open(AttachmentDialogComponent, {
       enterAnimationDuration,
       exitAnimationDuration,
-      autoFocus: false
+      autoFocus: false,
     });
     dialogRef.afterClosed().subscribe({
       next: (response) => {
-        if (response && response.Type != null && response.Document != null) {
-          this.data.push(response);
-          this.dataSource = new MatTableDataSource(this.data);
-          console.log(this.dataSource.filteredData)
+        if (response) {
+          this.data.push(...response);
+          this.dataSource._updateChangeSubscription();
         }
       },
-    })
+    });
   }
-  removePartners(i:number) {
+  removePartners(i: number) {
     this.data.splice(i, 1);
     this.dataSource = new MatTableDataSource(this.data);
   }

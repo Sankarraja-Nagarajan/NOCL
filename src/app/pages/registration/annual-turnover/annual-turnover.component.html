@@ -2,7 +2,7 @@
     <div class="container">
         <div class="turnover" style="user-select: none;">
             <div class="row">
-                <form action="" [formGroup]="turnoverForm" class="p-0">
+                <form action="" [formGroup]="turnoverForm" class="p-0" *ngIf="role == 'Vendor'">
 
                     <!-- Year & Sales Turnover -->
                     <div class="row mb-2">

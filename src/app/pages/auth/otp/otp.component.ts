@@ -1,52 +1,91 @@
-import { Component } from '@angular/core';
-import { LoginService } from '../../../Services/login.service';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { Component, OnInit, ViewChild, ViewEncapsulation } from "@angular/core";
+import { LoginService } from "../../../Services/login.service";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { VerifyOtp } from "../../../Models/authModel";
+import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
-  selector: 'ngx-otp',
-  templateUrl: './otp.component.html',
-  styleUrls: ['./otp.component.scss']
+  selector: "ngx-otp",
+  templateUrl: "./otp.component.html",
+  styleUrls: ["./otp.component.scss"],
+  encapsulation: ViewEncapsulation.None,
 })
-export class OtpComponent {
-
+export class OtpComponent implements OnInit {
   timeStart = true;
   requestOtp = false;
   submitBtnDisabled = true;
 
-  firstNum: number;
-  secondNum: number;
-  thirdNum: number;
-  fourthNum: number;
-  fifthNum: number;
-  sixthNum: number;
-  finalOtp = 123456;
-  enteredOtp: number;
-
   onboardingform: FormGroup;
+  otp: any;
 
-  constructor(private _services: LoginService, private _fb: FormBuilder) {
+  @ViewChild("ngOtpInput", { static: false }) ngOtpInput: any;
+  config = {
+    allowNumbersOnly: false,
+    length: 6,
+    isPasswordInput: false,
+    disableAutoFocus: false,
+    placeholder: "",
+  };
+  form_Id: any;
+  vendorTypeId: any;
+
+  constructor(
+    private _login: LoginService,
+    private _fb: FormBuilder,
+    private _router: Router,
+    private _activatedRoute: ActivatedRoute
+  ) {
     this.onboardingform = _fb.group({
-      firmname: [''],
-      email: [''],
-    })
+      firmname: [""],
+      mobile: ["", Validators.required],
+    });
   }
 
-  checkNumber(e: KeyboardEvent) {
-    this._services.numberOnly(e);
+  ngOnInit(): void {
+    this._activatedRoute.queryParams.subscribe({
+      next: (params) => {
+        if (params != null && params["data"] != null) {
+          const jsonData = JSON.parse(params["data"]);
+          this.form_Id = jsonData.Form_Id;
+          this.vendorTypeId = jsonData.V_Id;
+        }
+      },
+      error: (err) => {},
+    });
   }
 
   requestForOtp() {
     this.requestOtp = true;
-    this.submitBtnDisabled = false;
-    this.timeStart = false;
-    this.enteredOtp = this.firstNum + this.secondNum + this.thirdNum + this.fourthNum + this.fifthNum + this.sixthNum;
-    setTimeout(() => {
-      this.timeStart = true;
-    }, 5000);
   }
 
   Submit() {
-    console.log(this.onboardingform.value)
-    console.log(this.enteredOtp);
+    if (this.otp.length == 6) {
+      let verifyOtp = new VerifyOtp();
+      verifyOtp.FormId = this.form_Id;
+      verifyOtp.Mobile = this.onboardingform.get("mobile").value;
+      verifyOtp.Otp = this.otp;
+
+      this._login.VerifyOtp(verifyOtp).subscribe({
+        next: (res) => {
+          if (res) {
+            let jsonData = {
+              Form_Id: this.form_Id,
+              V_Id: this.vendorTypeId,
+            };
+            sessionStorage.setItem("userDetails", res);
+            this._router.navigate(["registraton/form"], {
+              queryParams: { data: JSON.stringify(jsonData) },
+            });
+          }
+        },
+        error: (err) => {},
+      });
+    } else {
+      alert("Enter OTP");
+    }
+  }
+
+  onOtpChange(otp) {
+    this.otp = otp;
   }
 }

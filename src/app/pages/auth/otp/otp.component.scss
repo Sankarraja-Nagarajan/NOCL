@@ -1,9 +1,3 @@
-// .row,
-// .col-6 {
-//   padding: 0px;
-//   margin: 0px;
-// }
-
 .main {
   height: 100vh;
   width: 100%;
@@ -126,5 +120,14 @@
         }
       }
     }
+  }
+
+  ng-otp-input {
+    width: 100%;
+  }
+
+  ng-otp-input .ng-otp-input-wrapper {
+    display: flex;
+    justify-content: space-between;
   }
 }

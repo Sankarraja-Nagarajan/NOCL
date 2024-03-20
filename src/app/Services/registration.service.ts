@@ -34,4 +34,10 @@ export class RegistrationService {
     const URL = `${this.baseURL}/Registration/Reject`;
     return this._http.post(URL, rejection);
   }
+
+  // Get Form data by form Id
+  getFormData(formId: number, tableName: string): Observable<any> {
+    const URL = `${this.baseURL}/GetFormData/GetFormData?formId=${formId}&tableName=${tableName}`;
+    return this._http.get(URL);
+  }
 }

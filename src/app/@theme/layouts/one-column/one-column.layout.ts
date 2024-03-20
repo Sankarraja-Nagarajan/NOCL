@@ -1,27 +1,26 @@
-import { Component, OnInit } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
-import { LoginService } from '../../../Services/login.service';
-import { CommonService } from '../../../Services/common.service';
-import { NbSidebarService } from '@nebular/theme';
+import { Component, OnInit } from "@angular/core";
+import { NavigationEnd, Router } from "@angular/router";
+import { LoginService } from "../../../Services/login.service";
+import { CommonService } from "../../../Services/common.service";
+import { NbSidebarService } from "@nebular/theme";
 
 @Component({
-  selector: 'ngx-one-column-layout',
-  styleUrls: ['./one-column.layout.scss'],
+  selector: "ngx-one-column-layout",
+  styleUrls: ["./one-column.layout.scss"],
   templateUrl: "./one-column.layout.html",
 })
-export class OneColumnLayoutComponent implements OnInit
-{
-
+export class OneColumnLayoutComponent implements OnInit {
   isLogin: boolean = true;
-  isDashboardShown:boolean=true;
-  
-  constructor(private _router: Router, private _nav: LoginService,private commonservice:CommonService) {}
+  isDashboardShown: boolean = true;
+  footerLogoVisible: boolean = true;
 
-  ngOnInit(): void 
-  {
+  constructor(
+    private _router: Router,
+    private _nav: LoginService,
+    private _common: CommonService
+  ) {}
 
-    console.log("NgOnInit Called..");
-
+  ngOnInit(): void {
     this._router.events.subscribe({
       next: (res) => {
         if (res instanceof NavigationEnd) {
@@ -36,17 +35,23 @@ export class OneColumnLayoutComponent implements OnInit
           } else {
             this.isLogin = true;
           }
-          if(res.url.includes('onboarding/dashboard') || res.url.includes('masters/user')){
+          if (
+            res.url.includes("onboarding/dashboard") ||
+            res.url.includes("masters/user")
+          ) {
             this.isDashboardShown = false;
-          }
-          else{
+          } else {
             this.isDashboardShown = true;
           }
         }
       },
     });
 
-   
+    this._common.sidebarEmitted.subscribe({
+      next:(res)=>{
+        console.log(res);
+        this.footerLogoVisible = res;
+      }
+    });
   }
-
 }

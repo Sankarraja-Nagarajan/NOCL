@@ -1,7 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Bank_Detail } from '../../../Models/Dtos';
 import { CommonService } from '../../../Services/common.service';
+import { AuthResponse } from '../../../Models/authModel';
+import { RegistrationService } from '../../../Services/registration.service';
+import { snackbarStatus } from '../../../Enums/snackbar-status';
 
 @Component({
   selector: 'ngx-bank-details',
@@ -9,9 +12,14 @@ import { CommonService } from '../../../Services/common.service';
   styleUrls: ['./bank-details.component.scss']
 })
 export class BankDetailsComponent {
+  @Input() form_Id: number;
+  
   bankDetailsForm: FormGroup;
+  authResponse: AuthResponse;
 
-  constructor(private _fb: FormBuilder, private _commonService: CommonService) { }
+  constructor(private _fb: FormBuilder,
+    private _commonService: CommonService,
+    private _registration: RegistrationService) { }
 
   ngOnInit(): void {
     this.bankDetailsForm = this._fb.group({
@@ -24,6 +32,22 @@ export class BankDetailsComponent {
       Validators.pattern('^[A-Z]{4}0[A-Z0-9]{6}$')]],
       SWIFT: ['', [Validators.maxLength(11)]],
       IBAN: ['', [Validators.maxLength(34)]],
+    });
+
+    this.authResponse = JSON.parse(sessionStorage.getItem("userDetails"));
+    if(this.authResponse && this.authResponse.Role != "Vendor"){
+      this.bankDetailsForm.disable();
+    }
+    // Get Form data by form Id
+    this._registration.getFormData(this.form_Id, 'BankDetail').subscribe({
+      next: (res) => {
+        if (res) {
+          this.bankDetailsForm.patchValue(res);
+        }
+      },
+      error: (err) => {
+        this._commonService.openSnackbar(err, snackbarStatus.Danger);
+      }
     });
   }
 

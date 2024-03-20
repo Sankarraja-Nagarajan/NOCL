@@ -11,7 +11,7 @@
                     <h3 class="d-flex justify-content-center align-items-center d-sm-none title mb-3">
                         Vendor Personal Information
                     </h3>
-                    <ngx-domestic-vendor-personal-info></ngx-domestic-vendor-personal-info>
+                    <ngx-domestic-vendor-personal-info [form_Id]="form_Id"></ngx-domestic-vendor-personal-info>
                 </div>
             </div>
         </div>
@@ -26,7 +26,7 @@
                     <h3 class="d-flex justify-content-center align-items-center d-sm-none title mb-3">
                         Vendor Organization Profile
                     </h3>
-                    <ngx-domestic-vendor-org-profile></ngx-domestic-vendor-org-profile>
+                    <ngx-domestic-vendor-org-profile [form_Id]="form_Id"></ngx-domestic-vendor-org-profile>
                 </div>
             </div>
         </div>
@@ -41,7 +41,7 @@
                     <h3 class="d-flex justify-content-center align-items-center d-sm-none title mb-3">Transport Vendor
                         Details
                     </h3>
-                    <ngx-transport-vendors-personal-details></ngx-transport-vendors-personal-details>
+                    <ngx-transport-vendors-personal-details [form_Id]="form_Id"></ngx-transport-vendors-personal-details>
                 </div>
             </div>
         </div>
@@ -54,7 +54,7 @@
                 </div>
                 <div class="col-12 col-sm-9">
                     <h3 class="d-flex justify-content-center align-items-center d-sm-none title mb-3">Address</h3>
-                    <ngx-address></ngx-address>
+                    <ngx-address [form_Id]="form_Id"></ngx-address>
                     <!-- <ngx-domestic-vendor-org-profile></ngx-domestic-vendor-org-profile> -->
                 </div>
             </div>
@@ -69,7 +69,7 @@
                 <div class="col-12 col-sm-9">
                     <h3 class="d-flex justify-content-center align-items-center d-sm-none title mb-3">Tanker Details
                     </h3>
-                    <ngx-tanker-details></ngx-tanker-details>
+                    <ngx-tanker-details [form_Id]="form_Id"></ngx-tanker-details>
                 </div>
             </div>
         </div>
@@ -82,7 +82,7 @@
                 </div>
                 <div class="col-12 col-sm-9">
                     <h3 class="d-flex justify-content-center align-items-center d-sm-none title mb-3">Contacts</h3>
-                    <ngx-contacts></ngx-contacts>
+                    <ngx-contacts [form_Id]="form_Id"></ngx-contacts>
                 </div>
             </div>
         </div>
@@ -96,7 +96,7 @@
                 <div class="col-12 col-sm-9">
                     <h3 class="d-flex justify-content-center align-items-center d-sm-none title mb-3">Proprietor or
                         Partners</h3>
-                    <ngx-partners></ngx-partners>
+                    <ngx-partners [form_Id]="form_Id"></ngx-partners>
                 </div>
             </div>
         </div>
@@ -110,7 +110,7 @@
                 <div class="col-12 col-sm-9">
                     <h3 class="d-flex justify-content-center align-items-center d-sm-none title mb-3">Annual Turnover
                     </h3>
-                    <ngx-annual-turnover></ngx-annual-turnover>
+                    <ngx-annual-turnover [form_Id]="form_Id"></ngx-annual-turnover>
                 </div>
             </div>
         </div>
@@ -124,7 +124,7 @@
                 <div class="col-12 col-sm-9">
                     <h3 class="d-flex justify-content-center align-items-center d-sm-none title mb-3">Technical Profile
                     </h3>
-                    <ngx-technical-profile></ngx-technical-profile>
+                    <ngx-technical-profile [form_Id]="form_Id"></ngx-technical-profile>
                 </div>
             </div>
         </div>
@@ -138,7 +138,7 @@
                 </div>
                 <div class="col-12 col-sm-9">
                     <h3 class="d-flex justify-content-center align-items-center d-sm-none title mb-3">Attachments</h3>
-                    <ngx-attachments></ngx-attachments>
+                    <ngx-attachments [form_Id]="form_Id"></ngx-attachments>
                 </div>
             </div>
         </div>
@@ -151,7 +151,7 @@
                 </div>
                 <div class="col-12 col-sm-9">
                     <h3 class="d-flex justify-content-center align-items-center d-sm-none title mb-3">Bank Details</h3>
-                    <ngx-bank-details></ngx-bank-details>
+                    <ngx-bank-details [form_Id]="form_Id"></ngx-bank-details>
                 </div>
             </div>
         </div>
@@ -165,12 +165,12 @@
                 <div class="col-12 col-sm-9">
                     <h3 class="d-flex justify-content-center align-items-center d-sm-none title mb-3">Commercial Profile
                     </h3>
-                    <ngx-commercial-profile></ngx-commercial-profile>
+                    <ngx-commercial-profile [form_Id]="form_Id"></ngx-commercial-profile>
                 </div>
             </div>
         </div>
         <!-- Vendor Branches -->
-        <div class="p-3 border-bottom mb-2">
+        <div *ngIf="vendorTypeId === 1" class="p-3 border-bottom mb-2">
             <div class="row">
                 <div class="d-none d-sm-flex flex-column align-items-center justify-content-center col-sm-3">
                     <h3 class="outer-title mb-4">Vendor Branches</h3>
@@ -179,7 +179,7 @@
                 <div class="col-12 col-sm-9">
                     <h3 class="d-flex justify-content-center align-items-center d-sm-none title mb-3">Vendor Branches
                     </h3>
-                    <ngx-vendor-branches></ngx-vendor-branches>
+                    <ngx-vendor-branches [form_Id]="form_Id"></ngx-vendor-branches>
                 </div>
             </div>
         </div>

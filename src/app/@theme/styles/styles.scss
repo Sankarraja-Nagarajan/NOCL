@@ -148,8 +148,65 @@ nb-layout-footer nav {
   height: 40px !important;
 }
 
-nb-sidebar .scrollable {
-  background-image: linear-gradient(to bottom, #ffff, #E8EBFA);
+// Sidebar Customization
+
+nb-menu .menu-item a {
+  font-weight: 400 !important;
+  font-size: 14px;
+}
+
+nb-menu .menu-item {
+  border-bottom: none;
+}
+
+nb-menu .menu-item .menu-item:first-child {
+  border-top: none;
+}
+
+nb-menu .menu-item > .menu-items {
+  padding: 0px 0px;
+}
+
+nb-sidebar.compacted nb-menu .menu-item a.active::before {
+  width: 0px !important;
+}
+
+nb-sidebar .scrollable{
+  padding: 0px !important;
+  background-image: linear-gradient(to bottom, #ffff, #e8ebfa);
+}
+
+.compacted nb-menu .menu-item .menu-icon {
+  margin: 0px 4px 0px 0px !important;
+}
+
+.expanded nb-menu .menu-item .menu-icon {
+  margin: 0px 10px 0px 0px !important;
+}
+
+nb-sidebar {
+  z-index: 99 !important;
+}
+
+nb-sidebar nb-menu {
+  margin: 0px !important;
+}
+
+nb-sidebar.expanded {
+  width: var(--vp-sidebar-width);
+}
+
+nb-sidebar .main-container {
+    width: var(--vp-sidebar-width);
+}
+
+nb-layout-header.fixed ~ .layout-container nb-sidebar .main-container {
+  height: calc(100vh - 4rem);
+}
+
+nb-layout .layout .layout-container nb-sidebar.fixed,
+nb-layout .layout .layout-container nb-sidebar .main-container-fixed {
+  top: 4rem;
 }
 
 //overall-layout-padding
@@ -205,10 +262,10 @@ nb-sidebar .scrollable {
     font-size: var(--vp-fs-12);
   }
 
-  .no-data-row{
+  .no-data-row {
     padding: 6px;
     text-align: center;
-}
+  }
 }
 
 .registration-table {
@@ -254,13 +311,22 @@ nb-option-list .option-list {
   border: 1px solid #99b2ff !important;
 }
 
-textarea{
+textarea {
   min-height: 40px !important;
 }
 
 .mat-mdc-mini-fab .mat-mdc-button-touch-target {
   height: 0px !important;
   width: 0px !important;
+}
+
+.cancel-btn-design {
+  background: var(--vp-white) !important;
+  color: var(--vp-bluish-violet) !important;
+  border: 1px solid var(--vp-bluish-violet);
+  font-size: var(--vp-fs-12);
+  height: auto;
+  width: auto;
 }
 
 // for snackbar
