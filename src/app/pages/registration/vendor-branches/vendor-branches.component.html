@@ -14,7 +14,7 @@
                                         (keypress)="keyPressValidation($event,'text')" />
                                     <mat-error
                                         *ngIf="this.VendorBranchForm.get('Name').hasError('required') && this.VendorBranchForm.get('Name').touched"
-                                        class="error-msg">Name is <strong>required</strong></mat-error>
+                                        class="error-msg">Name is required</mat-error>
                                 </div>
                             </div>
                         </div>
@@ -42,7 +42,7 @@
                                         (keypress)="keyPressValidation($event,'tel')" maxlength="10" />
                                     <mat-error
                                         *ngIf="this.VendorBranchForm.get('Mobile_No').hasError('required') && this.VendorBranchForm.get('Mobile_No').touched"
-                                        class="error-msg">Mobile No is <strong>required</strong></mat-error>
+                                        class="error-msg">Mobile No is required</mat-error>
                                 </div>
                             </div>
                         </div>
@@ -72,7 +72,7 @@
                                     class="input-border" formControlName="Location" />
                                     <mat-error
                                         *ngIf="this.VendorBranchForm.get('Location').hasError('required') && this.VendorBranchForm.get('Location').touched"
-                                        class="error-msg">Location is <strong>required</strong></mat-error>
+                                        class="error-msg">Location is required</mat-error>
                                 </div>
                             </div>
                         </div>
@@ -128,8 +128,8 @@
 
                         <!-- action column -->
                         <ng-container matColumnDef="action">
-                            <th mat-header-cell *matHeaderCellDef> </th>
-                            <td mat-cell *matCellDef="let element; let i = index">
+                            <th mat-header-cell *matHeaderCellDef [hidden]="role != 'Vendor'"> </th>
+                            <td mat-cell *matCellDef="let element; let i = index" [hidden]="role != 'Vendor'">
                                 <div>
                                     <button mat-mini-fab color="basic" class="cancel-btn"
                                         (click)="removeVendorBranch(i)">

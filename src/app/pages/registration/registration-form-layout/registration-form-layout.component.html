@@ -41,7 +41,8 @@
                     <h3 class="d-flex justify-content-center align-items-center d-sm-none title mb-3">Transport Vendor
                         Details
                     </h3>
-                    <ngx-transport-vendors-personal-details [form_Id]="form_Id"></ngx-transport-vendors-personal-details>
+                    <ngx-transport-vendors-personal-details
+                        [form_Id]="form_Id"></ngx-transport-vendors-personal-details>
                 </div>
             </div>
         </div>
@@ -186,11 +187,26 @@
     </div>
 
     <div class="submission-layout bg-white rounded-3 pe-4 border-bottom">
-        <button class="btn btn-cancel-design center-flexBox submit-icon me-2">
-            <mat-icon
-                class="submit-button-icon d-flex justify-content-center align-items-center">clear</mat-icon>Cancel</button>
-        <button class="btn btn-design center-flexBox submit-icon" (click)="submit()">
-            <mat-icon
-                class="submit-button-icon d-flex justify-content-center align-items-center">done</mat-icon>Submit</button>
+        <!-- for vendor -->
+        <div *ngIf="authResponse.Role == 'Vendor'" class="d-flex">
+            <button class="btn btn-cancel-design center-flexBox submit-icon me-2">
+                <img src="../../../../assets/images/pngs/xmark.png" width="16" height="16" class="me-1" />Cancel</button>
+            <button class="btn btn-design center-flexBox submit-icon" (click)="submit()">
+                <img src="../../../../assets/images/pngs/check.png" width="16" height="16" class="me-1" />
+                Submit</button>
+        </div>
+
+        <!-- for approver -->
+        <div *ngIf="authResponse.Role != 'Vendor' && form_status =='Pending'" class="d-flex">
+            <button class="btn cancel-btn-design center-flexBox me-2">
+                <img src="../../../../assets/images/pngs/xmark.png" width="16" height="16" class="me-1" />
+                Reject
+            </button>
+    
+            <button class="btn btn-design center-flexBox">
+                <img src="../../../../assets/images/pngs/check.png" width="16" height="16" class="me-1" />
+                Approve
+            </button>
+        </div>
     </div>
 </section>

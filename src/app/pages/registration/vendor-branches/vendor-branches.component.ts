@@ -42,8 +42,6 @@ export class VendorBranchesComponent implements OnInit {
       Location: ["", [Validators.required]],
     });
 
-    // get Form Id from session storage
-    this.form_Id = parseInt(sessionStorage.getItem("Form_Id"));
     const userData = JSON.parse(sessionStorage.getItem("userDetails"));
     this.role = userData ? userData.Role : "";
     // Get vendor branches by form Id

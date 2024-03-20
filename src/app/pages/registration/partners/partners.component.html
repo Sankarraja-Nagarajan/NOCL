@@ -13,7 +13,7 @@
                                     (keypress)="keyPressValidation($event,'text')"/>
                                     <mat-error
                                         *ngIf="this.partnersForm.get('Name').hasError('required') && this.partnersForm.get('Name').touched"
-                                        class="error-msg">Name is <strong>required</strong></mat-error>
+                                        class="error-msg">Name is required</mat-error>
                                 </div>
                             </div>
                         </div>
@@ -25,7 +25,7 @@
                                         required placeholder="Enter Percentage Share" (keypress)="keyPressValidation($event,'decimal')"/>
                                     <mat-error
                                         *ngIf="this.partnersForm.get('PercentageShare').hasError('required') && this.partnersForm.get('PercentageShare').touched"
-                                        class="error-msg">Percentage Share is <strong>required</strong></mat-error>
+                                        class="error-msg">Percentage Share is required</mat-error>
                                 </div>
                             </div>
 
@@ -62,8 +62,8 @@
 
                         <!-- action column -->
                         <ng-container matColumnDef="action">
-                            <th mat-header-cell *matHeaderCellDef> </th>
-                            <td mat-cell *matCellDef="let element; let i = index">
+                            <th mat-header-cell *matHeaderCellDef [hidden]="role != 'Vendor'"> </th>
+                            <td mat-cell *matCellDef="let element; let i = index" [hidden]="role != 'Vendor'">
                                 <div>
                                     <button mat-mini-fab color="basic" class="cancel-btn" (click)="removePartners(i)">
                                         <img src="../../../../assets/images/pngs/xmark.png" height="20" width="20">

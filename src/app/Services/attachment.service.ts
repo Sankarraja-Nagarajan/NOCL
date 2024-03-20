@@ -12,6 +12,6 @@ export class AttachmentService {
 
   attachFiles(formData: FormData): Observable<any> {
     const URL = `${this.baseURL}/Attachments/AttachFiles`;
-    return this._http.post(URL, formData);
+    return this._http.postFile(URL, formData);
   }
 }

@@ -31,7 +31,7 @@
                       this.addressForm.get('AddressData').touched
                     "
                     class="error-msg"
-                    >Address is <strong>required</strong></mat-error
+                    >Address is required</mat-error
                   >
                 </div>
               </div>
@@ -135,7 +135,7 @@
                       this.addressForm.get('Address_Type_Id').touched
                     "
                     class="error-msg"
-                    >Address type <strong>required</strong></mat-error
+                    >Address type required<</mat-error
                   >
                 </div>
               </div>
@@ -216,11 +216,10 @@
             </ng-container>
 
             <!-- action column -->
-            <ng-container matColumnDef="action">
-              <th mat-header-cell *matHeaderCellDef></th>
-              <td mat-cell *matCellDef="let element; let i = index">
-                <div>
-                  <button
+            <ng-container matColumnDef="action" >
+              <th mat-header-cell *matHeaderCellDef [hidden]="role != 'Vendor'"></th>
+              <td mat-cell *matCellDef="let element; let i = index" [hidden]="role != 'Vendor'">
+                <div>                  <button
                     mat-mini-fab
                     color="basic"
                     class="cancel-btn"

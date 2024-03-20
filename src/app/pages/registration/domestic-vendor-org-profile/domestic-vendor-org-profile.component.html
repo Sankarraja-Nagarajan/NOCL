@@ -14,7 +14,7 @@
                                 </nb-select>
                                 <mat-error
                                     *ngIf="this.vendorOrgForm.get('Type_of_Org_Id').hasError('required') && this.vendorOrgForm.get('Type_of_Org_Id').touched"
-                                    class="error-msg"> Organization Type is <strong>required</strong></mat-error>
+                                    class="error-msg"> Organization Type is required.</mat-error>
                             </div>
                         </div>
                         <div class="col-sm">
@@ -28,7 +28,7 @@
                                     </nb-select>
                                     <mat-error
                                         *ngIf="this.vendorOrgForm.get('Status_of_Company_Id').hasError('required') && this.vendorOrgForm.get('Status_of_Company_Id').touched"
-                                        class="error-msg"> Status of Company is <strong>required</strong></mat-error>
+                                        class="error-msg"> Status of Company is required<</mat-error>
                                 </div>
                             </div>
                         </div>
@@ -61,8 +61,8 @@
                     <!--  ListOfMajaorCustomer & Subsideries -->
                     <div class="row mb-2">
                         <div class="col-12 col-md">
-                            <div class="d-flex mb-2">
-                                <div class="col-lg-10 col-md-9 col-10 me-4">
+                            <div class="d-flex mb-2" *ngIf="authResponse.Role == 'Vendor'">
+                                <div class="col-lg-10 col-md-9 col-10 me-4"  *ngIf="authResponse.Role == 'Vendor'">
                                     <label class="input-label-text">Subsideries</label>
                                     <div class="input-group">
                                         <input nbInput fullWidth fieldSize="small"
@@ -74,16 +74,17 @@
                                     </div>
                                     <!-- <mat-error
                                         *ngIf="this.vendorOrgForm.get('Subsideries').hasError('required') && this.vendorOrgForm.get('Subsideries').touched"
-                                        class="error-msg">Subsideries is <strong>required</strong></mat-error> -->
+                                        class="error-msg">Subsideries is required<</mat-error> -->
                                 </div>
                                 <div class="col-lg-2 col-md-3 col-2 mt-4">
-                                    <button mat-mini-fab class="fab-button btn-design"
+                                    <button *ngIf="authResponse.Role == 'Vendor'" mat-mini-fab class="fab-button btn-design"
                                         (click)="addMultipleSubsideries()">
                                         <mat-icon
                                             class="plus-icon d-flex justify-content-center align-items-center">add</mat-icon>
                                     </button>
                                 </div>
                             </div>
+                            <label class="input-label-text" *ngIf="authResponse.Role != 'Vendor'">Subsideries</label>
                             <div class="multiple-input bg-white border">
                                 <div *ngIf="subsideriesList.length == 0"
                                     class="d-flex justify-content-center align-items-center empty-msg">
@@ -92,14 +93,14 @@
                                 <div class="display-inputs border-bottom"
                                     *ngFor="let subsidery of subsideriesList; index as i">
                                     <span>{{subsidery.Subsidery_Name}}</span>
-                                    <img src="assets/images/pngs/xmark.png" class="input-x-mark"
+                                    <img *ngIf="authResponse.Role == 'Vendor'" src="assets/images/pngs/xmark.png" class="input-x-mark"
                                         (click)="removeSubsideriesItems(i)">
                                 </div>
                             </div>
                         </div>
                         <div class="col-md">
                             &nbsp;
-                            <div class="mb-2">
+                            <div class="mb-2"  *ngIf="authResponse.Role == 'Vendor'">
                                 <div class="d-flex justify-content-between">
                                     <div>
                                         <label class="input-label-text">List of Major Customer</label>
@@ -113,6 +114,8 @@
                                 </div>
                             </div>
 
+                            <label class="input-label-text" *ngIf="authResponse.Role != 'Vendor'">Major Customers</label>
+                            
                             <div class="multiple-input bg-white border">
                                 <div *ngIf="listOfMajorCustomerList.length == 0"
                                     class="d-flex justify-content-center align-items-center empty-msg">
@@ -121,7 +124,7 @@
                                 <div class="display-inputs border-bottom"
                                     *ngFor="let customer of listOfMajorCustomerList; index as i">
                                     <span>{{customer.Customer_Name}} - {{customer.Location}}</span>
-                                    <img src="assets/images/pngs/xmark.png" class="input-x-mark"
+                                    <img *ngIf="authResponse.Role == 'Vendor'" src="assets/images/pngs/xmark.png" class="input-x-mark"
                                         (click)="removeMajorCustomerItems(i)">
                                 </div>
                             </div>
