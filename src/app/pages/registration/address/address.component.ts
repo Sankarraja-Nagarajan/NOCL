@@ -1,12 +1,15 @@
-import { Component, OnInit } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { MatTableDataSource } from "@angular/material/table";
-import { Address } from "../../../Models/Dtos";
-import { CommonService } from "../../../Services/common.service";
-import { AddressType } from "../../../Models/Master";
-import { MasterService } from "../../../Services/master.service";
-import { snackbarStatus } from "../../../Enums/snackbar-status";
+import { Component, Input, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatTableDataSource } from '@angular/material/table';
+import { Address } from '../../../Models/Dtos';
+import { CommonService } from '../../../Services/common.service';
+import { AddressType } from '../../../Models/Master';
+import { MasterService } from '../../../Services/master.service';
+import { snackbarStatus } from '../../../Enums/snackbar-status';
+import { RegistrationService } from '../../../Services/registration.service';
 import { AuthResponse } from "../../../Models/authModel";
+import { forkJoin } from 'rxjs';
+
 
 @Component({
   selector: "ngx-address",
@@ -14,6 +17,9 @@ import { AuthResponse } from "../../../Models/authModel";
   styleUrls: ["./address.component.scss"],
 })
 export class AddressComponent implements OnInit {
+
+  @Input() form_Id: number;
+  
   addresses: Address[] = [];
   role: string = "";
   dataSource = new MatTableDataSource(this.addresses);
@@ -26,14 +32,14 @@ export class AddressComponent implements OnInit {
     "action",
   ];
   addressForm: FormGroup;
-  form_Id: number;
   addressTypes: AddressType[] = [];
 
   constructor(
     private _fb: FormBuilder,
     private _commonService: CommonService,
-    private _master: MasterService
-  ) {}
+    private _master: MasterService,
+    private _registration: RegistrationService) {
+  }
 
   ngOnInit(): void {
     // address form Initialization
@@ -45,24 +51,16 @@ export class AddressComponent implements OnInit {
       Website: ["", [Validators.maxLength(100)]],
     });
 
-    // get Form Id from session storage
-    this.form_Id = parseInt(sessionStorage.getItem("Form_Id"));
+    // get address types and addresses by form Id
+    this.getMasterData();
+
     const userData = JSON.parse(sessionStorage.getItem("userDetails"));
     this.role = userData ? userData.Role : '';
-    // get address types
-    this._master.getAddressTypes().subscribe({
-      next: (res) => {
-        this.addressTypes = res as AddressType[];
-      },
-      error: (err) => {
-        this._commonService.openSnackbar(err, snackbarStatus.Danger);
-      },
-    });
   }
 
   // Allow (numbers, plus, and space) for Tel & Fax
   keyPressValidation(event) {
-    return this._commonService.KeyPressValidation(event, "tel");
+    return this._commonService.KeyPressValidation(event, 'tel')
   }
 
   // Add address to the table
@@ -86,7 +84,8 @@ export class AddressComponent implements OnInit {
   isValid() {
     if (this.addresses.length > 0) {
       return true;
-    } else {
+    }
+    else {
       this.addressForm.markAllAsTouched();
       return false;
     }
@@ -106,5 +105,25 @@ export class AddressComponent implements OnInit {
       (type) => type.Address_Type_Id === addressTypeId
     );
     return type ? type.Address_Type : "";
+  }
+
+  getMasterData() {
+    forkJoin([
+      this._master.getAddressTypes(),
+      this._registration.getFormData(this.form_Id, 'Addresses')
+    ]).subscribe({
+      next: (res) => {
+        if (res[0]) {
+          this.addressTypes = res[0] as AddressType[];
+        }
+        if (res[1]) {
+          this.addresses = res[1];
+          this.dataSource = new MatTableDataSource(this.addresses);
+        }
+      },
+      error: (err) => {
+        this._commonService.openSnackbar(err, snackbarStatus.Danger);
+      }
+    });
   }
 }

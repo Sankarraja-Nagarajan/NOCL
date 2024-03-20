@@ -1,6 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TechnicalProfile } from '../../../Models/Dtos';
+import { RegistrationService } from '../../../Services/registration.service';
+import { CommonService } from '../../../Services/common.service';
+import { snackbarStatus } from '../../../Enums/snackbar-status';
 import { AuthResponse } from '../../../Models/authModel';
 
 @Component({
@@ -9,12 +12,15 @@ import { AuthResponse } from '../../../Models/authModel';
   styleUrls: ['./technical-profile.component.scss']
 })
 export class TechnicalProfileComponent implements OnInit {
+  @Input() form_Id: number;
 
   technicalProfileForm: FormGroup;
   disablePlanningOption: boolean;
   authResponse: AuthResponse;
 
-  constructor(private _fb: FormBuilder) { }
+  constructor(private _fb: FormBuilder,
+    private _registration:RegistrationService,
+    private _common:CommonService) { }
 
   ngOnInit(): void {
     this.technicalProfileForm = this._fb.group({
@@ -25,6 +31,17 @@ export class TechnicalProfileComponent implements OnInit {
       Initiatives_for_Development: [''],
     });
 
+    // Get Form data by form Id
+    this._registration.getFormData(this.form_Id,'TechnicalProfile').subscribe({
+      next:(res)=>{
+        if(res){
+          this.technicalProfileForm.patchValue(res);
+        }
+      },
+      error:(err)=>{
+        this._common.openSnackbar(err,snackbarStatus.Danger);
+      }
+    });
     this.authResponse = JSON.parse(sessionStorage.getItem("userDetails"));
     if(this.authResponse && this.authResponse.Role != "Vendor"){
       this.technicalProfileForm.disable();

@@ -1,0 +1,14 @@
+.screenTermsAndCondition{
+    .toolbar{
+        background-color: var(--vp-bluish-violet);
+        .pdf-name{
+            color: var(--vp-white);
+        }
+    }
+    .pdf-viewer{
+        min-height: 380px;
+        min-width: 500px;
+        display: block;
+        margin: 0 auto;
+    }
+}

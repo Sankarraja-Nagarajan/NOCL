@@ -1,24 +1,28 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
-import { AddressComponent } from "../address/address.component";
-import { DomesticAndImportForm } from "../../../Models/DomesticAndImportForm";
-import { ContactsComponent } from "../contacts/contacts.component";
-import { PartnersComponent } from "../partners/partners.component";
-import { AnnualTurnoverComponent } from "../annual-turnover/annual-turnover.component";
-import { VendorBranchesComponent } from "../vendor-branches/vendor-branches.component";
-import { DomesticVendorPersonalInfoComponent } from "../domestic-vendor-personal-info/domestic-vendor-personal-info.component";
-import { BankDetailsComponent } from "../bank-details/bank-details.component";
-import { CommercialProfileComponent } from "../commercial-profile/commercial-profile.component";
-import { TechnicalProfileComponent } from "../technical-profile/technical-profile.component";
-import { DomesticVendorOrgProfileComponent } from "../domestic-vendor-org-profile/domestic-vendor-org-profile.component";
-import { CommonService } from "../../../Services/common.service";
-import { snackbarStatus } from "../../../Enums/snackbar-status";
-import { TransportForm } from "../../../Models/TransportForm";
-import { TransportVendorsPersonalDetailsComponent } from "../transport-vendors-personal-details/transport-vendors-personal-details.component";
-import { TankerDetailsComponent } from "../tanker-details/tanker-details.component";
-import { ActivatedRoute } from "@angular/router";
-import { first } from "rxjs/operators";
-import { RegistrationService } from "../../../Services/registration.service";
-import { FormSubmitTemplate } from "../../../Models/Registration";
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { AddressComponent } from '../address/address.component';
+import { DomesticAndImportForm } from '../../../Models/DomesticAndImportForm';
+import { ContactsComponent } from '../contacts/contacts.component';
+import { PartnersComponent } from '../partners/partners.component';
+import { AnnualTurnoverComponent } from '../annual-turnover/annual-turnover.component';
+import { VendorBranchesComponent } from '../vendor-branches/vendor-branches.component';
+import { DomesticVendorPersonalInfoComponent } from '../domestic-vendor-personal-info/domestic-vendor-personal-info.component';
+import { BankDetailsComponent } from '../bank-details/bank-details.component';
+import { CommercialProfileComponent } from '../commercial-profile/commercial-profile.component';
+import { TechnicalProfileComponent } from '../technical-profile/technical-profile.component';
+import { DomesticVendorOrgProfileComponent } from '../domestic-vendor-org-profile/domestic-vendor-org-profile.component';
+import { CommonService } from '../../../Services/common.service';
+import { snackbarStatus } from '../../../Enums/snackbar-status';
+import { TransportForm } from '../../../Models/TransportForm';
+import { TransportVendorsPersonalDetailsComponent } from '../transport-vendors-personal-details/transport-vendors-personal-details.component';
+import { TankerDetailsComponent } from '../tanker-details/tanker-details.component';
+import { ActivatedRoute } from '@angular/router';
+import { first } from 'rxjs/operators';
+import { RegistrationService } from '../../../Services/registration.service';
+import { FormSubmitTemplate } from '../../../Models/Registration';
+import { AuthResponse } from '../../../Models/authModel';
+import { MatDialog } from '@angular/material/dialog';
+import { TermsAndConditionsDialogComponent } from '../../../Dialogs/attachment-dialog/terms-and-conditions-dialog/terms-and-conditions-dialog.component';
+
 
 @Component({
   selector: "ngx-registration-form-layout",
@@ -48,28 +52,32 @@ export class RegistrationFormLayoutComponent implements OnInit {
   tankerDetailsComponent: TankerDetailsComponent;
 
   form_Id: number;
-  vendorTypeId: number = 1;
+  vendorTypeId: number;
+  authResponse: AuthResponse;
 
   constructor(
     private _commonService: CommonService,
     private _activatedRoute: ActivatedRoute,
-    private _registration: RegistrationService
-  ) {}
-  ngOnInit(): void {
-    this._commonService.openSnackbar("Success", snackbarStatus.Success);
+    private _registration: RegistrationService,
+    private _dialog: MatDialog) {
 
-    this._activatedRoute.queryParams.pipe(first()).subscribe({
+  }
+  ngOnInit(): void {
+    this.authResponse = JSON.parse(sessionStorage.getItem('userDetails'));
+    this._activatedRoute.queryParams.subscribe({
       next: (params) => {
-        if (params != null && params["data"] != null) {
-          const jsonData = JSON.parse(params["data"]);
-          sessionStorage.setItem("Form_Id", jsonData.Form_Id);
-          sessionStorage.setItem("V_Id", jsonData.V_Id);
+        if (params != null && params['data'] != null) {
+          const jsonData = JSON.parse((params['data']));
           this.form_Id = jsonData.Form_Id;
           this.vendorTypeId = jsonData.V_Id;
         }
       },
       error: (err) => {},
     });
+    if (this.authResponse.Role === 'Vendor') {
+      // 
+      this.openTermsAndConditionsDialog();
+    }
   }
 
   domesticAndImportFormPayload() {
@@ -136,7 +144,7 @@ export class RegistrationFormLayoutComponent implements OnInit {
         },
         error: (err) => {
           this._commonService.openSnackbar(err, snackbarStatus.Danger);
-        },
+        }
       });
     }
   }
@@ -167,6 +175,25 @@ export class RegistrationFormLayoutComponent implements OnInit {
         this.vendorBranchesComponent.getVendorBranches();
       console.log(transportForm);
     }
+  }
+
+  openTermsAndConditionsDialog() {
+    const dialogRef = this._dialog.open(TermsAndConditionsDialogComponent, {
+      autoFocus: false,
+      disableClose: true,
+      width: '700px',
+      height: '500px'
+    });
+    dialogRef.afterClosed().subscribe({
+      next: (res) => {
+        if (res) {
+
+        }
+        else {
+          this.openTermsAndConditionsDialog();
+        }
+      }
+    });
   }
 
   submit() {

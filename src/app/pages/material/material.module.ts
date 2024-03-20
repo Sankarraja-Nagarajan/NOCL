@@ -23,6 +23,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle'
+import { MatToolbarModule } from "@angular/material/toolbar";
 
 @NgModule({
   declarations: [],
@@ -68,6 +69,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle'
     MatExpansionModule,
     MatSlideToggleModule,
     MatSortModule,
+    MatToolbarModule
   ],
 
   exports: [
@@ -112,6 +114,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle'
     MatExpansionModule,
     MatSlideToggleModule,
     MatSortModule,
+    MatToolbarModule
   ]
 })
 export class MaterialModule { }

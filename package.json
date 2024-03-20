@@ -62,6 +62,7 @@
     "ng-otp-input": "^1.9.3",
     "ng2-ckeditor": "~1.2.9",
     "ng2-completer": "^9.0.1",
+    "ng2-pdf-viewer": "^10.0.0",
     "ng2-smart-table": "^1.6.0",
     "ngx-echarts": "^4.2.2",
     "normalize.css": "6.0.0",

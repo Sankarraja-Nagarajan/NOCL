@@ -1,22 +1,20 @@
-import { Component, OnInit } from "@angular/core";
-import { FormGroup } from "@angular/forms";
-import { MatDialog } from "@angular/material/dialog";
-import { MatTableDataSource } from "@angular/material/table";
-import { AttachmentDialogComponent } from "../../../Dialogs/attachment-dialog/attachment-dialog.component";
+import { Component, Input } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { MatTableDataSource } from '@angular/material/table';
+import { AttachmentDialogComponent } from '../../../Dialogs/attachment-dialog/attachment-dialog.component';
+import { Attachment } from '../../../Models/Dtos';
 
-export interface tableData {
-  Type: string;
-  Is_Expiry_Available: boolean;
-  Expiry_Date: null;
-  Document: string[];
-}
 
 @Component({
   selector: "ngx-attachments",
   templateUrl: "./attachments.component.html",
   styleUrls: ["./attachments.component.scss"],
 })
-export class AttachmentsComponent implements OnInit {
+
+export class AttachmentsComponent{
+  @Input() form_Id: number;
+
   attachmentsForm: FormGroup;
   role: string = "";
 
@@ -27,14 +25,14 @@ export class AttachmentsComponent implements OnInit {
   }
 
   displayedColumns: string[] = [
-    "typeOfAttachments",
-    "expiryAvailable",
-    "expiryDate",
-    "document",
-    "action",
+    'typeOfAttachments',
+    'expiryDate',
+    'document',
+    'action'
   ];
 
-  data: tableData[] = [];
+  data: Attachment[] = [];
+
 
   dataSource = new MatTableDataSource(this.data);
 
@@ -49,10 +47,9 @@ export class AttachmentsComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe({
       next: (response) => {
-        if (response && response.Type != null && response.Document != null) {
-          this.data.push(response);
-          this.dataSource = new MatTableDataSource(this.data);
-          console.log(this.dataSource.filteredData);
+        if (response) {
+          this.data.push(...response);
+          this.dataSource._updateChangeSubscription();
         }
       },
     });
