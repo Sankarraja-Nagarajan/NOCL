@@ -1,37 +1,36 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatTableDataSource } from '@angular/material/table';
-import { ProprietorOrPartner } from '../../../Models/Dtos';
-import { CommonService } from '../../../Services/common.service';
+import { Component, OnInit } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { MatTableDataSource } from "@angular/material/table";
+import { ProprietorOrPartner } from "../../../Models/Dtos";
+import { CommonService } from "../../../Services/common.service";
 
 @Component({
-  selector: 'ngx-partners',
-  templateUrl: './partners.component.html',
-  styleUrls: ['./partners.component.scss']
+  selector: "ngx-partners",
+  templateUrl: "./partners.component.html",
+  styleUrls: ["./partners.component.scss"],
 })
-
-
 export class PartnersComponent implements OnInit {
   proprietOrsOrPartners: ProprietorOrPartner[] = [];
   dataSource = new MatTableDataSource(this.proprietOrsOrPartners);
-  displayedColumns: string[] = [
-    'name',
-    'percentageShare',
-    'action'
-  ];
+  displayedColumns: string[] = ["name", "percentageShare", "action"];
   partnersForm: FormGroup;
   form_Id: number;
+  role: string = "";
 
-  constructor(private _fb: FormBuilder, private _commonService:CommonService  ) {
-  }
+  constructor(
+    private _fb: FormBuilder,
+    private _commonService: CommonService
+  ) {}
   ngOnInit(): void {
     this.partnersForm = this._fb.group({
-      Name: ['', [Validators.required]],
-      PercentageShare: ['', [Validators.required]],
-    })
+      Name: ["", [Validators.required]],
+      PercentageShare: ["", [Validators.required]],
+    });
 
     // get Form Id from session storage
-    this.form_Id = parseInt(sessionStorage.getItem('Form_Id'));
+    this.form_Id = parseInt(sessionStorage.getItem("Form_Id"));
+    const userData = JSON.parse(sessionStorage.getItem("userDetails"));
+    this.role = userData ? userData.Role : "";
   }
 
   addPartners() {
@@ -39,8 +38,7 @@ export class PartnersComponent implements OnInit {
       this.proprietOrsOrPartners.push(this.partnersForm.value);
       this.dataSource._updateChangeSubscription();
       this.partnersForm.reset();
-    }
-    else {
+    } else {
       this.partnersForm.markAllAsTouched();
     }
   }
@@ -59,8 +57,7 @@ export class PartnersComponent implements OnInit {
   isValid() {
     if (this.proprietOrsOrPartners.length > 0) {
       return true;
-    }
-    else{
+    } else {
       this.partnersForm.markAllAsTouched();
       return false;
     }

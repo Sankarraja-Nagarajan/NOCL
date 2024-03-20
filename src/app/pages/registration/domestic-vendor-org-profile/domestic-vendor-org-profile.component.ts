@@ -8,6 +8,7 @@ import { MasterService } from '../../../Services/master.service';
 import { CommonService } from '../../../Services/common.service';
 import { snackbarStatus } from '../../../Enums/snackbar-status';
 import { forkJoin } from 'rxjs';
+import { AuthResponse } from '../../../Models/authModel';
 // import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
@@ -24,6 +25,7 @@ export class DomesticVendorOrgProfileComponent {
   listOfMajorCustomerList: MajorCustomer[] = [];
   orgTypes: OrganizationType[] = [];
   companyStatuses: CompanyStatus[] = [];
+  authResponse: AuthResponse;
 
   constructor(private _fb: FormBuilder,
     private _dialog: MatDialog,
@@ -41,6 +43,10 @@ export class DomesticVendorOrgProfileComponent {
 
     // get Form Id from session storage
     this.form_Id = parseInt(sessionStorage.getItem('Form_Id'));
+    this.authResponse = JSON.parse(sessionStorage.getItem("userDetails"));
+    if(this.authResponse && this.authResponse.Role != "Vendor"){
+      this.vendorOrgForm.disable();
+    }
 
     // get master data
     this.getAllMasters();

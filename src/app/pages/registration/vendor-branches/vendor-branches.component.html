@@ -2,7 +2,7 @@
     <div class="container">
         <div style="user-select: none;">
             <div class="row">
-                <form action="" [formGroup]="VendorBranchForm" class="p-0">
+                <form action="" [formGroup]="VendorBranchForm" class="p-0" *ngIf="role == 'Vendor'">
                     <!-- Name & Designation -->
                     <div class="row mb-2">
                         <div class="col-sm mb-sm-0 mb-2">

@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { LoginService } from '../../../Services/login.service';
 import { TransportVendorPersonalData } from '../../../Models/Dtos';
 import { CommonService } from '../../../Services/common.service';
+import { AuthResponse } from '../../../Models/authModel';
 
 @Component({
   selector: 'ngx-transport-vendors-personal-details',
@@ -11,6 +12,7 @@ import { CommonService } from '../../../Services/common.service';
 })
 export class TransportVendorsPersonalDetailsComponent {
   transporterVendorsForm: FormGroup;
+  authResponse: AuthResponse;
 
   constructor(private _fb: FormBuilder,private _commonService: CommonService,) {}
 
@@ -22,6 +24,11 @@ export class TransportVendorsPersonalDetailsComponent {
       No_of_Drivers: ['', [Validators.required]],
       Nicerglobe_Registration: ['']
     });
+
+    this.authResponse = JSON.parse(sessionStorage.getItem("userDetails"));
+    if(this.authResponse && this.authResponse.Role != "Vendor"){
+      this.transporterVendorsForm.disable();
+    }
   }
 
   // validations

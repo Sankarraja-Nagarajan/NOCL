@@ -1,66 +1,68 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatTableDataSource } from '@angular/material/table';
-import { Address } from '../../../Models/Dtos';
-import { CommonService } from '../../../Services/common.service';
-import { AddressType } from '../../../Models/Master';
-import { MasterService } from '../../../Services/master.service';
-import { snackbarStatus } from '../../../Enums/snackbar-status';
+import { Component, OnInit } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { MatTableDataSource } from "@angular/material/table";
+import { Address } from "../../../Models/Dtos";
+import { CommonService } from "../../../Services/common.service";
+import { AddressType } from "../../../Models/Master";
+import { MasterService } from "../../../Services/master.service";
+import { snackbarStatus } from "../../../Enums/snackbar-status";
+import { AuthResponse } from "../../../Models/authModel";
 
 @Component({
-  selector: 'ngx-address',
-  templateUrl: './address.component.html',
-  styleUrls: ['./address.component.scss']
+  selector: "ngx-address",
+  templateUrl: "./address.component.html",
+  styleUrls: ["./address.component.scss"],
 })
 export class AddressComponent implements OnInit {
-
   addresses: Address[] = [];
+  role: string = "";
   dataSource = new MatTableDataSource(this.addresses);
   displayedColumns: string[] = [
-    'addressType_id',
-    'address',
-    'tel',
-    'fax',
-    'website',
-    'action'
+    "addressType_id",
+    "address",
+    "tel",
+    "fax",
+    "website",
+    "action",
   ];
   addressForm: FormGroup;
   form_Id: number;
-  addressTypes:AddressType[]=[];
+  addressTypes: AddressType[] = [];
 
-  constructor(private _fb: FormBuilder,
+  constructor(
+    private _fb: FormBuilder,
     private _commonService: CommonService,
-    private _master:MasterService) {
-
-  }
+    private _master: MasterService
+  ) {}
 
   ngOnInit(): void {
     // address form Initialization
     this.addressForm = this._fb.group({
-      Address_Type_Id: ['', [Validators.required]],
-      AddressData: ['', [Validators.required]],
-      Tel: ['', [Validators.maxLength(20)]],
-      Fax: ['', [Validators.maxLength(20)]],
-      Website: ['', [Validators.maxLength(100)]],
+      Address_Type_Id: ["", [Validators.required]],
+      AddressData: ["", [Validators.required]],
+      Tel: ["", [Validators.maxLength(20)]],
+      Fax: ["", [Validators.maxLength(20)]],
+      Website: ["", [Validators.maxLength(100)]],
     });
 
     // get Form Id from session storage
-    this.form_Id = parseInt(sessionStorage.getItem('Form_Id'));
-
+    this.form_Id = parseInt(sessionStorage.getItem("Form_Id"));
+    const userData = JSON.parse(sessionStorage.getItem("userDetails"));
+    this.role = userData ? userData.Role : '';
     // get address types
     this._master.getAddressTypes().subscribe({
-      next:(res)=>{
+      next: (res) => {
         this.addressTypes = res as AddressType[];
       },
-      error:(err)=>{
-        this._commonService.openSnackbar(err,snackbarStatus.Danger);
-      }
+      error: (err) => {
+        this._commonService.openSnackbar(err, snackbarStatus.Danger);
+      },
     });
   }
 
   // Allow (numbers, plus, and space) for Tel & Fax
   keyPressValidation(event) {
-    return this._commonService.KeyPressValidation(event,'tel')
+    return this._commonService.KeyPressValidation(event, "tel");
   }
 
   // Add address to the table
@@ -69,8 +71,7 @@ export class AddressComponent implements OnInit {
       this.addresses.push(this.addressForm.value);
       this.dataSource._updateChangeSubscription();
       this.addressForm.reset();
-    }
-    else {
+    } else {
       this.addressForm.markAllAsTouched();
     }
   }
@@ -85,8 +86,7 @@ export class AddressComponent implements OnInit {
   isValid() {
     if (this.addresses.length > 0) {
       return true;
-    }
-    else{
+    } else {
       this.addressForm.markAllAsTouched();
       return false;
     }
@@ -94,7 +94,6 @@ export class AddressComponent implements OnInit {
 
   // Get addresses, calls by layout component
   getAddresses() {
-
     this.addresses.forEach((element) => {
       element.Address_Id = 0;
       element.Form_Id = this.form_Id;
@@ -103,7 +102,9 @@ export class AddressComponent implements OnInit {
   }
 
   getAddressTypeById(addressTypeId: number): string {
-    const type = this.addressTypes.find(type => type.Address_Type_Id === addressTypeId);
-    return type ? type.Address_Type : '';
+    const type = this.addressTypes.find(
+      (type) => type.Address_Type_Id === addressTypeId
+    );
+    return type ? type.Address_Type : "";
   }
 }

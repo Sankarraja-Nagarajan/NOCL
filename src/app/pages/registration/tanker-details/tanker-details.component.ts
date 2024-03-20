@@ -1,38 +1,38 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { MatTableDataSource } from '@angular/material/table';
-import { TankerDetail } from '../../../Models/Dtos';
-import { CommonService } from '../../../Services/common.service';
+import { Component, OnInit } from "@angular/core";
+import { FormGroup, FormBuilder, Validators } from "@angular/forms";
+import { MatTableDataSource } from "@angular/material/table";
+import { TankerDetail } from "../../../Models/Dtos";
+import { CommonService } from "../../../Services/common.service";
 
 @Component({
-  selector: 'ngx-tanker-details',
-  templateUrl: './tanker-details.component.html',
-  styleUrls: ['./tanker-details.component.scss']
+  selector: "ngx-tanker-details",
+  templateUrl: "./tanker-details.component.html",
+  styleUrls: ["./tanker-details.component.scss"],
 })
 export class TankerDetailsComponent implements OnInit {
-
   tankerDetails: TankerDetail[] = [];
   dataSource = new MatTableDataSource(this.tankerDetails);
 
-  displayedColumns: string[] = [
-    'tankerType',
-    'capacityOfTanker',
-    'action'
-  ];
+  displayedColumns: string[] = ["tankerType", "capacityOfTanker", "action"];
 
   TankerDetailsForm: FormGroup;
   form_Id: number;
+  role: string = "";
 
-  constructor(private _fb: FormBuilder, private _commonService: CommonService) {
-  }
+  constructor(
+    private _fb: FormBuilder,
+    private _commonService: CommonService
+  ) {}
   ngOnInit(): void {
     this.TankerDetailsForm = this._fb.group({
-      Tanker_Type_Id: ['', Validators.required],
-      Capacity_of_Tanker: ['', [Validators.required]],
+      Tanker_Type_Id: ["", Validators.required],
+      Capacity_of_Tanker: ["", [Validators.required]],
     });
-    
+
     // get Form Id from session storage
-    this.form_Id = parseInt(sessionStorage.getItem('Form_Id'));
+    this.form_Id = parseInt(sessionStorage.getItem("Form_Id"));
+    const userData = JSON.parse(sessionStorage.getItem("userDetails"));
+    this.role = userData ? userData.Role : "";
   }
 
   addTanker() {
@@ -40,8 +40,7 @@ export class TankerDetailsComponent implements OnInit {
       this.tankerDetails.push(this.TankerDetailsForm.value);
       this.dataSource._updateChangeSubscription();
       this.TankerDetailsForm.reset();
-    }
-    else {
+    } else {
       this.TankerDetailsForm.markAllAsTouched();
     }
   }
@@ -60,8 +59,7 @@ export class TankerDetailsComponent implements OnInit {
   isValid() {
     if (this.tankerDetails.length > 0) {
       return true;
-    }
-    else {
+    } else {
       this.TankerDetailsForm.markAllAsTouched();
       return false;
     }

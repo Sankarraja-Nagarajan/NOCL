@@ -1,105 +1,74 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { NbMediaBreakpointsService, NbMenuService, NbSidebarService, NbThemeService } from '@nebular/theme';
+import { Component, OnDestroy, OnInit } from "@angular/core";
+import {
+  NbMediaBreakpointsService,
+  NbMenuService,
+  NbSidebarService,
+  NbThemeService,
+} from "@nebular/theme";
 
-import { UserData } from '../../../@core/data/users';
-import { LayoutService } from '../../../@core/utils';
-import { map, takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
-import { CommonService } from '../../../Services/common.service';
+import { UserData } from "../../../@core/data/users";
+import { LayoutService } from "../../../@core/utils";
+import { filter, map, takeUntil } from "rxjs/operators";
+import { Subject } from "rxjs";
+import { CommonService } from "../../../Services/common.service";
+import { NbUser } from "@nebular/auth";
+import { Router } from "@angular/router";
+
+export class User {
+  name: string;
+  title: string;
+  picture: string;
+}
 
 @Component({
-  selector: 'ngx-header',
-  styleUrls: ['./header.component.scss'],
-  templateUrl: './header.component.html',
+  selector: "ngx-header",
+  styleUrls: ["./header.component.scss"],
+  templateUrl: "./header.component.html",
 })
 export class HeaderComponent implements OnInit, OnDestroy {
-
-  private destroy$: Subject<void> = new Subject<void>();
   userPictureOnly: boolean = false;
-  user: any;
-  toggleCount: number = 0;
+  user: User = new User();
 
-  themes = [
-    {
-      value: 'default',
-      name: 'Light',
-    },
-    {
-      value: 'dark',
-      name: 'Dark',
-    },
-    {
-      value: 'cosmic',
-      name: 'Cosmic',
-    },
-    {
-      value: 'corporate',
-      name: 'Corporate',
-    },
-  ];
+  userMenu = [{ title: "Profile" }, { title: "Log out" }];
 
-  currentTheme = 'default';
-
-  userMenu = [{ title: 'Profile' }, { title: 'Log out' }];
-
-  constructor(private sidebarService: NbSidebarService,
+  constructor(
+    private sidebarService: NbSidebarService,
     private menuService: NbMenuService,
-    private themeService: NbThemeService,
-    private userService: UserData,
     private layoutService: LayoutService,
-    private breakpointService: NbMediaBreakpointsService,
-    private commonservice: CommonService) {
-  }
+    private commonservice: CommonService,
+    private _router: Router
+  ) {}
 
   ngOnInit() {
-    this.currentTheme = this.themeService.currentTheme;
+    this.user.name = "Gana";
+    this.user.title = "Domestic PO";
+    this.user.picture = "../../../../assets/images/dummy-user.png";
 
-    this.userService.getUsers()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((users: any) => this.user = users.nick);
-
-    const { xl } = this.breakpointService.getBreakpointsMap();
-    this.themeService.onMediaQueryChange()
+    this.menuService
+      .onItemClick()
       .pipe(
-        map(([, currentBreakpoint]) => currentBreakpoint.width < xl),
-        takeUntil(this.destroy$),
+        filter(({ tag }) => tag === "user-menu-tag"),
+        map(({ item: { title } }) => title)
       )
-      .subscribe((isLessThanXl: boolean) => this.userPictureOnly = isLessThanXl);
+      .subscribe({
+        next:(title) => {
+          if(title == "Log out"){ 
+            sessionStorage.clear();
+            this._router.navigate(["auth/login"]);
+          }
+        },
+        error:(err)=>{
 
-    this.themeService.onThemeChange()
-      .pipe(
-        map(({ name }) => name),
-        takeUntil(this.destroy$),
-      )
-      .subscribe(themeName => this.currentTheme = themeName);
+        }
+      });
   }
 
-  ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
-
-  changeTheme(themeName: string) {
-    this.themeService.changeTheme(themeName);
-  }
+  ngOnDestroy() {}
 
   toggleSidebar(): boolean {
-    this.sidebarService.toggle(true, 'menu-sidebar');
+    this.sidebarService.toggle(true, "menu-sidebar");
     this.layoutService.changeLayoutSize();
     this.commonservice.getStateOfSidebar();
-
-    // this.toggleCount += 1;
-    // if (this.toggleCount % 2 == 1) {
-    //   this.commonservice.sidebarFooterLogo = null;
-    // }
-    // else{
-    //   this.commonservice.sidebarFooterLogo = "";
-    // }
-   return false;
-  }
-
-  navigateHome() {
-    this.menuService.navigateHome();
     return false;
   }
 }

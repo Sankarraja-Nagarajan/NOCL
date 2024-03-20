@@ -5,6 +5,7 @@ import { MaterialModule } from '../material/material.module';
 import { LoginComponent } from './login/login.component';
 import { OtpComponent } from './otp/otp.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgOtpInputModule } from  'ng-otp-input';
 
 const routes: Routes = [
   {
@@ -32,7 +33,8 @@ const routes: Routes = [
     MaterialModule,
     RouterModule.forChild(routes),
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    NgOtpInputModule
   ]
 })
 export class AuthModule { }

@@ -64,10 +64,10 @@
                 <div class="input-group">
                   <input
                     nbInput
-                    type="password"
+                    type="text"
                     class="input-full-width"
-                    placeholder="Enter Your Organization Mail-Id"
-                    formControlName="email"
+                    placeholder="Enter Your Mobile number"
+                    formControlName="mobile"
                   />
                 </div>
               </div>
@@ -78,61 +78,7 @@
               <span>Please enter the 6 digit OTP to continue</span>
             </div>
             <div class="inputs d-flex">
-              <input
-                class="otp-input"
-                type="text"
-                name=""
-                id=""
-                autofocus
-                maxlength="1"
-                (keypress)="checkNumber($event)"
-                [(ngModel)]="firstNum"
-              />
-              <input
-                class="otp-input"
-                type="text"
-                name=""
-                id=""
-                maxlength="1"
-                (keypress)="checkNumber($event)"
-                [(ngModel)]="secondNum"
-              />
-              <input
-                class="otp-input"
-                type="text"
-                name=""
-                id=""
-                maxlength="1"
-                (keypress)="checkNumber($event)"
-                [(ngModel)]="thirdNum"
-              />
-              <input
-                class="otp-input"
-                type="text"
-                name=""
-                id=""
-                maxlength="1"
-                (keypress)="checkNumber($event)"
-                [(ngModel)]="fourthNum"
-              />
-              <input
-                class="otp-input"
-                type="text"
-                name=""
-                id=""
-                maxlength="1"
-                (keypress)="checkNumber($event)"
-                [(ngModel)]="fifthNum"
-              />
-              <input
-                class="otp-input"
-                type="text"
-                name=""
-                id=""
-                maxlength="1"
-                (keypress)="checkNumber($event)"
-                [(ngModel)]="sixthNum"
-              />
+              <ng-otp-input #ngOtpInput (onInputChange)="onOtpChange($event)" [config]="config"></ng-otp-input>
             </div>
           </div>
           <div

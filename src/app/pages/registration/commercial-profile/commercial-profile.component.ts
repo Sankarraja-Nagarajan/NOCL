@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CommercialProfile } from '../../../Models/Dtos';
 import { AppConfigService } from '../../../Services/app-config.service';
+import { AuthResponse } from '../../../Models/authModel';
 
 @Component({
   selector: 'ngx-commercial-profile',
@@ -12,6 +13,7 @@ export class CommercialProfileComponent {
 
   commercialProfileForm: FormGroup;
   msmeTypes: string[] = [];
+  authResponse: AuthResponse;
 
   constructor(private _fb: FormBuilder, private _config: AppConfigService) { }
 
@@ -27,6 +29,11 @@ export class CommercialProfileComponent {
       MSME_Number: [''],
       ServiceCategory: ['']
     });
+
+    this.authResponse = JSON.parse(sessionStorage.getItem("userDetails"));
+    if(this.authResponse && this.authResponse.Role != "Vendor"){
+      this.commercialProfileForm.disable();
+    }
 
     if (parseInt(sessionStorage.getItem('V_Id')) != 4) {
       this.commercialProfileForm.get('PAN').addValidators([Validators.required]);

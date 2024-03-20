@@ -2,7 +2,7 @@
     <div class="container">
         <div style="user-select: none;">
             <div class="row">
-                <form action="" [formGroup]="TankerDetailsForm" class="p-0">
+                <form action="" [formGroup]="TankerDetailsForm" class="p-0" *ngIf="role == 'Vendor'">
 
                     <!-- Tanker_Type & Capacity_of_Tanker -->
                     <div class="row">
