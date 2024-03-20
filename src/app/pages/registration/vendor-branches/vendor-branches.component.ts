@@ -1,49 +1,54 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { MatTableDataSource } from '@angular/material/table';
-import { LoginService } from '../../../Services/login.service';
-import { VendorBranch } from '../../../Models/Dtos';
-import { CommonService } from '../../../Services/common.service';
+import { Component, OnInit } from "@angular/core";
+import { FormGroup, FormBuilder, Validators } from "@angular/forms";
+import { MatTableDataSource } from "@angular/material/table";
+import { LoginService } from "../../../Services/login.service";
+import { VendorBranch } from "../../../Models/Dtos";
+import { CommonService } from "../../../Services/common.service";
 
 @Component({
-  selector: 'ngx-vendor-branches',
-  templateUrl: './vendor-branches.component.html',
-  styleUrls: ['./vendor-branches.component.scss']
+  selector: "ngx-vendor-branches",
+  templateUrl: "./vendor-branches.component.html",
+  styleUrls: ["./vendor-branches.component.scss"],
 })
 export class VendorBranchesComponent implements OnInit {
-
-  vendorBranches:VendorBranch[]=[];
+  vendorBranches: VendorBranch[] = [];
   dataSource = new MatTableDataSource(this.vendorBranches);
 
   displayedColumns: string[] = [
-    'name',
-    'designation',
-    'mobileNo',
-    'emailId',
-    'location',
-    'action'
+    "name",
+    "designation",
+    "mobileNo",
+    "emailId",
+    "location",
+    "action",
   ];
   VendorBranchForm: FormGroup;
   form_Id: number;
+  role: string = "";
 
-  constructor(private _fb: FormBuilder,private _commonService:CommonService) {}
+  constructor(
+    private _fb: FormBuilder,
+    private _commonService: CommonService
+  ) {}
 
   ngOnInit(): void {
     this.VendorBranchForm = this._fb.group({
-      Name: ['', [Validators.required]],
-      Designation: [''],
-      Email_Id: ['', [Validators.email]],
-      Mobile_No: ['', [Validators.required, Validators.maxLength(15)]],
-      Location: ['', [Validators.required]]
+      Name: ["", [Validators.required]],
+      Designation: [""],
+      Email_Id: ["", [Validators.email]],
+      Mobile_No: ["", [Validators.required, Validators.maxLength(15)]],
+      Location: ["", [Validators.required]],
     });
 
     // get Form Id from session storage
-    this.form_Id = parseInt(sessionStorage.getItem('Form_Id'));
+    this.form_Id = parseInt(sessionStorage.getItem("Form_Id"));
+    const userData = JSON.parse(sessionStorage.getItem("userDetails"));
+    this.role = userData ? userData.Role : "";
   }
 
   // Allow (numbers, plus, and space) for Mobile & Phone
-  keyPressValidation(event,type) {
-    return this._commonService.KeyPressValidation(event,type)
+  keyPressValidation(event, type) {
+    return this._commonService.KeyPressValidation(event, type);
   }
 
   addVendorBranch() {
@@ -51,8 +56,7 @@ export class VendorBranchesComponent implements OnInit {
       this.vendorBranches.push(this.VendorBranchForm.value);
       this.dataSource._updateChangeSubscription();
       this.VendorBranchForm.reset();
-    }
-    else {
+    } else {
       this.VendorBranchForm.markAllAsTouched();
     }
   }
@@ -66,8 +70,7 @@ export class VendorBranchesComponent implements OnInit {
   isValid() {
     if (this.vendorBranches.length > 0) {
       return true;
-    }
-    else{
+    } else {
       this.VendorBranchForm.markAllAsTouched();
       return false;
     }

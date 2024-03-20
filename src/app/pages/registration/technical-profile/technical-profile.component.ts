@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TechnicalProfile } from '../../../Models/Dtos';
+import { AuthResponse } from '../../../Models/authModel';
 
 @Component({
   selector: 'ngx-technical-profile',
@@ -11,6 +12,7 @@ export class TechnicalProfileComponent implements OnInit {
 
   technicalProfileForm: FormGroup;
   disablePlanningOption: boolean;
+  authResponse: AuthResponse;
 
   constructor(private _fb: FormBuilder) { }
 
@@ -22,6 +24,11 @@ export class TechnicalProfileComponent implements OnInit {
       Is_Statutory_Provisions_Adheard: [false],
       Initiatives_for_Development: [''],
     });
+
+    this.authResponse = JSON.parse(sessionStorage.getItem("userDetails"));
+    if(this.authResponse && this.authResponse.Role != "Vendor"){
+      this.technicalProfileForm.disable();
+    }
   }
 
   changeOptions() {

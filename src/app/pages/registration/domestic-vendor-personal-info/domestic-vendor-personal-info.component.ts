@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DomesticVendorPersonalData } from '../../../Models/Dtos';
 import { CommonService } from '../../../Services/common.service';
+import { AuthResponse } from '../../../Models/authModel';
 
 @Component({
   selector: 'ngx-domestic-vendor-personal-info',
@@ -11,7 +12,8 @@ import { CommonService } from '../../../Services/common.service';
 export class DomesticVendorPersonalInfoComponent implements OnInit {
   domesticVendorForm: FormGroup;
   years: number[] = [];
-
+  authResponse: AuthResponse;
+  
   constructor(private _fb: FormBuilder, private _commonService: CommonService) {
   }
 
@@ -25,6 +27,11 @@ export class DomesticVendorPersonalInfoComponent implements OnInit {
       Plant_Installation_Year: ['', [Validators.required]],
       GSTIN: ['', [Validators.pattern('^([0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}[0-9A-Z]{2})+$')]]
     });
+
+    this.authResponse = JSON.parse(sessionStorage.getItem("userDetails"));
+    if(this.authResponse && this.authResponse.Role != "Vendor"){
+      this.domesticVendorForm.disable();
+    }
   }
 
   getDetails() {

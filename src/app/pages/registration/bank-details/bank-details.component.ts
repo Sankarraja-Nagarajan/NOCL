@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Bank_Detail } from '../../../Models/Dtos';
 import { CommonService } from '../../../Services/common.service';
+import { AuthResponse } from '../../../Models/authModel';
 
 @Component({
   selector: 'ngx-bank-details',
@@ -10,6 +11,7 @@ import { CommonService } from '../../../Services/common.service';
 })
 export class BankDetailsComponent {
   bankDetailsForm: FormGroup;
+  authResponse: AuthResponse;
 
   constructor(private _fb: FormBuilder, private _commonService: CommonService) { }
 
@@ -25,6 +27,11 @@ export class BankDetailsComponent {
       SWIFT: ['', [Validators.maxLength(11)]],
       IBAN: ['', [Validators.maxLength(34)]],
     });
+
+    this.authResponse = JSON.parse(sessionStorage.getItem("userDetails"));
+    if(this.authResponse && this.authResponse.Role != "Vendor"){
+      this.bankDetailsForm.disable();
+    }
   }
 
   //key press validation
