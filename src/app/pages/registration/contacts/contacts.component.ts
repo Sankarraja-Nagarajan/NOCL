@@ -10,10 +10,11 @@ import { snackbarStatus } from '../../../Enums/snackbar-status';
 import { forkJoin } from 'rxjs';
 import { RegistrationService } from '../../../Services/registration.service';
 
+
 @Component({
-  selector: 'ngx-contacts',
-  templateUrl: './contacts.component.html',
-  styleUrls: ['./contacts.component.scss']
+  selector: "ngx-contacts",
+  templateUrl: "./contacts.component.html",
+  styleUrls: ["./contacts.component.scss"],
 })
 export class ContactsComponent implements OnInit {
   @Input() form_Id: number;
@@ -21,41 +22,46 @@ export class ContactsComponent implements OnInit {
   contacts: Contact[] = [];
   dataSource = new MatTableDataSource(this.contacts);
   displayedColumns: string[] = [
-    'contactTypeId',
-    'name',
-    'designation',
-    'phoneNo',
-    'emailId',
-    'mobileNo',
-    'action'
+    "contactTypeId",
+    "name",
+    "designation",
+    "phoneNo",
+    "emailId",
+    "mobileNo",
+    "action",
   ];
   contactForm: FormGroup;
   contactTypes: ContactType[] = [];
+  role: string = "";
 
-  constructor(private _fb: FormBuilder,
+  constructor(
+    private _fb: FormBuilder,
     private _commonService: CommonService,
     private _master: MasterService,
     private _registration:RegistrationService) {
   }
 
+
   ngOnInit(): void {
     // contact form Initialization
     this.contactForm = this._fb.group({
-      Contact_Type_Id: ['', [Validators.required]],
-      Name: ['', [Validators.required]],
-      Designation: [''],
-      Email_Id: ['', [Validators.required, Validators.email]],
-      Phone_Number: ['', [Validators.maxLength(15)]],
-      Mobile_Number: ['', [Validators.maxLength(15)]],
+      Contact_Type_Id: ["", [Validators.required]],
+      Name: ["", [Validators.required]],
+      Designation: [""],
+      Email_Id: ["", [Validators.required, Validators.email]],
+      Phone_Number: ["", [Validators.maxLength(15)]],
+      Mobile_Number: ["", [Validators.maxLength(15)]],
     });
 
     // get contact types and contacts data by form id
     this.getMasterData()
+    const userData = JSON.parse(sessionStorage.getItem("userDetails"));
+    this.role = userData ? userData.Role : "";
   }
 
   // Allow (numbers, plus, and space) for Mobile & Phone
   keyPressValidation(event, type) {
-    return this._commonService.KeyPressValidation(event, type)
+    return this._commonService.KeyPressValidation(event, type);
   }
 
   // Add contact to the table
@@ -64,8 +70,7 @@ export class ContactsComponent implements OnInit {
       this.contacts.push(this.contactForm.value);
       this.dataSource._updateChangeSubscription();
       this.contactForm.reset();
-    }
-    else {
+    } else {
       this.contactForm.markAllAsTouched();
     }
   }
@@ -80,8 +85,7 @@ export class ContactsComponent implements OnInit {
   isValid() {
     if (this.contacts.length > 0) {
       return true;
-    }
-    else {
+    } else {
       this.contactForm.markAllAsTouched();
       return false;
     }
@@ -97,8 +101,10 @@ export class ContactsComponent implements OnInit {
   }
 
   getContactTypeById(contactTypeId: number): string {
-    const type = this.contactTypes.find(type => type.Contact_Type_Id === contactTypeId);
-    return type ? type.Contact_Type : '';
+    const type = this.contactTypes.find(
+      (type) => type.Contact_Type_Id === contactTypeId
+    );
+    return type ? type.Contact_Type : "";
   }
 
   getMasterData() {
@@ -121,3 +127,4 @@ export class ContactsComponent implements OnInit {
     });
   }
 }
+

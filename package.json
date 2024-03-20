@@ -59,6 +59,7 @@
     "ionicons": "2.0.1",
     "leaflet": "1.2.0",
     "nebular-icons": "1.1.0",
+    "ng-otp-input": "^1.9.3",
     "ng2-ckeditor": "~1.2.9",
     "ng2-completer": "^9.0.1",
     "ng2-pdf-viewer": "^10.0.0",

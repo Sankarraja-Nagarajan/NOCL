@@ -5,18 +5,24 @@ import { MatTableDataSource } from '@angular/material/table';
 import { AttachmentDialogComponent } from '../../../Dialogs/attachment-dialog/attachment-dialog.component';
 import { Attachment } from '../../../Models/Dtos';
 
+
 @Component({
-  selector: 'ngx-attachments',
-  templateUrl: './attachments.component.html',
-  styleUrls: ['./attachments.component.scss']
+  selector: "ngx-attachments",
+  templateUrl: "./attachments.component.html",
+  styleUrls: ["./attachments.component.scss"],
 })
 
 export class AttachmentsComponent{
   @Input() form_Id: number;
-  
-  attachmentsForm: FormGroup;
 
-  constructor(public dialog: MatDialog) { }
+  attachmentsForm: FormGroup;
+  role: string = "";
+
+  constructor(public dialog: MatDialog) {}
+  ngOnInit(): void {
+    const userData = JSON.parse(sessionStorage.getItem("userDetails"));
+    this.role = userData ? userData.Role : "";
+  }
 
   displayedColumns: string[] = [
     'typeOfAttachments',
@@ -27,13 +33,17 @@ export class AttachmentsComponent{
 
   data: Attachment[] = [];
 
+
   dataSource = new MatTableDataSource(this.data);
 
-  openDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
+  openDialog(
+    enterAnimationDuration: string,
+    exitAnimationDuration: string
+  ): void {
     const dialogRef = this.dialog.open(AttachmentDialogComponent, {
       enterAnimationDuration,
       exitAnimationDuration,
-      autoFocus: false
+      autoFocus: false,
     });
     dialogRef.afterClosed().subscribe({
       next: (response) => {
@@ -42,9 +52,9 @@ export class AttachmentsComponent{
           this.dataSource._updateChangeSubscription();
         }
       },
-    })
+    });
   }
-  removePartners(i:number) {
+  removePartners(i: number) {
     this.data.splice(i, 1);
     this.dataSource = new MatTableDataSource(this.data);
   }

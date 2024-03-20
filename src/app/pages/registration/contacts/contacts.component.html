@@ -3,7 +3,7 @@
         <div style="user-select: none;">
             <!-- contact form starts here -->
             <div class="row">
-                <form action="" [formGroup]="contactForm" class="p-0">
+                <form action="" [formGroup]="contactForm" class="p-0" *ngIf="role == 'Vendor'">
                     <!-- name & designation -->
                     <div class="row mb-2">
                         <div class="col-sm mb-sm-0 mb-2">

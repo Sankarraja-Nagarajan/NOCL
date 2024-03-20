@@ -1,6 +1,6 @@
-@import '../../styles/themes';
-@import 'bootstrap/scss/mixins/breakpoints';
-@import '@nebular/theme/styles/global/breakpoints';
+@import "../../styles/themes";
+@import "bootstrap/scss/mixins/breakpoints";
+@import "@nebular/theme/styles/global/breakpoints";
 
 @include nb-install-component() {
   .menu-sidebar ::ng-deep .scrollable {
@@ -9,14 +9,36 @@
 }
 
 .sidebar-footer {
-  background-color: #E8EBFA;
+  background-color: #e8ebfa;
   height: 100px;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
 
   .sidebar-footer-content {
-    width: 134px;
+    width: 100px;
     height: 40px;
+  }
+
+  .sidebar-fc {
+    display: none;
+  }
+}
+
+@media (max-width: "1199.67px") {
+  .meadia-max {
+    display: none;
+  }
+  .meadia-min{
+    display: block;
+  }
+}
+
+@media (min-width: "1199.67px") {
+  .meadia-max {
+    display: block;
+  }
+  .meadia-min{
+    display: none;
   }
 }

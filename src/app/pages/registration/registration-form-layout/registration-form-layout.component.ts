@@ -23,30 +23,40 @@ import { AuthResponse } from '../../../Models/authModel';
 import { MatDialog } from '@angular/material/dialog';
 import { TermsAndConditionsDialogComponent } from '../../../Dialogs/attachment-dialog/terms-and-conditions-dialog/terms-and-conditions-dialog.component';
 
+
 @Component({
-  selector: 'ngx-registration-form-layout',
-  templateUrl: './registration-form-layout.component.html',
-  styleUrls: ['./registration-form-layout.component.scss']
+  selector: "ngx-registration-form-layout",
+  templateUrl: "./registration-form-layout.component.html",
+  styleUrls: ["./registration-form-layout.component.scss"],
 })
 export class RegistrationFormLayoutComponent implements OnInit {
   @ViewChild(AddressComponent) addressComponent: AddressComponent;
   @ViewChild(ContactsComponent) contactsComponent: ContactsComponent;
   @ViewChild(PartnersComponent) partnersComponent: PartnersComponent;
-  @ViewChild(AnnualTurnoverComponent) annualTurnoverComponent: AnnualTurnoverComponent;
-  @ViewChild(VendorBranchesComponent) vendorBranchesComponent: VendorBranchesComponent;
-  @ViewChild(DomesticVendorPersonalInfoComponent) domesticVendorPersonalInfoComponent: DomesticVendorPersonalInfoComponent;
+  @ViewChild(AnnualTurnoverComponent)
+  annualTurnoverComponent: AnnualTurnoverComponent;
+  @ViewChild(VendorBranchesComponent)
+  vendorBranchesComponent: VendorBranchesComponent;
+  @ViewChild(DomesticVendorPersonalInfoComponent)
+  domesticVendorPersonalInfoComponent: DomesticVendorPersonalInfoComponent;
   @ViewChild(BankDetailsComponent) bankDetailsComponent: BankDetailsComponent;
-  @ViewChild(CommercialProfileComponent) commercialProfileComponent: CommercialProfileComponent;
-  @ViewChild(TechnicalProfileComponent) technicalProfileComponent: TechnicalProfileComponent;
-  @ViewChild(DomesticVendorOrgProfileComponent) domesticVendorOrgProfileComponent: DomesticVendorOrgProfileComponent;
-  @ViewChild(TransportVendorsPersonalDetailsComponent) transportVendorsPersonalDetailsComponent: TransportVendorsPersonalDetailsComponent;
-  @ViewChild(TankerDetailsComponent) tankerDetailsComponent: TankerDetailsComponent;
+  @ViewChild(CommercialProfileComponent)
+  commercialProfileComponent: CommercialProfileComponent;
+  @ViewChild(TechnicalProfileComponent)
+  technicalProfileComponent: TechnicalProfileComponent;
+  @ViewChild(DomesticVendorOrgProfileComponent)
+  domesticVendorOrgProfileComponent: DomesticVendorOrgProfileComponent;
+  @ViewChild(TransportVendorsPersonalDetailsComponent)
+  transportVendorsPersonalDetailsComponent: TransportVendorsPersonalDetailsComponent;
+  @ViewChild(TankerDetailsComponent)
+  tankerDetailsComponent: TankerDetailsComponent;
 
   form_Id: number;
   vendorTypeId: number;
   authResponse: AuthResponse;
 
-  constructor(private _commonService: CommonService,
+  constructor(
+    private _commonService: CommonService,
     private _activatedRoute: ActivatedRoute,
     private _registration: RegistrationService,
     private _dialog: MatDialog) {
@@ -62,11 +72,8 @@ export class RegistrationFormLayoutComponent implements OnInit {
           this.vendorTypeId = jsonData.V_Id;
         }
       },
-      error: (err) => {
-
-      }
+      error: (err) => {},
     });
-
     if (this.authResponse.Role === 'Vendor') {
       // 
       this.openTermsAndConditionsDialog();
@@ -88,23 +95,33 @@ export class RegistrationFormLayoutComponent implements OnInit {
 
     if (validations.includes(false)) {
       this._commonService.openSnackbar(
-        'Please fill required fields.',
+        "Please fill required fields.",
         snackbarStatus.Warning
       );
     } else {
       let domesticAndImportForm = new DomesticAndImportForm();
-      domesticAndImportForm.DomesticVendorPersonalData = this.domesticVendorPersonalInfoComponent.getDomesticVendorPersonalInfo();
-      domesticAndImportForm.VendorOrganizationProfile = this.domesticVendorOrgProfileComponent.getDomesticVendorOrgProfile();
-      domesticAndImportForm.TechnicalProfile = this.technicalProfileComponent.getTechnicalProfile();
-      domesticAndImportForm.Subsideries = this.domesticVendorOrgProfileComponent.getSubsideries();
-      domesticAndImportForm.MajorCustomers = this.domesticVendorOrgProfileComponent.getMajorCustomers();
-      domesticAndImportForm.CommercialProfile = this.commercialProfileComponent.getCommercialProfile();
-      domesticAndImportForm.BankDetail = this.bankDetailsComponent.getBankDetail();
+      domesticAndImportForm.DomesticVendorPersonalData =
+        this.domesticVendorPersonalInfoComponent.getDomesticVendorPersonalInfo();
+      domesticAndImportForm.VendorOrganizationProfile =
+        this.domesticVendorOrgProfileComponent.getDomesticVendorOrgProfile();
+      domesticAndImportForm.TechnicalProfile =
+        this.technicalProfileComponent.getTechnicalProfile();
+      domesticAndImportForm.Subsideries =
+        this.domesticVendorOrgProfileComponent.getSubsideries();
+      domesticAndImportForm.MajorCustomers =
+        this.domesticVendorOrgProfileComponent.getMajorCustomers();
+      domesticAndImportForm.CommercialProfile =
+        this.commercialProfileComponent.getCommercialProfile();
+      domesticAndImportForm.BankDetail =
+        this.bankDetailsComponent.getBankDetail();
       domesticAndImportForm.Addresses = this.addressComponent.getAddresses();
       domesticAndImportForm.Contacts = this.contactsComponent.getContacts();
-      domesticAndImportForm.VendorBranches = this.vendorBranchesComponent.getVendorBranches();
-      domesticAndImportForm.ProprietorOrPartners = this.partnersComponent.getProprietorOrPartners();
-      domesticAndImportForm.AnnualTurnOvers = this.annualTurnoverComponent.getAnnualTurnOvers();
+      domesticAndImportForm.VendorBranches =
+        this.vendorBranchesComponent.getVendorBranches();
+      domesticAndImportForm.ProprietorOrPartners =
+        this.partnersComponent.getProprietorOrPartners();
+      domesticAndImportForm.AnnualTurnOvers =
+        this.annualTurnoverComponent.getAnnualTurnOvers();
 
       console.log(domesticAndImportForm);
 
@@ -119,7 +136,10 @@ export class RegistrationFormLayoutComponent implements OnInit {
           if (res.Status === 200) {
             // reset all forms
 
-            this._commonService.openSnackbar(res.Message, snackbarStatus.Success)
+            this._commonService.openSnackbar(
+              res.Message,
+              snackbarStatus.Success
+            );
           }
         },
         error: (err) => {
@@ -135,21 +155,24 @@ export class RegistrationFormLayoutComponent implements OnInit {
       this.tankerDetailsComponent.isValid(),
       this.bankDetailsComponent.isValid(),
       this.commercialProfileComponent.isValid(),
-      this.vendorBranchesComponent.isValid()
+      this.vendorBranchesComponent.isValid(),
     ];
     if (validations.includes(false)) {
       this._commonService.openSnackbar(
-        'Please fill required fields.',
+        "Please fill required fields.",
         snackbarStatus.Warning
       );
-    }
-    else {
+    } else {
       let transportForm = new TransportForm();
-      transportForm.TransportVendorPersonalData = this.transportVendorsPersonalDetailsComponent.getTransportVendorPersonalData();
-      transportForm.TankerDetails = this.tankerDetailsComponent.getTankerDetails();
+      transportForm.TransportVendorPersonalData =
+        this.transportVendorsPersonalDetailsComponent.getTransportVendorPersonalData();
+      transportForm.TankerDetails =
+        this.tankerDetailsComponent.getTankerDetails();
       transportForm.BankDetail = this.bankDetailsComponent.getBankDetail();
-      transportForm.CommercialProfile = this.commercialProfileComponent.getCommercialProfile();
-      transportForm.VendorBranches = this.vendorBranchesComponent.getVendorBranches();
+      transportForm.CommercialProfile =
+        this.commercialProfileComponent.getCommercialProfile();
+      transportForm.VendorBranches =
+        this.vendorBranchesComponent.getVendorBranches();
       console.log(transportForm);
     }
   }
@@ -176,10 +199,8 @@ export class RegistrationFormLayoutComponent implements OnInit {
   submit() {
     if (this.vendorTypeId === 1) {
       this.domesticAndImportFormPayload();
-    }
-    else if (this.vendorTypeId === 2) {
+    } else if (this.vendorTypeId === 2) {
       this.transportFormPayload();
     }
   }
-
 }

@@ -43,7 +43,7 @@
                   formControlName="UserName"
                 />
                 <mat-error *ngIf="this.loginForm.get('UserName').hasError('required') && this.loginForm.get('UserName').touched"
-                    class="error-msg"> Username is <strong>required</strong></mat-error>
+                    class="error-msg"> Username is required</mat-error>
               </div>
             </div>
             <div class="form-field left-flexBox-col mb-2">
@@ -56,7 +56,7 @@
                   formControlName="Password"
                 />
                 <mat-error *ngIf="this.loginForm.get('Password').hasError('required') && this.loginForm.get('Password').touched"
-                    class="error-msg"> Password is <strong>required</strong></mat-error>
+                    class="error-msg"> Password is required</mat-error>
               </div>
             </div>
           </form>

@@ -4,6 +4,8 @@ import { Bank_Detail } from '../../../Models/Dtos';
 import { CommonService } from '../../../Services/common.service';
 import { RegistrationService } from '../../../Services/registration.service';
 import { snackbarStatus } from '../../../Enums/snackbar-status';
+import { AuthResponse } from '../../../Models/authModel';
+
 
 @Component({
   selector: 'ngx-bank-details',
@@ -14,6 +16,7 @@ export class BankDetailsComponent {
   @Input() form_Id: number;
   
   bankDetailsForm: FormGroup;
+  authResponse: AuthResponse;
 
   constructor(private _fb: FormBuilder,
     private _commonService: CommonService,
@@ -31,7 +34,7 @@ export class BankDetailsComponent {
       SWIFT: ['', [Validators.maxLength(11)]],
       IBAN: ['', [Validators.maxLength(34)]],
     });
-
+    
     // Get Form data by form Id
     this._registration.getFormData(this.form_Id, 'BankDetail').subscribe({
       next: (res) => {
@@ -43,6 +46,11 @@ export class BankDetailsComponent {
         this._commonService.openSnackbar(err, snackbarStatus.Danger);
       }
     });
+    this.authResponse = JSON.parse(sessionStorage.getItem("userDetails"));
+    if(this.authResponse && this.authResponse.Role != "Vendor"){
+      this.bankDetailsForm.disable();
+    }
+
   }
 
   //key press validation

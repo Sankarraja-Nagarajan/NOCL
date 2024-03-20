@@ -4,6 +4,7 @@ import { TechnicalProfile } from '../../../Models/Dtos';
 import { RegistrationService } from '../../../Services/registration.service';
 import { CommonService } from '../../../Services/common.service';
 import { snackbarStatus } from '../../../Enums/snackbar-status';
+import { AuthResponse } from '../../../Models/authModel';
 
 @Component({
   selector: 'ngx-technical-profile',
@@ -15,6 +16,7 @@ export class TechnicalProfileComponent implements OnInit {
 
   technicalProfileForm: FormGroup;
   disablePlanningOption: boolean;
+  authResponse: AuthResponse;
 
   constructor(private _fb: FormBuilder,
     private _registration:RegistrationService,
@@ -40,6 +42,10 @@ export class TechnicalProfileComponent implements OnInit {
         this._common.openSnackbar(err,snackbarStatus.Danger);
       }
     });
+    this.authResponse = JSON.parse(sessionStorage.getItem("userDetails"));
+    if(this.authResponse && this.authResponse.Role != "Vendor"){
+      this.technicalProfileForm.disable();
+    }
   }
 
   changeOptions() {

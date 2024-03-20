@@ -7,48 +7,55 @@ import { AddressType } from '../../../Models/Master';
 import { MasterService } from '../../../Services/master.service';
 import { snackbarStatus } from '../../../Enums/snackbar-status';
 import { RegistrationService } from '../../../Services/registration.service';
+import { AuthResponse } from "../../../Models/authModel";
 import { forkJoin } from 'rxjs';
 
+
 @Component({
-  selector: 'ngx-address',
-  templateUrl: './address.component.html',
-  styleUrls: ['./address.component.scss']
+  selector: "ngx-address",
+  templateUrl: "./address.component.html",
+  styleUrls: ["./address.component.scss"],
 })
 export class AddressComponent implements OnInit {
-  @Input() form_Id: number;
 
+  @Input() form_Id: number;
+  
   addresses: Address[] = [];
+  role: string = "";
   dataSource = new MatTableDataSource(this.addresses);
   displayedColumns: string[] = [
-    'addressType_id',
-    'address',
-    'tel',
-    'fax',
-    'website',
-    'action'
+    "addressType_id",
+    "address",
+    "tel",
+    "fax",
+    "website",
+    "action",
   ];
   addressForm: FormGroup;
   addressTypes: AddressType[] = [];
 
-  constructor(private _fb: FormBuilder,
+  constructor(
+    private _fb: FormBuilder,
     private _commonService: CommonService,
     private _master: MasterService,
     private _registration: RegistrationService) {
-
   }
 
   ngOnInit(): void {
     // address form Initialization
     this.addressForm = this._fb.group({
-      Address_Type_Id: ['', [Validators.required]],
-      AddressData: ['', [Validators.required]],
-      Tel: ['', [Validators.maxLength(20)]],
-      Fax: ['', [Validators.maxLength(20)]],
-      Website: ['', [Validators.maxLength(100)]],
+      Address_Type_Id: ["", [Validators.required]],
+      AddressData: ["", [Validators.required]],
+      Tel: ["", [Validators.maxLength(20)]],
+      Fax: ["", [Validators.maxLength(20)]],
+      Website: ["", [Validators.maxLength(100)]],
     });
 
     // get address types and addresses by form Id
     this.getMasterData();
+
+    const userData = JSON.parse(sessionStorage.getItem("userDetails"));
+    this.role = userData ? userData.Role : '';
   }
 
   // Allow (numbers, plus, and space) for Tel & Fax
@@ -62,8 +69,7 @@ export class AddressComponent implements OnInit {
       this.addresses.push(this.addressForm.value);
       this.dataSource._updateChangeSubscription();
       this.addressForm.reset();
-    }
-    else {
+    } else {
       this.addressForm.markAllAsTouched();
     }
   }
@@ -87,7 +93,6 @@ export class AddressComponent implements OnInit {
 
   // Get addresses, calls by layout component
   getAddresses() {
-
     this.addresses.forEach((element) => {
       element.Address_Id = 0;
       element.Form_Id = this.form_Id;
@@ -96,8 +101,10 @@ export class AddressComponent implements OnInit {
   }
 
   getAddressTypeById(addressTypeId: number): string {
-    const type = this.addressTypes.find(type => type.Address_Type_Id === addressTypeId);
-    return type ? type.Address_Type : '';
+    const type = this.addressTypes.find(
+      (type) => type.Address_Type_Id === addressTypeId
+    );
+    return type ? type.Address_Type : "";
   }
 
   getMasterData() {

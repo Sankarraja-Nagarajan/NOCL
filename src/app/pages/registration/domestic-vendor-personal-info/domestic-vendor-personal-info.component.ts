@@ -4,6 +4,7 @@ import { DomesticVendorPersonalData } from '../../../Models/Dtos';
 import { CommonService } from '../../../Services/common.service';
 import { RegistrationService } from '../../../Services/registration.service';
 import { snackbarStatus } from '../../../Enums/snackbar-status';
+import { AuthResponse } from '../../../Models/authModel';
 
 @Component({
   selector: 'ngx-domestic-vendor-personal-info',
@@ -15,6 +16,7 @@ export class DomesticVendorPersonalInfoComponent implements OnInit {
   
   domesticVendorForm: FormGroup;
   years: number[] = [];
+  authResponse: AuthResponse;
 
   constructor(private _fb: FormBuilder, 
     private _commonService: CommonService,
@@ -43,6 +45,10 @@ export class DomesticVendorPersonalInfoComponent implements OnInit {
         this._commonService.openSnackbar(err,snackbarStatus.Danger);
       }
     });
+    this.authResponse = JSON.parse(sessionStorage.getItem("userDetails"));
+    if(this.authResponse && this.authResponse.Role != "Vendor"){
+      this.domesticVendorForm.disable();
+    }
   }
 
   getDetails() {

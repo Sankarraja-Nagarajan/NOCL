@@ -21,35 +21,35 @@ export class Sample{
   
     const MENU_ITEMS: NbMenuItem[] = [
       {
-        title: 'dashboard',
+        title: 'Dashboard',
         link: 'onboarding/dashboard',
-        icon:'nb-heart',
+        icon: 'grid-outline',
         hidden: this.role == 'Admin',
       },
       {
-        title: 'initiation form',
+        title: 'Initiation form',
         link: 'onboarding/initiator-form',
         hidden: this.role == 'Admin',
-  
+        icon: 'file-text',
       },
       {
         title: 'Registration',
-        icon: 'grid-outline',
+        icon: 'book-open-outline',
         link: 'registration'
       },
       {
         title: 'Master',
-        icon: 'grid-outline',
         hidden: this.role != 'Admin',
         children: [
           {
             title: 'Users',
-            link: 'masters/users'
+            link: 'masters/users',
+            icon: 'person-outline',
           },
           {
             title: 'Vendors',
             link: 'masters/vendors',
-  
+            icon: 'people-outline',
           }
         ]
       }

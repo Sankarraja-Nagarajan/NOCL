@@ -6,10 +6,11 @@ import { CommonService } from '../../../Services/common.service';
 import { RegistrationService } from '../../../Services/registration.service';
 import { snackbarStatus } from '../../../Enums/snackbar-status';
 
+
 @Component({
-  selector: 'ngx-tanker-details',
-  templateUrl: './tanker-details.component.html',
-  styleUrls: ['./tanker-details.component.scss']
+  selector: "ngx-tanker-details",
+  templateUrl: "./tanker-details.component.html",
+  styleUrls: ["./tanker-details.component.scss"],
 })
 export class TankerDetailsComponent implements OnInit {
   @Input() form_Id: number;
@@ -23,17 +24,20 @@ export class TankerDetailsComponent implements OnInit {
     'action'
   ];
   TankerDetailsForm: FormGroup;
-
+  role: string = "";
   constructor(private _fb: FormBuilder, 
     private _commonService: CommonService,
     private _registration:RegistrationService) {
   }
+
   ngOnInit(): void {
     this.TankerDetailsForm = this._fb.group({
-      Tanker_Type_Id: ['', Validators.required],
-      Capacity_of_Tanker: ['', [Validators.required]],
+      Tanker_Type_Id: ["", Validators.required],
+      Capacity_of_Tanker: ["", [Validators.required]],
     });
 
+    const userData = JSON.parse(sessionStorage.getItem("userDetails"));
+    this.role = userData ? userData.Role : "";
     // Get Annual turn overs data by form Id
     this._registration.getFormData(this.form_Id, 'TankerDetails').subscribe({
       next: (res) => {
@@ -53,8 +57,7 @@ export class TankerDetailsComponent implements OnInit {
       this.tankerDetails.push(this.TankerDetailsForm.value);
       this.dataSource._updateChangeSubscription();
       this.TankerDetailsForm.reset();
-    }
-    else {
+    } else {
       this.TankerDetailsForm.markAllAsTouched();
     }
   }
@@ -73,8 +76,7 @@ export class TankerDetailsComponent implements OnInit {
   isValid() {
     if (this.tankerDetails.length > 0) {
       return true;
-    }
-    else {
+    } else {
       this.TankerDetailsForm.markAllAsTouched();
       return false;
     }

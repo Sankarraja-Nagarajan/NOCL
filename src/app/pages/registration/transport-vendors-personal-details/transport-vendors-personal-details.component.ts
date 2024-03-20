@@ -5,6 +5,7 @@ import { TransportVendorPersonalData } from '../../../Models/Dtos';
 import { CommonService } from '../../../Services/common.service';
 import { RegistrationService } from '../../../Services/registration.service';
 import { snackbarStatus } from '../../../Enums/snackbar-status';
+import { AuthResponse } from '../../../Models/authModel';
 
 @Component({
   selector: 'ngx-transport-vendors-personal-details',
@@ -15,6 +16,7 @@ export class TransportVendorsPersonalDetailsComponent {
   @Input() form_Id: number;
   
   transporterVendorsForm: FormGroup;
+  authResponse: AuthResponse;
 
   constructor(private _fb: FormBuilder,
     private _commonService: CommonService,
@@ -40,6 +42,10 @@ export class TransportVendorsPersonalDetailsComponent {
         this._commonService.openSnackbar(err, snackbarStatus.Danger);
       }
     });
+    this.authResponse = JSON.parse(sessionStorage.getItem("userDetails"));
+    if(this.authResponse && this.authResponse.Role != "Vendor"){
+      this.transporterVendorsForm.disable();
+    }
   }
 
   // validations

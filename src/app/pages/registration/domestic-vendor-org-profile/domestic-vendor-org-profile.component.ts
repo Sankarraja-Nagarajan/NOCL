@@ -9,7 +9,8 @@ import { CommonService } from '../../../Services/common.service';
 import { snackbarStatus } from '../../../Enums/snackbar-status';
 import { forkJoin } from 'rxjs';
 import { RegistrationService } from '../../../Services/registration.service';
-// import { MatTableDataSource } from '@angular/material/table';
+import { AuthResponse } from '../../../Models/authModel';
+
 
 @Component({
   selector: 'ngx-domestic-vendor-org-profile',
@@ -24,6 +25,7 @@ export class DomesticVendorOrgProfileComponent {
   listOfMajorCustomerList: MajorCustomer[] = [];
   orgTypes: OrganizationType[] = [];
   companyStatuses: CompanyStatus[] = [];
+  authResponse: AuthResponse;
 
   constructor(private _fb: FormBuilder,
     private _dialog: MatDialog,
@@ -40,7 +42,11 @@ export class DomesticVendorOrgProfileComponent {
       Annual_Prod_Capacity: [''],
     });
 
-    // get master data, form data by form Id,  subsideries and major customers
+    this.authResponse = JSON.parse(sessionStorage.getItem("userDetails"));
+    if(this.authResponse && this.authResponse.Role != "Vendor"){
+      this.vendorOrgForm.disable();
+    }
+    // get master data
     this.getAllMasters();
   }
 

@@ -17,10 +17,12 @@ export class CommonService {
 
   horizontalPosition: MatSnackBarHorizontalPosition = "right";
   verticalPosition: MatSnackBarVerticalPosition = "bottom";
-  mandatorySubject: Subject<boolean> = new Subject<boolean>();
+  private sidebarSubject: Subject<boolean> = new Subject<boolean>();
+  sidebarEmitted = this.sidebarSubject.asObservable();
   footerLogoVisible:boolean = true;
 
-  constructor(private _snackbar: MatSnackBar,private sidebarService: NbSidebarService) { }
+  constructor(private _snackbar: MatSnackBar,
+    private sidebarService: NbSidebarService) { }
 
   // Opens Snackbar notification
   openSnackbar(
@@ -81,9 +83,13 @@ export class CommonService {
   getStateOfSidebar(){
     this.sidebarService.getSidebarState('menu-sidebar').subscribe({
       next:(res)=>{
-        console.log(res);
         res && res=="expanded" ? this.footerLogoVisible = true : this.footerLogoVisible = false;
+        this.sidebarSubject.next(this.footerLogoVisible);
       },
     });
+  }
+
+  setSidebarState(){
+    
   }
 }

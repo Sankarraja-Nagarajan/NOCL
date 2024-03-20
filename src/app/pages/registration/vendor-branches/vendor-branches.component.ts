@@ -8,37 +8,40 @@ import { RegistrationService } from '../../../Services/registration.service';
 import { snackbarStatus } from '../../../Enums/snackbar-status';
 
 @Component({
-  selector: 'ngx-vendor-branches',
-  templateUrl: './vendor-branches.component.html',
-  styleUrls: ['./vendor-branches.component.scss']
+  selector: "ngx-vendor-branches",
+  templateUrl: "./vendor-branches.component.html",
+  styleUrls: ["./vendor-branches.component.scss"],
 })
 export class VendorBranchesComponent implements OnInit {
-  @Input() form_Id: number;
 
+  @Input() form_Id: number;
+  
   vendorBranches: VendorBranch[] = [];
   dataSource = new MatTableDataSource(this.vendorBranches);
 
   displayedColumns: string[] = [
-    'name',
-    'designation',
-    'mobileNo',
-    'emailId',
-    'location',
-    'action'
+    "name",
+    "designation",
+    "mobileNo",
+    "emailId",
+    "location",
+    "action",
   ];
   VendorBranchForm: FormGroup;
 
+  role: string = "";
   constructor(private _fb: FormBuilder,
     private _commonService: CommonService,
     private _registration: RegistrationService) { }
 
+
   ngOnInit(): void {
     this.VendorBranchForm = this._fb.group({
-      Name: ['', [Validators.required]],
-      Designation: [''],
-      Email_Id: ['', [Validators.email]],
-      Mobile_No: ['', [Validators.required, Validators.maxLength(15)]],
-      Location: ['', [Validators.required]]
+      Name: ["", [Validators.required]],
+      Designation: [""],
+      Email_Id: ["", [Validators.email]],
+      Mobile_No: ["", [Validators.required, Validators.maxLength(15)]],
+      Location: ["", [Validators.required]],
     });
 
     // Get vendor branches by form Id
@@ -53,6 +56,10 @@ export class VendorBranchesComponent implements OnInit {
         this._commonService.openSnackbar(err, snackbarStatus.Danger);
       }
     });
+
+    const userData = JSON.parse(sessionStorage.getItem("userDetails"));
+    this.role = userData ? userData.Role : "";
+
   }
 
   // Allow (numbers, plus, and space) for Mobile & Phone
@@ -65,8 +72,7 @@ export class VendorBranchesComponent implements OnInit {
       this.vendorBranches.push(this.VendorBranchForm.value);
       this.dataSource._updateChangeSubscription();
       this.VendorBranchForm.reset();
-    }
-    else {
+    } else {
       this.VendorBranchForm.markAllAsTouched();
     }
   }
