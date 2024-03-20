@@ -19,16 +19,22 @@ import {
   NbSidebarModule,
   NbToastrModule,
   NbWindowModule,
-} from '@nebular/theme';
+} from "@nebular/theme";
 
 import { AppConfigService } from "./Services/app-config.service";
-import { AttachmentDialogComponent } from './Dialogs/attachment-dialog/attachment-dialog.component';
+import { AttachmentDialogComponent } from "./Dialogs/attachment-dialog/attachment-dialog.component";
 import { MaterialModule } from "./Pages/material/material.module";
-import { AddMajorCustomerDialogComponent } from './Dialogs/attachment-dialog/add-major-customer-dialog/add-major-customer-dialog.component';
-import { Sample } from "./Pages/pages-menu";
+import { AddMajorCustomerDialogComponent } from "./Dialogs/attachment-dialog/add-major-customer-dialog/add-major-customer-dialog.component";
+import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { TermsAndConditionsDialogComponent } from "./Dialogs/attachment-dialog/terms-and-conditions-dialog/terms-and-conditions-dialog.component";
 
 @NgModule({
-  declarations: [AppComponent, AttachmentDialogComponent, AddMajorCustomerDialogComponent],
+  declarations: [
+    AppComponent,
+    AttachmentDialogComponent,
+    AddMajorCustomerDialogComponent,
+    TermsAndConditionsDialogComponent,
+  ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -46,6 +52,7 @@ import { Sample } from "./Pages/pages-menu";
     CoreModule.forRoot(),
     ThemeModule.forRoot(),
     MaterialModule,
+    PdfViewerModule
   ],
   bootstrap: [AppComponent],
   providers: [

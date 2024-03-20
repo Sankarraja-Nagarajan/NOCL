@@ -1,18 +1,18 @@
-import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
-import { HttpService } from './http.service';
-import { LoginDetail } from '../Models/authModel';
+import { Injectable } from "@angular/core";
+import { Observable, Subject } from "rxjs";
+import { HttpService } from "./http.service";
+import { LoginDetail, VerifyOtp } from "../Models/authModel";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class LoginService {
-  baseURL: string = 'https://localhost:44300/api';
+  baseURL: string = "https://localhost:44300/api";
 
   private emitChangeSource = new Subject<any>();
   changeEmitted$ = this.emitChangeSource.asObservable();
 
-  constructor(private _http: HttpService) { }
+  constructor(private _http: HttpService) {}
 
   islogin(change: boolean) {
     this.emitChangeSource.next(change);
@@ -29,17 +29,20 @@ export class LoginService {
 
   numberOnly(event: KeyboardEvent): any {
     const Pattern = /[0-9]/;
-    const Char = String.fromCharCode(event.charCode)
+    const Char = String.fromCharCode(event.charCode);
     if (!Pattern.test(Char)) {
       event.preventDefault();
-      return (false)
-    }
-    else
-      return (true)
+      return false;
+    } else return true;
   }
 
   authUser(loginDetails: LoginDetail): Observable<any> {
     const URL = this.baseURL + "/Auth/AuthenticateUser";
     return this._http.post(URL, loginDetails);
+  }
+
+  VerifyOtp(otp: VerifyOtp): Observable<any> {
+    const URL = this.baseURL + "/Auth/VerifyOtp";
+    return this._http.post(URL, otp);
   }
 }

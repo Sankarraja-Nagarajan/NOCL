@@ -2,7 +2,7 @@
     <div class="container">
         <div style="user-select: none;">
             <div class="row">
-                <form action="" [formGroup]="partnersForm" class="p-0">
+                <form action="" [formGroup]="partnersForm" class="p-0" *ngIf="role == 'Vendor'">
                     <!-- Name & percentage -->
                     <div class="row">
                         <div class="col-md-6">

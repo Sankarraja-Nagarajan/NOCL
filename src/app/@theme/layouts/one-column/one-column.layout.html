@@ -5,8 +5,16 @@
 
   <nb-sidebar *ngIf="isLogin" tag="menu-sidebar" responsive>
     <ng-content select="nb-menu"></ng-content>
-    <nb-sidebar-footer class="sidebar-footer" *ngIf="commonservice.footerLogoVisible">
-        <img  class="sidebar-footer-content" src="assets/logos/Exalca logo.svg">
+    <nb-sidebar-footer class="sidebar-footer">
+      <img
+        [ngClass]="{'sidebar-footer-content':footerLogoVisible,'sidebar-fc':!footerLogoVisible}"
+        src="assets/logos/Exalca logo.svg"
+      />
+      <img
+        [ngClass]="{'sidebar-footer-content':!footerLogoVisible,'sidebar-fc':footerLogoVisible}"
+        src="assets/logos/Exalca_Logo_Mini.svg"
+        alt=""
+      />
     </nb-sidebar-footer>
   </nb-sidebar>
 

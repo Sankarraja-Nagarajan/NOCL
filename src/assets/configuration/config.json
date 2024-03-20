@@ -1,4 +1,15 @@
 {
     "BaseURL": "https://uatwhite-digitalonboarding.jkcement.com/CP_API/api",
-    "MSME_Types": "Micro,Small,Medium"
+    "MSME_Types": "Micro,Small,Medium",
+    "Attachment_Types": "GST,PAN,Aadhar,MSME,ISO",
+    "Terms_And_Conditions":[
+        {
+            "File_Name":"Sustainable Procurement Policy",
+            "File_Path":"../../../../assets/data/Sustainable proc Policy.pdf"
+        },
+        {
+            "File_Name":"NOCIL Supplier code of conduct 2022",
+            "File_Path":"../../../../assets/data/NOCIL Supplier code of conduct 2022.pdf"
+        }
+    ]
 }

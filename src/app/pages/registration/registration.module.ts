@@ -21,21 +21,19 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { DomesticVendorOrgProfileComponent } from './domestic-vendor-org-profile/domestic-vendor-org-profile.component';
 import { TransportVendorsPersonalDetailsComponent } from './transport-vendors-personal-details/transport-vendors-personal-details.component';
 import { TankerDetailsComponent } from './tanker-details/tanker-details.component';
+import { AuthGuard } from '../../Guards/auth.guard';
 
 
 
 const routes: Routes = [
   {
-    path: 'address',
-    component: AddressComponent
-  },
-  {
-    path: 'registration',
-    component: RegistrationFormLayoutComponent
+    path: 'form',
+    component: RegistrationFormLayoutComponent,
+    // canActivate:[AuthGuard]
   },
   {
     path: '',
-    redirectTo: 'registration',
+    redirectTo: 'form',
     pathMatch: 'full'
   }
 ];

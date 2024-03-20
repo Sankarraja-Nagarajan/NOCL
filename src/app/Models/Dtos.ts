@@ -10,6 +10,8 @@ export class VendorOrganizationProfile {
     Form_Id: number;
     Type_of_Org_Id: number;
     Status_of_Company_Id: number;
+    Annual_Prod_Capacity: number;
+    RelationToNocil: boolean;
 }
 
 export class TechnicalProfile {
@@ -122,4 +124,26 @@ export class MajorCustomer {
     Customer_Name: string;
     Location: string;
     Form_Id: number
+}
+
+export class Attachment {
+    Attachment_Id: number;
+    Form_Id: number;
+    File_Name: string;
+    File_Path: string;
+    File_Extension: string;
+    File_Type: string;
+    Is_Expiry_Available: boolean;
+    Expiry_Date: Date
+}
+
+export class Dashboard {
+    FormId: number;
+    VendorTypeId: number;
+    VendorType: string;
+    Name: string;
+    Mobile: string;
+    Email: string;
+    CreatedOn: Date;
+    Status: string;
 }
