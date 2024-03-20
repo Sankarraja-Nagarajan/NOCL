@@ -1,7 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CommercialProfile } from '../../../Models/Dtos';
 import { AppConfigService } from '../../../Services/app-config.service';
+import { RegistrationService } from '../../../Services/registration.service';
+import { CommonService } from '../../../Services/common.service';
+import { snackbarStatus } from '../../../Enums/snackbar-status';
 
 @Component({
   selector: 'ngx-commercial-profile',
@@ -9,11 +12,15 @@ import { AppConfigService } from '../../../Services/app-config.service';
   styleUrls: ['./commercial-profile.component.scss']
 })
 export class CommercialProfileComponent {
+  @Input() form_Id: number;
 
   commercialProfileForm: FormGroup;
   msmeTypes: string[] = [];
 
-  constructor(private _fb: FormBuilder, private _config: AppConfigService) { }
+  constructor(private _fb: FormBuilder, 
+    private _config: AppConfigService,
+    private _registration:RegistrationService,
+    private _common:CommonService) { }
 
   ngOnInit(): void {
     this.commercialProfileForm = this._fb.group({
@@ -31,8 +38,19 @@ export class CommercialProfileComponent {
     if (parseInt(sessionStorage.getItem('V_Id')) != 4) {
       this.commercialProfileForm.get('PAN').addValidators([Validators.required]);
     }
-
     this.msmeTypes = this._config.get('MSME_Types').split(',');
+
+    // Get Form data by form Id
+    this._registration.getFormData(this.form_Id,'CommercialProfile').subscribe({
+      next:(res)=>{
+        if(res){
+          this.commercialProfileForm.patchValue(res);
+        }
+      },
+      error:(err)=>{
+        this._common.openSnackbar(err,snackbarStatus.Danger);
+      }
+    });
   }
 
   // Make sure the Commercial Profile Form is valid

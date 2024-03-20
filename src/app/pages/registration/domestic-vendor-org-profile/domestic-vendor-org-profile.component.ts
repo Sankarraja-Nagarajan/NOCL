@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MajorCustomer, Subsideries, VendorOrganizationProfile } from '../../../Models/Dtos';
 import { MatDialog } from '@angular/material/dialog';
@@ -8,6 +8,7 @@ import { MasterService } from '../../../Services/master.service';
 import { CommonService } from '../../../Services/common.service';
 import { snackbarStatus } from '../../../Enums/snackbar-status';
 import { forkJoin } from 'rxjs';
+import { RegistrationService } from '../../../Services/registration.service';
 // import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
@@ -16,10 +17,9 @@ import { forkJoin } from 'rxjs';
   styleUrls: ['./domestic-vendor-org-profile.component.scss']
 })
 export class DomesticVendorOrgProfileComponent {
-
+  @Input() form_Id: number;
+  
   vendorOrgForm: FormGroup;
-  form_Id: number = 1;
-
   subsideriesList: Subsideries[] = [];
   listOfMajorCustomerList: MajorCustomer[] = [];
   orgTypes: OrganizationType[] = [];
@@ -28,23 +28,20 @@ export class DomesticVendorOrgProfileComponent {
   constructor(private _fb: FormBuilder,
     private _dialog: MatDialog,
     private _master: MasterService,
-    private _common: CommonService) { }
+    private _common: CommonService,
+    private _registration: RegistrationService) { }
 
   ngOnInit(): void {
     this.vendorOrgForm = this._fb.group({
       Type_of_Org_Id: ['', Validators.required],
       Status_of_Company_Id: ['', Validators.required],
-      RelationToNOCIL: [false],
+      RelationToNocil: [false],
       Subsideries: [null],
-      AnnualProdCapacity: [''],
+      Annual_Prod_Capacity: [''],
     });
 
-    // get Form Id from session storage
-    this.form_Id = parseInt(sessionStorage.getItem('Form_Id'));
-
-    // get master data
+    // get master data, form data by form Id,  subsideries and major customers
     this.getAllMasters();
-
   }
 
   // Make sure the Vendor Organization Profile Form is valid
@@ -65,6 +62,11 @@ export class DomesticVendorOrgProfileComponent {
     vendorOrganizationProfile.Id = 0;
     vendorOrganizationProfile.Form_Id = this.form_Id;
     return vendorOrganizationProfile;
+  }
+
+  // validation
+  keyPressValidation(event: Event, type: string) {
+    return this._common.KeyPressValidation(event, type);
   }
 
   addMultipleSubsideries() {
@@ -136,7 +138,10 @@ export class DomesticVendorOrgProfileComponent {
   getAllMasters() {
     forkJoin([
       this._master.getOrganizationTypes(),
-      this._master.getCompanyStatuses()
+      this._master.getCompanyStatuses(),
+      this._registration.getFormData(this.form_Id, 'VendorOrganizationProfile'),
+      this._registration.getFormData(this.form_Id, 'Subsideries'),
+      this._registration.getFormData(this.form_Id, 'MajorCustomers')
     ]).subscribe({
       next: (res) => {
         if (res[0]) {
@@ -144,6 +149,15 @@ export class DomesticVendorOrgProfileComponent {
         }
         if (res[1]) {
           this.companyStatuses = res[1] as CompanyStatus[];
+        }
+        if (res[2]) {
+          this.vendorOrgForm.patchValue(res[2]);
+        }
+        if (res[3]) {
+          this.subsideriesList = res[3] as Subsideries[];
+        }
+        if (res[4]) {
+          this.listOfMajorCustomerList = res[4] as MajorCustomer[];
         }
       },
       error: (err) => {

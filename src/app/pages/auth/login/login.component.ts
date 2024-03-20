@@ -38,7 +38,7 @@ export class LoginComponent implements OnInit {
         next: (res) => {
           if (res) {
             sessionStorage.setItem('userDetails', JSON.stringify(res));
-            this._router.navigate(['/registration']);
+            this._router.navigate(['onboarding/dashboard']);
           }
         },
         error: (err) => {

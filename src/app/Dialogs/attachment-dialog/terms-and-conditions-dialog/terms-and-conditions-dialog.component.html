@@ -1,0 +1,27 @@
+<section class="screenTermsAndCondition">
+    <mat-toolbar class="toolbar">
+            <h3 class="pdf-name">{{listOfPdfSrc[currentIndex].File_Name}}</h3>
+    </mat-toolbar>
+
+    <mat-dialog-content class="p-0">
+        <pdf-viewer 
+        [src]="listOfPdfSrc[currentIndex].File_Path"
+        [original-size]="true" 
+        [render-text]="true" 
+        [rotation]="0"
+        [fit-to-page]="true" 
+        [zoom]="zoom" 
+        [zoom-scale]="'page-width'" 
+        [autoresize]="true" 
+        [show-borders]="false"
+        [show-all]="true"
+        class="pdf-viewer"></pdf-viewer>
+    </mat-dialog-content>
+
+    <mat-dialog-actions class="d-flex justify-content-end align-items-center">
+        <button *ngIf="currentIndex > 0" class="btn cancel-btn-design me-2" (click)="nextOrPreviousPdf(-1)">Previous</button>
+        <button *ngIf="currentIndex < listOfPdfSrc.length - 1" class="btn btn-design me-2" (click)="nextOrPreviousPdf(1)">Next</button>
+        <button *ngIf="currentIndex === listOfPdfSrc.length - 1" class="btn btn-design"
+        mat-dialog-close="true">I Agree</button>
+    </mat-dialog-actions>
+</section>

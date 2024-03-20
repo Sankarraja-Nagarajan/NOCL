@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { Contact } from '../../../Models/Dtos';
@@ -7,6 +7,8 @@ import { LoginService } from '../../../Services/login.service';
 import { ContactType } from '../../../Models/Master';
 import { MasterService } from '../../../Services/master.service';
 import { snackbarStatus } from '../../../Enums/snackbar-status';
+import { forkJoin } from 'rxjs';
+import { RegistrationService } from '../../../Services/registration.service';
 
 @Component({
   selector: 'ngx-contacts',
@@ -14,9 +16,10 @@ import { snackbarStatus } from '../../../Enums/snackbar-status';
   styleUrls: ['./contacts.component.scss']
 })
 export class ContactsComponent implements OnInit {
+  @Input() form_Id: number;
+  
   contacts: Contact[] = [];
   dataSource = new MatTableDataSource(this.contacts);
-
   displayedColumns: string[] = [
     'contactTypeId',
     'name',
@@ -27,15 +30,13 @@ export class ContactsComponent implements OnInit {
     'action'
   ];
   contactForm: FormGroup;
-  form_Id: number;
   contactTypes: ContactType[] = [];
 
   constructor(private _fb: FormBuilder,
     private _commonService: CommonService,
-    private _master:MasterService) {
-
+    private _master: MasterService,
+    private _registration:RegistrationService) {
   }
-
 
   ngOnInit(): void {
     // contact form Initialization
@@ -48,20 +49,8 @@ export class ContactsComponent implements OnInit {
       Mobile_Number: ['', [Validators.maxLength(15)]],
     });
 
-    // get Form Id from session storage
-    this.form_Id = parseInt(sessionStorage.getItem('Form_Id'));
-    
-    // get contact types
-    this._master.getContactTypes().subscribe({
-      next:(res)=>{
-        if(res){
-          this.contactTypes = res as ContactType[];
-        }
-      },
-      error:(err)=>{
-        this._commonService.openSnackbar(err,snackbarStatus.Danger);
-      }
-    });
+    // get contact types and contacts data by form id
+    this.getMasterData()
   }
 
   // Allow (numbers, plus, and space) for Mobile & Phone
@@ -110,5 +99,25 @@ export class ContactsComponent implements OnInit {
   getContactTypeById(contactTypeId: number): string {
     const type = this.contactTypes.find(type => type.Contact_Type_Id === contactTypeId);
     return type ? type.Contact_Type : '';
+  }
+
+  getMasterData() {
+    forkJoin([
+      this._master.getContactTypes(),
+      this._registration.getFormData(this.form_Id, 'Contacts')
+    ]).subscribe({
+      next: (res) => {
+        if (res[0]) {
+          this.contactTypes = res[0] as ContactType[];
+        }
+        if (res[1]) {
+          this.contacts = res[1] as Contact[];
+          this.dataSource = new MatTableDataSource(this.contacts);
+        }
+      },
+      error: (err) => {
+        this._commonService.openSnackbar(err, snackbarStatus.Danger);
+      }
+    });
   }
 }

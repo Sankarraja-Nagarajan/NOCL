@@ -11,6 +11,7 @@
 .doc-text {
     color: var(--vp-primary-dark-blue) !important;
     font-size: var(--vp-fs-15);
+    font-weight: 500;
 
     .doc-count {
         color: var(--vp-primary-blue) !important;
@@ -25,4 +26,7 @@
     td,th{
         text-wrap: nowrap;
     }
+}
+.tile{
+    cursor: pointer;
 }

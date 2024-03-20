@@ -10,6 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { VendorsComponent } from './vendors/vendors.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { AuthGuard } from '../../Guards/auth.guard';
 
 const routes: Routes = [
   {
@@ -19,11 +20,13 @@ const routes: Routes = [
   },
   {
     path: "users",
-    component: UserComponent
+    component: UserComponent,
+    canActivate:[AuthGuard]
   },
   {
     path: "vendors",
-    component: VendorsComponent
+    component: VendorsComponent,
+    canActivate:[AuthGuard]
   }
 ]
 

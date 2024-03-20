@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { LoginService } from '../../../Services/login.service';
 import { VendorBranch } from '../../../Models/Dtos';
 import { CommonService } from '../../../Services/common.service';
+import { RegistrationService } from '../../../Services/registration.service';
+import { snackbarStatus } from '../../../Enums/snackbar-status';
 
 @Component({
   selector: 'ngx-vendor-branches',
@@ -11,8 +13,9 @@ import { CommonService } from '../../../Services/common.service';
   styleUrls: ['./vendor-branches.component.scss']
 })
 export class VendorBranchesComponent implements OnInit {
+  @Input() form_Id: number;
 
-  vendorBranches:VendorBranch[]=[];
+  vendorBranches: VendorBranch[] = [];
   dataSource = new MatTableDataSource(this.vendorBranches);
 
   displayedColumns: string[] = [
@@ -24,9 +27,10 @@ export class VendorBranchesComponent implements OnInit {
     'action'
   ];
   VendorBranchForm: FormGroup;
-  form_Id: number;
 
-  constructor(private _fb: FormBuilder,private _commonService:CommonService) {}
+  constructor(private _fb: FormBuilder,
+    private _commonService: CommonService,
+    private _registration: RegistrationService) { }
 
   ngOnInit(): void {
     this.VendorBranchForm = this._fb.group({
@@ -37,13 +41,23 @@ export class VendorBranchesComponent implements OnInit {
       Location: ['', [Validators.required]]
     });
 
-    // get Form Id from session storage
-    this.form_Id = parseInt(sessionStorage.getItem('Form_Id'));
+    // Get vendor branches by form Id
+    this._registration.getFormData(this.form_Id, 'VendorBranches').subscribe({
+      next: (res) => {
+        if (res) {
+          this.vendorBranches = res;
+          this.dataSource = new MatTableDataSource(this.vendorBranches);
+        }
+      },
+      error: (err) => {
+        this._commonService.openSnackbar(err, snackbarStatus.Danger);
+      }
+    });
   }
 
   // Allow (numbers, plus, and space) for Mobile & Phone
-  keyPressValidation(event,type) {
-    return this._commonService.KeyPressValidation(event,type)
+  keyPressValidation(event, type) {
+    return this._commonService.KeyPressValidation(event, type)
   }
 
   addVendorBranch() {
@@ -67,7 +81,7 @@ export class VendorBranchesComponent implements OnInit {
     if (this.vendorBranches.length > 0) {
       return true;
     }
-    else{
+    else {
       this.VendorBranchForm.markAllAsTouched();
       return false;
     }

@@ -4,12 +4,14 @@ import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { InitiationFormComponent } from './initiation-form/initiation-form.component';
 import { MaterialModule } from '../material/material.module';
+import { AuthGuard } from '../../Guards/auth.guard';
 
 
 const routes: Routes = [
   {
     path: 'dashboard',
-    component: DashboardComponent
+    component: DashboardComponent,
+    canActivate:[AuthGuard]
   },
   {
     path: '',
@@ -18,7 +20,8 @@ const routes: Routes = [
   },
   {
     path:'initiator-form',
-    component:InitiationFormComponent
+    component:InitiationFormComponent,
+    canActivate:[AuthGuard]
   }
 ];
 

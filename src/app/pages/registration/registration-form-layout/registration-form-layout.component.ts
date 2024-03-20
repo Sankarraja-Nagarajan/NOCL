@@ -19,6 +19,9 @@ import { ActivatedRoute } from '@angular/router';
 import { first } from 'rxjs/operators';
 import { RegistrationService } from '../../../Services/registration.service';
 import { FormSubmitTemplate } from '../../../Models/Registration';
+import { AuthResponse } from '../../../Models/authModel';
+import { MatDialog } from '@angular/material/dialog';
+import { TermsAndConditionsDialogComponent } from '../../../Dialogs/attachment-dialog/terms-and-conditions-dialog/terms-and-conditions-dialog.component';
 
 @Component({
   selector: 'ngx-registration-form-layout',
@@ -41,23 +44,20 @@ export class RegistrationFormLayoutComponent implements OnInit {
 
   form_Id: number;
   vendorTypeId: number;
+  authResponse: AuthResponse;
 
   constructor(private _commonService: CommonService,
     private _activatedRoute: ActivatedRoute,
-    private _registration:RegistrationService) {
+    private _registration: RegistrationService,
+    private _dialog: MatDialog) {
 
   }
   ngOnInit(): void {
-
-    this._commonService.openSnackbar('Success',snackbarStatus.Success);
-
-
-    this._activatedRoute.queryParams.pipe(first()).subscribe({
+    this.authResponse = JSON.parse(sessionStorage.getItem('userDetails'));
+    this._activatedRoute.queryParams.subscribe({
       next: (params) => {
         if (params != null && params['data'] != null) {
           const jsonData = JSON.parse((params['data']));
-          sessionStorage.setItem('Form_Id', jsonData.Form_Id);
-          sessionStorage.setItem('V_Id', jsonData.V_Id);
           this.form_Id = jsonData.Form_Id;
           this.vendorTypeId = jsonData.V_Id;
         }
@@ -67,7 +67,10 @@ export class RegistrationFormLayoutComponent implements OnInit {
       }
     });
 
-
+    if (this.authResponse.Role === 'Vendor') {
+      // 
+      this.openTermsAndConditionsDialog();
+    }
   }
 
   domesticAndImportFormPayload() {
@@ -111,16 +114,16 @@ export class RegistrationFormLayoutComponent implements OnInit {
       formSubmitTemplate.FormData = domesticAndImportForm;
 
       this._registration.formSubmit(formSubmitTemplate).subscribe({
-        next:(res)=>{
+        next: (res) => {
           console.log(res);
-          if(res.Status === 200){
+          if (res.Status === 200) {
             // reset all forms
 
             this._commonService.openSnackbar(res.Message, snackbarStatus.Success)
           }
         },
-        error:(err)=>{
-          this._commonService.openSnackbar(err,snackbarStatus.Danger);
+        error: (err) => {
+          this._commonService.openSnackbar(err, snackbarStatus.Danger);
         }
       });
     }
@@ -149,6 +152,25 @@ export class RegistrationFormLayoutComponent implements OnInit {
       transportForm.VendorBranches = this.vendorBranchesComponent.getVendorBranches();
       console.log(transportForm);
     }
+  }
+
+  openTermsAndConditionsDialog() {
+    const dialogRef = this._dialog.open(TermsAndConditionsDialogComponent, {
+      autoFocus: false,
+      disableClose: true,
+      width: '700px',
+      height: '500px'
+    });
+    dialogRef.afterClosed().subscribe({
+      next: (res) => {
+        if (res) {
+
+        }
+        else {
+          this.openTermsAndConditionsDialog();
+        }
+      }
+    });
   }
 
   submit() {

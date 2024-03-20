@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { AnnualTurnOver } from '../../../Models/Dtos';
 import { CommonService } from '../../../Services/common.service';
+import { RegistrationService } from '../../../Services/registration.service';
+import { snackbarStatus } from '../../../Enums/snackbar-status';
 
 @Component({
   selector: 'ngx-annual-turnover',
@@ -10,9 +12,10 @@ import { CommonService } from '../../../Services/common.service';
   styleUrls: ['./annual-turnover.component.scss']
 })
 export class AnnualTurnoverComponent implements OnInit{
+  @Input() form_Id: number;
+  
   annualTurnOver:AnnualTurnOver[]=[];
   dataSource = new MatTableDataSource(this.annualTurnOver);
-
   displayedColumns: string[] = [
    'year',
    'salesturnover',
@@ -20,12 +23,12 @@ export class AnnualTurnoverComponent implements OnInit{
    'netprofit',
    'action'
   ];
-
   turnoverForm:FormGroup
-  form_Id: number;
   years: number[] = [];
 
-  constructor(private _fb:FormBuilder, private _commonService:CommonService){
+  constructor(private _fb:FormBuilder, 
+    private _commonService:CommonService,
+    private _registration:RegistrationService){
 
     this.turnoverForm=_fb.group({
       Year:['',Validators.required],
@@ -37,8 +40,18 @@ export class AnnualTurnoverComponent implements OnInit{
   ngOnInit(): void {
     this.generateYears();
 
-    // get Form Id from session storage
-    this.form_Id = parseInt(sessionStorage.getItem('Form_Id'));
+    // Get Annual turn overs data by form Id
+    this._registration.getFormData(this.form_Id, 'AnnualTurnOvers').subscribe({
+      next: (res) => {
+        if (res) {
+          this.annualTurnOver = res;
+          this.dataSource = new MatTableDataSource(this.annualTurnOver);
+        }
+      },
+      error: (err) => {
+        this._commonService.openSnackbar(err, snackbarStatus.Danger);
+      }
+    });
   }
 
   addTurnover(){

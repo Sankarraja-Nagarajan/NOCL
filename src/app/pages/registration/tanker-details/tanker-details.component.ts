@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { TankerDetail } from '../../../Models/Dtos';
 import { CommonService } from '../../../Services/common.service';
+import { RegistrationService } from '../../../Services/registration.service';
+import { snackbarStatus } from '../../../Enums/snackbar-status';
 
 @Component({
   selector: 'ngx-tanker-details',
@@ -10,6 +12,7 @@ import { CommonService } from '../../../Services/common.service';
   styleUrls: ['./tanker-details.component.scss']
 })
 export class TankerDetailsComponent implements OnInit {
+  @Input() form_Id: number;
 
   tankerDetails: TankerDetail[] = [];
   dataSource = new MatTableDataSource(this.tankerDetails);
@@ -19,20 +22,30 @@ export class TankerDetailsComponent implements OnInit {
     'capacityOfTanker',
     'action'
   ];
-
   TankerDetailsForm: FormGroup;
-  form_Id: number;
 
-  constructor(private _fb: FormBuilder, private _commonService: CommonService) {
+  constructor(private _fb: FormBuilder, 
+    private _commonService: CommonService,
+    private _registration:RegistrationService) {
   }
   ngOnInit(): void {
     this.TankerDetailsForm = this._fb.group({
       Tanker_Type_Id: ['', Validators.required],
       Capacity_of_Tanker: ['', [Validators.required]],
     });
-    
-    // get Form Id from session storage
-    this.form_Id = parseInt(sessionStorage.getItem('Form_Id'));
+
+    // Get Annual turn overs data by form Id
+    this._registration.getFormData(this.form_Id, 'TankerDetails').subscribe({
+      next: (res) => {
+        if (res) {
+          this.tankerDetails = res;
+          this.dataSource = new MatTableDataSource(this.tankerDetails);
+        }
+      },
+      error: (err) => {
+        this._commonService.openSnackbar(err, snackbarStatus.Danger);
+      }
+    });
   }
 
   addTanker() {

@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { ProprietorOrPartner } from '../../../Models/Dtos';
 import { CommonService } from '../../../Services/common.service';
+import { RegistrationService } from '../../../Services/registration.service';
+import { snackbarStatus } from '../../../Enums/snackbar-status';
 
 @Component({
   selector: 'ngx-partners',
@@ -12,6 +14,8 @@ import { CommonService } from '../../../Services/common.service';
 
 
 export class PartnersComponent implements OnInit {
+  @Input() form_Id: number;
+  
   proprietOrsOrPartners: ProprietorOrPartner[] = [];
   dataSource = new MatTableDataSource(this.proprietOrsOrPartners);
   displayedColumns: string[] = [
@@ -20,9 +24,10 @@ export class PartnersComponent implements OnInit {
     'action'
   ];
   partnersForm: FormGroup;
-  form_Id: number;
 
-  constructor(private _fb: FormBuilder, private _commonService:CommonService  ) {
+  constructor(private _fb: FormBuilder, 
+    private _commonService:CommonService,
+    private _registration:RegistrationService) {
   }
   ngOnInit(): void {
     this.partnersForm = this._fb.group({
@@ -30,8 +35,18 @@ export class PartnersComponent implements OnInit {
       PercentageShare: ['', [Validators.required]],
     })
 
-    // get Form Id from session storage
-    this.form_Id = parseInt(sessionStorage.getItem('Form_Id'));
+    // Get Proprietor or Partners data by form Id
+    this._registration.getFormData(this.form_Id, 'ProprietorOrPartners').subscribe({
+      next: (res) => {
+        if (res) {
+          this.proprietOrsOrPartners = res;
+          this.dataSource = new MatTableDataSource(this.proprietOrsOrPartners);
+        }
+      },
+      error: (err) => {
+        this._commonService.openSnackbar(err, snackbarStatus.Danger);
+      }
+    });
   }
 
   addPartners() {

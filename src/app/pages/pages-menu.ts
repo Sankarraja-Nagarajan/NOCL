@@ -23,6 +23,7 @@ export class Sample{
       {
         title: 'dashboard',
         link: 'onboarding/dashboard',
+        icon:'nb-heart',
         hidden: this.role == 'Admin',
       },
       {
