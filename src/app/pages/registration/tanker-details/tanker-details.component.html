@@ -19,7 +19,7 @@
                                     </nb-select>
                                     <mat-error
                                         *ngIf="this.TankerDetailsForm.get('Tanker_Type_Id').hasError('required') && this.TankerDetailsForm.get('Tanker_Type_Id').touched"
-                                        class="error-msg">Tanker Type is <strong>required</strong></mat-error>
+                                        class="error-msg">Tanker Type is required</mat-error>
                                 </div>
                             </div>
                         </div>
@@ -31,7 +31,7 @@
                                         placeholder="Enter Capacity of Tanker" (keypress)="keyPressValidation($event,'decimal')"/>
                                     <mat-error
                                         *ngIf="this.TankerDetailsForm.get('Capacity_of_Tanker').hasError('required') && this.TankerDetailsForm.get('Capacity_of_Tanker').touched"
-                                        class="error-msg">Capacity of Tanker is <strong>required</strong></mat-error>
+                                        class="error-msg">Capacity of Tanker is required</mat-error>
                                 </div>
                             </div>
 

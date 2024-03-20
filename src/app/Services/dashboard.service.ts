@@ -10,9 +10,9 @@ export class DashboardService {
 
   constructor(private _http: HttpService) { }
 
-  // get all form data
-  getAllData(emp_Id:string): Observable<any> {
-    const URL = `${this.baseURL}/Dashboard/GetAllData?employeeId=${emp_Id}`;
+  // get initial form data
+  getInitialData(emp_Id:string): Observable<any> {
+    const URL = `${this.baseURL}/Dashboard/GetInitialData?employeeId=${emp_Id}`;
     return this._http.get(URL);
   }
 

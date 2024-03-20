@@ -22,6 +22,7 @@ import { FormSubmitTemplate } from '../../../Models/Registration';
 import { AuthResponse } from '../../../Models/authModel';
 import { MatDialog } from '@angular/material/dialog';
 import { TermsAndConditionsDialogComponent } from '../../../Dialogs/attachment-dialog/terms-and-conditions-dialog/terms-and-conditions-dialog.component';
+import { AttachmentsComponent } from '../attachments/attachments.component';
 
 @Component({
   selector: "ngx-registration-form-layout",
@@ -49,10 +50,13 @@ export class RegistrationFormLayoutComponent implements OnInit {
   transportVendorsPersonalDetailsComponent: TransportVendorsPersonalDetailsComponent;
   @ViewChild(TankerDetailsComponent)
   tankerDetailsComponent: TankerDetailsComponent;
+  @ViewChild(AttachmentsComponent)
+  attachmentsComponent: AttachmentsComponent;
 
   form_Id: number;
   vendorTypeId: number;
   authResponse: AuthResponse;
+  form_status: string;
 
   constructor(
     private _commonService: CommonService,
@@ -66,12 +70,15 @@ export class RegistrationFormLayoutComponent implements OnInit {
     this._activatedRoute.queryParams.subscribe({
       next: (params) => {
         if (params != null && params['data'] != null) {
-          const jsonData = JSON.parse((params['data']));
-          this.form_Id = jsonData.Form_Id;
-          this.vendorTypeId = jsonData.V_Id;
+          const JSON_DATA = JSON.parse((params['data']));
+          this.form_Id = JSON_DATA.Form_Id;
+          this.vendorTypeId = JSON_DATA.V_Id;
+          this.form_status = JSON_DATA.Status;
         }
       },
-      error: (err) => {},
+      error: (err) => { 
+        this._commonService.openSnackbar(err,snackbarStatus.Danger);
+      },
     });
 
     if (this.authResponse.Role === 'Vendor') {
@@ -91,6 +98,7 @@ export class RegistrationFormLayoutComponent implements OnInit {
       this.vendorBranchesComponent.isValid(),
       this.partnersComponent.isValid(),
       this.annualTurnoverComponent.isValid(),
+      this.attachmentsComponent.isValid()
     ];
 
     if (validations.includes(false)) {

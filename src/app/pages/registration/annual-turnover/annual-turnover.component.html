@@ -16,7 +16,7 @@
                                     </nb-select>
                                     <mat-error
                                         *ngIf="this.turnoverForm.get('Year').hasError('required') && this.turnoverForm.get('Year').touched"
-                                        class="error-msg">Year is <strong>required</strong></mat-error>
+                                        class="error-msg">Year is required</mat-error>
                                 </div>
                             </div>
                         </div>
@@ -96,8 +96,8 @@
 
                         <!-- action column -->
                         <ng-container matColumnDef="action">
-                            <th mat-header-cell *matHeaderCellDef> </th>
-                            <td mat-cell *matCellDef="let element; let i = index">
+                            <th mat-header-cell *matHeaderCellDef [hidden]="role != 'Vendor'"> </th>
+                            <td mat-cell *matCellDef="let element; let i = index" [hidden]="role != 'Vendor'">
                                 <div>
                                     <button mat-mini-fab color="basic" class="cancel-btn" (click)="removeTurnover(i)">
                                         <img src="../../../../assets/images/pngs/xmark.png" height="20" width="20">

@@ -33,6 +33,7 @@ export class AttachmentDialogComponent implements OnInit {
     private _config: AppConfigService,
     private _fb: FormBuilder,
     private _attach:AttachmentService) {
+      this.form_Id = data.form_Id;
   }
 
   ngOnInit(): void {
@@ -51,8 +52,6 @@ export class AttachmentDialogComponent implements OnInit {
       map(value => this._filter(value || ''))
     );
 
-    // get Form Id from session storage
-    this.form_Id = parseInt(sessionStorage.getItem('Form_Id'));
   }
 
   private _filter(value: string): string[] {
@@ -85,11 +84,11 @@ export class AttachmentDialogComponent implements OnInit {
     if (this.attachmentForm.valid && !this.isFileUploaded) {
        {
         let attachment = new Attachment();
+        attachment = this.attachmentForm.value;
         attachment.Attachment_Id = 0;
         attachment.Form_Id = this.form_Id;
         attachment.File_Name = this.fileName;
         attachment.File_Extension = this.selectedFile.type;
-        console.log(attachment);
         const formData = new FormData();
         formData.append('file', this.selectedFile, this.selectedFile.name);
         formData.append('AttachmentDetails', JSON.stringify(attachment));

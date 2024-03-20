@@ -13,7 +13,7 @@
                         <mat-option [value]="items" *ngFor="let items of filteredOptions | async">{{items}}</mat-option>
                     </mat-autocomplete>
                     <mat-error *ngIf="this.attachmentForm.get('File_Type').hasError('required') && this.attachmentForm.get('File_Type').touched"
-                        class="error-msg"><strong>Required Fields</strong></mat-error>
+                        class="error-msg">Required Fields</mat-error>
                 </mat-form-field>
             </div>
             <label for="upload">
@@ -23,7 +23,7 @@
                         (change)="onFileChange($event)">
                     Upload
                 </div>
-                <mat-error *ngIf="isFileUploaded" class="error-msg"><strong>Upload a file</strong></mat-error>
+                <mat-error *ngIf="isFileUploaded" class="error-msg">Upload a file<</mat-error>
             </label>
             <div class="fileName" *ngIf="fileName != null">
                 <span class="col-5 pe-0 filename-label" *ngIf="fileName">Chosen File :</span>
@@ -45,7 +45,7 @@
                     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
                     <mat-error *ngIf="this.attachmentForm.get('Expiry_Date').hasError('required') && this.attachmentForm.get('Expiry_Date').touched"
-                        class="error-msg"><strong>Required Fields</strong></mat-error>
+                        class="error-msg">Required Fields<</mat-error>
                 </mat-form-field>
             </div>
         </div>
