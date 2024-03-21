@@ -15,7 +15,7 @@
                                         required />
                                     <mat-error
                                         *ngIf="this.domesticVendorForm.get('Organization_Name').hasError('required') && this.domesticVendorForm.get('Organization_Name').touched"
-                                        class="error-msg">Organization Name is <strong>required</strong></mat-error>
+                                        class="error-msg">Organization Name is required</mat-error>
                                 </div>
                             </div>
                         </div>
@@ -31,7 +31,7 @@
                                     <mat-error
                                         *ngIf="this.domesticVendorForm.get('Plant_Installation_Year').hasError('required') && this.domesticVendorForm.get('Plant_Installation_Year').touched"
                                         class="error-msg">Plant Installaiton Year is
-                                        <strong>required</strong></mat-error>
+                                        required</mat-error>
                                 </div>
                             </div>
                         </div>
@@ -54,7 +54,7 @@
                         </div>
                         <div class="col-sm-5 d-flex mt-sm-0 mt-2 justify-content-sm-start justify-content-end">
                             <div class="d-flex align-items-end justify-content-center">
-                                <button class="btn btn-design center-flexBox" (click)="getDetails()">
+                                <button *ngIf="authResponse.Role == 'Vendor'" class="btn btn-design center-flexBox" (click)="getDetails()">
                                     <!-- <img src="../../../../assets/images/pngs/plus.png" width="16" height="16"> -->
                                     Get Details</button>
                             </div>

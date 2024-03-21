@@ -41,9 +41,7 @@ export class DomesticVendorOrgProfileComponent {
       Subsideries: [null],
       Annual_Prod_Capacity: [''],
     });
-
-    // get Form Id from session storage
-    this.form_Id = parseInt(sessionStorage.getItem('Form_Id'));
+    
     this.authResponse = JSON.parse(sessionStorage.getItem("userDetails"));
     if(this.authResponse && this.authResponse.Role != "Vendor"){
       this.vendorOrgForm.disable();

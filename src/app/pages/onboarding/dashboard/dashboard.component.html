@@ -1,11 +1,11 @@
-<section class="screenDashboard">
+<section class="screenDashboard" *ngIf="!loader">
     <!--card starts here-->
     <div class="d-flex flex-wrap gap-4">
         <div class="d-flex justify-content-around align-items-center bg-white p-3 col rounded-3 tile"
             (click)="data('Open')">
             <div>
                 <p class="card-text mb-2">Open Documents</p>
-                <h1>2047</h1>
+                <h1>{{initialDashboardData.Open}}</h1>
             </div>
             <img src="../../../assets/images/pngs/open.png" height="70">
         </div>
@@ -14,7 +14,7 @@
             (click)="data('Pending')">
             <div>
                 <p class="card-text mb-2">Pending Documents</p>
-                <h1>3264</h1>
+                <h1>{{initialDashboardData.Pending}}</h1>
             </div>
             <img src="../../../assets/images/pngs/pending.png" height="70">
         </div>
@@ -23,7 +23,7 @@
             (click)="data('Approved')">
             <div>
                 <p class="card-text mb-2">Approved Documents</p>
-                <h1>2770</h1>
+                <h1>{{initialDashboardData.Approved}}</h1>
             </div>
             <img src="../../../assets/images/pngs/approved.png" height="70">
         </div>
@@ -32,7 +32,7 @@
             (click)="data('Rejected')">
             <div>
                 <p class="card-text mb-2">Rejected Documents</p>
-                <h1>2770</h1>
+                <h1>{{initialDashboardData.Rejected}}</h1>
             </div>
             <img src="../../../assets/images/pngs/reject.png" height="70">
         </div>
@@ -125,3 +125,12 @@
 
     <!-- table ends here-->
 </section>
+
+<div class="loader-point" id="nb-global-spinner" *ngIf="loader">
+    <div
+      class="spinner-grow text-primary"
+      style="width: 4rem; height: 4rem"
+      role="status"
+    ></div>
+    <span class="sr-only">Submitting...</span>
+  </div>

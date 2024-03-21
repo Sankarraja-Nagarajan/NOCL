@@ -86,11 +86,13 @@ export class InitiationFormComponent implements OnInit {
       form.Status_Id = 0;
       form.Vendor_Code = '';
       form.CreatedBy = this.userData.Employee_Id;
-      this.initiationForm.reset();
 
       this._registration.formInitiate(form).subscribe({
         next:(res)=>{
-          console.log(res);
+          if(res.Status === 200){
+            this._common.openSnackbar(res.Message, snackbarStatus.Success);
+            this.initiationForm.reset();
+          }
         },
         error:(err)=>{
           this._common.openSnackbar(err, snackbarStatus.Danger);

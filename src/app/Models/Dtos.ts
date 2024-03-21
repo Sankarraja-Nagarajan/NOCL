@@ -147,3 +147,11 @@ export class Dashboard {
     CreatedOn: Date;
     Status: string;
 }
+
+export class InitialData {
+    Data: Dashboard[];
+    Open: number;
+    Pending: number;
+    Approved: number;
+    Rejected: number;
+}

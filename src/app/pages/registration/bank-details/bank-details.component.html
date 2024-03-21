@@ -13,7 +13,7 @@
                                     placeholder="Enter Account Holder Name" maxlength="100"
                                     (keypress)="keyPressValidation($event,'text')"/>
                                     <mat-error *ngIf="this.bankDetailsForm.get('AccountHolder').hasError('required') && this.bankDetailsForm.get('AccountHolder').touched"
-                                    class="error-msg"> Account Holder Name is <strong>required</strong></mat-error>
+                                    class="error-msg"> Account Holder Name is required</mat-error>
                                 </div>
                             </div>
                         </div>
@@ -24,7 +24,7 @@
                                     <input nbInput fullWidth fieldSize="small" class="input-border" formControlName="Bank" 
                                     placeholder="Enter Bank Name" maxlength="100"/>
                                     <mat-error *ngIf="this.bankDetailsForm.get('Bank').hasError('required') && this.bankDetailsForm.get('Bank').touched"
-                                    class="error-msg"> Bank Name is <strong>required</strong></mat-error>
+                                    class="error-msg"> Bank Name is required<</mat-error>
                                 </div>
                             </div>
                         </div>
@@ -40,7 +40,7 @@
                                     <input nbInput fullWidth fieldSize="small" class="input-border" formControlName="Branch" 
                                     placeholder="Enter Branch" maxlength="30"/>
                                     <mat-error *ngIf="this.bankDetailsForm.get('Branch').hasError('required') && this.bankDetailsForm.get('Branch').touched"
-                                    class="error-msg"> Branch Name is <strong>required</strong></mat-error>
+                                    class="error-msg"> Branch Name is required<</mat-error>
                                 </div>
                             </div>
                         </div>

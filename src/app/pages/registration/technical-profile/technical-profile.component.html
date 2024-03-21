@@ -1,55 +1,98 @@
 <section class="screenAddress">
-    <div class="container">
-        <div class="profile" style="user-select: none;">
-            <div class="row">
-                <form action="" [formGroup]="technicalProfileForm" class="p-0">
-
-                    <!-- Is_ISO_Certified & Other_Qms_Certified  -->
-                    <div class="checks-fields">
-                        <div class="check d-flex">
-                            <input type="checkbox" value="" id="isoChecked" formControlName="Is_ISO_Certified" (change)="changeOptions()">
-                            <label class="input-label-text ps-2" style="cursor: pointer;" for="isoChecked">Are You
-                                Certified For ISO Quality Systems?</label>
-                        </div>
-                    </div>
-                    <div class="checks-fields">
-                        <div class="check d-flex">
-                            <input type="checkbox" value="" id="QmsChecked" formControlName="Other_Qms_Certified" (change)="changeOptions()">
-                            <label class="input-label-text ps-2 cursor-pointer" for="QmsChecked">If not, Are You
-                                Certified For Any of QMS Quality Systems?</label>
-                        </div>
-                    </div>
-                    <!-- Is_ISO_Certified & Other_Qms_Certified  -->
-
-                    <!-- Planning_for_Qms & Is_Statutory_Provisions_Adheard -->
-                    <div class="checks-fields">
-                        <div class="check d-flex">
-                            <input type="checkbox" value="" id="planQmsChecked" formControlName="Planning_for_Qms" (change)="changeOptions()">
-                            <label class="input-label-text ps-2 cursor-pointer" for="planQmsChecked">If not certified,
-                                Are you planning for it?</label>
-                        </div>
-                    </div>
-                    <div class="checks-fields">
-                        <div class="check d-flex">
-                            <input type="checkbox" value="" id="statusProvisions"
-                                formControlName="Is_Statutory_Provisions_Adheard">
-                            <label class="input-label-text ps-2 cursor-pointer" for="statusProvisions">Statutory
-                                Provisions Adheard</label>
-                        </div>
-                    </div>
-                    <!-- Planning_for_Qms & Is_Statutory_Provisions_Adheard -->
-
-                    <!--Initiatives_for_Development-->
-                    <div class="input-group">
-                        <label class="input-label-text">Initiatives for sustainable Development</label>
-                        <div class="input-group">
-                            <textarea nbInput fullWidth fieldSize="tiny" class="input-border"
-                                formControlName="Initiatives_for_Development" placeholder="Enter sustainable Development" ></textarea>
-                        </div>
-                    </div>
-                    <!--Initiatives_for_Development-->
-                </form>
+  <div class="container">
+    <div class="profile" style="user-select: none">
+      <div class="row">
+        <form action="" [formGroup]="technicalProfileForm" class="p-0">
+          <!-- Is_ISO_Certified & Other_Qms_Certified  -->
+          <div class="checks-fields">
+            <div class="check d-flex">
+              <input
+                type="checkbox"
+                value=""
+                id="isoChecked"
+                formControlName="Is_ISO_Certified"
+                (change)="changeOptions()"
+              />
+              <label
+                class="input-label-text ps-2"
+                style="cursor: pointer"
+                for="isoChecked"
+                >Are You Certified For ISO Quality Systems?</label
+              >
             </div>
-        </div>
+          </div>
+          <div class="checks-fields">
+            <div class="check d-flex">
+              <input
+                type="checkbox"
+                value=""
+                id="QmsChecked"
+                formControlName="Other_Qms_Certified"
+                (change)="changeOptions()"
+              />
+              <label
+                class="input-label-text ps-2 cursor-pointer"
+                for="QmsChecked"
+                >If not, Are you certified in any other Quality Management
+                Systems (QMS)?</label
+              >
+            </div>
+          </div>
+          <!-- Is_ISO_Certified & Other_Qms_Certified  -->
+
+          <!-- Planning_for_Qms & Is_Statutory_Provisions_Adheard -->
+          <div class="checks-fields">
+            <div class="check d-flex">
+              <input
+                type="checkbox"
+                value=""
+                id="planQmsChecked"
+                formControlName="Planning_for_Qms"
+                (change)="changeOptions()"
+              />
+              <label
+                class="input-label-text ps-2 cursor-pointer"
+                for="planQmsChecked"
+                >If not certified, Are you planning for it?</label
+              >
+            </div>
+          </div>
+          <div class="checks-fields">
+            <div class="check d-flex">
+              <input
+                type="checkbox"
+                value=""
+                id="statusProvisions"
+                formControlName="Is_Statutory_Provisions_Adheard"
+              />
+              <label
+                class="input-label-text ps-2 cursor-pointer"
+                for="statusProvisions"
+                >Are you adheard to statutory Provisions?</label
+              >
+            </div>
+          </div>
+          <!-- Planning_for_Qms & Is_Statutory_Provisions_Adheard -->
+
+          <!--Initiatives_for_Development-->
+          <div class="input-group">
+            <label class="input-label-text"
+              >Initiatives for sustainable Development</label
+            >
+            <div class="input-group">
+              <textarea
+                nbInput
+                fullWidth
+                fieldSize="tiny"
+                class="input-border"
+                formControlName="Initiatives_for_Development"
+                placeholder="Initiatives..."
+              ></textarea>
+            </div>
+          </div>
+          <!--Initiatives_for_Development-->
+        </form>
+      </div>
     </div>
+  </div>
 </section>
