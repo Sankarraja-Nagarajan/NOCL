@@ -171,7 +171,7 @@ nb-sidebar.compacted nb-menu .menu-item a.active::before {
   width: 0px !important;
 }
 
-nb-sidebar .scrollable{
+nb-sidebar .scrollable {
   padding: 0px !important;
   background-image: linear-gradient(to bottom, #ffff, #e8ebfa);
 }
@@ -197,7 +197,7 @@ nb-sidebar.expanded {
 }
 
 nb-sidebar .main-container {
-    width: var(--vp-sidebar-width);
+  width: var(--vp-sidebar-width);
 }
 
 nb-layout-header.fixed ~ .layout-container nb-sidebar .main-container {
@@ -237,7 +237,7 @@ nb-layout .layout .layout-container nb-sidebar .main-container-fixed {
 .btn-design {
   background: var(--vp-bluish-violet) !important;
   color: var(--vp-white) !important;
-  font-size: var(--vp-fs-12);
+  font-size: var(--vp-fs-12) !important;
   height: auto;
   width: auto;
 }
@@ -310,6 +310,7 @@ nb-option-list .option-list {
 
 .input-border {
   border: 1px solid #99b2ff !important;
+  border-radius: var(--vp-br-5) !important;
 }
 
 textarea {
@@ -330,23 +331,62 @@ textarea {
   width: auto;
 }
 
-// for snackbar
+// snackbarClasses
+
+.mat-mdc-snack-bar-container {
+  --mdc-snackbar-container-color: transparent !important;
+}
+
 .success {
-  background-color: #4caf50 !important;
-  color: #ffffff !important;
+  background-color: #26b329 !important;
+  white-space: pre-wrap !important;
+  word-break: break-all !important;
 }
 
 .danger {
-  background-color: #f44336;
-  color: #ffffff;
+  background-color: #d6201d !important;
+  color: white !important;
+  white-space: pre-wrap !important;
+  word-break: break-all !important;
 }
 
 .warning {
-  background-color: #ff9800;
-  color: #ffffff;
+  background-color: #ee9a2c !important;
+  white-space: pre-wrap !important;
+  word-break: break-all !important;
 }
 
 .info {
-  background-color: #2196f3;
-  color: #ffffff;
+  background-color: #1992ce !important;
+  color: white !important;
+  white-space: pre-wrap !important;
+  word-break: break-all !important;
+}
+
+// loader
+.loader-point {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  background: #ffffffbd;
+  left: 0;
+  height: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99;
+}
+
+.section-loader-point {
+  position: relative;
+  top: 0;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.7411764706);
+  left: 0;
+  height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99;
+  text-align: center;
 }

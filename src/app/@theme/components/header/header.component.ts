@@ -13,12 +13,8 @@ import { Subject } from "rxjs";
 import { CommonService } from "../../../Services/common.service";
 import { NbUser } from "@nebular/auth";
 import { Router } from "@angular/router";
-
-export class User {
-  name: string;
-  title: string;
-  picture: string;
-}
+import { User } from "../../../Models/authModel";
+import { LoginService } from "../../../Services/login.service";
 
 @Component({
   selector: "ngx-header",
@@ -36,13 +32,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private menuService: NbMenuService,
     private layoutService: LayoutService,
     private commonservice: CommonService,
-    private _router: Router
+    private _router: Router,
+    private _login: LoginService
   ) {}
 
   ngOnInit() {
-    this.user.name = "Gana";
-    this.user.title = "Domestic PO";
-    this.user.picture = "../../../../assets/images/dummy-user.png";
+    // this.user.name = "";
+    // this.user.title = "";
+    // this.user.picture = "../../../../assets/images/dummy-user.png";
 
     this.menuService
       .onItemClick()
@@ -51,16 +48,22 @@ export class HeaderComponent implements OnInit, OnDestroy {
         map(({ item: { title } }) => title)
       )
       .subscribe({
-        next:(title) => {
-          if(title == "Log out"){ 
+        next: (title) => {
+          if (title == "Log out") {
             sessionStorage.clear();
             this._router.navigate(["auth/login"]);
           }
         },
-        error:(err)=>{
-
-        }
+        error: (err) => {},
       });
+
+    this._login.userChangeEmitted.subscribe({
+      next: (res) => {
+        this.user.name = res.name;
+        this.user.title = res.title;
+        this.user.picture = "../../../../assets/images/dummy-user.png";
+      },
+    });
   }
 
   ngOnDestroy() {}

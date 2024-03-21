@@ -77,7 +77,7 @@
                             <div class="input-group">
                                 <input nbInput fullWidth placeholder="Enter name" formControlName="Vendor_Name"
                                     fieldSize="small" class="input-border"
-                                    (keypress)="keyPressValidation($event,'text')" required />
+                                    (keypress)="keyPressValidation($event,'alphanumeric')" required />
                                 <mat-error
                                     *ngIf="initiationForm.get('Vendor_Name').hasError('required') && initiationForm.get('Vendor_Name').touched"
                                     class="error-msg">

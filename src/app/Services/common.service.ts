@@ -17,6 +17,7 @@ export class CommonService {
 
   horizontalPosition: MatSnackBarHorizontalPosition = "right";
   verticalPosition: MatSnackBarVerticalPosition = "bottom";
+
   private sidebarSubject: Subject<boolean> = new Subject<boolean>();
   sidebarEmitted = this.sidebarSubject.asObservable();
   footerLogoVisible:boolean = true;
@@ -24,7 +25,7 @@ export class CommonService {
   constructor(private _snackbar: MatSnackBar,
     private sidebarService: NbSidebarService) { }
 
-  // Opens Snackbar notification
+ // Opens Snackbar notification
   openSnackbar(
     message: string,
     status: snackbarStatus,
@@ -38,10 +39,10 @@ export class CommonService {
         status === snackbarStatus.Success
           ? "success"
           : status === snackbarStatus.Danger
-            ? "danger"
-            : status === snackbarStatus.Warning
-              ? "warning"
-              : "info",
+          ? "danger"
+          : status === snackbarStatus.Warning
+          ? "warning"
+          : "info",
     };
     this._snackbar.open(message, "", config);
   }
@@ -64,7 +65,15 @@ export class CommonService {
       return (
         (k >= 65 && k <= 90) ||
         (k >= 97 && k <= 122) ||
-        (k == 46) || (k == 32)
+        (k == 46) || (k == 32) 
+      );
+    }
+    if (type === 'alphanumeric') {
+      return (
+        (k >= 65 && k <= 90) ||
+        (k >= 97 && k <= 122) ||
+        (k == 46) || (k == 32) ||
+        (k >= 48 && k <= 57)
       );
     }
     if (type === 'email') {
