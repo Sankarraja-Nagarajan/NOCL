@@ -17,7 +17,7 @@ export class VendorOrganizationProfile {
 export class TechnicalProfile {
     Id: number;
     Form_Id: number;
-    Is_ISO_Cerified: boolean;
+    Is_ISO_Certified: boolean;
     Other_Qms_Certified: boolean;
     Planning_for_Qms: boolean;
     Is_Statutory_Provisions_Adheard: boolean;

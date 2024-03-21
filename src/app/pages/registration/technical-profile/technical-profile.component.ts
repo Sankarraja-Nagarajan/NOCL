@@ -68,7 +68,7 @@ export class TechnicalProfileComponent implements OnInit {
     let technicalProfile = new TechnicalProfile();
     technicalProfile = this.technicalProfileForm.value;
     technicalProfile.Id = 0;
-    technicalProfile.Form_Id = parseInt(sessionStorage.getItem('Form_Id'));
+    technicalProfile.Form_Id = this.form_Id;
     return technicalProfile;
   }
 }

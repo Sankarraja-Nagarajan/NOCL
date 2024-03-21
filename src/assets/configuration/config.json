@@ -1,7 +1,7 @@
 {
     "BaseURL": "https://uatwhite-digitalonboarding.jkcement.com/CP_API/api",
     "MSME_Types": "Micro,Small,Medium",
-    "Attachment_Types": "GST,PAN,Aadhar,MSME,ISO",
+    "Attachment_Types": "GST,PAN,Aadhar,MSME,ISO,Certificate of analysis,Material safety data sheet,No permanent establishment certificate",
     "Terms_And_Conditions":[
         {
             "File_Name":"Sustainable Procurement Policy",

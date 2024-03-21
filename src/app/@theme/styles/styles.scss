@@ -194,6 +194,7 @@ nb-sidebar nb-menu {
 
 nb-sidebar.expanded {
   width: var(--vp-sidebar-width);
+  z-index: 100 !important;
 }
 
 nb-sidebar .main-container {
@@ -255,7 +256,7 @@ nb-layout .layout .layout-container nb-sidebar .main-container-fixed {
     font-size: var(--vp-fs-14);
     position: sticky;
     top: 0;
-    z-index: 100;
+    z-index: 10;
   }
 
   td {
@@ -284,6 +285,17 @@ input::placeholder,
 textarea::placeholder,
 .select-button.placeholder {
   font-size: var(--vp-fs-10) !important;
+}
+
+nb-select.appearance-outline.status-primary .select-button[disabled]{
+  color: #222b45 !important;
+  border: 1px solid #99b2ff !important;
+  font-weight: 400 !important;
+
+}
+[nbInput].status-basic:disabled{
+  color: #222b45 !important;
+  font-weight: 400 !important;
 }
 
 .error-msg {
@@ -325,8 +337,8 @@ textarea {
 .cancel-btn-design {
   background: var(--vp-white) !important;
   color: var(--vp-bluish-violet) !important;
-  border: 1px solid var(--vp-bluish-violet);
-  font-size: var(--vp-fs-12);
+  border: 1px solid var(--vp-bluish-violet) !important;
+  font-size: var(--vp-fs-12) !important;
   height: auto;
   width: auto;
 }

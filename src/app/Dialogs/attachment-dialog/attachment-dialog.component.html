@@ -20,10 +20,12 @@
                 <div class="uploadLabel" (click)="this.fileInput.value=null">
                     <mat-icon>cloud_upload</mat-icon>
                     <input type="file" hidden placeholder="document" #fileInput id="upload"
-                        (change)="onFileChange($event)">
+                        (change)="onFileChange($event)" 
+                        accept="image/png,image/jpg,image/jpeg,application/pdf,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel,,.doc,.docx"
+                        >
                     Upload
                 </div>
-                <mat-error *ngIf="isFileUploaded" class="error-msg">Upload a file<</mat-error>
+                <mat-error *ngIf="isFileUploaded" class="error-msg">Upload a file</mat-error>
             </label>
             <div class="fileName" *ngIf="fileName != null">
                 <span class="col-5 pe-0 filename-label" *ngIf="fileName">Chosen File :</span>
@@ -45,7 +47,7 @@
                     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
                     <mat-error *ngIf="this.attachmentForm.get('Expiry_Date').hasError('required') && this.attachmentForm.get('Expiry_Date').touched"
-                        class="error-msg">Required Fields<</mat-error>
+                        class="error-msg">Required Fields</mat-error>
                 </mat-form-field>
             </div>
         </div>

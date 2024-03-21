@@ -68,6 +68,8 @@
                                         formControlName="MSME_Type">
                                         <nb-option *ngFor="let msme of msmeTypes" [value]="msme">{{msme}}</nb-option>
                                     </nb-select>
+                                    <mat-error *ngIf="this.commercialProfileForm.get('MSME_Type').hasError('required') && this.commercialProfileForm.get('MSME_Type').touched"
+                                    class="error-msg"> MSME Type is required </mat-error>
                                 </div>
                             </div>
                         </div>
@@ -77,6 +79,8 @@
                                 <div class="input-group">
                                     <input nbInput fullWidth fieldSize="small" class="input-border"
                                      formControlName="MSME_Number" placeholder="Enter MSME Number"/>
+                                     <mat-error *ngIf="this.commercialProfileForm.get('MSME_Number').hasError('required') && this.commercialProfileForm.get('MSME_Number').touched"
+                                    class="error-msg"> MSME Number is required </mat-error>
                                 </div>
                             </div>
                         </div>
