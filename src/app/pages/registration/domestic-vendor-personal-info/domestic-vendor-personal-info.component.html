@@ -10,7 +10,7 @@
                             <div>
                                 <label class="input-label-text"> Organization name </label>
                                 <div class="input-group">
-                                    <input nbInput fullWidth fieldSize="small" class="input-border"
+                                    <input [readOnly]="isReadOnly" nbInput fullWidth fieldSize="small" class="input-border"
                                         placeholder="Enter organization name" formControlName="Organization_Name"
                                         required />
                                     <mat-error

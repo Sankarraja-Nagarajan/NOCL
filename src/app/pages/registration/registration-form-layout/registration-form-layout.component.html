@@ -11,7 +11,7 @@
                     <h3 class="d-flex justify-content-center align-items-center d-sm-none title mb-3">
                         Vendor Personal Information
                     </h3>
-                    <ngx-domestic-vendor-personal-info [form_Id]="form_Id"></ngx-domestic-vendor-personal-info>
+                    <ngx-domestic-vendor-personal-info [form_Id]="form_Id" [isReadOnly]="isReadOnly"></ngx-domestic-vendor-personal-info>
                 </div>
             </div>
         </div>
@@ -83,7 +83,7 @@
                     <h3 class="d-flex justify-content-center align-items-center d-sm-none title mb-3">
                         Vendor Organization Profile
                     </h3>
-                    <ngx-domestic-vendor-org-profile [form_Id]="form_Id"></ngx-domestic-vendor-org-profile>
+                    <ngx-domestic-vendor-org-profile [form_Id]="form_Id" [isReadOnly]="isReadOnly"></ngx-domestic-vendor-org-profile>
                 </div>
             </div>
         </div>
@@ -152,7 +152,7 @@
                 </div>
                 <div class="col-12 col-sm-9">
                     <h3 class="d-flex justify-content-center align-items-center d-sm-none title mb-3">Bank Details</h3>
-                    <ngx-bank-details [form_Id]="form_Id"></ngx-bank-details>
+                    <ngx-bank-details [form_Id]="form_Id" [isReadOnly]="isReadOnly"></ngx-bank-details>
                 </div>
             </div>
         </div>
@@ -166,7 +166,7 @@
                 <div class="col-12 col-sm-9">
                     <h3 class="d-flex justify-content-center align-items-center d-sm-none title mb-3">Commercial Profile
                     </h3>
-                    <ngx-commercial-profile [form_Id]="form_Id"></ngx-commercial-profile>
+                    <ngx-commercial-profile [form_Id]="form_Id" [v_Id]="vendorTypeId" [isReadOnly]="isReadOnly"></ngx-commercial-profile>
                 </div>
             </div>
         </div>
@@ -188,8 +188,8 @@
 
     <div class="submission-layout bg-white rounded-3 pe-4 border-bottom">
         <!-- for vendor -->
-        <div *ngIf="authResponse.Role == 'Vendor'" class="d-flex">
-            <button class="btn btn-cancel-design center-flexBox submit-icon me-2">
+        <div *ngIf="authResponse?.Role == 'Vendor'" class="d-flex">
+            <button class="btn btn-cancel-design center-flexBox submit-icon me-2" (click)="resetForm()">
                 <img src="../../../../assets/images/pngs/xmark.png" width="16" height="16" class="me-1" />Cancel</button>
             <button class="btn btn-design center-flexBox submit-icon" (click)="submit()">
                 <img src="../../../../assets/images/pngs/check.png" width="16" height="16" class="me-1" />
@@ -197,13 +197,13 @@
         </div>
 
         <!-- for approver -->
-        <div *ngIf="authResponse.Role != 'Vendor' && form_status =='Pending'" class="d-flex">
-            <button class="btn cancel-btn-design center-flexBox me-2">
+        <div *ngIf="authResponse?.Role != 'Vendor' && form_status =='Pending'" class="d-flex">
+            <button class="btn cancel-btn-design center-flexBox me-2" (click)="openRejectDialog()">
                 <img src="../../../../assets/images/pngs/xmark.png" width="16" height="16" class="me-1" />
                 Reject
             </button>
     
-            <button class="btn btn-design center-flexBox">
+            <button class="btn btn-design center-flexBox" (click)="approveForm()">
                 <img src="../../../../assets/images/pngs/check.png" width="16" height="16" class="me-1" />
                 Approve
             </button>

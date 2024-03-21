@@ -1,0 +1,42 @@
+<section class="rejectReasonDialogScreen">
+    <div class="container p-3">
+        <!-- Header -->
+        <div class="d-flex justify-content-start align-items-center mb-2">
+            <h3 class="dialog-title">Reject - Reason</h3>
+        </div>
+
+        <!-- Reason textarea -->
+        <div class="row">
+            <div>
+                <label class="input-label-text"> Reason </label>
+                <div class="input-group">
+                  <textarea
+                    nbInput
+                    fullWidth
+                    fieldSize="tiny"
+                    class="input-border"
+                    placeholder="Enter address"
+                    [formControl]="reason"
+                    required
+                  ></textarea>
+                  <mat-error
+                    *ngIf="reason.hasError('required') && reason.touched"
+                    class="error-msg">Reason is required</mat-error
+                  >
+                </div>
+              </div>
+        </div>
+
+        <!-- Submit-Cancel buttons -->
+        <div class="d-flex justify-content-center align-items-center gap-2" mat-dialog-actions>
+            <div>
+                <button class="btn btn-design center-flexBox" (click)="reject()">
+                    Submit</button>
+            </div>
+            <div>
+                <button type="button" class="btn btn-design cancel-btn-design center-flexBox" mat-dialog-close>
+                    Cancel</button>
+            </div>
+        </div>
+    </div>
+</section>

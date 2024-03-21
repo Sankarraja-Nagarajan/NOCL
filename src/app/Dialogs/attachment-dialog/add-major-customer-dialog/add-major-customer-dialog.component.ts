@@ -13,11 +13,12 @@ export class AddMajorCustomerDialogComponent implements OnInit {
 
   majorCustomerForm: FormGroup;
   majorCustomers: MajorCustomer[] = [];
-  form_Id: number;
+  // form_Id: number;
 
   constructor(private _common: CommonService,
-    private _fb: FormBuilder) {
-
+    private _fb: FormBuilder,
+    public _dialogRef: MatDialogRef<AddMajorCustomerDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public form_Id: number,) {
   }
 
   ngOnInit(): void {
@@ -26,9 +27,6 @@ export class AddMajorCustomerDialogComponent implements OnInit {
       Customer_Name: ['', [Validators.required]],
       Location: ['', [Validators.required]],
     });
-
-    // get Form Id from session storage
-    this.form_Id = parseInt(sessionStorage.getItem('Form_Id'));
   }
 
   //add item into majorCustomers array

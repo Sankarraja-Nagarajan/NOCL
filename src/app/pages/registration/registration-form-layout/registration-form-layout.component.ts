@@ -15,14 +15,15 @@ import { snackbarStatus } from '../../../Enums/snackbar-status';
 import { TransportForm } from '../../../Models/TransportForm';
 import { TransportVendorsPersonalDetailsComponent } from '../transport-vendors-personal-details/transport-vendors-personal-details.component';
 import { TankerDetailsComponent } from '../tanker-details/tanker-details.component';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { first } from 'rxjs/operators';
 import { RegistrationService } from '../../../Services/registration.service';
-import { FormSubmitTemplate } from '../../../Models/Registration';
+import { Approval, FormSubmitTemplate, Rejection } from '../../../Models/Registration';
 import { AuthResponse } from '../../../Models/authModel';
 import { MatDialog } from '@angular/material/dialog';
 import { TermsAndConditionsDialogComponent } from '../../../Dialogs/attachment-dialog/terms-and-conditions-dialog/terms-and-conditions-dialog.component';
 import { AttachmentsComponent } from '../attachments/attachments.component';
+import { RejectReasonDialogComponent } from '../../../Dialogs/reject-reason-dialog/reject-reason-dialog.component';
 
 @Component({
   selector: "ngx-registration-form-layout",
@@ -57,12 +58,14 @@ export class RegistrationFormLayoutComponent implements OnInit {
   vendorTypeId: number;
   authResponse: AuthResponse;
   form_status: string;
+  isReadOnly: boolean = true;
 
   constructor(
     private _commonService: CommonService,
     private _activatedRoute: ActivatedRoute,
     private _registration: RegistrationService,
-    private _dialog: MatDialog) {
+    private _dialog: MatDialog,
+    private _router:Router) {
 
   }
   ngOnInit(): void {
@@ -76,12 +79,13 @@ export class RegistrationFormLayoutComponent implements OnInit {
           this.form_status = JSON_DATA.Status;
         }
       },
-      error: (err) => { 
-        this._commonService.openSnackbar(err,snackbarStatus.Danger);
+      error: (err) => {
+        this._commonService.openSnackbar(err, snackbarStatus.Danger);
       },
     });
 
     if (this.authResponse.Role === 'Vendor') {
+      this.isReadOnly = false;
       // 
       this.openTermsAndConditionsDialog();
     }
@@ -98,7 +102,7 @@ export class RegistrationFormLayoutComponent implements OnInit {
       this.vendorBranchesComponent.isValid(),
       this.partnersComponent.isValid(),
       this.annualTurnoverComponent.isValid(),
-      this.attachmentsComponent.isValid()
+      this.attachmentsComponent.isImportVendorDocsAttached()
     ];
 
     if (validations.includes(false)) {
@@ -106,7 +110,14 @@ export class RegistrationFormLayoutComponent implements OnInit {
         "Please fill required fields.",
         snackbarStatus.Warning
       );
-    } else {
+    }
+    else if (!this.attachmentsComponent.isValid()) {
+      this._commonService.openSnackbar(
+        "Add required attachments.",
+        snackbarStatus.Warning
+      );
+    }
+    else {
       let domesticAndImportForm = new DomesticAndImportForm();
       domesticAndImportForm.DomesticVendorPersonalData =
         this.domesticVendorPersonalInfoComponent.getDomesticVendorPersonalInfo();
@@ -138,23 +149,35 @@ export class RegistrationFormLayoutComponent implements OnInit {
       formSubmitTemplate.Form_Id = this.form_Id;
       formSubmitTemplate.FormData = domesticAndImportForm;
 
-      this._registration.formSubmit(formSubmitTemplate).subscribe({
-        next: (res) => {
-          console.log(res);
-          if (res.Status === 200) {
-            // reset all forms
-
-            this._commonService.openSnackbar(
-              res.Message,
-              snackbarStatus.Success
-            );
-          }
-        },
-        error: (err) => {
-          this._commonService.openSnackbar(err, snackbarStatus.Danger);
+      if (domesticAndImportForm.TechnicalProfile.Is_ISO_Certified) {
+        if (this.attachmentsComponent.isISOAttached()) {
+          this.submitForm(formSubmitTemplate);
         }
-      });
+      }
+      else {
+        this.submitForm(formSubmitTemplate);
+      }
     }
+  }
+
+  submitForm(formSubmitTemplate: FormSubmitTemplate) {
+    this._registration.formSubmit(formSubmitTemplate).subscribe({
+      next: (res) => {
+        console.log(res);
+        if (res.Status === 200) {
+
+          this._commonService.openSnackbar(
+            res.Message,
+            snackbarStatus.Success
+          );
+          
+          this._router.navigate(['/auth/otp']);
+        }
+      },
+      error: (err) => {
+        this._commonService.openSnackbar(err, snackbarStatus.Danger);
+      }
+    });
   }
 
   transportFormPayload() {
@@ -210,5 +233,63 @@ export class RegistrationFormLayoutComponent implements OnInit {
     } else if (this.vendorTypeId === 2) {
       this.transportFormPayload();
     }
+  }
+
+  openRejectDialog() {
+    const DIALOF_REF = this._dialog.open(RejectReasonDialogComponent, {
+      disableClose: true,
+      width: '400px',
+      height: '220px',
+      data: this.form_Id
+    });
+    DIALOF_REF.afterClosed().subscribe({
+      next: (res) => {
+        if (res) {
+          console.log(res.reject as Rejection);
+          this._registration.formRejection(res.reject as Rejection).subscribe({
+            next: (res) => {
+              if (res && res.Status ==200) {
+                this._commonService.openSnackbar(res.Message, snackbarStatus.Success);
+                this._router.navigate(['/onboarding/dashboard']);
+              }
+            },
+            error: (err) => {
+              this._commonService.openSnackbar(err, snackbarStatus.Danger);
+            },
+          });
+        }
+      },
+      error: (err) => {
+        this._commonService.openSnackbar(err, snackbarStatus.Danger);
+      }
+    });
+  }
+
+  approveForm() {
+    let approval = new Approval();
+    approval.Form_Id = this.form_Id;
+    approval.VendorTypeId = this.vendorTypeId;
+    approval.EmployeeId = this.authResponse.Employee_Id;
+    approval.RoleId = this.authResponse.Role_Id;
+    approval.RoleName = this.authResponse.Role;
+    approval.RmEmployeeId = this.authResponse.RmEmployee_Id;
+    approval.RmRoleId = this.authResponse.RmRole_Id;
+    approval.RmRoleName = this.authResponse.RmRole;
+
+    this._registration.formApproval(approval).subscribe({
+      next: (res) => {
+        if (res && res.Status == 200) {
+          this._commonService.openSnackbar(res.Message, snackbarStatus.Success);
+          this._router.navigate(['/onboarding/dashboard']);
+        }
+      },
+      error: (err) => {
+        this._commonService.openSnackbar(err, snackbarStatus.Danger);
+      },
+    });
+  }
+
+  resetForm() {
+
   }
 }

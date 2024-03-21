@@ -54,7 +54,7 @@
                                         (keypress)="keyPressValidation($event,'email')" />
                                     <mat-error
                                         *ngIf="this.contactForm.get('Email_Id').hasError('required') && this.contactForm.get('Email_Id').touched"
-                                        class="error-msg">Email Id isrequired
+                                        class="error-msg">Email Id is required
                                     </mat-error>
                                     <mat-error
                                         *ngIf="this.contactForm.get('Email_Id').hasError('email') && this.contactForm.get('Email_Id').touched"
@@ -90,7 +90,7 @@
                                     </nb-select>
                                     <mat-error
                                         *ngIf="this.contactForm.get('Contact_Type_Id').hasError('required') && this.contactForm.get('Contact_Type_Id').touched"
-                                        class="error-msg">Contact typerequired</mat-error>
+                                        class="error-msg">Contact type is required</mat-error>
                                 </div>
                             </div>
                             <!-- contact type -->

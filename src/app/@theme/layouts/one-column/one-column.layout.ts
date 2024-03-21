@@ -3,6 +3,7 @@ import { NavigationEnd, Router } from "@angular/router";
 import { LoginService } from "../../../Services/login.service";
 import { CommonService } from "../../../Services/common.service";
 import { NbSidebarService } from "@nebular/theme";
+import { AuthResponse } from "../../../Models/authModel";
 
 @Component({
   selector: "ngx-one-column-layout",
@@ -13,6 +14,7 @@ export class OneColumnLayoutComponent implements OnInit {
   isLogin: boolean = true;
   isDashboardShown: boolean = true;
   footerLogoVisible: boolean = true;
+  role:string='';
 
   constructor(
     private _router: Router,
@@ -23,6 +25,10 @@ export class OneColumnLayoutComponent implements OnInit {
   ngOnInit(): void {
     this._router.events.subscribe({
       next: (res) => {
+        let userData = JSON.parse(sessionStorage.getItem('userDetails')) as AuthResponse;
+        if(userData){
+          this.role = userData.Role;
+        }
         if (res instanceof NavigationEnd) {
           if (
             res.url.includes("login") ||

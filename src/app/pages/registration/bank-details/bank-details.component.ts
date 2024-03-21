@@ -13,6 +13,8 @@ import { snackbarStatus } from '../../../Enums/snackbar-status';
 })
 export class BankDetailsComponent {
   @Input() form_Id: number;
+  @Input() v_Id:number;
+  @Input() isReadOnly: boolean;
   
   bankDetailsForm: FormGroup;
   authResponse: AuthResponse;
@@ -27,15 +29,23 @@ export class BankDetailsComponent {
       Bank: ['', [Validators.required, Validators.maxLength(100)]],
       Branch: ['', [Validators.required, Validators.maxLength(30)]],
       Address: [''],
-      Account_Number: ['', [Validators.maxLength(30)]],
+      Account_Number: ['', [Validators.required, Validators.maxLength(30)]],
       IFSC: ['', [Validators.maxLength(11),
       Validators.pattern('^[A-Z]{4}0[A-Z0-9]{6}$')]],
       SWIFT: ['', [Validators.maxLength(11)]],
       IBAN: ['', [Validators.maxLength(34)]],
     });
 
+    if(this.v_Id == 4){
+      this.bankDetailsForm.get('SWIFT').addValidators(Validators.required);
+      this.bankDetailsForm.get('IBAN').addValidators(Validators.required);
+    }
+    else{
+      this.bankDetailsForm.get('IFSC').addValidators(Validators.required);
+    }
+
     this.authResponse = JSON.parse(sessionStorage.getItem("userDetails"));
-    if(this.authResponse && this.authResponse.Role != "Vendor"){
+    if(this.isReadOnly){
       this.bankDetailsForm.disable();
     }
     // Get Form data by form Id
@@ -72,7 +82,7 @@ export class BankDetailsComponent {
     let bankDetail = new Bank_Detail();
     bankDetail = this.bankDetailsForm.value;
     bankDetail.Id = 0;
-    bankDetail.Form_Id = parseInt(sessionStorage.getItem('Form_Id'));
+    bankDetail.Form_Id = this.form_Id;
     return bankDetail;
   }
 }

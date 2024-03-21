@@ -27,6 +27,8 @@ import { MaterialModule } from "./Pages/material/material.module";
 import { AddMajorCustomerDialogComponent } from "./Dialogs/attachment-dialog/add-major-customer-dialog/add-major-customer-dialog.component";
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { TermsAndConditionsDialogComponent } from "./Dialogs/attachment-dialog/terms-and-conditions-dialog/terms-and-conditions-dialog.component";
+import { RejectReasonDialogComponent } from './Dialogs/reject-reason-dialog/reject-reason-dialog.component';
+import { DocumentViewDialogComponent } from './Dialogs/document-view-dialog/document-view-dialog.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +36,8 @@ import { TermsAndConditionsDialogComponent } from "./Dialogs/attachment-dialog/t
     AttachmentDialogComponent,
     AddMajorCustomerDialogComponent,
     TermsAndConditionsDialogComponent,
+    RejectReasonDialogComponent,
+    DocumentViewDialogComponent,
   ],
   imports: [
     BrowserModule,

@@ -14,15 +14,17 @@ import { snackbarStatus } from '../../../Enums/snackbar-status';
 })
 export class CommercialProfileComponent {
   @Input() form_Id: number;
+  @Input() v_Id: number;
+  @Input() isReadOnly: boolean;
 
   commercialProfileForm: FormGroup;
   msmeTypes: string[] = [];
   authResponse: AuthResponse;
 
-  constructor(private _fb: FormBuilder, 
+  constructor(private _fb: FormBuilder,
     private _config: AppConfigService,
-    private _registration:RegistrationService,
-    private _common:CommonService) { }
+    private _registration: RegistrationService,
+    private _common: CommonService) { }
 
   ngOnInit(): void {
     this.commercialProfileForm = this._fb.group({
@@ -38,24 +40,29 @@ export class CommercialProfileComponent {
     });
 
     this.authResponse = JSON.parse(sessionStorage.getItem("userDetails"));
-    if(this.authResponse && this.authResponse.Role != "Vendor"){
+    if (this.isReadOnly) {
       this.commercialProfileForm.disable();
     }
 
-    if (parseInt(sessionStorage.getItem('V_Id')) != 4) {
+    if (this.v_Id != 4) {
       this.commercialProfileForm.get('PAN').addValidators([Validators.required]);
     }
+    if(this.v_Id ==1){
+      this.commercialProfileForm.get('MSME_Type').addValidators(Validators.required);
+      this.commercialProfileForm.get('MSME_Number').addValidators(Validators.required);
+    }
+    
     this.msmeTypes = this._config.get('MSME_Types').split(',');
 
     // Get Form data by form Id
-    this._registration.getFormData(this.form_Id,'CommercialProfile').subscribe({
-      next:(res)=>{
-        if(res){
+    this._registration.getFormData(this.form_Id, 'CommercialProfile').subscribe({
+      next: (res) => {
+        if (res) {
           this.commercialProfileForm.patchValue(res);
         }
       },
-      error:(err)=>{
-        this._common.openSnackbar(err,snackbarStatus.Danger);
+      error: (err) => {
+        this._common.openSnackbar(err, snackbarStatus.Danger);
       }
     });
   }
@@ -76,7 +83,7 @@ export class CommercialProfileComponent {
     let commercialProfile = new CommercialProfile();
     commercialProfile = this.commercialProfileForm.value;
     commercialProfile.Id = 0;
-    commercialProfile.Form_Id = parseInt(sessionStorage.getItem('Form_Id'));
+    commercialProfile.Form_Id = this.form_Id;
     return commercialProfile;
   }
 }

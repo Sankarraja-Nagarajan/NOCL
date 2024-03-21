@@ -13,6 +13,7 @@ import { snackbarStatus } from '../../../Enums/snackbar-status';
 })
 export class DomesticVendorPersonalInfoComponent implements OnInit {
   @Input() form_Id: number;
+  @Input() isReadOnly: boolean;
   
   domesticVendorForm: FormGroup;
   years: number[] = [];
@@ -35,7 +36,7 @@ export class DomesticVendorPersonalInfoComponent implements OnInit {
     });
 
     this.authResponse = JSON.parse(sessionStorage.getItem("userDetails"));
-    if(this.authResponse && this.authResponse.Role != "Vendor"){
+    if(this.isReadOnly){
       this.domesticVendorForm.disable();
     }
     // Get Form data by form Id
@@ -84,7 +85,7 @@ export class DomesticVendorPersonalInfoComponent implements OnInit {
     let domesticVendorPersonalData = new DomesticVendorPersonalData();
     domesticVendorPersonalData = this.domesticVendorForm.value;
     domesticVendorPersonalData.Domestic_Personal_Info_Id = 0;
-    domesticVendorPersonalData.Form_Id = parseInt(sessionStorage.getItem('Form_Id'));
+    domesticVendorPersonalData.Form_Id = this.form_Id;
     return domesticVendorPersonalData;
   }
 }

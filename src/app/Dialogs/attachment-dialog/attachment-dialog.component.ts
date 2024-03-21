@@ -96,17 +96,13 @@ export class AttachmentDialogComponent implements OnInit {
         this._attach.attachFiles(formData).subscribe({
           next:(res)=>{
             if(res){
-              console.log(res);
-              this._dialogRef.close(res as Attachment);
+              this._dialogRef.close(res);
             }
           },
           error:(err)=>{
             this._common.openSnackbar(err,snackbarStatus.Danger);
           }
         });
-
-        // this.dialogRef.close({ Type: this.Type.value, Is_Expiry_Available: this.Is_Expiry_Available.value, Expiry_Date: this.Expiry_Date.value, Document: this.fileName });
-        // this._dialogRef.close({ attachment});
       }
     }
     else {

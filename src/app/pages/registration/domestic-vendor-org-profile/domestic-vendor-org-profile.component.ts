@@ -19,6 +19,7 @@ import { RegistrationService } from '../../../Services/registration.service';
 })
 export class DomesticVendorOrgProfileComponent {
   @Input() form_Id: number;
+  @Input() isReadOnly: boolean;
   
   vendorOrgForm: FormGroup;
   subsideriesList: Subsideries[] = [];
@@ -38,12 +39,12 @@ export class DomesticVendorOrgProfileComponent {
       Type_of_Org_Id: ['', Validators.required],
       Status_of_Company_Id: ['', Validators.required],
       RelationToNocil: [false],
-      Subsideries: [null],
-      Annual_Prod_Capacity: [''],
+      Subsideries : [null],
+      Annual_Prod_Capacity: ['', Validators.required],
     });
     
     this.authResponse = JSON.parse(sessionStorage.getItem("userDetails"));
-    if(this.authResponse && this.authResponse.Role != "Vendor"){
+    if(this.isReadOnly){
       this.vendorOrgForm.disable();
     }
     // get master data
@@ -64,7 +65,7 @@ export class DomesticVendorOrgProfileComponent {
   // Get Vendor Organization Profile data, calls by layout component
   getDomesticVendorOrgProfile() {
     let vendorOrganizationProfile = new VendorOrganizationProfile();
-    vendorOrganizationProfile = this.vendorOrgForm.value;
+    vendorOrganizationProfile = this.vendorOrgForm.value as VendorOrganizationProfile;
     vendorOrganizationProfile.Id = 0;
     vendorOrganizationProfile.Form_Id = this.form_Id;
     return vendorOrganizationProfile;
@@ -117,7 +118,8 @@ export class DomesticVendorOrgProfileComponent {
   addMajorCustomer() {
     const dialogRef = this._dialog.open(AddMajorCustomerDialogComponent, {
       autoFocus: false,
-      disableClose: true
+      disableClose: true,
+      data: this.form_Id
     });
     dialogRef.afterClosed().subscribe({
       next: (res) => {

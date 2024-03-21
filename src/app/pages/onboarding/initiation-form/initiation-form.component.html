@@ -30,7 +30,7 @@
                             <mat-error
                                 *ngIf="initiationForm.get('Department_Id').hasError('required') && initiationForm.get('Department_Id').touched"
                                 class="error-msg">
-                                Department is required<
+                                Department is required
                             </mat-error>
                         </div>
 
@@ -45,7 +45,7 @@
                                 <mat-error
                                     *ngIf="initiationForm.get('Vendor_Mail').hasError('required') && initiationForm.get('Vendor_Mail').touched"
                                     class="error-msg">
-                                    Vendor mail is required<
+                                    Vendor mail is required
                                 </mat-error>
                                 <mat-error
                                     *ngIf="initiationForm.get('Vendor_Mail').hasError('email') && initiationForm.get('Vendor_Mail').touched"
@@ -67,7 +67,7 @@
                             <mat-error
                                     *ngIf="initiationForm.get('Company_Code').hasError('required') && initiationForm.get('Company_Code').touched"
                                     class="error-msg">
-                                    Company code is required<
+                                    Company code is required
                                 </mat-error>
                         </div>
 
@@ -81,7 +81,7 @@
                                 <mat-error
                                     *ngIf="initiationForm.get('Vendor_Name').hasError('required') && initiationForm.get('Vendor_Name').touched"
                                     class="error-msg">
-                                    Vendor name is required<
+                                    Vendor name is required
                                 </mat-error>
                             </div>
                         </div>
@@ -94,7 +94,7 @@
                                     formControlName="Vendor_Mobile" required fieldSize="small" class="input-border"
                                     maxlength="15" (keypress)="keyPressValidation($event,'tel')" />
                                     <mat-error *ngIf="initiationForm.get('Vendor_Mobile').hasError('required') && initiationForm.get('Vendor_Mobile').touched" class="error-msg">
-                                        Vendor Mobile number is required<
+                                        Vendor Mobile number is required
                                     </mat-error>
                             </div>
                         </div>

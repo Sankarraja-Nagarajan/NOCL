@@ -48,6 +48,7 @@ export class OtpComponent implements OnInit {
           const jsonData = JSON.parse(params["data"]);
           this.form_Id = jsonData.Form_Id;
           this.vendorTypeId = jsonData.V_Id;
+
         }
       },
       error: (err) => {},
@@ -71,9 +72,10 @@ export class OtpComponent implements OnInit {
             let jsonData = {
               Form_Id: this.form_Id,
               V_Id: this.vendorTypeId,
+              Status:'Initiated'
             };
-            sessionStorage.setItem("userDetails", res);
-            this._router.navigate(["registraton/form"], {
+            sessionStorage.setItem("userDetails", JSON.stringify(res));
+            this._router.navigate(["/registration/form"], {
               queryParams: { data: JSON.stringify(jsonData) },
             });
           }
