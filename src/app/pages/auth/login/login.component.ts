@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { LoginService } from "../../../Services/login.service";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { LoginDetail, User } from "../../../Models/authModel";
+import { LoginDetail } from "../../../Models/authModel";
 import { CommonService } from "../../../Services/common.service";
 import { snackbarStatus } from "../../../Enums/snackbar-status";
 import { Router } from "@angular/router";
@@ -41,11 +41,6 @@ export class LoginComponent implements OnInit {
             this.loader = false;
             this.loginForm.reset();
             sessionStorage.setItem("userDetails", JSON.stringify(res));
-            let user = new User();
-            user.name = res.DisplayName;
-            user.title = res.Role;
-            console.log(user);
-            this._login.emitUserData(user);
             if (res.Role == "Admin") {
               this._router.navigate(["masters/users"]);
             } else if (res.Role != "Vendor") {
