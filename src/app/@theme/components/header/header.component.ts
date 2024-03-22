@@ -13,7 +13,6 @@ import { Subject } from "rxjs";
 import { CommonService } from "../../../Services/common.service";
 import { NbUser } from "@nebular/auth";
 import { Router } from "@angular/router";
-import { User } from "../../../Models/authModel";
 import { LoginService } from "../../../Services/login.service";
 
 @Component({

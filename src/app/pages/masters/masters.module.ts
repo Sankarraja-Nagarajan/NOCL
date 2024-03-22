@@ -11,6 +11,7 @@ import { VendorsComponent } from './vendors/vendors.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { AuthGuard } from '../../Guards/auth.guard';
+import { MaterialModule } from '../material/material.module';
 
 const routes: Routes = [
   {
@@ -40,7 +41,8 @@ const routes: Routes = [
     MatButtonModule,
     MatIconModule,
     MatTableModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MaterialModule
   ]
 })
 export class MastersModule { }

@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Observable, Subject } from "rxjs";
 import { HttpService } from "./http.service";
-import { LoginDetail, User, VerifyOtp } from "../Models/authModel";
+import { LoginDetail, VerifyOtp } from "../Models/authModel";
 
 @Injectable({
   providedIn: "root",
@@ -47,9 +47,5 @@ export class LoginService {
   VerifyOtp(otp: VerifyOtp): Observable<any> {
     const URL = this.baseURL + "/Auth/VerifyOtp";
     return this._http.post(URL, otp);
-  }
-
-  emitUserData(user: User) {
-    this.userChange.next(user);
   }
 }
