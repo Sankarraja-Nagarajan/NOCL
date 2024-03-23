@@ -99,7 +99,7 @@ export class AnnualTurnoverComponent implements OnInit{
   // Get annualTurnOver array, calls by layout component
   getAnnualTurnOvers() {
     this.annualTurnOver.forEach((element) => {
-      element.TurnOver_Id = 0;
+      element.TurnOver_Id = element.TurnOver_Id ? element.TurnOver_Id : 0;
       element.Form_Id = this.form_Id;
     });
     return this.annualTurnOver;

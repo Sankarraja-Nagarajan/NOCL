@@ -24,7 +24,7 @@ export class Sample{
         title: 'Dashboard',
         link: 'onboarding/dashboard',
         icon: 'grid-outline',
-        hidden: this.role == 'Admin',
+        hidden: this.role == 'Vendor',
       },
       {
         title: 'Initiation form',
@@ -33,12 +33,8 @@ export class Sample{
         icon: 'file-text',
       },
       {
-        title: 'Registration',
-        icon: 'book-open-outline',
-        link: 'registration'
-      },
-      {
         title: 'Master',
+        icon:'list-outline',
         hidden: this.role != 'Admin',
         children: [
           {

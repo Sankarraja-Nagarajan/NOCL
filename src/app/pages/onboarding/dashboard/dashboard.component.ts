@@ -46,23 +46,16 @@ export class DashboardComponent implements OnInit {
     ) as AuthResponse;
     this.emp_id = this.authResponse.Employee_Id;
     // get dashboard data
-    this.loader = true;
-    this._dashboard.getInitialData(this.emp_id).subscribe({
-      next: (res) => {
-        this.dashboardAllData = res.Data as Dashboard[];
-        this.dataSource = new MatTableDataSource(this.dashboardAllData);
-        this.initialDashboardData.Open = res.Open;
-        this.initialDashboardData.Pending = res.Pending;
-        this.initialDashboardData.Approved = res.Approved;
-        this.initialDashboardData.Rejected = res.Rejected;
-        this.loader = false;
-      },
-      error: (err) => {
-        this.loader = false;
-        this._common.openSnackbar(err, snackbarStatus.Danger);
-      },
-    });
-    this.headerStatus = "Pending";
+    if(this.authResponse.Role == "Admin"){
+      this.getAllData();
+      this.headerStatus = "All";
+    }
+    else{
+      this.getInitialData();
+      this.headerStatus = "Pending";
+    }
+    
+    
   }
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
@@ -82,12 +75,54 @@ export class DashboardComponent implements OnInit {
       case "Rejected":
         this.getAllRejectedData();
         break;
+      case "SAP":
+        this.getAllSAPData();
+        break;
       default:
     }
   }
 
   filterTableData(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  getInitialData(){
+    this.loader = true;
+    this._dashboard.getInitialData(this.emp_id).subscribe({
+      next: (res) => {
+        this.dashboardAllData = res.Data as Dashboard[];
+        this.dataSource = new MatTableDataSource(this.dashboardAllData);
+        this.initialDashboardData.Open = res.Open;
+        this.initialDashboardData.Pending = res.Pending;
+        this.initialDashboardData.Approved = res.Approved;
+        this.initialDashboardData.Rejected = res.Rejected;
+        this.loader = false;
+      },
+      error: (err) => {
+        this.loader = false;
+        this._common.openSnackbar(err, snackbarStatus.Danger);
+      },
+    });
+  }
+
+  getAllData(){
+    this.loader = true;
+    this._dashboard.getAllData().subscribe({
+      next: (res) => {
+        this.dashboardAllData = res.Data as Dashboard[];
+        this.dataSource = new MatTableDataSource(this.dashboardAllData);
+        this.initialDashboardData.Open = res.Open;
+        this.initialDashboardData.Pending = res.Pending;
+        this.initialDashboardData.Approved = res.Approved;
+        this.initialDashboardData.Rejected = res.Rejected;
+        this.initialDashboardData.SAP = res.SAP;
+        this.loader = false;
+      },
+      error: (err) => {
+        this.loader = false;
+        this._common.openSnackbar(err, snackbarStatus.Danger);
+      },
+    });
   }
 
   getAllOpenData() {
@@ -160,6 +195,10 @@ export class DashboardComponent implements OnInit {
         this._common.openSnackbar(err, snackbarStatus.Danger);
       },
     });
+  }
+
+  getAllSAPData(){
+
   }
 
   // Form Review - Review btn click

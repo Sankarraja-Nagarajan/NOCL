@@ -84,7 +84,7 @@ export class TankerDetailsComponent implements OnInit {
   // Get Tanker Details Data, calls by layout component
   getTankerDetails() {
     this.tankerDetails.forEach((element) => {
-      element.Id = 0;
+      element.Id = element.Id ? element.Id : 0;
       element.Form_Id = this.form_Id;
     });
     return this.tankerDetails;

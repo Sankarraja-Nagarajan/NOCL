@@ -29,12 +29,7 @@ const routes: Routes = [
   {
     path: 'form',
     component: RegistrationFormLayoutComponent,
-    // canActivate:[AuthGuard]
-  },
-  {
-    path: '',
-    redirectTo: 'form',
-    pathMatch: 'full'
+    canActivate:[AuthGuard]
   }
 ];
 

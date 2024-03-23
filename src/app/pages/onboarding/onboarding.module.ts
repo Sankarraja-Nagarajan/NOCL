@@ -14,11 +14,6 @@ const routes: Routes = [
     canActivate:[AuthGuard]
   },
   {
-    path: '',
-    redirectTo: 'dashboard',
-    pathMatch: 'full'
-  },
-  {
     path:'initiator-form',
     component:InitiationFormComponent,
     canActivate:[AuthGuard]

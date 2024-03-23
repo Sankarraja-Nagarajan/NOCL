@@ -1,212 +1,412 @@
-<section class="screenRegistration">
-    <div class="container bg-white rounded-3">
-        <!-- Domestic-vendor-personal-info-->
-        <div *ngIf="vendorTypeId === 1" class=" p-3 border-bottom">
-            <div class="row ">
-                <div class="d-none d-sm-flex flex-column align-items-center justify-content-center col-sm-3">
-                    <h3 class="outer-title mb-1">Vendor Personal Information</h3>
-                    <img src="../assets/images/pngs/open.png" class="img-fluid" width="70" height="70">
-                </div>
-                <div class="col-12 col-sm-9">
-                    <h3 class="d-flex justify-content-center align-items-center d-sm-none title mb-3">
-                        Vendor Personal Information
-                    </h3>
-                    <ngx-domestic-vendor-personal-info [form_Id]="form_Id" [isReadOnly]="isReadOnly"></ngx-domestic-vendor-personal-info>
-                </div>
-            </div>
+<section class="screenRegistration" *ngIf="!loader">
+  <div class="container bg-white rounded-3">
+    <!-- Domestic-vendor-personal-info-->
+    <div *ngIf="v_Id === 1 || v_Id === 4" class="p-3 border-bottom">
+      <div class="row">
+        <div
+          class="d-none d-sm-flex flex-column align-items-center justify-content-center col-sm-3"
+        >
+          <h3 class="outer-title mb-1">Vendor Personal Information</h3>
+          <img
+            src="../assets/images/pngs/open.png"
+            class="img-fluid"
+            width="70"
+            height="70"
+          />
         </div>
-        <!-- Transport vendor Personal Details-->
-        <div *ngIf="vendorTypeId === 2" class="p-3 border-bottom">
-            <div class="row">
-                <div class="d-none d-sm-flex flex-column align-items-center justify-content-center col-sm-3">
-                    <h3 class="outer-title mb-4">Transport Vendor Details</h3>
-                    <img src="../assets/images/pngs/profile.png" class="img-fluid" width="100" height="100">
-                </div>
-                <div class="col-12 col-sm-9">
-                    <h3 class="d-flex justify-content-center align-items-center d-sm-none title mb-3">Transport Vendor
-                        Details
-                    </h3>
-                    <ngx-transport-vendors-personal-details
-                        [form_Id]="form_Id"></ngx-transport-vendors-personal-details>
-                </div>
-            </div>
+        <div class="col-12 col-sm-9">
+          <h3
+            class="d-flex justify-content-center align-items-center d-sm-none title mb-3"
+          >
+            Vendor Personal Information
+          </h3>
+          <ngx-domestic-vendor-personal-info
+            [form_Id]="form_Id"
+            [isReadOnly]="isReadOnly"
+          ></ngx-domestic-vendor-personal-info>
         </div>
-        <!-- Address -->
-        <div *ngIf="vendorTypeId === 1" class="p-3 border-bottom">
-            <div class="row">
-                <div class="d-none d-sm-flex flex-column align-items-center justify-content-center col-sm-3">
-                    <h3 class="outer-title mb-4">Addresses</h3>
-                    <img src="../assets/images/pngs/map-flatline 1.png" class="img-fluid" width="100" height="100">
-                </div>
-                <div class="col-12 col-sm-9">
-                    <h3 class="d-flex justify-content-center align-items-center d-sm-none title mb-3">Address</h3>
-                    <ngx-address [form_Id]="form_Id"></ngx-address>
-                    <!-- <ngx-domestic-vendor-org-profile></ngx-domestic-vendor-org-profile> -->
-                </div>
-            </div>
+      </div>
+    </div>
+    <!-- Transport vendor Personal Details-->
+    <div *ngIf="v_Id === 2" class="p-3 border-bottom">
+      <div class="row">
+        <div
+          class="d-none d-sm-flex flex-column align-items-center justify-content-center col-sm-3"
+        >
+          <h3 class="outer-title mb-4">Transport Vendor Details</h3>
+          <img
+            src="../assets/images/pngs/profile.png"
+            class="img-fluid"
+            width="100"
+            height="100"
+          />
         </div>
-        <!-- Tanker Details -->
-        <div *ngIf="vendorTypeId === 2" class="p-3 border-bottom">
-            <div class="row">
-                <div class="d-none d-sm-flex flex-column align-items-center justify-content-center col-sm-3">
-                    <h3 class="outer-title mb-4">Tanker Details</h3>
-                    <img src="../assets/images/pngs/calling-flatline 1.png" class="img-fluid" width="100" height="100">
-                </div>
-                <div class="col-12 col-sm-9">
-                    <h3 class="d-flex justify-content-center align-items-center d-sm-none title mb-3">Tanker Details
-                    </h3>
-                    <ngx-tanker-details [form_Id]="form_Id"></ngx-tanker-details>
-                </div>
-            </div>
+        <div class="col-12 col-sm-9">
+          <h3
+            class="d-flex justify-content-center align-items-center d-sm-none title mb-3"
+          >
+            Transport Vendor Details
+          </h3>
+          <ngx-transport-vendors-personal-details
+            [form_Id]="form_Id"
+          ></ngx-transport-vendors-personal-details>
         </div>
-        <!-- Contact -->
-        <div *ngIf="vendorTypeId === 1" class="p-3 border-bottom">
-            <div class="row">
-                <div class="d-none d-sm-flex flex-column align-items-center justify-content-center col-sm-3">
-                    <h3 class="outer-title mb-4">Contacts</h3>
-                    <img src="../assets/images/pngs/contacts.png" class="img-fluid" width="100" height="100">
-                </div>
-                <div class="col-12 col-sm-9">
-                    <h3 class="d-flex justify-content-center align-items-center d-sm-none title mb-3">Contacts</h3>
-                    <ngx-contacts [form_Id]="form_Id"></ngx-contacts>
-                </div>
-            </div>
+      </div>
+    </div>
+    <!-- Address -->
+    <div *ngIf="v_Id === 1 || v_Id === 4" class="p-3 border-bottom">
+      <div class="row">
+        <div
+          class="d-none d-sm-flex flex-column align-items-center justify-content-center col-sm-3"
+        >
+          <h3 class="outer-title mb-4">Addresses</h3>
+          <img
+            src="../assets/images/pngs/map-flatline 1.png"
+            class="img-fluid"
+            width="100"
+            height="100"
+          />
         </div>
-         <!-- Domestic Vendor Organization Profile -->
-         <div *ngIf="vendorTypeId === 1" class=" p-3 border-bottom">
-            <div class="row ">
-                <div class="d-none d-sm-flex flex-column align-items-center justify-content-center col-sm-3">
-                    <h3 class="outer-title mb-4">Vendor Organization Profile</h3>
-                    <img src="../assets/images/pngs/open.png" class="img-fluid" width="70" height="70">
-                </div>
-                <div class="col-12 col-sm-9">
-                    <h3 class="d-flex justify-content-center align-items-center d-sm-none title mb-3">
-                        Vendor Organization Profile
-                    </h3>
-                    <ngx-domestic-vendor-org-profile [form_Id]="form_Id" [isReadOnly]="isReadOnly"></ngx-domestic-vendor-org-profile>
-                </div>
-            </div>
+        <div class="col-12 col-sm-9">
+          <h3
+            class="d-flex justify-content-center align-items-center d-sm-none title mb-3"
+          >
+            Address
+          </h3>
+          <ngx-address [form_Id]="form_Id"></ngx-address>
+          <!-- <ngx-domestic-vendor-org-profile></ngx-domestic-vendor-org-profile> -->
         </div>
-        <!-- Proprietor or Partners -->
-        <div *ngIf="vendorTypeId === 1" class=" p-3 border-bottom">
-            <div class="row">
-                <div class="d-none d-sm-flex flex-column align-items-center justify-content-center col-sm-3">
-                    <h3 class="outer-title mb-4">Proprietor or Partners</h3>
-                    <img src="../assets/images/pngs/partners.png" class="img-fluid" width="70" height="70">
-                </div>
-                <div class="col-12 col-sm-9">
-                    <h3 class="d-flex justify-content-center align-items-center d-sm-none title mb-3">Proprietor or
-                        Partners</h3>
-                    <ngx-partners [form_Id]="form_Id"></ngx-partners>
-                </div>
-            </div>
+      </div>
+    </div>
+    <!-- Tanker Details -->
+    <div *ngIf="v_Id === 2" class="p-3 border-bottom">
+      <div class="row">
+        <div
+          class="d-none d-sm-flex flex-column align-items-center justify-content-center col-sm-3"
+        >
+          <h3 class="outer-title mb-4">Tanker Details</h3>
+          <img
+            src="../assets/images/pngs/calling-flatline 1.png"
+            class="img-fluid"
+            width="100"
+            height="100"
+          />
         </div>
-        <!-- Annual TurnOver -->
-        <div *ngIf="vendorTypeId === 1" class=" p-3 border-bottom">
-            <div class="row">
-                <div class="d-none d-sm-flex flex-column align-items-center justify-content-center col-sm-3">
-                    <h3 class="outer-title mb-4">Annual Turnover</h3>
-                    <img src="../assets/images/pngs/open.png" class="img-fluid" width="70" height="70">
-                </div>
-                <div class="col-12 col-sm-9">
-                    <h3 class="d-flex justify-content-center align-items-center d-sm-none title mb-3">Annual Turnover
-                    </h3>
-                    <ngx-annual-turnover [form_Id]="form_Id"></ngx-annual-turnover>
-                </div>
-            </div>
+        <div class="col-12 col-sm-9">
+          <h3
+            class="d-flex justify-content-center align-items-center d-sm-none title mb-3"
+          >
+            Tanker Details
+          </h3>
+          <ngx-tanker-details [form_Id]="form_Id"></ngx-tanker-details>
         </div>
-        <!-- Technical Profile -->
-        <div *ngIf="vendorTypeId === 1" class=" p-3 border-bottom">
-            <div class="row">
-                <div class="d-none d-sm-flex flex-column align-items-center justify-content-center col-sm-3">
-                    <h3 class="outer-title mb-4">Technical Profile</h3>
-                    <img src="../assets/images/pngs/info.png" class="img-fluid" width="70" height="70">
-                </div>
-                <div class="col-12 col-sm-9">
-                    <h3 class="d-flex justify-content-center align-items-center d-sm-none title mb-3">Technical Profile
-                    </h3>
-                    <ngx-technical-profile [form_Id]="form_Id"></ngx-technical-profile>
-                </div>
-            </div>
+      </div>
+    </div>
+    <!-- Contact -->
+    <div *ngIf="v_Id === 1 || v_Id === 4" class="p-3 border-bottom">
+      <div class="row">
+        <div
+          class="d-none d-sm-flex flex-column align-items-center justify-content-center col-sm-3"
+        >
+          <h3 class="outer-title mb-4">Contacts</h3>
+          <img
+            src="../assets/images/pngs/contacts.png"
+            class="img-fluid"
+            width="100"
+            height="100"
+          />
         </div>
-        <!-- Attachments -->
-        <div *ngIf="vendorTypeId === 1" class=" p-3 border-bottom">
-            <div class="row">
-                <div class="d-none d-sm-flex flex-column align-items-center justify-content-center col-sm-3">
-                    <h3 class="outer-title mb-4">Attachments</h3>
-                    <img src="../assets/images/pngs/files-and-folder-flatline.png" class="img-fluid" width="70"
-                        height="70">
-                </div>
-                <div class="col-12 col-sm-9">
-                    <h3 class="d-flex justify-content-center align-items-center d-sm-none title mb-3">Attachments</h3>
-                    <ngx-attachments [form_Id]="form_Id"></ngx-attachments>
-                </div>
-            </div>
+        <div class="col-12 col-sm-9">
+          <h3
+            class="d-flex justify-content-center align-items-center d-sm-none title mb-3"
+          >
+            Contacts
+          </h3>
+          <ngx-contacts [form_Id]="form_Id"></ngx-contacts>
         </div>
-        <!-- Bank Details -->
-        <div class=" p-3 border-bottom">
-            <div class="row">
-                <div class="d-none d-sm-flex flex-column align-items-center justify-content-center col-sm-3">
-                    <h3 class="outer-title mb-4">Bank Details</h3>
-                    <img src="../assets/images/pngs/banking.png" class="img-fluid" width="70" height="70">
-                </div>
-                <div class="col-12 col-sm-9">
-                    <h3 class="d-flex justify-content-center align-items-center d-sm-none title mb-3">Bank Details</h3>
-                    <ngx-bank-details [form_Id]="form_Id" [isReadOnly]="isReadOnly"></ngx-bank-details>
-                </div>
-            </div>
+      </div>
+    </div>
+    <!-- Domestic Vendor Organization Profile -->
+    <div *ngIf="v_Id === 1 || v_Id === 4" class="p-3 border-bottom">
+      <div class="row">
+        <div
+          class="d-none d-sm-flex flex-column align-items-center justify-content-center col-sm-3"
+        >
+          <h3 class="outer-title mb-4">Vendor Organization Profile</h3>
+          <img
+            src="../assets/images/pngs/open.png"
+            class="img-fluid"
+            width="70"
+            height="70"
+          />
         </div>
-        <!-- Commercial Profile -->
-        <div class=" p-3 border-bottom">
-            <div class="row">
-                <div class="d-none d-sm-flex flex-column align-items-center justify-content-center col-sm-3">
-                    <h3 class="outer-title mb-4">Commercial Profile</h3>
-                    <img src="../assets/images/pngs/open.png" class="img-fluid" width="70" height="70">
-                </div>
-                <div class="col-12 col-sm-9">
-                    <h3 class="d-flex justify-content-center align-items-center d-sm-none title mb-3">Commercial Profile
-                    </h3>
-                    <ngx-commercial-profile [form_Id]="form_Id" [v_Id]="vendorTypeId" [isReadOnly]="isReadOnly"></ngx-commercial-profile>
-                </div>
-            </div>
+        <div class="col-12 col-sm-9">
+          <h3
+            class="d-flex justify-content-center align-items-center d-sm-none title mb-3"
+          >
+            Vendor Organization Profile
+          </h3>
+          <ngx-domestic-vendor-org-profile
+            [form_Id]="form_Id"
+            [isReadOnly]="isReadOnly"
+          ></ngx-domestic-vendor-org-profile>
         </div>
-        <!-- Vendor Branches -->
-        <div *ngIf="vendorTypeId === 1" class="p-3 border-bottom mb-2">
-            <div class="row">
-                <div class="d-none d-sm-flex flex-column align-items-center justify-content-center col-sm-3">
-                    <h3 class="outer-title mb-4">Vendor Branches</h3>
-                    <img src="../assets/images/pngs/viewing.png" class="img-fluid" width="100" height="100">
-                </div>
-                <div class="col-12 col-sm-9">
-                    <h3 class="d-flex justify-content-center align-items-center d-sm-none title mb-3">Vendor Branches
-                    </h3>
-                    <ngx-vendor-branches [form_Id]="form_Id"></ngx-vendor-branches>
-                </div>
-            </div>
+      </div>
+    </div>
+    <!-- Proprietor or Partners -->
+    <div *ngIf="v_Id === 1 || v_Id === 4" class="p-3 border-bottom">
+      <div class="row">
+        <div
+          class="d-none d-sm-flex flex-column align-items-center justify-content-center col-sm-3"
+        >
+          <h3 class="outer-title mb-4">Proprietor or Partners</h3>
+          <img
+            src="../assets/images/pngs/partners.png"
+            class="img-fluid"
+            width="70"
+            height="70"
+          />
         </div>
+        <div class="col-12 col-sm-9">
+          <h3
+            class="d-flex justify-content-center align-items-center d-sm-none title mb-3"
+          >
+            Proprietor or Partners
+          </h3>
+          <ngx-partners [form_Id]="form_Id"></ngx-partners>
+        </div>
+      </div>
+    </div>
+    <!-- Annual TurnOver -->
+    <div *ngIf="v_Id === 1 || v_Id === 4" class="p-3 border-bottom">
+      <div class="row">
+        <div
+          class="d-none d-sm-flex flex-column align-items-center justify-content-center col-sm-3"
+        >
+          <h3 class="outer-title mb-4">Annual Turnover</h3>
+          <img
+            src="../assets/images/pngs/open.png"
+            class="img-fluid"
+            width="70"
+            height="70"
+          />
+        </div>
+        <div class="col-12 col-sm-9">
+          <h3
+            class="d-flex justify-content-center align-items-center d-sm-none title mb-3"
+          >
+            Annual Turnover
+          </h3>
+          <ngx-annual-turnover [form_Id]="form_Id"></ngx-annual-turnover>
+        </div>
+      </div>
+    </div>
+    <!-- Technical Profile -->
+    <div *ngIf="v_Id === 1 || v_Id === 4" class="p-3 border-bottom">
+      <div class="row">
+        <div
+          class="d-none d-sm-flex flex-column align-items-center justify-content-center col-sm-3"
+        >
+          <h3 class="outer-title mb-4">Technical Profile</h3>
+          <img
+            src="../assets/images/pngs/info.png"
+            class="img-fluid"
+            width="70"
+            height="70"
+          />
+        </div>
+        <div class="col-12 col-sm-9">
+          <h3
+            class="d-flex justify-content-center align-items-center d-sm-none title mb-3"
+          >
+            Technical Profile
+          </h3>
+          <ngx-technical-profile [form_Id]="form_Id"></ngx-technical-profile>
+        </div>
+      </div>
+    </div>
+    <!-- Attachments -->
+    <div class="p-3 border-bottom">
+      <div class="row">
+        <div
+          class="d-none d-sm-flex flex-column align-items-center justify-content-center col-sm-3"
+        >
+          <h3 class="outer-title mb-4">Attachments</h3>
+          <img
+            src="../assets/images/pngs/files-and-folder-flatline.png"
+            class="img-fluid"
+            width="70"
+            height="70"
+          />
+        </div>
+        <div class="col-12 col-sm-9">
+          <h3
+            class="d-flex justify-content-center align-items-center d-sm-none title mb-3"
+          >
+            Attachments
+          </h3>
+          <ngx-attachments [form_Id]="form_Id"></ngx-attachments>
+        </div>
+      </div>
+    </div>
+    <!-- Bank Details -->
+    <div class="p-3 border-bottom">
+      <div class="row">
+        <div
+          class="d-none d-sm-flex flex-column align-items-center justify-content-center col-sm-3"
+        >
+          <h3 class="outer-title mb-4">Bank Details</h3>
+          <img
+            src="../assets/images/pngs/banking.png"
+            class="img-fluid"
+            width="70"
+            height="70"
+          />
+        </div>
+        <div class="col-12 col-sm-9">
+          <h3
+            class="d-flex justify-content-center align-items-center d-sm-none title mb-3"
+          >
+            Bank Details
+          </h3>
+          <ngx-bank-details
+            [form_Id]="form_Id"
+            [isReadOnly]="isReadOnly"
+          ></ngx-bank-details>
+        </div>
+      </div>
+    </div>
+    <!-- Commercial Profile -->
+    <div class="p-3 border-bottom">
+      <div class="row">
+        <div
+          class="d-none d-sm-flex flex-column align-items-center justify-content-center col-sm-3"
+        >
+          <h3 class="outer-title mb-4">Commercial Profile</h3>
+          <img
+            src="../assets/images/pngs/open.png"
+            class="img-fluid"
+            width="70"
+            height="70"
+          />
+        </div>
+        <div class="col-12 col-sm-9">
+          <h3
+            class="d-flex justify-content-center align-items-center d-sm-none title mb-3"
+          >
+            Commercial Profile
+          </h3>
+          <ngx-commercial-profile
+            [form_Id]="form_Id"
+            [v_Id]="v_Id"
+            [isReadOnly]="isReadOnly"
+          ></ngx-commercial-profile>
+        </div>
+      </div>
+    </div>
+    <!-- Vendor Branches -->
+    <div *ngIf="v_Id === 1 || v_Id === 4" class="p-3 border-bottom mb-2">
+      <div class="row">
+        <div
+          class="d-none d-sm-flex flex-column align-items-center justify-content-center col-sm-3"
+        >
+          <h3 class="outer-title mb-4">Vendor Branches</h3>
+          <img
+            src="../assets/images/pngs/viewing.png"
+            class="img-fluid"
+            width="100"
+            height="100"
+          />
+        </div>
+        <div class="col-12 col-sm-9">
+          <h3
+            class="d-flex justify-content-center align-items-center d-sm-none title mb-3"
+          >
+            Vendor Branches
+          </h3>
+          <ngx-vendor-branches [form_Id]="form_Id"></ngx-vendor-branches>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="submission-layout bg-white rounded-3 pe-4 border-bottom">
+    <!-- for vendor -->
+    <div *ngIf="authResponse?.Role == 'Vendor'" class="d-flex">
+      <button
+        class="btn btn-cancel-design center-flexBox submit-icon me-2"
+        (click)="resetForm()"
+      >
+        <img
+          src="../../../../assets/images/pngs/xmark.png"
+          width="16"
+          height="16"
+          class="me-1"
+        />Cancel
+      </button>
+      <button *ngIf="form_status == 'Initiated'"
+        class="btn btn-design center-flexBox submit-icon"
+        (click)="submit()"
+      >
+        <img
+          src="../../../../assets/images/pngs/check.png"
+          width="16"
+          height="16"
+          class="me-1"
+        />
+        Submit
+      </button>
+      <button
+        *ngIf="form_status == 'Rejected'"
+        class="btn btn-design center-flexBox submit-icon"
+        (click)="update()"
+      >
+        <img
+          src="../../../../assets/images/pngs/check.png"
+          width="16"
+          height="16"
+          class="me-1"
+        />
+        Update
+      </button>
     </div>
 
-    <div class="submission-layout bg-white rounded-3 pe-4 border-bottom">
-        <!-- for vendor -->
-        <div *ngIf="authResponse?.Role == 'Vendor'" class="d-flex">
-            <button class="btn btn-cancel-design center-flexBox submit-icon me-2" (click)="resetForm()">
-                <img src="../../../../assets/images/pngs/xmark.png" width="16" height="16" class="me-1" />Cancel</button>
-            <button class="btn btn-design center-flexBox submit-icon" (click)="submit()">
-                <img src="../../../../assets/images/pngs/check.png" width="16" height="16" class="me-1" />
-                Submit</button>
-        </div>
+    <!-- for approver -->
+    <div
+      *ngIf="authResponse?.Role != 'Vendor' && form_status == 'Pending'"
+      class="d-flex"
+    >
+      <button
+        class="btn cancel-btn-design center-flexBox me-2"
+        (click)="openRejectDialog()"
+      >
+        <img
+          src="../../../../assets/images/pngs/xmark.png"
+          width="16"
+          height="16"
+          class="me-1"
+        />
+        Reject
+      </button>
 
-        <!-- for approver -->
-        <div *ngIf="authResponse?.Role != 'Vendor' && form_status =='Pending'" class="d-flex">
-            <button class="btn cancel-btn-design center-flexBox me-2" (click)="openRejectDialog()">
-                <img src="../../../../assets/images/pngs/xmark.png" width="16" height="16" class="me-1" />
-                Reject
-            </button>
-    
-            <button class="btn btn-design center-flexBox" (click)="approveForm()">
-                <img src="../../../../assets/images/pngs/check.png" width="16" height="16" class="me-1" />
-                Approve
-            </button>
-        </div>
+      <button class="btn btn-design center-flexBox" (click)="approveForm()">
+        <img
+          src="../../../../assets/images/pngs/check.png"
+          width="16"
+          height="16"
+          class="me-1"
+        />
+        Approve
+      </button>
     </div>
+  </div>
 </section>
+
+<div class="loader-point" id="nb-global-spinner" *ngIf="loader">
+  <div
+    class="spinner-grow text-primary"
+    style="width: 4rem; height: 4rem"
+    role="status"
+  ></div>
+  <span class="sr-only">Submitting...</span>
+</div>

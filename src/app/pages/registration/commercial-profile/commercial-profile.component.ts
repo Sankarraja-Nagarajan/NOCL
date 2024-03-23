@@ -1,16 +1,16 @@
-import { Component, Input } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CommercialProfile } from '../../../Models/Dtos';
-import { AppConfigService } from '../../../Services/app-config.service';
-import { AuthResponse } from '../../../Models/authModel';
-import { RegistrationService } from '../../../Services/registration.service';
-import { CommonService } from '../../../Services/common.service';
-import { snackbarStatus } from '../../../Enums/snackbar-status';
+import { Component, Input } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { CommercialProfile } from "../../../Models/Dtos";
+import { AppConfigService } from "../../../Services/app-config.service";
+import { AuthResponse } from "../../../Models/authModel";
+import { RegistrationService } from "../../../Services/registration.service";
+import { CommonService } from "../../../Services/common.service";
+import { snackbarStatus } from "../../../Enums/snackbar-status";
 
 @Component({
-  selector: 'ngx-commercial-profile',
-  templateUrl: './commercial-profile.component.html',
-  styleUrls: ['./commercial-profile.component.scss']
+  selector: "ngx-commercial-profile",
+  templateUrl: "./commercial-profile.component.html",
+  styleUrls: ["./commercial-profile.component.scss"],
 })
 export class CommercialProfileComponent {
   @Input() form_Id: number;
@@ -18,25 +18,40 @@ export class CommercialProfileComponent {
   @Input() isReadOnly: boolean;
 
   commercialProfileForm: FormGroup;
+  commercialId: number = 0;
   msmeTypes: string[] = [];
   authResponse: AuthResponse;
 
-  constructor(private _fb: FormBuilder,
+  constructor(
+    private _fb: FormBuilder,
     private _config: AppConfigService,
     private _registration: RegistrationService,
-    private _common: CommonService) { }
+    private _common: CommonService
+  ) {}
 
   ngOnInit(): void {
     this.commercialProfileForm = this._fb.group({
-      Financial_Credit_Rating: [''],
-      Agency_Name: [''],
-      PAN: ['', [Validators.maxLength(10),
-      Validators.pattern('^[A-Z]{5}[0-9]{4}[A-Z]$')]],
-      GSTIN: ['', [Validators.maxLength(15),
-      Validators.pattern('^([0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}[0-9A-Z]{2})+$')]],
-      MSME_Type: [''],
-      MSME_Number: [''],
-      ServiceCategory: ['']
+      Financial_Credit_Rating: [""],
+      Agency_Name: [""],
+      PAN: [
+        "",
+        [
+          Validators.maxLength(10),
+          Validators.pattern("^[A-Z]{5}[0-9]{4}[A-Z]$"),
+        ],
+      ],
+      GSTIN: [
+        "",
+        [
+          Validators.maxLength(15),
+          Validators.pattern(
+            "^([0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}[0-9A-Z]{2})+$"
+          ),
+        ],
+      ],
+      MSME_Type: [""],
+      MSME_Number: [""],
+      ServiceCategory: [""],
     });
 
     this.authResponse = JSON.parse(sessionStorage.getItem("userDetails"));
@@ -45,34 +60,42 @@ export class CommercialProfileComponent {
     }
 
     if (this.v_Id != 4) {
-      this.commercialProfileForm.get('PAN').addValidators([Validators.required]);
+      this.commercialProfileForm
+        .get("PAN")
+        .addValidators([Validators.required]);
     }
-    if(this.v_Id ==1){
-      this.commercialProfileForm.get('MSME_Type').addValidators(Validators.required);
-      this.commercialProfileForm.get('MSME_Number').addValidators(Validators.required);
+    if (this.v_Id == 1) {
+      this.commercialProfileForm
+        .get("MSME_Type")
+        .addValidators(Validators.required);
+      this.commercialProfileForm
+        .get("MSME_Number")
+        .addValidators(Validators.required);
     }
-    
-    this.msmeTypes = this._config.get('MSME_Types').split(',');
+
+    this.msmeTypes = this._config.get("MSME_Types").split(",");
 
     // Get Form data by form Id
-    this._registration.getFormData(this.form_Id, 'CommercialProfile').subscribe({
-      next: (res) => {
-        if (res) {
-          this.commercialProfileForm.patchValue(res);
-        }
-      },
-      error: (err) => {
-        this._common.openSnackbar(err, snackbarStatus.Danger);
-      }
-    });
+    this._registration
+      .getFormData(this.form_Id, "CommercialProfile")
+      .subscribe({
+        next: (res) => {
+          if (res) {
+            this.commercialId = (res as CommercialProfile).Id;
+            this.commercialProfileForm.patchValue(res);
+          }
+        },
+        error: (err) => {
+          this._common.openSnackbar(err, snackbarStatus.Danger);
+        },
+      });
   }
 
   // Make sure the Commercial Profile Form is valid
   isValid() {
     if (this.commercialProfileForm.valid) {
       return true;
-    }
-    else {
+    } else {
       this.commercialProfileForm.markAllAsTouched();
       return false;
     }
@@ -82,7 +105,7 @@ export class CommercialProfileComponent {
   getCommercialProfile() {
     let commercialProfile = new CommercialProfile();
     commercialProfile = this.commercialProfileForm.value;
-    commercialProfile.Id = 0;
+    commercialProfile.Id = this.commercialId ? this.commercialId : 0;
     commercialProfile.Form_Id = this.form_Id;
     return commercialProfile;
   }

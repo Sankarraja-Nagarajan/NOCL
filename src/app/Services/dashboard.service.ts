@@ -39,4 +39,11 @@ export class DashboardService {
     const URL = `${this.baseURL}/Dashboard/GetRejectedData?employeeId=${emp_Id}`;
     return this._http.get(URL);
   }
+
+  // get All form data
+  getAllData(): Observable<any> {
+    const URL = `${this.baseURL}/Dashboard/GetAllData`;
+    return this._http.get(URL);
+  }
+
 }

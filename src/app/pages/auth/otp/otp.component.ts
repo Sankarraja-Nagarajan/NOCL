@@ -3,6 +3,9 @@ import { LoginService } from "../../../Services/login.service";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { VerifyOtp } from "../../../Models/authModel";
 import { ActivatedRoute, Router } from "@angular/router";
+import { RegistrationService } from "../../../Services/registration.service";
+import { error } from "console";
+import { Dashboard } from "../../../Models/Dtos";
 
 @Component({
   selector: "ngx-otp",
@@ -17,6 +20,7 @@ export class OtpComponent implements OnInit {
 
   onboardingform: FormGroup;
   otp: any;
+  singleFormData: Dashboard = new Dashboard();
 
   @ViewChild("ngOtpInput", { static: false }) ngOtpInput: any;
   config = {
@@ -28,12 +32,14 @@ export class OtpComponent implements OnInit {
   };
   form_Id: any;
   vendorTypeId: any;
+  loader: boolean = false;
 
   constructor(
     private _login: LoginService,
     private _fb: FormBuilder,
     private _router: Router,
-    private _activatedRoute: ActivatedRoute
+    private _activatedRoute: ActivatedRoute,
+    private _registration: RegistrationService
   ) {
     this.onboardingform = _fb.group({
       firmname: [""],
@@ -48,10 +54,29 @@ export class OtpComponent implements OnInit {
           const jsonData = JSON.parse(params["data"]);
           this.form_Id = jsonData.Form_Id;
           this.vendorTypeId = jsonData.V_Id;
-
+          this.getSingleFormData();
         }
       },
       error: (err) => {},
+    });
+  }
+
+  getSingleFormData() {
+    this.loader = true;
+    this._registration.getSingleFormData(this.form_Id).subscribe({
+      next: (res) => {
+        this.loader = false;
+        console.log(res);
+        if (res) {
+          this.singleFormData = res as Dashboard;
+          this.onboardingform.get("firmname").patchValue(res.Name);
+          this.onboardingform.get("mobile").patchValue(res.Mobile);
+          this.onboardingform.disable();
+        }
+      },
+      error: (err) => {
+        this.loader = false;
+      },
     });
   }
 
@@ -60,7 +85,7 @@ export class OtpComponent implements OnInit {
   }
 
   Submit() {
-    if (this.otp.length == 6) {
+    if (this.otp && this.otp.length == 6) {
       let verifyOtp = new VerifyOtp();
       verifyOtp.FormId = this.form_Id;
       verifyOtp.Mobile = this.onboardingform.get("mobile").value;
@@ -72,7 +97,7 @@ export class OtpComponent implements OnInit {
             let jsonData = {
               Form_Id: this.form_Id,
               V_Id: this.vendorTypeId,
-              Status:'Initiated'
+              Status: this.singleFormData.Status,
             };
             sessionStorage.setItem("userDetails", JSON.stringify(res));
             this._router.navigate(["/registration/form"], {
