@@ -1,11 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { MatTableDataSource } from '@angular/material/table';
-import { LoginService } from '../../../Services/login.service';
-import { VendorBranch } from '../../../Models/Dtos';
-import { CommonService } from '../../../Services/common.service';
-import { RegistrationService } from '../../../Services/registration.service';
-import { snackbarStatus } from '../../../Enums/snackbar-status';
+import { Component, Input, OnInit } from "@angular/core";
+import { FormGroup, FormBuilder, Validators } from "@angular/forms";
+import { MatTableDataSource } from "@angular/material/table";
+import { LoginService } from "../../../Services/login.service";
+import { VendorBranch } from "../../../Models/Dtos";
+import { CommonService } from "../../../Services/common.service";
+import { RegistrationService } from "../../../Services/registration.service";
+import { snackbarStatus } from "../../../Enums/snackbar-status";
 
 @Component({
   selector: "ngx-vendor-branches",
@@ -29,9 +29,11 @@ export class VendorBranchesComponent implements OnInit {
   VendorBranchForm: FormGroup;
   role: any;
 
-  constructor(private _fb: FormBuilder,
+  constructor(
+    private _fb: FormBuilder,
     private _commonService: CommonService,
-    private _registration: RegistrationService) { }
+    private _registration: RegistrationService
+  ) {}
 
   ngOnInit(): void {
     this.VendorBranchForm = this._fb.group({
@@ -45,7 +47,7 @@ export class VendorBranchesComponent implements OnInit {
     const userData = JSON.parse(sessionStorage.getItem("userDetails"));
     this.role = userData ? userData.Role : "";
     // Get vendor branches by form Id
-    this._registration.getFormData(this.form_Id, 'VendorBranches').subscribe({
+    this._registration.getFormData(this.form_Id, "VendorBranches").subscribe({
       next: (res) => {
         if (res) {
           this.vendorBranches = res;
@@ -54,13 +56,13 @@ export class VendorBranchesComponent implements OnInit {
       },
       error: (err) => {
         this._commonService.openSnackbar(err, snackbarStatus.Danger);
-      }
+      },
     });
   }
 
   // Allow (numbers, plus, and space) for Mobile & Phone
   keyPressValidation(event, type) {
-    return this._commonService.KeyPressValidation(event, type)
+    return this._commonService.KeyPressValidation(event, type);
   }
 
   addVendorBranch() {
@@ -82,8 +84,7 @@ export class VendorBranchesComponent implements OnInit {
   isValid() {
     if (this.vendorBranches.length > 0) {
       return true;
-    }
-    else {
+    } else {
       this.VendorBranchForm.markAllAsTouched();
       return false;
     }
@@ -92,7 +93,7 @@ export class VendorBranchesComponent implements OnInit {
   // Get vendorBranches array, calls by layout component
   getVendorBranches() {
     this.vendorBranches.forEach((element) => {
-      element.Branch_Id = 0;
+      element.Branch_Id = element.Branch_Id ? element.Branch_Id : 0;
       element.Form_Id = this.form_Id;
     });
     return this.vendorBranches;

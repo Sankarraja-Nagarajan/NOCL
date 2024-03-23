@@ -1,50 +1,57 @@
-import { Component, Input } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MajorCustomer, Subsideries, VendorOrganizationProfile } from '../../../Models/Dtos';
-import { MatDialog } from '@angular/material/dialog';
-import { AddMajorCustomerDialogComponent } from '../../../Dialogs/attachment-dialog/add-major-customer-dialog/add-major-customer-dialog.component';
-import { CompanyStatus, OrganizationType } from '../../../Models/Master';
-import { MasterService } from '../../../Services/master.service';
-import { CommonService } from '../../../Services/common.service';
-import { snackbarStatus } from '../../../Enums/snackbar-status';
-import { forkJoin } from 'rxjs';
-import { AuthResponse } from '../../../Models/authModel';
-import { RegistrationService } from '../../../Services/registration.service';
+import { Component, Input } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import {
+  MajorCustomer,
+  Subsideries,
+  VendorOrganizationProfile,
+} from "../../../Models/Dtos";
+import { MatDialog } from "@angular/material/dialog";
+import { AddMajorCustomerDialogComponent } from "../../../Dialogs/attachment-dialog/add-major-customer-dialog/add-major-customer-dialog.component";
+import { CompanyStatus, OrganizationType } from "../../../Models/Master";
+import { MasterService } from "../../../Services/master.service";
+import { CommonService } from "../../../Services/common.service";
+import { snackbarStatus } from "../../../Enums/snackbar-status";
+import { forkJoin } from "rxjs";
+import { AuthResponse } from "../../../Models/authModel";
+import { RegistrationService } from "../../../Services/registration.service";
 // import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
-  selector: 'ngx-domestic-vendor-org-profile',
-  templateUrl: './domestic-vendor-org-profile.component.html',
-  styleUrls: ['./domestic-vendor-org-profile.component.scss']
+  selector: "ngx-domestic-vendor-org-profile",
+  templateUrl: "./domestic-vendor-org-profile.component.html",
+  styleUrls: ["./domestic-vendor-org-profile.component.scss"],
 })
 export class DomesticVendorOrgProfileComponent {
   @Input() form_Id: number;
   @Input() isReadOnly: boolean;
-  
+
   vendorOrgForm: FormGroup;
   subsideriesList: Subsideries[] = [];
   listOfMajorCustomerList: MajorCustomer[] = [];
   orgTypes: OrganizationType[] = [];
   companyStatuses: CompanyStatus[] = [];
   authResponse: AuthResponse;
+  orgProfileId: number = 0;
 
-  constructor(private _fb: FormBuilder,
+  constructor(
+    private _fb: FormBuilder,
     private _dialog: MatDialog,
     private _master: MasterService,
     private _common: CommonService,
-    private _registration: RegistrationService) { }
+    private _registration: RegistrationService
+  ) {}
 
   ngOnInit(): void {
     this.vendorOrgForm = this._fb.group({
-      Type_of_Org_Id: ['', Validators.required],
-      Status_of_Company_Id: ['', Validators.required],
+      Type_of_Org_Id: ["", Validators.required],
+      Status_of_Company_Id: ["", Validators.required],
       RelationToNocil: [false],
-      Subsideries : [null],
-      Annual_Prod_Capacity: ['', Validators.required],
+      Subsideries: [null],
+      Annual_Prod_Capacity: ["", Validators.required],
     });
-    
+
     this.authResponse = JSON.parse(sessionStorage.getItem("userDetails"));
-    if(this.isReadOnly){
+    if (this.isReadOnly) {
       this.vendorOrgForm.disable();
     }
     // get master data
@@ -55,8 +62,7 @@ export class DomesticVendorOrgProfileComponent {
   isValid() {
     if (this.vendorOrgForm.valid) {
       return true;
-    }
-    else {
+    } else {
       this.vendorOrgForm.markAllAsTouched();
       return false;
     }
@@ -65,8 +71,9 @@ export class DomesticVendorOrgProfileComponent {
   // Get Vendor Organization Profile data, calls by layout component
   getDomesticVendorOrgProfile() {
     let vendorOrganizationProfile = new VendorOrganizationProfile();
-    vendorOrganizationProfile = this.vendorOrgForm.value as VendorOrganizationProfile;
-    vendorOrganizationProfile.Id = 0;
+    vendorOrganizationProfile = this.vendorOrgForm
+      .value as VendorOrganizationProfile;
+    vendorOrganizationProfile.Id = this.orgProfileId ? this.orgProfileId : 0;
     vendorOrganizationProfile.Form_Id = this.form_Id;
     return vendorOrganizationProfile;
   }
@@ -77,31 +84,31 @@ export class DomesticVendorOrgProfileComponent {
   }
 
   addMultipleSubsideries() {
-    if (this.vendorOrgForm.get('Subsideries').value == null) {
-      this.vendorOrgForm.get('Subsideries').markAllAsTouched();
-    }
-    else {
+    if (this.vendorOrgForm.get("Subsideries").value == null) {
+      this.vendorOrgForm.get("Subsideries").markAllAsTouched();
+    } else {
       let subsidery = new Subsideries();
       subsidery.Form_Id = this.form_Id;
       subsidery.Id = 0;
-      subsidery.Subsidery_Name = this.vendorOrgForm.get('Subsideries').value;
+      subsidery.Subsidery_Name = this.vendorOrgForm.get("Subsideries").value;
       this.subsideriesList.push(subsidery);
-      this.vendorOrgForm.get('Subsideries').reset();
+      this.vendorOrgForm.get("Subsideries").reset();
     }
   }
 
   addMultipleMajorCustomers() {
-    if (this.vendorOrgForm.get('ListOfMajorCustomer').value == null) {
-      this.vendorOrgForm.get('ListOfMajorCustomer').markAllAsTouched();
-    }
-    else {
+    if (this.vendorOrgForm.get("ListOfMajorCustomer").value == null) {
+      this.vendorOrgForm.get("ListOfMajorCustomer").markAllAsTouched();
+    } else {
       let majorCustomer = new MajorCustomer();
       majorCustomer.Form_Id = this.form_Id;
       majorCustomer.Id = 0;
-      majorCustomer.Location = '',
-        majorCustomer.Customer_Name = this.vendorOrgForm.get('ListOfMajorCustomer').value;
+      (majorCustomer.Location = ""),
+        (majorCustomer.Customer_Name = this.vendorOrgForm.get(
+          "ListOfMajorCustomer"
+        ).value);
       this.listOfMajorCustomerList.push(majorCustomer);
-      this.vendorOrgForm.get('ListOfMajorCustomer').reset();
+      this.vendorOrgForm.get("ListOfMajorCustomer").reset();
     }
   }
 
@@ -119,19 +126,18 @@ export class DomesticVendorOrgProfileComponent {
     const dialogRef = this._dialog.open(AddMajorCustomerDialogComponent, {
       autoFocus: false,
       disableClose: true,
-      data: this.form_Id
+      data: this.form_Id,
     });
     dialogRef.afterClosed().subscribe({
       next: (res) => {
         if (res) {
           if (this.listOfMajorCustomerList.length == 0) {
             this.listOfMajorCustomerList = res;
-          }
-          else {
+          } else {
             this.listOfMajorCustomerList.push(...res);
           }
         }
-      }
+      },
     });
   }
 
@@ -147,9 +153,9 @@ export class DomesticVendorOrgProfileComponent {
     forkJoin([
       this._master.getOrganizationTypes(),
       this._master.getCompanyStatuses(),
-      this._registration.getFormData(this.form_Id, 'VendorOrganizationProfile'),
-      this._registration.getFormData(this.form_Id, 'Subsideries'),
-      this._registration.getFormData(this.form_Id, 'MajorCustomers')
+      this._registration.getFormData(this.form_Id, "VendorOrganizationProfile"),
+      this._registration.getFormData(this.form_Id, "Subsideries"),
+      this._registration.getFormData(this.form_Id, "MajorCustomers"),
     ]).subscribe({
       next: (res) => {
         if (res[0]) {
@@ -159,6 +165,7 @@ export class DomesticVendorOrgProfileComponent {
           this.companyStatuses = res[1] as CompanyStatus[];
         }
         if (res[2]) {
+          this.orgProfileId = (res[2] as VendorOrganizationProfile).Id;
           this.vendorOrgForm.patchValue(res[2]);
         }
         if (res[3]) {
@@ -170,9 +177,7 @@ export class DomesticVendorOrgProfileComponent {
       },
       error: (err) => {
         this._common.openSnackbar(err, snackbarStatus.Danger);
-      }
+      },
     });
   }
 }
-
-

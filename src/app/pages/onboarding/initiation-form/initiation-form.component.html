@@ -1,113 +1,205 @@
-<section class="screenInitiationForm center-flexBox">
-    <div class="bg-white rounded-3 shadow card-div w-100">
-        <div class="form p-md-4 p-3">
-            <form action="" [formGroup]="initiationForm">
-                <div class="row">
-                    <div class="col-sm-6">
-                        <!-- vendor type -->
-                        <div class="mb-3">
-                            <label class="input-label-text"> Vendor Type </label>
-                            <nb-select fullWidth formControlName="Vendor_Type_Id" placeholder="Select vendor type"
-                                status="primary" size="small">
-                                <nb-option *ngFor="let vendorType of vendorTypes"
-                                    [value]="vendorType.Id">{{vendorType.Vendor_Type}}</nb-option>
-                            </nb-select>
-                            <mat-error
-                                *ngIf="initiationForm.get('Vendor_Type_Id').hasError('required') && initiationForm.get('Vendor_Type_Id').touched"
-                                class="error-msg">
-                                Vendor type is required
-                            </mat-error>
-                        </div>
+<section class="screenInitiationForm center-flexBox" *ngIf="!loader">
+  <div class="bg-white rounded-3 shadow card-div w-100">
+    <div class="form p-md-4 p-3">
+      <form action="" [formGroup]="initiationForm">
+        <div class="row">
+          <div class="col-sm-6">
+            <!-- vendor type -->
+            <div class="mb-3">
+              <label class="input-label-text"> Vendor Type </label>
+              <nb-select
+                fullWidth
+                formControlName="Vendor_Type_Id"
+                placeholder="Select vendor type"
+                status="primary"
+                size="small"
+              >
+                <nb-option
+                  *ngFor="let vendorType of vendorTypes"
+                  [value]="vendorType.Id"
+                  >{{ vendorType.Vendor_Type }}</nb-option
+                >
+              </nb-select>
+              <mat-error
+                *ngIf="
+                  initiationForm.get('Vendor_Type_Id').hasError('required') &&
+                  initiationForm.get('Vendor_Type_Id').touched
+                "
+                class="error-msg"
+              >
+                Vendor type is required
+              </mat-error>
+            </div>
 
-                        <!-- department -->
-                        <div class="mb-3">
-                            <label class="input-label-text"> Department </label>
-                            <nb-select fullWidth formControlName="Department_Id" placeholder="Select Department"
-                                status="primary" size="small">
-                                <nb-option *ngFor="let department of departments"
-                                    [value]="department.Department_Id">{{department.Description}}</nb-option>
-                            </nb-select>
-                            <mat-error
-                                *ngIf="initiationForm.get('Department_Id').hasError('required') && initiationForm.get('Department_Id').touched"
-                                class="error-msg">
-                                Department is required
-                            </mat-error>
-                        </div>
+            <!-- department -->
+            <div class="mb-3">
+              <label class="input-label-text"> Department </label>
+              <nb-select
+                fullWidth
+                formControlName="Department_Id"
+                placeholder="Select Department"
+                status="primary"
+                size="small"
+              >
+                <nb-option
+                  *ngFor="let department of departments"
+                  [value]="department.Department_Id"
+                  >{{ department.Description }}</nb-option
+                >
+              </nb-select>
+              <mat-error
+                *ngIf="
+                  initiationForm.get('Department_Id').hasError('required') &&
+                  initiationForm.get('Department_Id').touched
+                "
+                class="error-msg"
+              >
+                Department is required
+              </mat-error>
+            </div>
 
-                        <!-- vendor mail -->
-                        <div class="mb-3">
-                            <label class="input-label-text"> Mail </label>
-                            <div class="input-group">
-                                <input type="email" nbInput fullWidth placeholder="Enter mail"
-                                    formControlName="Vendor_Mail" required
-                                    (keypress)="keyPressValidation($event,'email')" fieldSize="small"
-                                    class="input-border" />
-                                <mat-error
-                                    *ngIf="initiationForm.get('Vendor_Mail').hasError('required') && initiationForm.get('Vendor_Mail').touched"
-                                    class="error-msg">
-                                    Vendor mail is required
-                                </mat-error>
-                                <mat-error
-                                    *ngIf="initiationForm.get('Vendor_Mail').hasError('email') && initiationForm.get('Vendor_Mail').touched"
-                                    class="error-msg">
-                                    Invalid Mail
-                                </mat-error>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <!-- company code -->
-                        <div class="mb-3">
-                            <label class="input-label-text"> Company Code </label>
-                            <nb-select fullWidth formControlName="Company_Code" placeholder="Select Company Code"
-                                status="primary" size="small">
-                                <nb-option *ngFor="let company of companyCodes"
-                                    [value]="company.Company_Code">{{company.Description}}</nb-option>
-                            </nb-select>
-                            <mat-error
-                                    *ngIf="initiationForm.get('Company_Code').hasError('required') && initiationForm.get('Company_Code').touched"
-                                    class="error-msg">
-                                    Company code is required
-                                </mat-error>
-                        </div>
+            <!-- vendor mail -->
+            <div class="mb-3">
+              <label class="input-label-text"> Mail </label>
+              <div class="input-group">
+                <input
+                  type="email"
+                  nbInput
+                  fullWidth
+                  placeholder="Enter mail"
+                  formControlName="Vendor_Mail"
+                  required
+                  (keypress)="keyPressValidation($event, 'email')"
+                  fieldSize="small"
+                  class="input-border"
+                />
+                <mat-error
+                  *ngIf="
+                    initiationForm.get('Vendor_Mail').hasError('required') &&
+                    initiationForm.get('Vendor_Mail').touched
+                  "
+                  class="error-msg"
+                >
+                  Vendor mail is required
+                </mat-error>
+                <mat-error
+                  *ngIf="
+                    initiationForm.get('Vendor_Mail').hasError('email') &&
+                    initiationForm.get('Vendor_Mail').touched
+                  "
+                  class="error-msg"
+                >
+                  Invalid Mail
+                </mat-error>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <!-- company code -->
+            <div class="mb-3">
+              <label class="input-label-text"> Company Code </label>
+              <nb-select
+                fullWidth
+                formControlName="Company_Code"
+                placeholder="Select Company Code"
+                status="primary"
+                size="small"
+              >
+                <nb-option
+                  *ngFor="let company of companyCodes"
+                  [value]="company.Company_Code"
+                  >{{ company.Description }}</nb-option
+                >
+              </nb-select>
+              <mat-error
+                *ngIf="
+                  initiationForm.get('Company_Code').hasError('required') &&
+                  initiationForm.get('Company_Code').touched
+                "
+                class="error-msg"
+              >
+                Company code is required
+              </mat-error>
+            </div>
 
-                        <!-- vendor name -->
-                        <div class="mb-3">
-                            <label class="input-label-text"> Organization Name </label>
-                            <div class="input-group">
-                                <input nbInput fullWidth placeholder="Enter name" formControlName="Vendor_Name"
-                                    fieldSize="small" class="input-border"
-                                    (keypress)="keyPressValidation($event,'alphanumeric')" required />
-                                <mat-error
-                                    *ngIf="initiationForm.get('Vendor_Name').hasError('required') && initiationForm.get('Vendor_Name').touched"
-                                    class="error-msg">
-                                    Vendor name is required
-                                </mat-error>
-                            </div>
-                        </div>
+            <!-- vendor name -->
+            <div class="mb-3">
+              <label class="input-label-text"> Organization Name </label>
+              <div class="input-group">
+                <input
+                  nbInput
+                  fullWidth
+                  placeholder="Enter name"
+                  formControlName="Vendor_Name"
+                  fieldSize="small"
+                  class="input-border"
+                  (keypress)="keyPressValidation($event, 'alphanumeric')"
+                  required
+                />
+                <mat-error
+                  *ngIf="
+                    initiationForm.get('Vendor_Name').hasError('required') &&
+                    initiationForm.get('Vendor_Name').touched
+                  "
+                  class="error-msg"
+                >
+                  Vendor name is required
+                </mat-error>
+              </div>
+            </div>
 
-                        <!-- vendor mobile number -->
-                        <div class="mb-3 mb-sm-0">
-                            <label class="input-label-text"> Mobile Number </label>
-                            <div class="input-group">
-                                <input nbInput fullWidth type="tel" placeholder="Enter mobile number"
-                                    formControlName="Vendor_Mobile" required fieldSize="small" class="input-border"
-                                    maxlength="15" (keypress)="keyPressValidation($event,'tel')" />
-                                    <mat-error *ngIf="initiationForm.get('Vendor_Mobile').hasError('required') && initiationForm.get('Vendor_Mobile').touched" class="error-msg">
-                                        Vendor Mobile number is required
-                                    </mat-error>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="d-flex justify-content-end ">
-                    <!-- Submit btn -->
-                    <button class="btn btn-design center-flexBox" (click)="submitForm()">
-                        <img src="/assets/images/pngs/check.png" height="16" width="16" class="me-1">
-                        Submit</button>
-                </div>
-            </form>
+            <!-- vendor mobile number -->
+            <div class="mb-3 mb-sm-0">
+              <label class="input-label-text"> Mobile Number </label>
+              <div class="input-group">
+                <input
+                  nbInput
+                  fullWidth
+                  type="tel"
+                  placeholder="Enter mobile number"
+                  formControlName="Vendor_Mobile"
+                  required
+                  fieldSize="small"
+                  class="input-border"
+                  maxlength="15"
+                  (keypress)="keyPressValidation($event, 'tel')"
+                />
+                <mat-error
+                  *ngIf="
+                    initiationForm.get('Vendor_Mobile').hasError('required') &&
+                    initiationForm.get('Vendor_Mobile').touched
+                  "
+                  class="error-msg"
+                >
+                  Vendor Mobile number is required
+                </mat-error>
+              </div>
+            </div>
+          </div>
         </div>
+
+        <div class="d-flex justify-content-end">
+          <!-- Submit btn -->
+          <button class="btn btn-design center-flexBox" (click)="submitForm()">
+            <img
+              src="/assets/images/pngs/check.png"
+              height="16"
+              width="16"
+              class="me-1"
+            />
+            Submit
+          </button>
+        </div>
+      </form>
     </div>
+  </div>
 </section>
+
+<div class="loader-point" id="nb-global-spinner" *ngIf="loader">
+  <div
+    class="spinner-grow text-primary"
+    style="width: 4rem; height: 4rem"
+    role="status"
+  ></div>
+  <span class="sr-only">Submitting...</span>
+</div>

@@ -92,7 +92,7 @@ export class ContactsComponent implements OnInit {
   // Get contacts array, calls by layout component
   getContacts() {
     this.contacts.forEach((element) => {
-      element.Contact_Id = 0;
+      element.Contact_Id = element.Contact_Id ? element.Contact_Id : 0;
       element.Form_Id = this.form_Id;
     });
     return this.contacts;

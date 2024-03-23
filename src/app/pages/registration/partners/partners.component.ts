@@ -79,7 +79,7 @@ export class PartnersComponent implements OnInit {
   // Get partners array, calls by layout component
   getProprietorOrPartners() {
     this.proprietOrsOrPartners.forEach((element) => {
-      element.Id = 0;
+      element.Id = element.Id ? element.Id : 0;
       element.Form_Id = this.form_Id;
     });
     return this.proprietOrsOrPartners;

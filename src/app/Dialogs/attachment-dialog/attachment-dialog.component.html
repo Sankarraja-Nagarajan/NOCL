@@ -43,7 +43,7 @@
                 *ngIf="attachmentForm.get('Is_Expiry_Available').value">
                 <mat-form-field>
                     <mat-label>Choose a Expiry date</mat-label>
-                    <input matInput [matDatepicker]="picker" formControlName="Expiry_Date">
+                    <input matInput [min]="currentDate" [matDatepicker]="picker" formControlName="Expiry_Date">
                     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
                     <mat-error *ngIf="this.attachmentForm.get('Expiry_Date').hasError('required') && this.attachmentForm.get('Expiry_Date').touched"

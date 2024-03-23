@@ -92,7 +92,7 @@ export class AddressComponent implements OnInit {
   // Get addresses, calls by layout component
   getAddresses() {
     this.addresses.forEach((element) => {
-      element.Address_Id = 0;
+      element.Address_Id = element.Address_Id ? element.Address_Id : 0;
       element.Form_Id = this.form_Id;
     });
     return this.addresses;
