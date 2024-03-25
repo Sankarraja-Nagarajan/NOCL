@@ -156,3 +156,21 @@ export class InitialData {
   Rejected: number;
   SAP: number;
 }
+
+export class User {
+    Employee_Id: string;
+    Role_Id: number;
+    First_Name: string;
+    Middle_Name: string;
+    Last_Name: string;
+    Email: string;
+    Mobile_No: string;
+    Reporting_Manager_EmpId: string;
+    IsActive: boolean;
+    Display_Name: string;
+}
+
+export class Role {
+    Role_Id: number;
+    Role_Name: string;
+}

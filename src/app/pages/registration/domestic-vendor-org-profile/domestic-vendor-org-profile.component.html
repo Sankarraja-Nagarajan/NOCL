@@ -64,11 +64,15 @@
           </div>
 
           <div class="checks-fields d-flex align-items-center">
-            <div class="check d-flex">
-              <input [disabled]="isReadOnly" type="checkbox" value="" id="relationToNocil" formControlName="RelationToNocil" />
+            <div class="check w-100 d-flex justify-content-between align-items-center">
+              <!-- <input [disabled]="isReadOnly" type="checkbox" value="" id="relationToNocil" formControlName="RelationToNocil" /> -->
               <label class="input-label-text ps-2" style="cursor: pointer" for="relationToNocil">Any of Your Directors /
                 Partners/ Employees/ Related To Any
                 Employee of Nocil Ltd?</label>
+                <nb-select size="small" status="primary" formControlName="RelationToNocil" >
+                  <nb-option [value]="true">Yes</nb-option>
+                  <nb-option [value]="false">No</nb-option>
+                </nb-select>
             </div>
           </div>
           <!--AnnualProdCapacity  & RelationToNocil-->
@@ -76,8 +80,8 @@
           <!--  ListOfMajaorCustomer & Subsideries -->
           <div class="row mb-2">
             <div class="col-12 col-md">
-              <div class="d-flex mb-2" *ngIf="authResponse.Role == 'Vendor'">
-                <div class="col-lg-10 col-md-9 col-10 me-4" *ngIf="authResponse.Role == 'Vendor'">
+              <div class="d-flex mb-2" *ngIf="authResponse?.Role == 'Vendor'">
+                <div class="col-lg-10 col-md-9 col-10 me-4" *ngIf="authResponse?.Role == 'Vendor'">
                   <label class="input-label-text">Subsideries</label>
                   <div class="input-group">
                     <input nbInput fullWidth fieldSize="small" class="input-border" placeholder="Enter Subsideries"
@@ -92,13 +96,13 @@
                                         class="error-msg">Subsideries is required<</mat-error> -->
                 </div>
                 <div class="col-lg-2 col-md-3 col-2 mt-4">
-                  <button *ngIf="authResponse.Role == 'Vendor'" mat-mini-fab class="fab-button btn-design"
+                  <button *ngIf="authResponse?.Role == 'Vendor'" mat-mini-fab class="fab-button btn-design"
                     (click)="addMultipleSubsideries()">
                     <mat-icon class="plus-icon d-flex justify-content-center align-items-center">add</mat-icon>
                   </button>
                 </div>
               </div>
-              <label class="input-label-text" *ngIf="authResponse.Role != 'Vendor'">Subsideries</label>
+              <label class="input-label-text" *ngIf="authResponse?.Role != 'Vendor'">Subsideries</label>
               <div class="multiple-input bg-white border">
                 <div *ngIf="subsideriesList.length == 0"
                   class="d-flex justify-content-center align-items-center empty-msg">
@@ -107,14 +111,14 @@
                 </div>
                 <div class="display-inputs border-bottom" *ngFor="let subsidery of subsideriesList; index as i">
                   <span>{{ subsidery.Subsidery_Name }}</span>
-                  <img *ngIf="authResponse.Role == 'Vendor'" src="assets/images/pngs/xmark.png" class="input-x-mark"
+                  <img *ngIf="authResponse?.Role == 'Vendor'" src="assets/images/pngs/xmark.png" class="input-x-mark"
                     (click)="removeSubsideriesItems(i)" />
                 </div>
               </div>
             </div>
             <div class="col-md">
               &nbsp;
-              <div class="mb-2" *ngIf="authResponse.Role == 'Vendor'">
+              <div class="mb-2" *ngIf="authResponse?.Role == 'Vendor'">
                 <div class="d-flex justify-content-between">
                   <div>
                     <label class="input-label-text">List of Major Customer</label>
@@ -128,7 +132,7 @@
                 </div>
               </div>
 
-              <label class="input-label-text" *ngIf="authResponse.Role != 'Vendor'">Major Customers</label>
+              <label class="input-label-text" *ngIf="authResponse?.Role != 'Vendor'">Major Customers</label>
 
               <div class="multiple-input bg-white border">
                 <div *ngIf="listOfMajorCustomerList.length == 0"
@@ -139,7 +143,7 @@
                 <div class="display-inputs border-bottom" *ngFor="let customer of listOfMajorCustomerList; index as i">
                   <span>{{ customer.Customer_Name }} -
                     {{ customer.Location }}</span>
-                  <img *ngIf="authResponse.Role == 'Vendor'" src="assets/images/pngs/xmark.png" class="input-x-mark"
+                  <img *ngIf="authResponse?.Role == 'Vendor'" src="assets/images/pngs/xmark.png" class="input-x-mark"
                     (click)="removeMajorCustomerItems(i)" />
                 </div>
               </div>

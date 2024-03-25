@@ -52,4 +52,9 @@ export class MasterService {
     return this._http.get(URL);
   }
 
+  // get roles
+  getRoles():Observable<any>{
+    const URL = this.baseURL + '/Roles/GetRoles';
+    return this._http.get(URL);
+  }
 }

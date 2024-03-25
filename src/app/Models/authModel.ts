@@ -24,9 +24,3 @@ export class VerifyOtp {
   Mobile: string;
   FormId: number;
 }
-
-export class User {
-  name: string;
-  title: string;
-  picture: string;
-}
