@@ -1,15 +1,17 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { UserService } from '../../../Services/user.service';
-import { CommonService } from '../../../Services/common.service';
-import { snackbarStatus } from '../../../Enums/snackbar-status';
-import { Role, User } from '../../../Models/Dtos';
-import { MasterService } from '../../../Services/master.service';
+import { Component, OnInit } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { UserService } from "../../../Services/user.service";
+import { CommonService } from "../../../Services/common.service";
+import { snackbarStatus } from "../../../Enums/snackbar-status";
+import { Role, User } from "../../../Models/Dtos";
+import { MasterService } from "../../../Services/master.service";
+import { forkJoin } from "rxjs";
+import { subscribe } from "diagnostics_channel";
 
 @Component({
-  selector: 'ngx-user',
-  templateUrl: './user.component.html',
-  styleUrls: ['./user.component.scss']
+  selector: "ngx-user",
+  templateUrl: "./user.component.html",
+  styleUrls: ["./user.component.scss"],
 })
 export class UserComponent implements OnInit {
   userForm: FormGroup;
@@ -18,35 +20,41 @@ export class UserComponent implements OnInit {
   selectedItem: User;
   filteredUsers: User[] = [];
 
-  constructor(private _fb: FormBuilder,
+  constructor(
+    private _fb: FormBuilder,
     private _user: UserService,
     private _common: CommonService,
-    private _master: MasterService) {
-
-  }
+    private _master: MasterService
+  ) {}
   ngOnInit(): void {
     this.userForm = this._fb.group({
-      Employee_Id: ['', Validators.required],
-      First_Name: ['', [Validators.required]],
-      Middle_Name: [''],
-      Last_Name: [''],
-      Email: ['', [Validators.required,
-      Validators.email]],
-      Mobile_No: ['', [Validators.required]],
-      Role_Id: ['', [Validators.required]],
-      Reporting_Manager_EmpId: [''],
+      Employee_Id: ["", Validators.required],
+      First_Name: ["", [Validators.required]],
+      Middle_Name: [""],
+      Last_Name: [""],
+      Email: ["", [Validators.required, Validators.email]],
+      Mobile_No: ["", [Validators.required]],
+      Role_Id: ["", [Validators.required]],
+      Reporting_Manager_EmpId: [""],
       IsActive: [true],
     });
 
     // get users and roles
-    this.getUsers();
-    this._master.getRoles().subscribe({
-      next: (res) => {
-        if (res) {
+    this.getAllMasters();
+  }
+
+  getAllMasters() {
+    forkJoin([this._master.getRoles(), this._user.getUsers()]).subscribe({
+      next:(res)=>{
+        if(res[0]){
           this.roles = res as Role[];
         }
+        if(res[1]){
+          this.users = res as User[];
+          this.filteredUsers = this.users;
+        }
       },
-      error: (err) => {
+      error:(err)=>{
         this._common.openSnackbar(err, snackbarStatus.Danger);
       }
     });
@@ -59,8 +67,9 @@ export class UserComponent implements OnInit {
 
   // filter user
   filterUser(filterValue: string) {
-    this.filteredUsers = this.users.filter(user =>
-      user.Display_Name.toLowerCase().includes(filterValue.toLowerCase()));
+    this.filteredUsers = this.users.filter((user) =>
+      user.Display_Name.toLowerCase().includes(filterValue.toLowerCase())
+    );
   }
 
   // show user detail
@@ -72,7 +81,7 @@ export class UserComponent implements OnInit {
   // reset form
   resetForm() {
     this.userForm.reset({
-      IsActive: true
+      IsActive: true,
     });
     this.selectedItem = null;
   }
@@ -88,7 +97,7 @@ export class UserComponent implements OnInit {
       },
       error: (err) => {
         this._common.openSnackbar(err, snackbarStatus.Danger);
-      }
+      },
     });
   }
 
@@ -105,10 +114,9 @@ export class UserComponent implements OnInit {
         },
         error: (err) => {
           this._common.openSnackbar(err, snackbarStatus.Danger);
-        }
+        },
       });
-    }
-    else {
+    } else {
       this.userForm.markAllAsTouched();
     }
   }
@@ -126,10 +134,9 @@ export class UserComponent implements OnInit {
         },
         error: (err) => {
           this._common.openSnackbar(err, snackbarStatus.Danger);
-        }
+        },
       });
-    }
-    else {
+    } else {
       this.userForm.markAllAsTouched();
     }
   }
@@ -149,10 +156,9 @@ export class UserComponent implements OnInit {
         },
         error: (err) => {
           this._common.openSnackbar(err, snackbarStatus.Danger);
-        }
+        },
       });
-    }
-    else {
+    } else {
       this.userForm.markAllAsTouched();
     }
   }

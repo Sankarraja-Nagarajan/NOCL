@@ -1,5 +1,10 @@
 import { Component, Input, OnInit } from "@angular/core";
-import { FormGroup, FormBuilder, Validators } from "@angular/forms";
+import {
+  FormGroup,
+  FormBuilder,
+  Validators,
+  FormControl,
+} from "@angular/forms";
 import { MatTableDataSource } from "@angular/material/table";
 import { LoginService } from "../../../Services/login.service";
 import { VendorBranch } from "../../../Models/Dtos";
@@ -14,6 +19,8 @@ import { snackbarStatus } from "../../../Enums/snackbar-status";
 })
 export class VendorBranchesComponent implements OnInit {
   @Input() form_Id: number;
+
+  isVendorBranchRequired: FormControl = new FormControl(true);
 
   vendorBranches: VendorBranch[] = [];
   dataSource = new MatTableDataSource(this.vendorBranches);

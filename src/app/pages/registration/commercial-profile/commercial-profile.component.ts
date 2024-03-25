@@ -50,7 +50,9 @@ export class CommercialProfileComponent {
         ],
       ],
       MSME_Type: [""],
-      MSME_Number: [""],
+      MSME_Number: ["",Validators.pattern(
+        "^(UDYAM-[A-Z]{2}-[0-9]{2}-[0-9]{7})+$"
+      )],
       ServiceCategory: [""],
     });
 

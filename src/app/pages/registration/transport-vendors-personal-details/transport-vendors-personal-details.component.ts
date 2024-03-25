@@ -36,7 +36,7 @@ export class TransportVendorsPersonalDetailsComponent {
     });
 
     this.authResponse = JSON.parse(sessionStorage.getItem("userDetails"));
-    if (this.authResponse && this.authResponse.Role != "Vendor") {
+    if (this.authResponse && this.authResponse?.Role != "Vendor") {
       this.transporterVendorsForm.disable();
     }
     this._registration

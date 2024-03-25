@@ -1,5 +1,11 @@
 <section class="screenVendorBranches">
   <div class="container">
+
+    <nb-select size="small" status="primary" [formControl]="isVendorBranchRequired">
+      <nb-option [value]="true">Yes</nb-option>
+      <nb-option [value]="false">No</nb-option>
+    </nb-select>
+
     <div style="user-select: none">
       <div class="row">
         <form

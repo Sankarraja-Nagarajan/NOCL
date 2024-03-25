@@ -21,7 +21,7 @@
                         </div>
                         <div class="col-sm-5">
                             <div>
-                                <label class="input-label-text"> Plant Installaiton Year </label>
+                                <label class="input-label-text"> Organization Establishment Year </label>
                                 <div class="input-group">
                                     <nb-select fullWidth size="small" status="primary"
                                         formControlName="Plant_Installation_Year" required
@@ -39,7 +39,7 @@
                     <!-- OrgName & PlantInstallaitonYear -->
 
                     <!-- GSTIN & Get details btn -->
-                    <div class="row">
+                    <div class="row" *ngIf="authResponse?.Role == 'Vendor'">
                         <div class="col-sm-7">
                             <div>
                                 <label class="input-label-text"> GSTIN </label>
@@ -54,7 +54,7 @@
                         </div>
                         <div class="col-sm-5 d-flex mt-sm-0 mt-2 justify-content-sm-start justify-content-end">
                             <div class="d-flex align-items-end justify-content-center">
-                                <button *ngIf="authResponse.Role == 'Vendor'" class="btn btn-design center-flexBox" (click)="getDetails()">
+                                <button *ngIf="authResponse?.Role == 'Vendor'" class="btn btn-design center-flexBox" (click)="getDetails()">
                                     <!-- <img src="../../../../assets/images/pngs/plus.png" width="16" height="16"> -->
                                     Get Details</button>
                             </div>

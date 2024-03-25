@@ -35,7 +35,7 @@ export class TechnicalProfileComponent implements OnInit {
     });
 
     this.authResponse = JSON.parse(sessionStorage.getItem("userDetails"));
-    if (this.authResponse && this.authResponse.Role != "Vendor") {
+    if (this.authResponse && this.authResponse?.Role != "Vendor") {
       this.technicalProfileForm.disable();
     }
     // Get Form data by form Id

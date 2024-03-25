@@ -46,7 +46,7 @@ export class DashboardComponent implements OnInit {
     ) as AuthResponse;
     this.emp_id = this.authResponse.Employee_Id;
     // get dashboard data
-    if(this.authResponse.Role == "Admin"){
+    if(this.authResponse?.Role == "Admin"){
       this.getAllData();
       this.headerStatus = "All";
     }
