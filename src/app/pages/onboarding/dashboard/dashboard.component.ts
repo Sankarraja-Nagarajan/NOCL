@@ -46,16 +46,13 @@ export class DashboardComponent implements OnInit {
     ) as AuthResponse;
     this.emp_id = this.authResponse.Employee_Id;
     // get dashboard data
-    if(this.authResponse?.Role == "Admin"){
+    if (this.authResponse?.Role == "Admin") {
       this.getAllData();
       this.headerStatus = "All";
-    }
-    else{
+    } else {
       this.getInitialData();
       this.headerStatus = "Pending";
     }
-    
-    
   }
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
@@ -86,12 +83,13 @@ export class DashboardComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  getInitialData(){
+  getInitialData() {
     this.loader = true;
     this._dashboard.getInitialData(this.emp_id).subscribe({
       next: (res) => {
         this.dashboardAllData = res.Data as Dashboard[];
         this.dataSource = new MatTableDataSource(this.dashboardAllData);
+        this.dataSource.paginator = this.paginator;
         this.initialDashboardData.Open = res.Open;
         this.initialDashboardData.Pending = res.Pending;
         this.initialDashboardData.Approved = res.Approved;
@@ -105,12 +103,13 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  getAllData(){
+  getAllData() {
     this.loader = true;
     this._dashboard.getAllData().subscribe({
       next: (res) => {
         this.dashboardAllData = res.Data as Dashboard[];
         this.dataSource = new MatTableDataSource(this.dashboardAllData);
+        this.dataSource.paginator = this.paginator;
         this.initialDashboardData.Open = res.Open;
         this.initialDashboardData.Pending = res.Pending;
         this.initialDashboardData.Approved = res.Approved;
@@ -127,66 +126,163 @@ export class DashboardComponent implements OnInit {
 
   getAllOpenData() {
     this.loader = true;
-    this._dashboard.getInitiatedData(this.emp_id).subscribe({
-      next: (res) => {
-        if (res) {
+    if (this.authResponse?.Role != "Admin") {
+      this._dashboard.getInitiatedData(this.emp_id).subscribe({
+        next: (res) => {
+          if (res) {
+            this.loader = false;
+            this.dashboardAllData = res as Dashboard[];
+            this.dataSource = new MatTableDataSource(this.dashboardAllData);
+            this.dataSource.paginator = this.paginator;
+            this.headerStatus = "Open";
+          }
+        },
+        error: (err) => {
           this.loader = false;
-          this.dashboardAllData = res as Dashboard[];
-          this.dataSource = new MatTableDataSource(this.dashboardAllData);
-          this.headerStatus = "Open";
-        }
-      },
-      error: (err) => {
-        this.loader = false;
-        this._common.openSnackbar(err, snackbarStatus.Danger);
-      },
-    });
+          this._common.openSnackbar(err, snackbarStatus.Danger);
+        },
+      });
+    } else {
+      this._dashboard.getAllInitiatedData().subscribe({
+        next: (res) => {
+          if (res) {
+            this.loader = false;
+            this.dashboardAllData = res as Dashboard[];
+            this.dataSource = new MatTableDataSource(this.dashboardAllData);
+            this.dataSource.paginator = this.paginator;
+            this.headerStatus = "Open";
+          }
+        },
+        error: (err) => {
+          this.loader = false;
+          this._common.openSnackbar(err, snackbarStatus.Danger);
+        },
+      });
+    }
   }
 
   getAllPendingData() {
     this.loader = true;
-    this._dashboard.getPendingData(this.emp_id).subscribe({
-      next: (res) => {
-        if (res) {
-          this.dashboardAllData = res as Dashboard[];
-          this.dataSource = new MatTableDataSource(this.dashboardAllData);
-          this.headerStatus = "Pending";
+    if (this.authResponse?.Role != "Admin") {
+      this._dashboard.getPendingData(this.emp_id).subscribe({
+        next: (res) => {
+          if (res) {
+            this.dashboardAllData = res as Dashboard[];
+            this.dataSource = new MatTableDataSource(this.dashboardAllData);
+            this.dataSource.paginator = this.paginator;
+            this.headerStatus = "Pending";
+            this.loader = false;
+          }
+        },
+        error: (err) => {
           this.loader = false;
-        }
-      },
-      error: (err) => {
-        this.loader = false;
-        this._common.openSnackbar(err, snackbarStatus.Danger);
-      },
-    });
+          this._common.openSnackbar(err, snackbarStatus.Danger);
+        },
+      });
+    } else {
+      this._dashboard.getAllPendingData().subscribe({
+        next: (res) => {
+          if (res) {
+            this.dashboardAllData = res as Dashboard[];
+            this.dataSource = new MatTableDataSource(this.dashboardAllData);
+            this.dataSource.paginator = this.paginator;
+            this.headerStatus = "Pending";
+            this.loader = false;
+          }
+        },
+        error: (err) => {
+          this.loader = false;
+          this._common.openSnackbar(err, snackbarStatus.Danger);
+        },
+      });
+    }
   }
 
   getAllApprovedData() {
     this.loader = true;
-    this._dashboard.getApprovedData(this.emp_id).subscribe({
-      next: (res) => {
-        if (res) {
-          this.dashboardAllData = res as Dashboard[];
-          this.dataSource = new MatTableDataSource(this.dashboardAllData);
-          this.headerStatus = "Approved";
+    if(this.authResponse?.Role != "Admin"){
+      this._dashboard.getApprovedData(this.emp_id).subscribe({
+        next: (res) => {
+          if (res) {
+            this.dashboardAllData = res as Dashboard[];
+            this.dataSource = new MatTableDataSource(this.dashboardAllData);
+            this.dataSource.paginator = this.paginator;
+            this.headerStatus = "Approved";
+            this.loader = false;
+          }
+        },
+        error: (err) => {
           this.loader = false;
-        }
-      },
-      error: (err) => {
-        this.loader = false;
-        this._common.openSnackbar(err, snackbarStatus.Danger);
-      },
-    });
+          this._common.openSnackbar(err, snackbarStatus.Danger);
+        },
+      });
+    }
+    else{
+      this._dashboard.getAllApprovedData().subscribe({
+        next: (res) => {
+          if (res) {
+            this.dashboardAllData = res as Dashboard[];
+            this.dataSource = new MatTableDataSource(this.dashboardAllData);
+            this.dataSource.paginator = this.paginator;
+            this.headerStatus = "Approved";
+            this.loader = false;
+          }
+        },
+        error: (err) => {
+          this.loader = false;
+          this._common.openSnackbar(err, snackbarStatus.Danger);
+        },
+      });
+    }
   }
 
   getAllRejectedData() {
     this.loader = true;
-    this._dashboard.getRejectedData(this.emp_id).subscribe({
+    if(this.authResponse?.Role != "Admin"){
+      this._dashboard.getRejectedData(this.emp_id).subscribe({
+        next: (res) => {
+          if (res) {
+            this.dashboardAllData = res as Dashboard[];
+            this.dataSource = new MatTableDataSource(this.dashboardAllData);
+            this.dataSource.paginator = this.paginator;
+            this.headerStatus = "Rejected";
+            this.loader = false;
+          }
+        },
+        error: (err) => {
+          this.loader = false;
+          this._common.openSnackbar(err, snackbarStatus.Danger);
+        },
+      });
+    }
+    else{
+      this._dashboard.getAllRejectedData().subscribe({
+        next: (res) => {
+          if (res) {
+            this.dashboardAllData = res as Dashboard[];
+            this.dataSource = new MatTableDataSource(this.dashboardAllData);
+            this.dataSource.paginator = this.paginator;
+            this.headerStatus = "Rejected";
+            this.loader = false;
+          }
+        },
+        error: (err) => {
+          this.loader = false;
+          this._common.openSnackbar(err, snackbarStatus.Danger);
+        },
+      });
+    }
+  }
+
+  getAllSAPData() {
+    this.loader = true;
+    this._dashboard.getAllSAPData().subscribe({
       next: (res) => {
         if (res) {
           this.dashboardAllData = res as Dashboard[];
           this.dataSource = new MatTableDataSource(this.dashboardAllData);
-          this.headerStatus = "Rejected";
+          this.dataSource.paginator = this.paginator;
+          this.headerStatus = "SAP";
           this.loader = false;
         }
       },
@@ -195,10 +291,6 @@ export class DashboardComponent implements OnInit {
         this._common.openSnackbar(err, snackbarStatus.Danger);
       },
     });
-  }
-
-  getAllSAPData(){
-
   }
 
   // Form Review - Review btn click

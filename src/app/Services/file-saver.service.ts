@@ -1,11 +1,11 @@
-import { Injectable } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
+import { Injectable } from "@angular/core";
+import { DomSanitizer } from "@angular/platform-browser";
 import { saveAs } from "file-saver";
+import { AttachmentResponse } from "../Models/Dtos";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
-
 export class FileSaverService {
   FileName: string;
   AttachmentData: any;
@@ -53,20 +53,20 @@ export class FileSaverService {
     return new Blob([IA], { type: MIMESTRING });
   }
 
-  async downloadFile(res): Promise<void> {
+  async downloadFile(res: AttachmentResponse): Promise<void> {
     await this.getAttachmentData(res);
     saveAs(this.FILE, this.FileName);
   }
 
-  async getAttachmentData(res) {
+  async getAttachmentData(res: AttachmentResponse) {
     this.FileName = res.FileName;
     const BASE64 = await this.createBlob(
       res.FileName,
       res.FileContent,
-      res.FileType
+      res.Extension
     );
     const BLOB = this.dataURItoBlob(BASE64);
-    this.FILE = new File([BLOB], res.AttachmentName);
+    this.FILE = new File([BLOB], res.FileName);
     const fileURL = URL.createObjectURL(this.FILE);
     this.AttachmentData =
       this.sanitizer.bypassSecurityTrustResourceUrl(fileURL);
