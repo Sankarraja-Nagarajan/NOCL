@@ -79,7 +79,9 @@ export class BankDetailsComponent {
     if (this.bankDetailsForm.valid) {
       return true;
     } else {
+      console.log('bank');
       this.bankDetailsForm.markAllAsTouched();
+      this._commonService.openRequiredFieldsSnackbar();
       return false;
     }
   }

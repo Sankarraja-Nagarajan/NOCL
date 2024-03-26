@@ -6,13 +6,14 @@
           <div class="col-sm-6">
             <!-- vendor type -->
             <div class="mb-3">
-              <label class="input-label-text"> Vendor Type </label>
+              <label class="input-label-text"> Vendor Type <span class="asterisk-required">*</span></label>
               <nb-select
                 fullWidth
                 formControlName="Vendor_Type_Id"
                 placeholder="Select vendor type"
                 status="primary"
                 size="small"
+                (selectedChange)="onSelectOption()"
               >
                 <nb-option
                   *ngFor="let vendorType of vendorTypes"
@@ -33,7 +34,7 @@
 
             <!-- department -->
             <div class="mb-3">
-              <label class="input-label-text"> Department </label>
+              <label class="input-label-text"> Department <span class="asterisk-required">*</span> </label>
               <nb-select
                 fullWidth
                 formControlName="Department_Id"
@@ -44,6 +45,7 @@
                 <nb-option
                   *ngFor="let department of departments"
                   [value]="department.Department_Id"
+                  [disabled]="isOptionDisabled(department.Department_Id)"
                   >{{ department.Description }}</nb-option
                 >
               </nb-select>
@@ -60,7 +62,7 @@
 
             <!-- vendor mail -->
             <div class="mb-3">
-              <label class="input-label-text"> Mail </label>
+              <label class="input-label-text"> Mail <span class="asterisk-required">*</span> </label>
               <div class="input-group">
                 <input
                   type="email"
@@ -97,7 +99,7 @@
           <div class="col-sm-6">
             <!-- company code -->
             <div class="mb-3">
-              <label class="input-label-text"> Company Code </label>
+              <label class="input-label-text"> Company Code <span class="asterisk-required">*</span> </label>
               <nb-select
                 fullWidth
                 formControlName="Company_Code"
@@ -124,7 +126,7 @@
 
             <!-- vendor name -->
             <div class="mb-3">
-              <label class="input-label-text"> Organization Name </label>
+              <label class="input-label-text"> Organization Name <span class="asterisk-required">*</span> </label>
               <div class="input-group">
                 <input
                   nbInput
@@ -150,7 +152,7 @@
 
             <!-- vendor mobile number -->
             <div class="mb-3 mb-sm-0">
-              <label class="input-label-text"> Mobile Number </label>
+              <label class="input-label-text"> Mobile Number <span class="asterisk-required">*</span> </label>
               <div class="input-group">
                 <input
                   nbInput

@@ -98,7 +98,9 @@ export class CommercialProfileComponent {
     if (this.commercialProfileForm.valid) {
       return true;
     } else {
+      console.log('commercial');
       this.commercialProfileForm.markAllAsTouched();
+      this._common.openRequiredFieldsSnackbar();
       return false;
     }
   }

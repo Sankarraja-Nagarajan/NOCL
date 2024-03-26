@@ -2,12 +2,13 @@ import { Injectable } from "@angular/core";
 import { Observable, Subject } from "rxjs";
 import { HttpService } from "./http.service";
 import { LoginDetail, VerifyOtp } from "../Models/authModel";
+import { environment } from "../../environments/environment";
 
 @Injectable({
   providedIn: "root",
 })
 export class LoginService {
-  baseURL: string = "https://localhost:44300/api";
+  baseURL: string = environment.baseURL;
 
   private emitChangeSource = new Subject<any>();
   changeEmitted$ = this.emitChangeSource.asObservable();

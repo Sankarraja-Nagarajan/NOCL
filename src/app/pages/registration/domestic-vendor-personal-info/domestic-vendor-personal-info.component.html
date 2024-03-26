@@ -8,7 +8,7 @@
                     <div class="row mb-2">
                         <div class="col-sm-7 mb-sm-0 mb-2">
                             <div>
-                                <label class="input-label-text"> Organization name </label>
+                                <label class="input-label-text"> Organization name <span class="asterisk-required">*</span> </label>
                                 <div class="input-group">
                                     <input [readOnly]="isReadOnly" nbInput fullWidth fieldSize="small" class="input-border"
                                         placeholder="Enter organization name" formControlName="Organization_Name"
@@ -21,7 +21,7 @@
                         </div>
                         <div class="col-sm-5">
                             <div>
-                                <label class="input-label-text"> Organization Establishment Year </label>
+                                <label class="input-label-text"> Organization Establishment Year <span class="asterisk-required">*</span> </label>
                                 <div class="input-group">
                                     <nb-select fullWidth size="small" status="primary"
                                         formControlName="Plant_Installation_Year" required

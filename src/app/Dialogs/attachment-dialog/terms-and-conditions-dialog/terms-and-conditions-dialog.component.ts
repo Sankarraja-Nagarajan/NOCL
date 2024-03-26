@@ -14,13 +14,12 @@ export class TermsAndConditionsDialogComponent implements OnInit {
   zoom: number = 0.9;
 
   constructor(private _config: AppConfigService) {
-
+    this.listOfPdfSrc = this._config.get('Terms_And_Conditions');
   }
 
   ngOnInit(): void {
     this.sustainableProcPolicyPdfSrc = this._config.get('Sustainable_proc_Policy_File_Path');
     this.codeOfConductPdfSrc = this._config.get('Code_Of_Conduct_File_Path');
-    this.listOfPdfSrc = this._config.get('Terms_And_Conditions');
   }
 
   adjustZoom(zoomSize: number) {

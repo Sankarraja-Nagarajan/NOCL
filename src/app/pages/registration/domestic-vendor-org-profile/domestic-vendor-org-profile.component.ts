@@ -1,7 +1,8 @@
-import { Component, Input } from "@angular/core";
+import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import {
   MajorCustomer,
+  NocilRelatedEmployee,
   Subsideries,
   VendorOrganizationProfile,
 } from "../../../Models/Dtos";
@@ -14,7 +15,6 @@ import { snackbarStatus } from "../../../Enums/snackbar-status";
 import { forkJoin } from "rxjs";
 import { AuthResponse } from "../../../Models/authModel";
 import { RegistrationService } from "../../../Services/registration.service";
-// import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: "ngx-domestic-vendor-org-profile",
@@ -24,6 +24,7 @@ import { RegistrationService } from "../../../Services/registration.service";
 export class DomesticVendorOrgProfileComponent {
   @Input() form_Id: number;
   @Input() isReadOnly: boolean;
+  @Output() havePartner = new EventEmitter<boolean>();
 
   vendorOrgForm: FormGroup;
   subsideriesList: Subsideries[] = [];
@@ -32,6 +33,9 @@ export class DomesticVendorOrgProfileComponent {
   companyStatuses: CompanyStatus[] = [];
   authResponse: AuthResponse;
   orgProfileId: number = 0;
+  isAnnualProdShown: boolean = false;
+  nocilRelatedEmployees: NocilRelatedEmployee[] = [];
+  isNocilEmployeeRelated: boolean = false;
 
   constructor(
     private _fb: FormBuilder,
@@ -39,7 +43,7 @@ export class DomesticVendorOrgProfileComponent {
     private _master: MasterService,
     private _common: CommonService,
     private _registration: RegistrationService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.vendorOrgForm = this._fb.group({
@@ -47,8 +51,10 @@ export class DomesticVendorOrgProfileComponent {
       Status_of_Company_Id: ["", Validators.required],
       RelationToNocil: [false],
       Subsideries: [null],
-      Annual_Prod_Capacity: ["", Validators.required],
+      Annual_Prod_Capacity: ["",],
     });
+
+    this.valueChangeEvents();
 
     this.authResponse = JSON.parse(sessionStorage.getItem("userDetails"));
     if (this.isReadOnly) {
@@ -58,12 +64,62 @@ export class DomesticVendorOrgProfileComponent {
     this.getAllMasters();
   }
 
+  valueChangeEvents() {
+    this.vendorOrgForm.get('Type_of_Org_Id').valueChanges.subscribe({
+      next: (res) => {
+        if (res == 1) {
+          this.vendorOrgForm.get('Annual_Prod_Capacity').addValidators([Validators.required]);
+          this.vendorOrgForm.get('Annual_Prod_Capacity').updateValueAndValidity();
+          this.isAnnualProdShown = true;
+        }
+        else {
+          this.vendorOrgForm.get('Annual_Prod_Capacity').clearValidators();
+          this.vendorOrgForm.get('Annual_Prod_Capacity').updateValueAndValidity();
+          this.isAnnualProdShown = false;
+        }
+      }
+    });
+
+    this.vendorOrgForm.get('Status_of_Company_Id').valueChanges.subscribe({
+      next: (res) => {
+        if (res == 2 || res == 4) {
+          this.havePartner.emit(true);
+        }
+        else
+          this.havePartner.emit(false);
+      }
+    });
+
+    this.vendorOrgForm.get('RelationToNocil').valueChanges.subscribe({
+      next: (res) => {
+        if (res) {
+          this.isNocilEmployeeRelated = true;
+          this.vendorOrgForm.get('RelationToNocil').addValidators([Validators.required]);
+        }
+        else {
+          this.isNocilEmployeeRelated = false;
+          this.vendorOrgForm.get('RelationToNocil').clearValidators();
+          this.nocilRelatedEmployees = [];
+        }
+      }
+    });
+  }
+
   // Make sure the Vendor Organization Profile Form is valid
   isValid() {
     if (this.vendorOrgForm.valid) {
-      return true;
+      if (!this.vendorOrgForm.value.RelationToNocil || (this.vendorOrgForm.value.RelationToNocil && this.nocilRelatedEmployees.length > 0)) {
+        return true;
+      }
+      else {
+        this._common.openSnackbar('Add NOCIL Related Employee', snackbarStatus.Danger);
+        return false;
+      }
+
     } else {
+      console.log('vendor org prof');
       this.vendorOrgForm.markAllAsTouched();
+      this._common.openRequiredFieldsSnackbar();
       return false;
     }
   }
@@ -122,11 +178,18 @@ export class DomesticVendorOrgProfileComponent {
     console.log(this.subsideriesList);
   }
 
+  removeRelatedNocilEmployee(i: number) {
+    this.nocilRelatedEmployees.splice(i, 1);
+  }
+
   addMajorCustomer() {
     const dialogRef = this._dialog.open(AddMajorCustomerDialogComponent, {
       autoFocus: false,
       disableClose: true,
-      data: this.form_Id,
+      data: {
+        form_Id: this.form_Id,
+        type: 'Major Customer'
+      }
     });
     dialogRef.afterClosed().subscribe({
       next: (res) => {
@@ -141,12 +204,38 @@ export class DomesticVendorOrgProfileComponent {
     });
   }
 
+  addNocilRelatedEmployee() {
+    const dialogRef = this._dialog.open(AddMajorCustomerDialogComponent, {
+      autoFocus: false,
+      disableClose: true,
+      data: {
+        form_Id: this.form_Id,
+        type: 'Nocil Member'
+      }
+    });
+    dialogRef.afterClosed().subscribe({
+      next: (res) => {
+        if (res) {
+          if (this.nocilRelatedEmployees.length == 0) {
+            this.nocilRelatedEmployees = res;
+          } else {
+            this.nocilRelatedEmployees.push(...res);
+          }
+        }
+      },
+    });
+  }
+
   getSubsideries() {
     return this.subsideriesList;
   }
 
   getMajorCustomers() {
     return this.listOfMajorCustomerList;
+  }
+
+  getNocilRelatedEmployees() {
+    return this.nocilRelatedEmployees;
   }
 
   getAllMasters() {
@@ -156,6 +245,7 @@ export class DomesticVendorOrgProfileComponent {
       this._registration.getFormData(this.form_Id, "VendorOrganizationProfile"),
       this._registration.getFormData(this.form_Id, "Subsideries"),
       this._registration.getFormData(this.form_Id, "MajorCustomers"),
+      this._registration.getFormData(this.form_Id, "NocilRelatedEmployees"),
     ]).subscribe({
       next: (res) => {
         if (res[0]) {
@@ -173,6 +263,9 @@ export class DomesticVendorOrgProfileComponent {
         }
         if (res[4]) {
           this.listOfMajorCustomerList = res[4] as MajorCustomer[];
+        }
+        if(res[5]){
+          this.nocilRelatedEmployees = res[5] as NocilRelatedEmployee[];
         }
       },
       error: (err) => {

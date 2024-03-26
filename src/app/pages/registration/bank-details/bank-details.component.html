@@ -7,7 +7,7 @@
                     <div class="row mb-2">
                         <div class="col-sm">
                             <div>
-                                <label class="input-label-text">Account Holder</label>
+                                <label class="input-label-text">Account Holder <span class="asterisk-required">*</span></label>
                                 <div class="input-group">
                                     <input nbInput fullWidth fieldSize="small" class="input-border" formControlName="AccountHolder" 
                                     placeholder="Enter Account Holder Name" maxlength="100"
@@ -19,7 +19,7 @@
                         </div>
                         <div class="col-sm">
                             <div>
-                                <label class="input-label-text">Bank</label>
+                                <label class="input-label-text">Bank <span class="asterisk-required">*</span></label>
                                 <div class="input-group">
                                     <input nbInput fullWidth fieldSize="small" class="input-border" formControlName="Bank" 
                                     placeholder="Enter Bank Name" maxlength="100"
@@ -36,7 +36,7 @@
                     <div class="row mb-2">
                         <div class="col-sm">
                             <div>
-                                <label class="input-label-text">Branch</label>
+                                <label class="input-label-text">Branch <span class="asterisk-required">*</span></label>
                                 <div class="input-group">
                                     <input nbInput fullWidth fieldSize="small" class="input-border" formControlName="Branch" 
                                     placeholder="Enter Branch" maxlength="30"
@@ -63,7 +63,7 @@
                     <div class="row mb-2">
                         <div class="col-sm">
                             <div>
-                                <label class="input-label-text">Account Number</label>
+                                <label class="input-label-text">Account Number <span class="asterisk-required">*</span></label>
                                 <div class="input-group">
                                     <input nbInput fullWidth fieldSize="small" class="input-border" formControlName="Account_Number" 
                                     placeholder="Enter Account Number" maxlength="30"
@@ -75,7 +75,7 @@
                         </div>
                         <div class="col-sm">
                             <div>
-                                <label class="input-label-text">IFSC</label>
+                                <label class="input-label-text"> IFSC <span *ngIf="v_Id!=4" class="asterisk-required">*</span></label>
                                 <div class="input-group">
                                     <input nbInput fullWidth fieldSize="small" class="input-border" formControlName="IFSC" 
                                     placeholder="Enter IFSC Code" maxlength="11"/>
@@ -94,7 +94,7 @@
                     <div class="row mb-2" *ngIf="v_Id==4">
                         <div class="col-sm">
                             <div>
-                                <label class="input-label-text">SWIFT</label>
+                                <label class="input-label-text">SWIFT <span class="asterisk-required">*</span></label>
                                 <div class="input-group">
                                     <input nbInput fullWidth fieldSize="small" class="input-border" formControlName="SWIFT" placeholder="Enter SWIFT"
                                     maxlength="11"/>
@@ -105,7 +105,7 @@
                         </div>
                         <div class="col-sm">
                             <div>
-                                <label class="input-label-text">IBAN</label>
+                                <label class="input-label-text">IBAN <span class="asterisk-required">*</span></label>
                                 <div class="input-group">
                                     <input nbInput fullWidth fieldSize="small" class="input-border" formControlName="IBAN" placeholder="Enter IBAN"
                                     maxlength="34"/>

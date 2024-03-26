@@ -20,7 +20,6 @@ export class AttachmentsComponent {
   @Input() form_Id: number;
   @Input() v_Id: number;
 
-  attachmentsForm: FormGroup;
   role: string = "";
 
   displayedColumns: string[] = [
@@ -75,21 +74,23 @@ export class AttachmentsComponent {
     dialogRef.afterClosed().subscribe({
       next: (response) => {
         if (response) {
-          this.attachments.push(response as Attachment);
+          this.dataSource.data.push(response as Attachment);
           this.dataSource._updateChangeSubscription();
         }
       },
     });
   }
   removeAttachment(i: number) {
-    this.attachments.splice(i, 1);
-    this.dataSource = new MatTableDataSource(this.attachments);
+    this.dataSource.data.splice(i, 1);
+    this.dataSource._updateChangeSubscription();
   }
 
   isValid() {
-    if (this.attachments.length > 0) {
+    if (this.dataSource.data.length > 0) {
       return true;
     } else {
+      console.log('attachments');
+      this._common.openSnackbar('Attach necessary files', snackbarStatus.Danger);
       return false;
     }
   }
@@ -106,10 +107,9 @@ export class AttachmentsComponent {
   }
 
   isISOAttached() {
-    let isoDoc = this.attachments.find((x) =>
-      x.File_Type?.toLowerCase().includes("iso")
-    );
-    if (isoDoc) return true;
+    let isoDoc = this.dataSource.data.find(x => x.File_Type?.toLowerCase().includes('iso'));
+    if (isoDoc)
+      return true;
     else {
       this._common.openSnackbar(
         "Attach ISO Certificate",
@@ -130,9 +130,7 @@ export class AttachmentsComponent {
         "No permanent establishment certificate",
       ];
       requiredDocs.forEach((element) => {
-        let isoDoc = this.attachments.find((x) =>
-          x.File_Type?.toLowerCase().includes(element.toLowerCase())
-        );
+        let isoDoc = this.dataSource.data.find(x => x.File_Type?.toLowerCase().includes(element.toLowerCase()));
         if (!isoDoc) {
           cnt++;
           message += `\n\t${cnt}. ${element}`;

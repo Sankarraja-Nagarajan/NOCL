@@ -8,7 +8,7 @@
                     <div class="row mb-2">
                         <div class="col-sm mb-sm-0 mb-2">
                             <div>
-                                <label class="input-label-text"> Name </label>
+                                <label class="input-label-text"> Name <span class="asterisk-required">*</span> </label>
                                 <div class="input-group">
                                     <input nbInput fullWidth fieldSize="small" class="input-border"
                                         placeholder="Enter name" formControlName="Name"
@@ -39,15 +39,18 @@
                             <div>
                                 <label class="input-label-text"> Phone No </label>
                                 <div class="input-group">
-                                    <input nbInput fullWidth maxlength="15" class="input-border" fieldSize="small"
+                                    <input nbInput fullWidth minlength="11" maxlength="11" class="input-border" fieldSize="small"
                                         placeholder="Enter phone number" formControlName="Phone_Number"
                                         (keypress)="keyPressValidation($event,'tel')" />
+                                        <mat-error
+                                        *ngIf="this.contactForm.get('Phone_Number').hasError('minlength') && this.contactForm.get('Phone_Number').touched"
+                                        class="error-msg">Phone No should have minimun 11 characters</mat-error>
                                 </div>
                             </div>
                         </div>
                         <div class="col-sm">
                             <div>
-                                <label class="input-label-text"> Email Id </label>
+                                <label class="input-label-text"> Email Id <span class="asterisk-required">*</span> </label>
                                 <div class="input-group">
                                     <input nbInput fullWidth fieldSize="small" class="input-border"
                                         placeholder="Enter email id" formControlName="Email_Id"
@@ -57,7 +60,7 @@
                                         class="error-msg">Email Id is required
                                     </mat-error>
                                     <mat-error
-                                        *ngIf="this.contactForm.get('Email_Id').hasError('email') && this.contactForm.get('Email_Id').touched"
+                                        *ngIf="this.contactForm.get('Email_Id').hasError('pattern') && this.contactForm.get('Email_Id').touched"
                                         class="error-msg">Invalid Email Id
                                     </mat-error>
                                 </div>
@@ -70,18 +73,24 @@
                     <div class="row">
                         <div class="col-md-6 mb-sm-0 mb-2">
                             <div>
-                                <label class="input-label-text"> Mobile No </label>
+                                <label class="input-label-text"> Mobile No <span class="asterisk-required">*</span> </label>
                                 <div class="input-group">
-                                    <input nbInput fullWidth maxlength="15" class="input-border" fieldSize="small"
+                                    <input nbInput fullWidth minlength="10" maxlength="10" class="input-border" fieldSize="small"
                                         placeholder="Enter mobile no" formControlName="Mobile_Number"
                                         (keypress)="keyPressValidation($event,'tel')" />
+                                        <mat-error
+                                        *ngIf="this.contactForm.get('Mobile_Number').hasError('required') && this.contactForm.get('Mobile_Number').touched"
+                                        class="error-msg">Mobile No is required</mat-error>
+                                        <mat-error
+                                        *ngIf="this.contactForm.get('Mobile_Number').hasError('minlength') && this.contactForm.get('Mobile_Number').touched"
+                                        class="error-msg">Mobile No should have minimun 10 characters</mat-error>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-6 d-flex">
                             <!-- contact type -->
                             <div class="address-type col-8">
-                                <label class="input-label-text"> Select Contact type </label>
+                                <label class="input-label-text"> Select Contact type <span class="asterisk-required">*</span> </label>
                                 <div class="input-group">
                                     <nb-select fullWidth placeholder="Select contact type" size="small" status="primary"
                                         formControlName="Contact_Type_Id" required>

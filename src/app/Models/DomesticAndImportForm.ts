@@ -4,8 +4,9 @@ import {
     Bank_Detail,
     CommercialProfile,
     Contact,
-    DomesticVendorPersonalData,
+    VendorPersonalData,
     MajorCustomer,
+    NocilRelatedEmployee,
     ProprietorOrPartner,
     Subsideries,
     TechnicalProfile,
@@ -14,7 +15,7 @@ import {
 } from "./Dtos";
 
 export class DomesticAndImportForm {
-    DomesticVendorPersonalData: DomesticVendorPersonalData;
+    VendorPersonalData: VendorPersonalData;
     VendorOrganizationProfile: VendorOrganizationProfile;
     TechnicalProfile: TechnicalProfile;
     Subsideries: Subsideries[];
@@ -26,4 +27,5 @@ export class DomesticAndImportForm {
     VendorBranches: VendorBranch[];
     ProprietorOrPartners: ProprietorOrPartner[];
     AnnualTurnOvers: AnnualTurnOver[];
+    NocilRelatedEmployees: NocilRelatedEmployee[];
 }

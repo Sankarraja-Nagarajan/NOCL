@@ -17,7 +17,7 @@ import { RegistrationService } from '../../../Services/registration.service';
 })
 export class ContactsComponent implements OnInit {
   @Input() form_Id: number;
-  
+
   contacts: Contact[] = [];
   dataSource = new MatTableDataSource(this.contacts);
   displayedColumns: string[] = [
@@ -37,7 +37,7 @@ export class ContactsComponent implements OnInit {
     private _fb: FormBuilder,
     private _commonService: CommonService,
     private _master: MasterService,
-    private _registration:RegistrationService) {
+    private _registration: RegistrationService) {
   }
 
   ngOnInit(): void {
@@ -46,9 +46,13 @@ export class ContactsComponent implements OnInit {
       Contact_Type_Id: ["", [Validators.required]],
       Name: ["", [Validators.required]],
       Designation: [""],
-      Email_Id: ["", [Validators.required, Validators.email]],
-      Phone_Number: ["", [Validators.maxLength(15)]],
-      Mobile_Number: ["", [Validators.maxLength(15)]],
+      Email_Id: ["", [Validators.required,
+      Validators.pattern("^[a-z][a-z0-9._-]+@[a-z]+\\.[a-z]{2,3}$")]],
+      Phone_Number: ["", [Validators.maxLength(11),
+      Validators.minLength(11)]],
+      Mobile_Number: ["", [Validators.required,
+      Validators.maxLength(10),
+      Validators.minLength(10)]],
     });
 
     // get contact types and contacts data by form id
@@ -65,7 +69,7 @@ export class ContactsComponent implements OnInit {
   // Add contact to the table
   addContact() {
     if (this.contactForm.valid) {
-      this.contacts.push(this.contactForm.value);
+      this.dataSource.data.push(this.contactForm.value);
       this.dataSource._updateChangeSubscription();
       this.contactForm.reset();
     } else {
@@ -75,22 +79,25 @@ export class ContactsComponent implements OnInit {
 
   // Remove contact from table
   removeContact(i: number) {
-    this.contacts.splice(i, 1);
+    this.dataSource.data.splice(i, 1);
     this.dataSource._updateChangeSubscription();
   }
 
   // Make sure the contacts array has at least one value
   isValid() {
-    if (this.contacts.length > 0) {
+    if (this.dataSource.data.length > 0) {
       return true;
     } else {
+      console.log('contacts');
       this.contactForm.markAllAsTouched();
+      this._commonService.openRequiredFieldsSnackbar();
       return false;
     }
   }
 
   // Get contacts array, calls by layout component
   getContacts() {
+    this.contacts = this.dataSource.data;
     this.contacts.forEach((element) => {
       element.Contact_Id = element.Contact_Id ? element.Contact_Id : 0;
       element.Form_Id = this.form_Id;
@@ -123,5 +130,11 @@ export class ContactsComponent implements OnInit {
         this._commonService.openSnackbar(err, snackbarStatus.Danger);
       }
     });
+  }
+
+  markContactFormAsTouched(){
+    if(this.dataSource.data.length == 0){
+      this.contactForm.markAllAsTouched();
+    }
   }
 }

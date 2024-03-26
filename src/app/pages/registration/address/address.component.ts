@@ -64,7 +64,7 @@ export class AddressComponent implements OnInit {
   // Add address to the table
   addAddress() {
     if (this.addressForm.valid) {
-      this.addresses.push(this.addressForm.value);
+      this.dataSource.data.push(this.addressForm.value);
       this.dataSource._updateChangeSubscription();
       this.addressForm.reset();
     } else {
@@ -74,23 +74,26 @@ export class AddressComponent implements OnInit {
 
   // Remove Address from table
   removeAddress(i: number) {
-    this.addresses.splice(i, 1);
+    this.dataSource.data.splice(i, 1);
     this.dataSource._updateChangeSubscription();
   }
 
   // Make sure the addresses array has at least one value
   isValid() {
-    if (this.addresses.length > 0) {
+    if (this.dataSource.data.length > 0) {
       return true;
     }
     else {
+      console.log('address');
       this.addressForm.markAllAsTouched();
+      this._commonService.openRequiredFieldsSnackbar();
       return false;
     }
   }
 
   // Get addresses, calls by layout component
   getAddresses() {
+    this.addresses = this.dataSource.data;
     this.addresses.forEach((element) => {
       element.Address_Id = element.Address_Id ? element.Address_Id : 0;
       element.Form_Id = this.form_Id;
@@ -123,5 +126,11 @@ export class AddressComponent implements OnInit {
         this._commonService.openSnackbar(err, snackbarStatus.Danger);
       }
     });
+  }
+
+  markAddressFormAsTouched(){
+    if(this.dataSource.data.length == 0){
+      this.addressForm.markAllAsTouched();
+    }
   }
 }

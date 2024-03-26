@@ -35,30 +35,38 @@ export class VendorBranchesComponent implements OnInit {
   ];
   VendorBranchForm: FormGroup;
   role: any;
+  haveVendorBranch: boolean = true;
 
   constructor(
     private _fb: FormBuilder,
     private _commonService: CommonService,
     private _registration: RegistrationService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.VendorBranchForm = this._fb.group({
       Name: ["", [Validators.required]],
       Designation: [""],
-      Email_Id: ["", [Validators.email]],
+      Email_Id: ["", [Validators.required,
+        Validators.pattern("^[a-z][a-z0-9._-]+@[a-z]+\\.[a-z]{2,3}$")]],
       Mobile_No: ["", [Validators.required, Validators.maxLength(15)]],
       Location: ["", [Validators.required]],
     });
+    this.valueChangeEvents();
 
     const userData = JSON.parse(sessionStorage.getItem("userDetails"));
     this.role = userData ? userData.Role : "";
+    this.role != 'Vendor' ? this.isVendorBranchRequired.disable() : this.isVendorBranchRequired.enable();
     // Get vendor branches by form Id
     this._registration.getFormData(this.form_Id, "VendorBranches").subscribe({
       next: (res) => {
         if (res) {
           this.vendorBranches = res;
           this.dataSource = new MatTableDataSource(this.vendorBranches);
+          if (this.vendorBranches.length == 0) {
+            this.haveVendorBranch = false;
+            this.isVendorBranchRequired.setValue(false);
+          }
         }
       },
       error: (err) => {
@@ -74,7 +82,7 @@ export class VendorBranchesComponent implements OnInit {
 
   addVendorBranch() {
     if (this.VendorBranchForm.valid) {
-      this.vendorBranches.push(this.VendorBranchForm.value);
+      this.dataSource.data.push(this.VendorBranchForm.value);
       this.dataSource._updateChangeSubscription();
       this.VendorBranchForm.reset();
     } else {
@@ -83,26 +91,50 @@ export class VendorBranchesComponent implements OnInit {
   }
 
   removeVendorBranch(i: number) {
-    this.vendorBranches.splice(i, 1);
+    this.dataSource.data.splice(i, 1);
     this.dataSource._updateChangeSubscription();
   }
 
   // Make sure the vendorBranches array has at least one value
   isValid() {
-    if (this.vendorBranches.length > 0) {
+    if (!this.isVendorBranchRequired.value || this.dataSource.data.length > 0) {
       return true;
     } else {
+      console.log('vendor branches');
       this.VendorBranchForm.markAllAsTouched();
+      this._commonService.openRequiredFieldsSnackbar();
       return false;
     }
   }
 
   // Get vendorBranches array, calls by layout component
   getVendorBranches() {
+    this.vendorBranches = this.dataSource.data as VendorBranch[];
     this.vendorBranches.forEach((element) => {
       element.Branch_Id = element.Branch_Id ? element.Branch_Id : 0;
       element.Form_Id = this.form_Id;
     });
     return this.vendorBranches;
+  }
+
+  // To enable/disable vendor branches form
+  valueChangeEvents() {
+    this.isVendorBranchRequired.valueChanges.subscribe({
+      next: (res) => {
+        if (res)
+          this.haveVendorBranch = true;
+        else {
+          this.haveVendorBranch = false;
+          this.dataSource.data = [];
+          this.dataSource._updateChangeSubscription();
+        }
+      }
+    });
+  }
+  
+  markVendorBranchFormAsTouched(){
+    if(this.dataSource.data.length == 0){
+      this.VendorBranchForm.markAllAsTouched();
+    }
   }
 }
