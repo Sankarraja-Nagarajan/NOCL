@@ -1,5 +1,5 @@
-export class DomesticVendorPersonalData {
-  Domestic_Personal_Info_Id: number = 0;
+export class VendorPersonalData {
+  Personal_Info_Id: number = 0;
   Form_Id: number;
   Organization_Name: string;
   Plant_Installation_Year: number;
@@ -173,4 +173,11 @@ export class User {
 export class Role {
     Role_Id: number;
     Role_Name: string;
+}
+
+export class NocilRelatedEmployee {
+  Id:number;
+  Form_Id:number;
+  Employee_Name:string;
+  Type_Of_Relation:string;
 }

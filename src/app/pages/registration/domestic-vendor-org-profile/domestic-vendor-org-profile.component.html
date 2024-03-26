@@ -6,7 +6,7 @@
           <!-- Type of organisation & Status_of_Company_Id  -->
           <div class="row">
             <div class="col-sm">
-              <label class="input-label-text">Type of Organization</label>
+              <label class="input-label-text">Type of Organization <span class="asterisk-required">*</span></label>
               <div class="input-group">
                 <nb-select fullWidth size="small" status="primary" formControlName="Type_of_Org_Id"
                   placeholder="Select Type of Organization">
@@ -25,7 +25,7 @@
             </div>
             <div class="col-sm">
               <div>
-                <label class="input-label-text"> Status of Company</label>
+                <label class="input-label-text"> Status of Company <span class="asterisk-required">*</span></label>
                 <div class="input-group">
                   <nb-select fullWidth size="small" status="primary" formControlName="Status_of_Company_Id"
                     placeholder="Select Status of Company Id">
@@ -47,11 +47,12 @@
 
           <!--AnnualProdCapacity  & RelationToNocil-->
           <div class="row">
-            <div>
+            <div *ngIf="isAnnualProdShown" class="mt-2">
               <label class="input-label-text">Annual Prod Capacity </label>
               <div class="input-group">
-                <input [readOnly]="isReadOnly" nbInput fullWidth fieldSize="small" class="input-border" formControlName="Annual_Prod_Capacity"
-                  placeholder="Enter Annual Prod Capacity" (keypress)="keyPressValidation($event, 'decimal')" />
+                <input [readOnly]="isReadOnly" nbInput fullWidth fieldSize="small" class="input-border"
+                  formControlName="Annual_Prod_Capacity" placeholder="Enter Annual Prod Capacity"
+                  (keypress)="keyPressValidation($event, 'decimal')" />
                 <mat-error *ngIf="
                   this.vendorOrgForm
                     .get('Annual_Prod_Capacity')
@@ -69,13 +70,41 @@
               <label class="input-label-text ps-2" style="cursor: pointer" for="relationToNocil">Any of Your Directors /
                 Partners/ Employees/ Related To Any
                 Employee of Nocil Ltd?</label>
-                <nb-select size="small" status="primary" formControlName="RelationToNocil" >
-                  <nb-option [value]="true">Yes</nb-option>
-                  <nb-option [value]="false">No</nb-option>
-                </nb-select>
+              <nb-select size="small" status="primary" formControlName="RelationToNocil">
+                <nb-option [value]="true">Yes</nb-option>
+                <nb-option [value]="false">No</nb-option>
+              </nb-select>
             </div>
           </div>
           <!--AnnualProdCapacity  & RelationToNocil-->
+
+          <!-- List of Related Nocil Employees -->
+          <div class="mb-2" *ngIf="isNocilEmployeeRelated">
+            <div class="d-flex align-items-center mb-2">
+              <label class="input-label-text"> List of Related NOCIL Employees <span
+                  class="asterisk-required">*</span></label>
+              <div>
+                <button class="btn btn-design center-flexBox ms-2" (click)="addNocilRelatedEmployee()">
+                  <img src="../../../../assets/images/pngs/plus.png" width="18" height="18" class="me-1" />
+                  Add
+                </button>
+              </div>
+            </div>
+            <div class="multiple-input bg-white border">
+              <div *ngIf="nocilRelatedEmployees.length == 0"
+                class="d-flex justify-content-center align-items-center empty-msg">
+                <nb-icon icon="file-text-outline"></nb-icon>
+                No employees to show.
+              </div>
+              <div class="display-inputs border-bottom" *ngFor="let employee of nocilRelatedEmployees; index as i">
+                <span>{{ employee.Employee_Name }} -
+                  {{ employee.Type_Of_Relation }}</span>
+                <img *ngIf="authResponse?.Role == 'Vendor'" src="assets/images/pngs/xmark.png" class="input-x-mark"
+                  (click)="removeRelatedNocilEmployee(i)" />
+              </div>
+            </div>
+          </div>
+          <!-- List of Related Nocil Employees -->
 
           <!--  ListOfMajaorCustomer & Subsideries -->
           <div class="row mb-2">

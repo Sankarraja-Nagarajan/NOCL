@@ -48,7 +48,7 @@ export class PartnersComponent implements OnInit {
 
   addPartners() {
     if (this.partnersForm.valid) {
-      this.proprietOrsOrPartners.push(this.partnersForm.value);
+      this.dataSource.data.push(this.partnersForm.value);
       this.dataSource._updateChangeSubscription();
       this.partnersForm.reset();
     } else {
@@ -57,7 +57,7 @@ export class PartnersComponent implements OnInit {
   }
 
   removePartners(i) {
-    this.proprietOrsOrPartners.splice(i, 1);
+    this.dataSource.data.splice(i, 1);
     this.dataSource._updateChangeSubscription();
   }
 
@@ -68,20 +68,29 @@ export class PartnersComponent implements OnInit {
 
   // Make sure the proprietOrsOrPartners array has at least one value
   isValid() {
-    if (this.proprietOrsOrPartners.length > 0) {
+    if (this.dataSource.data.length > 0) {
       return true;
     } else {
+      console.log('partner');
       this.partnersForm.markAllAsTouched();
+      this._commonService.openRequiredFieldsSnackbar();
       return false;
     }
   }
 
   // Get partners array, calls by layout component
   getProprietorOrPartners() {
+    this.proprietOrsOrPartners = this.dataSource.data;
     this.proprietOrsOrPartners.forEach((element) => {
       element.Id = element.Id ? element.Id : 0;
       element.Form_Id = this.form_Id;
     });
     return this.proprietOrsOrPartners;
+  }
+
+  markPartnersFormAsTouched(){
+    if(this.dataSource.data.length ==0){
+      this.partnersForm.markAllAsTouched();
+    }
   }
 }

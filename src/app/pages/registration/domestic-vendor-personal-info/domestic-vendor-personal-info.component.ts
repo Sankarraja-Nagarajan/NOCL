@@ -5,7 +5,7 @@ import {
   FormGroup,
   Validators,
 } from "@angular/forms";
-import { DomesticVendorPersonalData } from "../../../Models/Dtos";
+import { VendorPersonalData } from "../../../Models/Dtos";
 import { CommonService } from "../../../Services/common.service";
 import { AuthResponse } from "../../../Models/authModel";
 import { RegistrationService } from "../../../Services/registration.service";
@@ -60,8 +60,8 @@ export class DomesticVendorPersonalInfoComponent implements OnInit {
         next: (res) => {
           if (res) {
             this.personalInfoId = (
-              res as DomesticVendorPersonalData
-            ).Domestic_Personal_Info_Id;
+              res as VendorPersonalData
+            ).Personal_Info_Id;
             this.domesticVendorForm.patchValue(res);
           }
         },
@@ -91,16 +91,18 @@ export class DomesticVendorPersonalInfoComponent implements OnInit {
     if (this.domesticVendorForm.valid) {
       return true;
     } else {
+      console.log('vendor personal');
       this.domesticVendorForm.markAllAsTouched();
+      this._commonService.openRequiredFieldsSnackbar();
       return false;
     }
   }
 
   // Get Domestic Vendor Personal Data, calls by layout component
   getDomesticVendorPersonalInfo() {
-    let domesticVendorPersonalData = new DomesticVendorPersonalData();
+    let domesticVendorPersonalData = new VendorPersonalData();
     domesticVendorPersonalData = this.domesticVendorForm.value;
-    domesticVendorPersonalData.Domestic_Personal_Info_Id = this.personalInfoId
+    domesticVendorPersonalData.Personal_Info_Id = this.personalInfoId
       ? this.personalInfoId
       : 0;
     domesticVendorPersonalData.Form_Id = this.form_Id;

@@ -53,7 +53,7 @@ export class TankerDetailsComponent implements OnInit {
 
   addTanker() {
     if (this.TankerDetailsForm.valid) {
-      this.tankerDetails.push(this.TankerDetailsForm.value);
+      this.dataSource.data.push(this.TankerDetailsForm.value);
       this.dataSource._updateChangeSubscription();
       this.TankerDetailsForm.reset();
     } else {
@@ -62,7 +62,7 @@ export class TankerDetailsComponent implements OnInit {
   }
 
   removeTanker(i) {
-    this.tankerDetails.splice(i, 1);
+    this.dataSource.data.splice(i, 1);
     this.dataSource._updateChangeSubscription();
   }
 
@@ -73,7 +73,7 @@ export class TankerDetailsComponent implements OnInit {
 
   // Make sure the Tanker Details array has atleast 1 value
   isValid() {
-    if (this.tankerDetails.length > 0) {
+    if (this.dataSource.data.length > 0) {
       return true;
     } else {
       this.TankerDetailsForm.markAllAsTouched();
@@ -83,10 +83,17 @@ export class TankerDetailsComponent implements OnInit {
 
   // Get Tanker Details Data, calls by layout component
   getTankerDetails() {
+    this.tankerDetails = this.dataSource.data;
     this.tankerDetails.forEach((element) => {
       element.Id = element.Id ? element.Id : 0;
       element.Form_Id = this.form_Id;
     });
     return this.tankerDetails;
+  }
+
+  markTankerDetailFormAsTouched(){
+    if(this.dataSource.data.length == 0){
+      this.TankerDetailsForm.markAllAsTouched();
+    }
   }
 }

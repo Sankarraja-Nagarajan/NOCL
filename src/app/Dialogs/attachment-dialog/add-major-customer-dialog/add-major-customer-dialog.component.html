@@ -1,48 +1,119 @@
 <section class="addMajorDialogScreen">
     <div class="container p-3">
         <div class="d-flex justify-content-center align-items-center mb-2">
-            <h3 class="dialog-title">Major Customers</h3>
+            <h3 class="dialog-title">{{headingTag}}</h3>
         </div>
+        
+        <div class="major-customer" *ngIf="data.type == 'Major Customer'">
+            <div class="mb-2">
+                <!-- form -->
+                <form [formGroup]="majorCustomerForm">
+                    <div class="row">
+                        <!-- Customer Name -->
+                        <div class="col-sm mb-sm-0 mb-2">
+                            <div>
+                                <label class="input-label-text"> Customer Name <span class="asterisk-required">*</span>
+                                </label>
+                                <div class="input-group">
+                                    <input nbInput fullWidth fieldSize="small" class="input-border"
+                                        placeholder="Enter customer name" formControlName="Customer_Name" />
+    
+                                </div>
+                                <mat-error
+                                    *ngIf="majorCustomerForm.get('Customer_Name').hasError('required') && majorCustomerForm.get('Customer_Name').touched"
+                                    class="error-msg">
+                                    Customer Name is required.
+                                </mat-error>
+                            </div>
+                        </div>
+    
+                        <!-- Location -->
+                        <div class="col-sm mb-sm-0 mb-2 d-flex justify-content-between align-items-center">
+                            <div class="w-100">
+                                <label class="input-label-text"> Location <span class="asterisk-required">*</span> </label>
+                                <div class="input-group">
+                                    <input nbInput fullWidth fieldSize="small" class="input-border"
+                                        placeholder="Enter location" formControlName="Location" />
+    
+                                </div>
+                                <mat-error
+                                    *ngIf="majorCustomerForm.get('Location').hasError('required') && majorCustomerForm.get('Location').touched"
+                                    class="error-msg">
+                                    Location is required.
+                                </mat-error>
+                            </div>
+                            <div class="d-flex justify-content-center align-items-end h-100">
+                                <button class="btn btn-design cancel-btn center-flexBox ms-2">
+                                    <img src="../../../../assets/images/pngs/plus.png" width="16" height="16"
+                                        (click)="addMajorCustomer()"></button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <!-- form -->
+            </div>
+    
+            <div class="row mb-2 p-2">
+                <div class="border rounded customer-list">
+                    <div *ngIf="majorCustomers.length == 0" class="no-data center-flexBox">
+                        <span> No major customers were added.</span>
+                    </div>
+                    <div *ngFor="let customer of majorCustomers; index as i"
+                        class="d-flex justify-content-between align-items-center border-bottom customer-item">
+                        <div>
+                            <span class="customer-label">{{customer.Customer_Name}} - {{customer.Location}}</span>
+                        </div>
+                        <div>
+                            <img src="assets/images/pngs/xmark.png" class="cancel-icon" height="18" width="18" (click)="removeMajorCustomer(i)">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+       <div class="nocil-employee" *ngIf="data.type == 'Nocil Member'">
         <div class="mb-2">
             <!-- form -->
-            <form [formGroup]="majorCustomerForm">
+            <!-- Nocil Member Form -->
+            <form [formGroup]="nocilRelatedEmployeeForm">
                 <div class="row">
-                    <!-- Customer Name -->
+                    <!-- Employee_Name -->
                     <div class="col-sm mb-sm-0 mb-2">
                         <div>
-                            <label class="input-label-text"> Customer Name </label>
+                            <label class="input-label-text"> Employee Name <span class="asterisk-required">*</span>
+                            </label>
                             <div class="input-group">
                                 <input nbInput fullWidth fieldSize="small" class="input-border"
-                                    placeholder="Enter customer name" formControlName="Customer_Name" />
-                               
+                                    placeholder="Enter employee name" formControlName="Employee_Name" />
+
                             </div>
                             <mat-error
-                            *ngIf="majorCustomerForm.get('Customer_Name').hasError('required') && majorCustomerForm.get('Customer_Name').touched"
-                            class="error-msg">
-                            Customer Name is required.
-                        </mat-error>
+                                *ngIf="nocilRelatedEmployeeForm.get('Employee_Name').hasError('required') && nocilRelatedEmployeeForm.get('Employee_Name').touched"
+                                class="error-msg">
+                                Employee Name is required.
+                            </mat-error>
                         </div>
                     </div>
 
-                    <!-- Location -->
+                    <!-- Type_Of_Relation -->
                     <div class="col-sm mb-sm-0 mb-2 d-flex justify-content-between align-items-center">
                         <div class="w-100">
-                            <label class="input-label-text"> Location </label>
+                            <label class="input-label-text"> Type Of Relation <span class="asterisk-required">*</span> </label>
                             <div class="input-group">
                                 <input nbInput fullWidth fieldSize="small" class="input-border"
-                                    placeholder="Enter location" formControlName="Location" />
-                                
+                                    placeholder="Enter type of relation" formControlName="Type_Of_Relation" />
+
                             </div>
                             <mat-error
-                                    *ngIf="majorCustomerForm.get('Location').hasError('required') && majorCustomerForm.get('Location').touched"
-                                    class="error-msg">
-                                    Location is required.<
-                                </mat-error>
+                                *ngIf="nocilRelatedEmployeeForm.get('Type_Of_Relation').hasError('required') && nocilRelatedEmployeeForm.get('Type_Of_Relation').touched"
+                                class="error-msg">
+                                Type Of Relation is required.
+                            </mat-error>
                         </div>
                         <div class="d-flex justify-content-center align-items-end h-100">
                             <button class="btn btn-design cancel-btn center-flexBox ms-2">
                                 <img src="../../../../assets/images/pngs/plus.png" width="16" height="16"
-                                    (click)="addMajorCustomer()"></button>
+                                    (click)="addNocilEmployee()"></button>
                         </div>
                     </div>
                 </div>
@@ -52,24 +123,29 @@
 
         <div class="row mb-2 p-2">
             <div class="border rounded customer-list">
-                <div *ngIf="majorCustomers.length == 0" class="no-data center-flexBox">
-                    <span> No major customers were added.</span>
+                <div *ngIf="nocilRelatedEmployees.length == 0" class="no-data center-flexBox">
+                    <span> No NOCIL employee were added.</span>
                 </div>
-                <div *ngFor="let customer of majorCustomers; index as i"
+                <div *ngFor="let employee of nocilRelatedEmployees; index as i"
                     class="d-flex justify-content-between align-items-center border-bottom customer-item">
                     <div>
-                        <span class="customer-label">{{customer.Customer_Name}} - {{customer.Location}}</span>
+                        <span class="customer-label">{{employee.Employee_Name}} - {{employee.Type_Of_Relation}}</span>
                     </div>
                     <div>
-                        <img src="assets/images/pngs/xmark.png" height="18" width="18" (click)="removeMajorCustomer(i)">
+                        <img src="assets/images/pngs/xmark.png" class="cancel-icon" height="18" width="18" (click)="removeNocilEmployee(i)">
                     </div>
                 </div>
             </div>
         </div>
+       </div>
 
         <div class="d-flex justify-content-center align-items-center gap-2" mat-dialog-actions>
             <div>
-                <button class="btn btn-design center-flexBox" [mat-dialog-close]="majorCustomers">
+                <button class="btn btn-design center-flexBox" *ngIf="data.type == 'Major Customer'"
+                 [mat-dialog-close]="majorCustomers">
+                    Submit</button>
+                <button class="btn btn-design center-flexBox" *ngIf="data.type == 'Nocil Member'"
+                 [mat-dialog-close]="nocilRelatedEmployees">
                     Submit</button>
             </div>
             <div>

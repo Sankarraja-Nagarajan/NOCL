@@ -101,4 +101,9 @@ export class CommonService {
   setSidebarState(){
     
   }
+
+  // common snackbar- please fill required fields for all components
+  openRequiredFieldsSnackbar(){
+    this.openSnackbar('Please fill required fields.',snackbarStatus.Danger);
+  }
 }
