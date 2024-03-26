@@ -14,4 +14,12 @@ export class AttachmentService {
     const URL = `${this.baseURL}/Attachments/AttachFiles`;
     return this._http.postFile(URL, formData);
   }
+
+  getFileById(docId:number):Observable<any>{
+    if (docId == null || docId == undefined) {
+      docId = 0;
+    }
+    const URL = `${this.baseURL}/Attachments/GetAttachmentById?attachmentId=${docId}`;
+    return this._http.get(URL);
+  }
 }

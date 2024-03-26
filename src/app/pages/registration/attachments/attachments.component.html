@@ -41,7 +41,10 @@
           <ng-container matColumnDef="document">
             <th mat-header-cell *matHeaderCellDef>File Name</th>
             <td mat-cell *matCellDef="let element">
-              <a href="#" (click)="openViewDocDialog(element,$event)">{{ element.File_Name }}</a>
+              <button type="button" (click)="openViewDocDialog(element)" class="btn btn-link linkBtn">
+                <span> {{ element.File_Name }} </span>
+              </button>
+              <!-- <a (click)="openViewDocDialog(element)">{{ element.File_Name }}</a> -->
             </td>
           </ng-container>
 

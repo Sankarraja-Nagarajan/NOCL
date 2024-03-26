@@ -39,24 +39,28 @@ export class UserComponent implements OnInit {
       IsActive: [true],
     });
 
-    // get users and roles
-    this.getAllMasters();
+    this._master.getRoles().subscribe({
+      next:(res)=>{
+        this.roles = res as Role[];
+        this.getUsers();
+      }
+    });
   }
 
   getAllMasters() {
     forkJoin([this._master.getRoles(), this._user.getUsers()]).subscribe({
-      next:(res)=>{
-        if(res[0]){
+      next: (res) => {
+        if (res[0]) {
           this.roles = res as Role[];
         }
-        if(res[1]){
+        if (res[1]) {
           this.users = res as User[];
           this.filteredUsers = this.users;
         }
       },
-      error:(err)=>{
+      error: (err) => {
         this._common.openSnackbar(err, snackbarStatus.Danger);
-      }
+      },
     });
   }
 
