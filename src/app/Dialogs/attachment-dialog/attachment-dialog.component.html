@@ -36,8 +36,9 @@
             <div class="check-field d-flex justify-content-center align-items-center">
                 <input type="checkbox" id="isExpiryAvailable" checked formControlName="Is_Expiry_Available"
                     (change)="changeValidators()">
-                <label class="input-label-text ps-2 cursor-pointer" for="isExpiryAvailable">Expiry
-                    Available ?</label>
+                <label class="input-label-text ps-2 cursor-pointer" for="isExpiryAvailable">
+                    Valid to Date Available or Not?
+                </label>
             </div>
             <div class="d-flex justify-content-center align-items-center flex-column pb-1"
                 *ngIf="attachmentForm.get('Is_Expiry_Available').value">

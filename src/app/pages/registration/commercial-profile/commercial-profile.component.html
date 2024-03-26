@@ -30,7 +30,7 @@
                     <div class="row mb-2">
                         <div class="col-sm">
                             <div>
-                                <label class="input-label-text">PAN</label>
+                                <label class="input-label-text">PAN <span *ngIf="v_Id!=4" class="asterisk-required">*</span></label>
                                 <div class="input-group">
                                     <input nbInput fullWidth fieldSize="small" class="input-border"
                                     formControlName="PAN" placeholder="Enter PAN Number" maxlength="10"/>
@@ -60,7 +60,7 @@
                     <div class="row mb-2">
                         <div class="col-sm">
                             <div>
-                                <label class="input-label-text">MSME Type</label>
+                                <label class="input-label-text">MSME Type <span *ngIf="v_Id==1" class="asterisk-required">*</span></label>
                                 <div class="input-group">
                                     <!-- <input nbInput fullWidth fieldSize="small" class="input-border"
                                      formControlName="MSME_Type" placeholder="Enter MSME Type"/> -->
@@ -75,12 +75,14 @@
                         </div>
                         <div class="col-sm">
                             <div>
-                                <label class="input-label-text">MSME Number</label>
+                                <label class="input-label-text">MSME Number <span *ngIf="v_Id==1" class="asterisk-required">*</span></label>
                                 <div class="input-group">
                                     <input nbInput fullWidth fieldSize="small" class="input-border"
                                      formControlName="MSME_Number" placeholder="Enter MSME Number"/>
                                      <mat-error *ngIf="this.commercialProfileForm.get('MSME_Number').hasError('required') && this.commercialProfileForm.get('MSME_Number').touched"
                                     class="error-msg"> MSME Number is required </mat-error>
+                                    <mat-error *ngIf="this.commercialProfileForm.get('MSME_Number').hasError('pattern') && this.commercialProfileForm.get('MSME_Number').touched"
+                                    class="error-msg"> Invalid MSME Number </mat-error>
                                 </div>
                             </div>
                         </div>

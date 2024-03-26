@@ -1,5 +1,5 @@
-export class DomesticVendorPersonalData {
-  Domestic_Personal_Info_Id: number = 0;
+export class VendorPersonalData {
+  Personal_Info_Id: number = 0;
   Form_Id: number;
   Organization_Name: string;
   Plant_Installation_Year: number;
@@ -158,19 +158,34 @@ export class InitialData {
 }
 
 export class User {
-    Employee_Id: string;
-    Role_Id: number;
-    First_Name: string;
-    Middle_Name: string;
-    Last_Name: string;
-    Email: string;
-    Mobile_No: string;
-    Reporting_Manager_EmpId: string;
-    IsActive: boolean;
-    Display_Name: string;
+  Employee_Id: string;
+  Role_Id: number;
+  First_Name: string;
+  Middle_Name: string;
+  Last_Name: string;
+  Email: string;
+  Mobile_No: string;
+  Reporting_Manager_EmpId: string;
+  IsActive: boolean;
+  Display_Name: string;
 }
 
 export class Role {
-    Role_Id: number;
-    Role_Name: string;
+  Role_Id: number;
+  Role_Name: string;
+}
+
+export class NocilRelatedEmployee {
+  Id:number;
+  Form_Id:number;
+  Employee_Name:string;
+  Type_Of_Relation:string;
+}
+
+export class AttachmentResponse {
+  FileName: string;
+  DocType: string;
+  Extension: string;
+  FilePath: string;
+  FileContent: any;
 }

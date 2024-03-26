@@ -41,9 +41,7 @@ export class LoginComponent implements OnInit {
             this.loader = false;
             this.loginForm.reset();
             sessionStorage.setItem("userDetails", JSON.stringify(res));
-            if (res.Role == "Admin") {
-              this._router.navigate(["masters/users"]);
-            } else if (res.Role != "Vendor") {
+            if (res.Role != "Vendor") {
               this._router.navigate(["onboarding/dashboard"]);
               this._common.openSnackbar(
                 "Login Success",

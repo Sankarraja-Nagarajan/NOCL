@@ -7,12 +7,13 @@ import {
   FormSubmitTemplate,
   Rejection,
 } from "../Models/Registration";
+import { environment } from "../../environments/environment";
 
 @Injectable({
   providedIn: "root",
 })
 export class RegistrationService {
-  baseURL: string = "https://localhost:44300/api";
+  baseURL: string = environment.baseURL;
 
   constructor(private _http: HttpService) {}
 

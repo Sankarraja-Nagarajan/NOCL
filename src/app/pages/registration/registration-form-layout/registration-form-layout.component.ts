@@ -86,7 +86,7 @@ export class RegistrationFormLayoutComponent implements OnInit {
     private _registration: RegistrationService,
     private _dialog: MatDialog,
     private _router: Router
-  ) {}
+  ) { }
   ngOnInit(): void {
     this.authResponse = JSON.parse(sessionStorage.getItem("userDetails"));
     this._activatedRoute.queryParams.subscribe({
@@ -342,6 +342,9 @@ export class RegistrationFormLayoutComponent implements OnInit {
         );
       }
     }
+    else {
+      this.markAllFormsAsTouched();
+    }
   }
   //#endregion
 
@@ -355,7 +358,7 @@ export class RegistrationFormLayoutComponent implements OnInit {
       this.addressComponent.isValid() &&
       this.contactsComponent.isValid() &&
       this.vendorBranchesComponent.isValid() &&
-      this.partnersComponent.isValid() &&
+      (!this.proprietorOrPartner || this.partnersComponent?.isValid()) &&
       this.annualTurnoverComponent.isValid() &&
       this.attachmentsComponent.isValid()
     );
@@ -375,7 +378,7 @@ export class RegistrationFormLayoutComponent implements OnInit {
   //#region Payload formation methods
   createDomesticAndImportPayload(): FormSubmitTemplate {
     let domesticAndImportForm = new DomesticAndImportForm();
-    domesticAndImportForm.DomesticVendorPersonalData =
+    domesticAndImportForm.VendorPersonalData =
       this.domesticVendorPersonalInfoComponent.getDomesticVendorPersonalInfo();
     domesticAndImportForm.VendorOrganizationProfile =
       this.domesticVendorOrgProfileComponent.getDomesticVendorOrgProfile();
@@ -394,9 +397,11 @@ export class RegistrationFormLayoutComponent implements OnInit {
     domesticAndImportForm.VendorBranches =
       this.vendorBranchesComponent.getVendorBranches();
     domesticAndImportForm.ProprietorOrPartners =
-      this.partnersComponent.getProprietorOrPartners();
+      this.partnersComponent ? this.partnersComponent.getProprietorOrPartners() : [];
     domesticAndImportForm.AnnualTurnOvers =
       this.annualTurnoverComponent.getAnnualTurnOvers();
+    domesticAndImportForm.NocilRelatedEmployees =
+      this.domesticVendorOrgProfileComponent.getNocilRelatedEmployees();
     return this.createFormSubmitTemplate(domesticAndImportForm);
   }
 
@@ -462,5 +467,42 @@ export class RegistrationFormLayoutComponent implements OnInit {
         this.vendorBranches = true;
         break;
     }
+  }
+
+  // Emitter functions
+  getCompanyStatus(event) {
+    this.proprietorOrPartner = event;
+  }
+
+  // mark all forms as touched
+  markAllFormsAsTouched() {
+    this.addressComponent?.markAddressFormAsTouched();
+    this.contactsComponent?.markContactFormAsTouched();
+    this.partnersComponent?.markPartnersFormAsTouched();
+    this.annualTurnoverComponent?.markTurnOverFormAsTouched();
+    this.vendorBranchesComponent?.markVendorBranchFormAsTouched();
+    this.domesticVendorPersonalInfoComponent?.domesticVendorForm.markAllAsTouched();
+    this.bankDetailsComponent?.bankDetailsForm.markAllAsTouched();
+    this.commercialProfileComponent?.commercialProfileForm.markAllAsTouched();
+    this.technicalProfileComponent?.technicalProfileForm.markAllAsTouched();
+    this.domesticVendorOrgProfileComponent?.vendorOrgForm.markAllAsTouched();
+    this.transportVendorsPersonalDetailsComponent?.transporterVendorsForm.markAllAsTouched();
+    this.tankerDetailsComponent?.markTankerDetailFormAsTouched();
+  }
+
+  // reset all forms
+  resetAllForms() {
+    this.addressComponent.addressForm.reset();
+    this.contactsComponent.contactForm.reset();
+    this.partnersComponent.partnersForm.reset();
+    this.annualTurnoverComponent.turnoverForm.reset();
+    this.vendorBranchesComponent.VendorBranchForm.reset();
+    this.domesticVendorPersonalInfoComponent.domesticVendorForm.reset();
+    this.bankDetailsComponent.bankDetailsForm.reset();
+    this.commercialProfileComponent.commercialProfileForm.reset();
+    this.technicalProfileComponent.technicalProfileForm.reset();
+    this.domesticVendorOrgProfileComponent.vendorOrgForm.reset();
+    this.transportVendorsPersonalDetailsComponent.transporterVendorsForm.reset();
+    this.tankerDetailsComponent.TankerDetailsForm.reset();
   }
 }

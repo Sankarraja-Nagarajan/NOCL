@@ -149,6 +149,7 @@
           <ngx-domestic-vendor-org-profile
             [form_Id]="form_Id"
             [isReadOnly]="isReadOnly"
+            (havePartner)="getCompanyStatus($event)"
           ></ngx-domestic-vendor-org-profile>
         </div>
       </div>

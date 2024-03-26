@@ -8,6 +8,8 @@ import { CommonService } from "../../../Services/common.service";
 import { snackbarStatus } from "../../../Enums/snackbar-status";
 import { RegistrationService } from "../../../Services/registration.service";
 import { DocumentViewDialogComponent } from "../../../Dialogs/document-view-dialog/document-view-dialog.component";
+import { AttachmentService } from "../../../Services/attachment.service";
+import { FileSaverService } from "../../../Services/file-saver.service";
 
 @Component({
   selector: "ngx-attachments",
@@ -18,7 +20,6 @@ export class AttachmentsComponent {
   @Input() form_Id: number;
   @Input() v_Id: number;
 
-  attachmentsForm: FormGroup;
   role: string = "";
 
   displayedColumns: string[] = [
@@ -32,16 +33,20 @@ export class AttachmentsComponent {
 
   dataSource = new MatTableDataSource(this.attachments);
 
-  constructor(public _dialog: MatDialog,
+  constructor(
+    public _dialog: MatDialog,
     private _common: CommonService,
-    private _registration: RegistrationService) { }
+    private _registration: RegistrationService,
+    private _docService: AttachmentService,
+    private _fileSaver: FileSaverService
+  ) {}
 
   ngOnInit(): void {
     const userData = JSON.parse(sessionStorage.getItem("userDetails"));
     this.role = userData ? userData.Role : "";
 
     // Get attachments by form Id
-    this._registration.getFormData(this.form_Id, 'Attachments').subscribe({
+    this._registration.getFormData(this.form_Id, "Attachments").subscribe({
       next: (res) => {
         if (res) {
           this.attachments = res as Attachment[];
@@ -50,7 +55,7 @@ export class AttachmentsComponent {
       },
       error: (err) => {
         this._common.openSnackbar(err, snackbarStatus.Danger);
-      }
+      },
     });
   }
 
@@ -69,52 +74,63 @@ export class AttachmentsComponent {
     dialogRef.afterClosed().subscribe({
       next: (response) => {
         if (response) {
-          this.attachments.push(response as Attachment);
+          this.dataSource.data.push(response as Attachment);
           this.dataSource._updateChangeSubscription();
         }
       },
     });
   }
   removeAttachment(i: number) {
-    this.attachments.splice(i, 1);
-    this.dataSource = new MatTableDataSource(this.attachments);
+    this.dataSource.data.splice(i, 1);
+    this.dataSource._updateChangeSubscription();
   }
 
   isValid() {
-    if (this.attachments.length > 0) {
+    if (this.dataSource.data.length > 0) {
       return true;
     } else {
+      console.log('attachments');
+      this._common.openSnackbar('Attach necessary files', snackbarStatus.Danger);
       return false;
     }
   }
 
-  openViewDocDialog(attachment: Attachment, event: Event) {
-    event.preventDefault();
-    console.log(attachment);
-    // const DIALOG_REF =  this._dialog.open(DocumentViewDialogComponent,{
-    //   width: '400px',
-    //   height: '300px',
-    //   data: attachment
-    // });
+  openViewDocDialog(attachment: Attachment) {
+    this._docService.getFileById(attachment.Attachment_Id).subscribe({
+      next: async (res) => {
+        await this._fileSaver.downloadFile(res);
+      },
+      error:(err)=>{
+        
+      }
+    });
   }
 
   isISOAttached() {
-    let isoDoc = this.attachments.find(x => x.File_Type?.toLowerCase().includes('iso'));
+    let isoDoc = this.dataSource.data.find(x => x.File_Type?.toLowerCase().includes('iso'));
     if (isoDoc)
       return true;
     else {
-      this._common.openSnackbar('Attach ISO Certificate', snackbarStatus.Danger)
+      this._common.openSnackbar(
+        "Attach ISO Certificate",
+        snackbarStatus.Danger
+      );
       return false;
     }
   }
 
   isImportVendorDocsAttached() {
     if (this.v_Id == 4) {
-      let message = 'Please attach the following.'
+      let message = "Please attach the following.";
       let cnt = 0;
-      let requiredDocs = ['ISO', 'Certificate of analysis', 'Material safety data sheet', 'No permanent establishment certificate'];
+      let requiredDocs = [
+        "ISO",
+        "Certificate of analysis",
+        "Material safety data sheet",
+        "No permanent establishment certificate",
+      ];
       requiredDocs.forEach((element) => {
-        let isoDoc = this.attachments.find(x => x.File_Type?.toLowerCase().includes(element.toLowerCase()));
+        let isoDoc = this.dataSource.data.find(x => x.File_Type?.toLowerCase().includes(element.toLowerCase()));
         if (!isoDoc) {
           cnt++;
           message += `\n\t${cnt}. ${element}`;
@@ -122,8 +138,7 @@ export class AttachmentsComponent {
       });
       if (cnt == 0) {
         return true;
-      }
-      else {
+      } else {
         this._common.openSnackbar(message, snackbarStatus.Danger, 4000);
       }
     } else {

@@ -33,9 +33,9 @@ export class AnnualTurnoverComponent implements OnInit{
 
     this.turnoverForm=_fb.group({
       Year:['',Validators.required],
-      SalesTurnOver:[''],
-      OperatingProfit:[''],
-      NetProfit:['']
+      SalesTurnOver:['0'],
+      OperatingProfit:['0'],
+      NetProfit:['0']
     })
   }
   ngOnInit(): void {
@@ -60,7 +60,7 @@ export class AnnualTurnoverComponent implements OnInit{
 
   addTurnover() {
     if (this.turnoverForm.valid) {
-      this.annualTurnOver.push(this.turnoverForm.value);
+      this.dataSource.data.push(this.turnoverForm.value);
       this.dataSource._updateChangeSubscription();
       this.turnoverForm.reset();
     } else {
@@ -69,7 +69,7 @@ export class AnnualTurnoverComponent implements OnInit{
   }
 
   removeTurnover(i) {
-    this.annualTurnOver.splice(i, 1);
+    this.dataSource.data.splice(i, 1);
     this.dataSource._updateChangeSubscription();
   }
 
@@ -88,20 +88,29 @@ export class AnnualTurnoverComponent implements OnInit{
 
   // Make sure the annualTurnOver array has at least one value
   isValid() {
-    if (this.annualTurnOver.length > 0) {
+    if (this.dataSource.data.length > 0) {
       return true;
     } else {
+      console.log('annual turn over');
       this.turnoverForm.markAllAsTouched();
+      this._commonService.openRequiredFieldsSnackbar();
       return false;
     }
   }
 
   // Get annualTurnOver array, calls by layout component
   getAnnualTurnOvers() {
+    this.annualTurnOver = this.dataSource.data as AnnualTurnOver[];
     this.annualTurnOver.forEach((element) => {
       element.TurnOver_Id = element.TurnOver_Id ? element.TurnOver_Id : 0;
       element.Form_Id = this.form_Id;
     });
     return this.annualTurnOver;
+  }
+
+  markTurnOverFormAsTouched(){
+    if(this.dataSource.data.length == 0){
+      this.turnoverForm.markAllAsTouched();  
+    }
   }
 }
