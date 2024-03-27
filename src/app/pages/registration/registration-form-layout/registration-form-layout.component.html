@@ -1,7 +1,7 @@
 <section class="screenRegistration">
   <div class="container bg-white rounded-3">
     <!-- Domestic-vendor-personal-info-->
-    <div *ngIf="domesticPersonalData" class="p-3 border-bottom">
+    <div *ngIf="personalData" class="p-3 border-bottom">
       <div class="row">
         <div
           class="d-none d-sm-flex flex-column align-items-center justify-content-center col-sm-3"
@@ -23,6 +23,7 @@
           <ngx-domestic-vendor-personal-info
             [form_Id]="form_Id"
             [isReadOnly]="isReadOnly"
+            [v_Id]="v_Id"
           ></ngx-domestic-vendor-personal-info>
         </div>
       </div>
@@ -127,7 +128,7 @@
       </div>
     </div>
     <!-- Domestic Vendor Organization Profile -->
-    <div *ngIf="domesticOrgData" class="p-3 border-bottom">
+    <div *ngIf="organizationData" class="p-3 border-bottom">
       <div class="row">
         <div
           class="d-none d-sm-flex flex-column align-items-center justify-content-center col-sm-3"
@@ -272,6 +273,7 @@
           </h3>
           <ngx-bank-details
             [form_Id]="form_Id"
+            [v_Id]="v_Id"
             [isReadOnly]="isReadOnly"
           ></ngx-bank-details>
         </div>
