@@ -11,7 +11,7 @@
                                 <div class="input-group">
                                     <input nbInput fullWidth fieldSize="small" class="input-border"
                                         formControlName="Name_of_Transporter" placeholder="Enter Name of Transporter"
-                                        (keypress)="keyPressValidation($event,'text')" />
+                                        (keypress)="keyPressValidation($event,'alphanumeric')" />
                                     <mat-error
                                         *ngIf="this.transporterVendorsForm.get('Name_of_Transporter').hasError('required') && this.transporterVendorsForm.get('Name_of_Transporter').touched"
                                         class="error-msg">Transporter Name is required</mat-error>

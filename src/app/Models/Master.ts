@@ -32,3 +32,9 @@ export class ContactType {
     Contact_Type_Id: number;
     Contact_Type: string;
 }
+
+
+export class TankerType {
+    Tanker_Type_Id: number;
+    Tanker_Type: string;
+}

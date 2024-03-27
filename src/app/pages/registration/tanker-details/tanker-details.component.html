@@ -12,10 +12,7 @@
                                 <div class="input-group">
                                     <nb-select fullWidth size="small" status="primary" formControlName="Tanker_Type_Id"
                                         placeholder="Select Tanker Type">
-                                        <nb-option value="1">Circular tanks</nb-option>
-                                        <nb-option value="2">Bullet tank</nb-option>
-                                        <nb-option value="3">
-                                            Steel tanks</nb-option>
+                                        <nb-option *ngFor="let tanker of typeOfTankers" [value]="tanker.Tanker_Type_Id">{{tanker.Tanker_Type}}</nb-option>
                                     </nb-select>
                                     <mat-error
                                         *ngIf="this.TankerDetailsForm.get('Tanker_Type_Id').hasError('required') && this.TankerDetailsForm.get('Tanker_Type_Id').touched"
@@ -58,8 +55,7 @@
                         <!-- tankerType column -->
                         <ng-container matColumnDef="tankerType">
                             <th mat-header-cell *matHeaderCellDef> Tanker Type</th>
-                            <td mat-cell *matCellDef="let element"> {{element.Tanker_Type =='1' ? 'Circular tanks' :
-                                element.AddressType_Id =='2' ? 'Bullet tank' : 'Steel Tank'}} </td>
+                            <td mat-cell *matCellDef="let element"> {{getTankerTypeById(element.Tanker_Type_Id)}} </td>
                         </ng-container>
 
                         <!-- capacityOfTanker share column -->

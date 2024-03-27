@@ -42,3 +42,11 @@
     display: none;
   }
 }
+
+.layout-footer{
+  position: sticky !important;
+  bottom: 0 !important;
+  right: 0 !important;
+  z-index: 10;
+  background-image: linear-gradient(to right, #ffff, #e8ebfa) !important;
+}

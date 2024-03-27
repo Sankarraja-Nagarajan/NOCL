@@ -29,7 +29,7 @@ export class InitiationFormComponent implements OnInit {
     private _common: CommonService,
     private _registration: RegistrationService,
     private _router: Router
-  ) { }
+  ) {}
   ngOnInit() {
     // get Auth Response
     this.userData = JSON.parse(
@@ -44,7 +44,14 @@ export class InitiationFormComponent implements OnInit {
       Vendor_Type_Id: ["", [Validators.required]],
       Vendor_Name: ["", [Validators.required]],
       Vendor_Mail: ["", [Validators.required, Validators.email]],
-      Vendor_Mobile: ["", [Validators.required, Validators.maxLength(15)]],
+      Vendor_Mobile: [
+        "",
+        [
+          Validators.required,
+          Validators.minLength(10),
+          Validators.maxLength(10),
+        ],
+      ],
       Company_Code: ["", [Validators.required]],
       Department_Id: ["", [Validators.required]],
     });
@@ -110,12 +117,14 @@ export class InitiationFormComponent implements OnInit {
 
   // If Vendor type is Domestic , disable Purchase Imports in Dept
   isOptionDisabled(dept_Id: number): boolean {
-    if (this.initiationForm.value.Vendor_Type_Id == 1 && dept_Id == 1 ||
-      this.initiationForm.value.Vendor_Type_Id == 4 && dept_Id == 2)
+    if (
+      (this.initiationForm.value.Vendor_Type_Id == 1 && dept_Id == 1) ||
+      (this.initiationForm.value.Vendor_Type_Id == 4 && dept_Id == 2)
+    )
       return true;
   }
 
-  onSelectOption(){
-    this.initiationForm.get('Department_Id').reset();
+  onSelectOption() {
+    this.initiationForm.get("Department_Id").reset();
   }
 }

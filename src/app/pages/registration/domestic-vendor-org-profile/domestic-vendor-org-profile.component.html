@@ -83,7 +83,7 @@
             <div class="d-flex align-items-center mb-2">
               <label class="input-label-text"> List of Related NOCIL Employees <span
                   class="asterisk-required">*</span></label>
-              <div>
+              <div  *ngIf="authResponse?.Role == 'Vendor'">
                 <button class="btn btn-design center-flexBox ms-2" (click)="addNocilRelatedEmployee()">
                   <img src="../../../../assets/images/pngs/plus.png" width="18" height="18" class="me-1" />
                   Add

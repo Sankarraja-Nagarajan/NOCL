@@ -86,7 +86,7 @@ export class RegistrationFormLayoutComponent implements OnInit {
     private _registration: RegistrationService,
     private _dialog: MatDialog,
     private _router: Router
-  ) { }
+  ) {}
   ngOnInit(): void {
     this.authResponse = JSON.parse(sessionStorage.getItem("userDetails"));
     this._activatedRoute.queryParams.subscribe({
@@ -131,79 +131,7 @@ export class RegistrationFormLayoutComponent implements OnInit {
   }
   //#endregion
 
-  //old
-  domesticAndImportFormPayload() {
-    let validations = [
-      this.domesticVendorPersonalInfoComponent.isValid(),
-      this.domesticVendorOrgProfileComponent.isValid(),
-      this.commercialProfileComponent.isValid(),
-      this.bankDetailsComponent.isValid(),
-      this.addressComponent.isValid(),
-      this.contactsComponent.isValid(),
-      this.vendorBranchesComponent.isValid(),
-      this.partnersComponent.isValid(),
-      this.annualTurnoverComponent.isValid(),
-      this.attachmentsComponent.isImportVendorDocsAttached(),
-    ];
-
-    if (validations.includes(false)) {
-      this._commonService.openSnackbar(
-        "Please fill required fields.",
-        snackbarStatus.Warning
-      );
-    } else if (!this.attachmentsComponent.isValid()) {
-      this._commonService.openSnackbar(
-        "Add required attachments.",
-        snackbarStatus.Warning
-      );
-    } else {
-      let payload = this.createDomesticAndImportPayload();
-      if (payload.FormData.TechnicalProfile.Is_ISO_Certified) {
-        if (this.attachmentsComponent.isISOAttached()) {
-          if (this.form_status == "Initiated") {
-            this.submitForm(payload);
-          } else {
-            this.updateForm(payload);
-          }
-        }
-      } else {
-        if (this.form_status == "Initiated") {
-          this.submitForm(payload);
-        } else {
-          this.updateForm(payload);
-        }
-      }
-    }
-  }
-  transportFormPayload() {
-    let validations = [
-      this.transportVendorsPersonalDetailsComponent.isValid(),
-      this.tankerDetailsComponent.isValid(),
-      this.bankDetailsComponent.isValid(),
-      this.commercialProfileComponent.isValid(),
-      this.vendorBranchesComponent.isValid(),
-    ];
-    if (validations.includes(false)) {
-      this._commonService.openSnackbar(
-        "Please fill required fields.",
-        snackbarStatus.Warning
-      );
-    } else {
-      let transportForm = new TransportForm();
-      transportForm.TransportVendorPersonalData =
-        this.transportVendorsPersonalDetailsComponent.getTransportVendorPersonalData();
-      transportForm.TankerDetails =
-        this.tankerDetailsComponent.getTankerDetails();
-      transportForm.BankDetail = this.bankDetailsComponent.getBankDetail();
-      transportForm.CommercialProfile =
-        this.commercialProfileComponent.getCommercialProfile();
-      transportForm.VendorBranches =
-        this.vendorBranchesComponent.getVendorBranches();
-      console.log(transportForm);
-    }
-  }
-
-  //#region Submitting form API Call
+  //#region Submittinerfg form API Call
   submitForm(formSubmitTemplate: FormSubmitTemplate) {
     this.loader = true;
     this._registration.formSubmit(formSubmitTemplate).subscribe({
@@ -244,24 +172,31 @@ export class RegistrationFormLayoutComponent implements OnInit {
   //#endregion
 
   //#region Calling corresponding submit/update functions based on vendor type
-  submit() {
+  submit(event: Event) {
+    event.preventDefault();
+    if (this.v_Id === 1) {
+      this.domesticFormSubmit();
+    } else if (this.v_Id === 3) {
+      this.transportFormSubmit();
+    }
+    
+    // else if (this.v_Id === 3) {
+    //   this.serviceFormSubmit();
+    // }else if (this.v_Id == 4) {
+    //   this.importFormSubmit();
+    // }
+  }
+
+  update(event: Event) {
+    event.preventDefault();
     if (this.v_Id === 1) {
       this.domesticFormSubmit();
     } else if (this.v_Id === 2) {
-      this.transportFormPayload();
-    } else if (this.v_Id == 4) {
-      this.domesticAndImportFormPayload();
+      this.transportFormSubmit();
     }
-  }
-
-  update() {
-    if (this.v_Id === 1) {
-      this.domesticAndImportFormPayload();
-    } else if (this.v_Id === 2) {
-      this.transportFormPayload();
-    } else if (this.v_Id == 4) {
-      this.domesticAndImportFormPayload();
-    }
+    // else if (this.v_Id == 4) {
+    //   this.domesticAndImportFormPayload();
+    // }
   }
   //#endregion
 
@@ -301,7 +236,8 @@ export class RegistrationFormLayoutComponent implements OnInit {
     });
   }
   // Approval API call
-  approveForm() {
+  approveForm(event: Event) {
+    event.preventDefault();
     let approval = new Approval();
     approval.Form_Id = this.form_Id;
     approval.VendorTypeId = this.v_Id;
@@ -341,14 +277,31 @@ export class RegistrationFormLayoutComponent implements OnInit {
           snackbarStatus.Danger
         );
       }
+    } else {
+      this.markAllFormsAsTouched();
     }
-    else {
+  }
+
+  transportFormSubmit() {
+    if (this.checkValidationForTransport()) {
+      var payload = this.createTransportPayload();
+      if (this.form_status == "Initiated") {
+        this.submitForm(payload);
+      } else if (this.form_status == "Rejected") {
+        this.updateForm(payload);
+      } else {
+        this._commonService.openSnackbar(
+          `You can not submit the ${this.form_status} form`,
+          snackbarStatus.Danger
+        );
+      }
+    } else {
       this.markAllFormsAsTouched();
     }
   }
   //#endregion
 
-  //#region Validation based on form 
+  //#region Validation based on form
   checkValidationForDomestic() {
     return (
       this.domesticVendorPersonalInfoComponent.isValid() &&
@@ -396,8 +349,9 @@ export class RegistrationFormLayoutComponent implements OnInit {
     domesticAndImportForm.Contacts = this.contactsComponent.getContacts();
     domesticAndImportForm.VendorBranches =
       this.vendorBranchesComponent.getVendorBranches();
-    domesticAndImportForm.ProprietorOrPartners =
-      this.partnersComponent ? this.partnersComponent.getProprietorOrPartners() : [];
+    domesticAndImportForm.ProprietorOrPartners = this.partnersComponent
+      ? this.partnersComponent.getProprietorOrPartners()
+      : [];
     domesticAndImportForm.AnnualTurnOvers =
       this.annualTurnoverComponent.getAnnualTurnOvers();
     domesticAndImportForm.NocilRelatedEmployees =
@@ -445,13 +399,15 @@ export class RegistrationFormLayoutComponent implements OnInit {
         this.commercialProfile = true;
         this.vendorBranches = true;
         break;
-      case 2:
+      case 3:
         this.transportPersonalData = true;
+        this.tankerDetails = true;
         this.address = true;
         this.contact = true;
         this.attachments = true;
         this.bankDetails = true;
         this.commercialProfile = true;
+        this.vendorBranches = true;
         break;
       case 4:
         this.domesticPersonalData = true;
