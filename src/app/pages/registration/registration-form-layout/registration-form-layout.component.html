@@ -1,4 +1,4 @@
-<section class="screenRegistration" *ngIf="!loader">
+<section class="screenRegistration">
   <div class="container bg-white rounded-3">
     <!-- Domestic-vendor-personal-info-->
     <div *ngIf="domesticPersonalData" class="p-3 border-bottom">
@@ -334,23 +334,23 @@
   <div class="submission-layout bg-white rounded-3 pe-4 border-bottom">
     <!-- for vendor -->
     <div *ngIf="authResponse?.Role == 'Vendor'" class="d-flex">
-      <button
+      <button type="button"
         class="btn btn-cancel-design center-flexBox submit-icon me-2"
         (click)="resetForm()"
       >
         <img
-          src="../../../../assets/images/pngs/xmark.png"
+          src="assets/images/pngs/xmark.png"
           width="16"
           height="16"
           class="me-1"
         />Cancel
       </button>
-      <button *ngIf="form_status == 'Initiated'"
+      <button *ngIf="form_status == 'Initiated'" type="button"
         class="btn btn-design center-flexBox submit-icon"
-        (click)="submit()"
+        (click)="submit($event)" 
       >
         <img
-          src="../../../../assets/images/pngs/check.png"
+          src="assets/images/pngs/check.png"
           width="16"
           height="16"
           class="me-1"
@@ -358,12 +358,12 @@
         Submit
       </button>
       <button
-        *ngIf="form_status == 'Rejected'"
+        *ngIf="form_status == 'Rejected'" type="button"
         class="btn btn-design center-flexBox submit-icon"
-        (click)="update()"
+        (click)="update($event)" 
       >
         <img
-          src="../../../../assets/images/pngs/check.png"
+          src="assets/images/pngs/check.png"
           width="16"
           height="16"
           class="me-1"
@@ -377,7 +377,7 @@
       *ngIf="authResponse?.Role != 'Vendor' && form_status == 'Pending'"
       class="d-flex"
     >
-      <button
+      <button type="button"
         class="btn cancel-btn-design center-flexBox me-2"
         (click)="openRejectDialog()"
       >
@@ -390,7 +390,7 @@
         Reject
       </button>
 
-      <button class="btn btn-design center-flexBox" (click)="approveForm()">
+      <button class="btn btn-design center-flexBox" type="button" (click)="approveForm($event)">
         <img
           src="../../../../assets/images/pngs/check.png"
           width="16"

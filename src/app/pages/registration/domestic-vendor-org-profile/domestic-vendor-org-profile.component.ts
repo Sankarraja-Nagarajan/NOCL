@@ -51,7 +51,7 @@ export class DomesticVendorOrgProfileComponent {
       Status_of_Company_Id: ["", Validators.required],
       RelationToNocil: [false],
       Subsideries: [null],
-      Annual_Prod_Capacity: ["",],
+      Annual_Prod_Capacity: [0,],
     });
 
     this.valueChangeEvents();

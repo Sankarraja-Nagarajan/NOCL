@@ -74,9 +74,7 @@ export class TransportVendorsPersonalDetailsComponent {
     let transportVendorPersonalData = new TransportVendorPersonalData();
     transportVendorPersonalData = this.transporterVendorsForm.value;
     transportVendorPersonalData.Id = this.personalId ? this.personalId : 0;
-    transportVendorPersonalData.Form_Id = parseInt(
-      sessionStorage.getItem("Form_Id")
-    );
+    transportVendorPersonalData.Form_Id = this.form_Id;
     return transportVendorPersonalData;
   }
 }

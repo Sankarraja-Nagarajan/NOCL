@@ -58,4 +58,10 @@ export class MasterService {
     const URL = this.baseURL + '/Roles/GetRoles';
     return this._http.get(URL);
   }
+
+  // get vendor types
+  getTankerTypes():Observable<any>{
+    const URL = this.baseURL + '/Master/GetTankerTypes';
+    return this._http.get(URL);
+  }
 }

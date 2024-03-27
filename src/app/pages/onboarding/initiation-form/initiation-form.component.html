@@ -1,4 +1,4 @@
-<section class="screenInitiationForm center-flexBox" *ngIf="!loader">
+<section class="screenInitiationForm center-flexBox">
   <div class="bg-white rounded-3 shadow card-div w-100">
     <div class="form p-md-4 p-3">
       <form action="" [formGroup]="initiationForm">
@@ -163,7 +163,8 @@
                   required
                   fieldSize="small"
                   class="input-border"
-                  maxlength="15"
+                  minlength="10"
+                  maxlength="10"
                   (keypress)="keyPressValidation($event, 'tel')"
                 />
                 <mat-error
@@ -174,6 +175,15 @@
                   class="error-msg"
                 >
                   Vendor Mobile number is required
+                </mat-error>
+                <mat-error
+                  *ngIf="
+                    initiationForm.get('Vendor_Mobile').hasError('minlength') &&
+                    initiationForm.get('Vendor_Mobile').touched
+                  "
+                  class="error-msg"
+                >
+                  Mobile number should have 10 numbers
                 </mat-error>
               </div>
             </div>
