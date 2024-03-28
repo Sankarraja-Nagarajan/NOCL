@@ -21,6 +21,7 @@ export class CommercialProfileComponent {
   commercialId: number = 0;
   msmeTypes: string[] = [];
   authResponse: AuthResponse;
+  astheriskRequired:boolean=false;
 
   constructor(
     private _fb: FormBuilder,
@@ -66,13 +67,14 @@ export class CommercialProfileComponent {
         .get("PAN")
         .addValidators([Validators.required]);
     }
-    if (this.v_Id == 1) {
+    if (this.v_Id == 1 || this.v_Id == 4) {
       this.commercialProfileForm
         .get("MSME_Type")
         .addValidators(Validators.required);
       this.commercialProfileForm
         .get("MSME_Number")
         .addValidators(Validators.required);
+        this.astheriskRequired = true;
     }
 
     this.msmeTypes = this._config.get("MSME_Types").split(",");

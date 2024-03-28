@@ -28,6 +28,7 @@ import { MatDialog } from "@angular/material/dialog";
 import { TermsAndConditionsDialogComponent } from "../../../Dialogs/attachment-dialog/terms-and-conditions-dialog/terms-and-conditions-dialog.component";
 import { AttachmentsComponent } from "../attachments/attachments.component";
 import { RejectReasonDialogComponent } from "../../../Dialogs/reject-reason-dialog/reject-reason-dialog.component";
+import { ServiceForm } from "../../../Models/ServiceForm";
 
 @Component({
   selector: "ngx-registration-form-layout",
@@ -66,12 +67,12 @@ export class RegistrationFormLayoutComponent implements OnInit {
   loader: boolean = false;
 
   // boolean variables to show or hide child components
-  domesticPersonalData: boolean = false;
+  personalData: boolean = false;
   transportPersonalData: boolean = false;
   address: boolean = false;
   tankerDetails: boolean = false;
   contact: boolean = false;
-  domesticOrgData: boolean = false;
+  organizationData: boolean = false;
   proprietorOrPartner: boolean = false;
   annualTurnOver: boolean = false;
   technicalProfile: boolean = false;
@@ -86,7 +87,7 @@ export class RegistrationFormLayoutComponent implements OnInit {
     private _registration: RegistrationService,
     private _dialog: MatDialog,
     private _router: Router
-  ) {}
+  ) { }
   ngOnInit(): void {
     this.authResponse = JSON.parse(sessionStorage.getItem("userDetails"));
     this._activatedRoute.queryParams.subscribe({
@@ -175,22 +176,20 @@ export class RegistrationFormLayoutComponent implements OnInit {
   submit(event: Event) {
     event.preventDefault();
     if (this.v_Id === 1) {
-      this.domesticFormSubmit();
+      this.domesticAndImportFormSubmit();
+    } else if (this.v_Id == 2) {
+      this.serviceFormSubmit();
     } else if (this.v_Id === 3) {
       this.transportFormSubmit();
+    } else if (this.v_Id == 4) {
+      this.domesticAndImportFormSubmit();
     }
-    
-    // else if (this.v_Id === 3) {
-    //   this.serviceFormSubmit();
-    // }else if (this.v_Id == 4) {
-    //   this.importFormSubmit();
-    // }
   }
 
   update(event: Event) {
     event.preventDefault();
     if (this.v_Id === 1) {
-      this.domesticFormSubmit();
+      this.domesticAndImportFormSubmit();
     } else if (this.v_Id === 2) {
       this.transportFormSubmit();
     }
@@ -264,7 +263,7 @@ export class RegistrationFormLayoutComponent implements OnInit {
   }
 
   //#region Submit function call based on Vendor Type
-  domesticFormSubmit() {
+  domesticAndImportFormSubmit() {
     if (this.checkValidationForDomestic()) {
       var payload = this.createDomesticAndImportPayload();
       if (this.form_status == "Initiated") {
@@ -285,6 +284,24 @@ export class RegistrationFormLayoutComponent implements OnInit {
   transportFormSubmit() {
     if (this.checkValidationForTransport()) {
       var payload = this.createTransportPayload();
+      if (this.form_status == "Initiated") {
+        this.submitForm(payload);
+      } else if (this.form_status == "Rejected") {
+        this.updateForm(payload);
+      } else {
+        this._commonService.openSnackbar(
+          `You can not submit the ${this.form_status} form`,
+          snackbarStatus.Danger
+        );
+      }
+    } else {
+      this.markAllFormsAsTouched();
+    }
+  }
+
+  serviceFormSubmit(){
+    if (this.checkValidationForService()) {
+      var payload = this.createServicePayload();
       if (this.form_status == "Initiated") {
         this.submitForm(payload);
       } else if (this.form_status == "Rejected") {
@@ -324,6 +341,20 @@ export class RegistrationFormLayoutComponent implements OnInit {
       this.bankDetailsComponent.isValid() &&
       this.commercialProfileComponent.isValid() &&
       this.vendorBranchesComponent.isValid()
+    );
+  }
+
+  checkValidationForService() {
+    return (
+      this.domesticVendorPersonalInfoComponent.isValid() &&
+      this.domesticVendorOrgProfileComponent.isValid() &&
+      this.commercialProfileComponent.isValid() &&
+      this.bankDetailsComponent.isValid() &&
+      this.addressComponent.isValid() &&
+      this.contactsComponent.isValid() &&
+      this.vendorBranchesComponent.isValid() &&
+      (!this.proprietorOrPartner || this.partnersComponent?.isValid()) &&
+      this.attachmentsComponent.isValid()
     );
   }
   //#endregion
@@ -372,6 +403,34 @@ export class RegistrationFormLayoutComponent implements OnInit {
       this.vendorBranchesComponent.getVendorBranches();
     return this.createFormSubmitTemplate(transportForm);
   }
+
+  createServicePayload(): FormSubmitTemplate {
+    let serviceForm = new ServiceForm();
+    serviceForm.VendorPersonalData =
+      this.domesticVendorPersonalInfoComponent.getDomesticVendorPersonalInfo();
+      serviceForm.VendorOrganizationProfile =
+      this.domesticVendorOrgProfileComponent.getDomesticVendorOrgProfile();
+      serviceForm.TechnicalProfile =
+      this.technicalProfileComponent.getTechnicalProfile();
+      serviceForm.Subsideries =
+      this.domesticVendorOrgProfileComponent.getSubsideries();
+      serviceForm.MajorCustomers =
+      this.domesticVendorOrgProfileComponent.getMajorCustomers();
+      serviceForm.CommercialProfile =
+      this.commercialProfileComponent.getCommercialProfile();
+      serviceForm.BankDetail =
+      this.bankDetailsComponent.getBankDetail();
+      serviceForm.Addresses = this.addressComponent.getAddresses();
+      serviceForm.Contacts = this.contactsComponent.getContacts();
+      serviceForm.VendorBranches =
+      this.vendorBranchesComponent.getVendorBranches();
+      serviceForm.ProprietorOrPartners = this.partnersComponent
+      ? this.partnersComponent.getProprietorOrPartners()
+      : [];
+      serviceForm.NocilRelatedEmployees =
+      this.domesticVendorOrgProfileComponent.getNocilRelatedEmployees();
+    return this.createFormSubmitTemplate(serviceForm);
+  }
   //#endregion
 
   // Create final payload structure to submit or update form
@@ -387,16 +446,28 @@ export class RegistrationFormLayoutComponent implements OnInit {
   selectFormBasedOnVendorType(vId: number) {
     switch (vId) {
       case 1:
-        this.domesticPersonalData = true;
+        this.personalData = true;
         this.address = true;
         this.contact = true;
-        this.domesticOrgData = true;
+        this.organizationData = true;
         this.proprietorOrPartner = true;
         this.annualTurnOver = true;
         this.technicalProfile = true;
         this.attachments = true;
         this.bankDetails = true;
         this.commercialProfile = true;
+        this.vendorBranches = true;
+        break;
+      case 2:
+        this.personalData = true;
+        this.organizationData = true;
+        this.technicalProfile = true;
+        this.commercialProfile = true;
+        this.bankDetails = true;
+        this.address = true;
+        this.contact = true;
+        this.proprietorOrPartner = true;
+        this.attachments = true;
         this.vendorBranches = true;
         break;
       case 3:
@@ -410,10 +481,10 @@ export class RegistrationFormLayoutComponent implements OnInit {
         this.vendorBranches = true;
         break;
       case 4:
-        this.domesticPersonalData = true;
+        this.personalData = true;
         this.address = true;
         this.contact = true;
-        this.domesticOrgData = true;
+        this.organizationData = true;
         this.proprietorOrPartner = true;
         this.annualTurnOver = true;
         this.technicalProfile = true;

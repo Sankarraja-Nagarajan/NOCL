@@ -19,6 +19,7 @@ import { snackbarStatus } from "../../../Enums/snackbar-status";
 export class DomesticVendorPersonalInfoComponent implements OnInit {
   @Input() form_Id: number;
   @Input() isReadOnly: boolean;
+  @Input() v_Id: number;
 
   domesticVendorForm: FormGroup;
   years: number[] = [];

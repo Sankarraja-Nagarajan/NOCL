@@ -30,6 +30,7 @@ export class AttachmentDialogComponent implements OnInit {
   selectedFile: File = null;
   isFileUploaded: boolean = false;
   currentDate: Date = new Date();
+  loader: boolean = false;
 
   constructor(
     public _dialogRef: MatDialogRef<AttachmentDialogComponent>,
@@ -102,13 +103,16 @@ export class AttachmentDialogComponent implements OnInit {
         formData.append("file", this.selectedFile, this.selectedFile.name);
         formData.append("AttachmentDetails", JSON.stringify(attachment));
 
+        this.loader = true;
         this._attach.attachFiles(formData).subscribe({
           next: (res) => {
             if (res) {
+              this.loader = false;
               this._dialogRef.close(res);
             }
           },
           error: (err) => {
+            this.loader = false;
             this._common.openSnackbar(err, snackbarStatus.Danger);
           },
         });
