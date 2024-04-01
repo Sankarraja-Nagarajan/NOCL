@@ -5,11 +5,11 @@ import { ContactsComponent } from "../contacts/contacts.component";
 import { PartnersComponent } from "../partners/partners.component";
 import { AnnualTurnoverComponent } from "../annual-turnover/annual-turnover.component";
 import { VendorBranchesComponent } from "../vendor-branches/vendor-branches.component";
-import { DomesticVendorPersonalInfoComponent } from "../domestic-vendor-personal-info/domestic-vendor-personal-info.component";
+import { VendorPersonalInfoComponent } from "../vendor-personal-info/vendor-personal-info.component";
 import { BankDetailsComponent } from "../bank-details/bank-details.component";
 import { CommercialProfileComponent } from "../commercial-profile/commercial-profile.component";
 import { TechnicalProfileComponent } from "../technical-profile/technical-profile.component";
-import { DomesticVendorOrgProfileComponent } from "../domestic-vendor-org-profile/domestic-vendor-org-profile.component";
+import { VendorOrgProfileComponent } from "../vendor-org-profile/vendor-org-profile.component";
 import { CommonService } from "../../../Services/common.service";
 import { snackbarStatus } from "../../../Enums/snackbar-status";
 import { TransportForm } from "../../../Models/TransportForm";
@@ -43,15 +43,15 @@ export class RegistrationFormLayoutComponent implements OnInit {
   annualTurnoverComponent: AnnualTurnoverComponent;
   @ViewChild(VendorBranchesComponent)
   vendorBranchesComponent: VendorBranchesComponent;
-  @ViewChild(DomesticVendorPersonalInfoComponent)
-  domesticVendorPersonalInfoComponent: DomesticVendorPersonalInfoComponent;
+  @ViewChild(VendorPersonalInfoComponent)
+  vendorPersonalInfoComponent: VendorPersonalInfoComponent;
   @ViewChild(BankDetailsComponent) bankDetailsComponent: BankDetailsComponent;
   @ViewChild(CommercialProfileComponent)
   commercialProfileComponent: CommercialProfileComponent;
   @ViewChild(TechnicalProfileComponent)
   technicalProfileComponent: TechnicalProfileComponent;
-  @ViewChild(DomesticVendorOrgProfileComponent)
-  domesticVendorOrgProfileComponent: DomesticVendorOrgProfileComponent;
+  @ViewChild(VendorOrgProfileComponent)
+  vendorOrgProfileComponent: VendorOrgProfileComponent;
   @ViewChild(TransportVendorsPersonalDetailsComponent)
   transportVendorsPersonalDetailsComponent: TransportVendorsPersonalDetailsComponent;
   @ViewChild(TankerDetailsComponent)
@@ -321,8 +321,8 @@ export class RegistrationFormLayoutComponent implements OnInit {
   //#region Validation based on form
   checkValidationForDomestic() {
     return (
-      this.domesticVendorPersonalInfoComponent.isValid() &&
-      this.domesticVendorOrgProfileComponent.isValid() &&
+      this.vendorPersonalInfoComponent.isValid() &&
+      this.vendorOrgProfileComponent.isValid() &&
       this.commercialProfileComponent.isValid() &&
       this.bankDetailsComponent.isValid() &&
       this.addressComponent.isValid() &&
@@ -346,8 +346,8 @@ export class RegistrationFormLayoutComponent implements OnInit {
 
   checkValidationForService() {
     return (
-      this.domesticVendorPersonalInfoComponent.isValid() &&
-      this.domesticVendorOrgProfileComponent.isValid() &&
+      this.vendorPersonalInfoComponent.isValid() &&
+      this.vendorOrgProfileComponent.isValid() &&
       this.commercialProfileComponent.isValid() &&
       this.bankDetailsComponent.isValid() &&
       this.addressComponent.isValid() &&
@@ -363,15 +363,15 @@ export class RegistrationFormLayoutComponent implements OnInit {
   createDomesticAndImportPayload(): FormSubmitTemplate {
     let domesticAndImportForm = new DomesticAndImportForm();
     domesticAndImportForm.VendorPersonalData =
-      this.domesticVendorPersonalInfoComponent.getDomesticVendorPersonalInfo();
+      this.vendorPersonalInfoComponent.getDomesticVendorPersonalInfo();
     domesticAndImportForm.VendorOrganizationProfile =
-      this.domesticVendorOrgProfileComponent.getDomesticVendorOrgProfile();
+      this.vendorOrgProfileComponent.getDomesticVendorOrgProfile();
     domesticAndImportForm.TechnicalProfile =
       this.technicalProfileComponent.getTechnicalProfile();
     domesticAndImportForm.Subsideries =
-      this.domesticVendorOrgProfileComponent.getSubsideries();
+      this.vendorOrgProfileComponent.getSubsideries();
     domesticAndImportForm.MajorCustomers =
-      this.domesticVendorOrgProfileComponent.getMajorCustomers();
+      this.vendorOrgProfileComponent.getMajorCustomers();
     domesticAndImportForm.CommercialProfile =
       this.commercialProfileComponent.getCommercialProfile();
     domesticAndImportForm.BankDetail =
@@ -386,7 +386,7 @@ export class RegistrationFormLayoutComponent implements OnInit {
     domesticAndImportForm.AnnualTurnOvers =
       this.annualTurnoverComponent.getAnnualTurnOvers();
     domesticAndImportForm.NocilRelatedEmployees =
-      this.domesticVendorOrgProfileComponent.getNocilRelatedEmployees();
+      this.vendorOrgProfileComponent.getNocilRelatedEmployees();
     return this.createFormSubmitTemplate(domesticAndImportForm);
   }
 
@@ -407,15 +407,15 @@ export class RegistrationFormLayoutComponent implements OnInit {
   createServicePayload(): FormSubmitTemplate {
     let serviceForm = new ServiceForm();
     serviceForm.VendorPersonalData =
-      this.domesticVendorPersonalInfoComponent.getDomesticVendorPersonalInfo();
+      this.vendorPersonalInfoComponent.getDomesticVendorPersonalInfo();
       serviceForm.VendorOrganizationProfile =
-      this.domesticVendorOrgProfileComponent.getDomesticVendorOrgProfile();
+      this.vendorOrgProfileComponent.getDomesticVendorOrgProfile();
       serviceForm.TechnicalProfile =
       this.technicalProfileComponent.getTechnicalProfile();
       serviceForm.Subsideries =
-      this.domesticVendorOrgProfileComponent.getSubsideries();
+      this.vendorOrgProfileComponent.getSubsideries();
       serviceForm.MajorCustomers =
-      this.domesticVendorOrgProfileComponent.getMajorCustomers();
+      this.vendorOrgProfileComponent.getMajorCustomers();
       serviceForm.CommercialProfile =
       this.commercialProfileComponent.getCommercialProfile();
       serviceForm.BankDetail =
@@ -428,7 +428,7 @@ export class RegistrationFormLayoutComponent implements OnInit {
       ? this.partnersComponent.getProprietorOrPartners()
       : [];
       serviceForm.NocilRelatedEmployees =
-      this.domesticVendorOrgProfileComponent.getNocilRelatedEmployees();
+      this.vendorOrgProfileComponent.getNocilRelatedEmployees();
     return this.createFormSubmitTemplate(serviceForm);
   }
   //#endregion
@@ -508,11 +508,11 @@ export class RegistrationFormLayoutComponent implements OnInit {
     this.partnersComponent?.markPartnersFormAsTouched();
     this.annualTurnoverComponent?.markTurnOverFormAsTouched();
     this.vendorBranchesComponent?.markVendorBranchFormAsTouched();
-    this.domesticVendorPersonalInfoComponent?.domesticVendorForm.markAllAsTouched();
+    this.vendorPersonalInfoComponent?.domesticVendorForm.markAllAsTouched();
     this.bankDetailsComponent?.bankDetailsForm.markAllAsTouched();
     this.commercialProfileComponent?.commercialProfileForm.markAllAsTouched();
     this.technicalProfileComponent?.technicalProfileForm.markAllAsTouched();
-    this.domesticVendorOrgProfileComponent?.vendorOrgForm.markAllAsTouched();
+    this.vendorOrgProfileComponent?.vendorOrgForm.markAllAsTouched();
     this.transportVendorsPersonalDetailsComponent?.transporterVendorsForm.markAllAsTouched();
     this.tankerDetailsComponent?.markTankerDetailFormAsTouched();
   }
@@ -524,11 +524,11 @@ export class RegistrationFormLayoutComponent implements OnInit {
     this.partnersComponent.partnersForm.reset();
     this.annualTurnoverComponent.turnoverForm.reset();
     this.vendorBranchesComponent.VendorBranchForm.reset();
-    this.domesticVendorPersonalInfoComponent.domesticVendorForm.reset();
+    this.vendorPersonalInfoComponent.domesticVendorForm.reset();
     this.bankDetailsComponent.bankDetailsForm.reset();
     this.commercialProfileComponent.commercialProfileForm.reset();
     this.technicalProfileComponent.technicalProfileForm.reset();
-    this.domesticVendorOrgProfileComponent.vendorOrgForm.reset();
+    this.vendorOrgProfileComponent.vendorOrgForm.reset();
     this.transportVendorsPersonalDetailsComponent.transporterVendorsForm.reset();
     this.tankerDetailsComponent.TankerDetailsForm.reset();
   }

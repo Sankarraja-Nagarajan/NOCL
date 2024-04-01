@@ -17,11 +17,11 @@ import { AuthResponse } from "../../../Models/authModel";
 import { RegistrationService } from "../../../Services/registration.service";
 
 @Component({
-  selector: "ngx-domestic-vendor-org-profile",
-  templateUrl: "./domestic-vendor-org-profile.component.html",
-  styleUrls: ["./domestic-vendor-org-profile.component.scss"],
+  selector: "ngx-vendor-org-profile",
+  templateUrl: "./vendor-org-profile.component.html",
+  styleUrls: ["./vendor-org-profile.component.scss"],
 })
-export class DomesticVendorOrgProfileComponent {
+export class VendorOrgProfileComponent {
   @Input() form_Id: number;
   @Input() isReadOnly: boolean;
   @Output() havePartner = new EventEmitter<boolean>();

@@ -29,7 +29,7 @@ export class Sample{
       {
         title: 'Initiation form',
         link: 'onboarding/initiator-form',
-        hidden: this.role == 'Admin',
+        hidden: this.role == 'Admin' || !this.role.toLowerCase().includes(' po'),
         icon: 'file-text',
       },
       {
