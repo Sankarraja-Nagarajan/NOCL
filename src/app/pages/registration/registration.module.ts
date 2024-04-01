@@ -4,7 +4,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { MaterialModule } from '../material/material.module';
 import { AddressComponent } from './address/address.component';
 import { RegistrationFormLayoutComponent } from './registration-form-layout/registration-form-layout.component';
-import { DomesticVendorPersonalInfoComponent } from './domestic-vendor-personal-info/domestic-vendor-personal-info.component';
 import { ContactsComponent } from './contacts/contacts.component';
 import { VendorBranchesComponent } from './vendor-branches/vendor-branches.component';
 import { PartnersComponent } from './partners/partners.component';
@@ -18,10 +17,11 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { DomesticVendorOrgProfileComponent } from './domestic-vendor-org-profile/domestic-vendor-org-profile.component';
 import { TransportVendorsPersonalDetailsComponent } from './transport-vendors-personal-details/transport-vendors-personal-details.component';
 import { TankerDetailsComponent } from './tanker-details/tanker-details.component';
 import { AuthGuard } from '../../Guards/auth.guard';
+import { VendorPersonalInfoComponent } from './vendor-personal-info/vendor-personal-info.component';
+import { VendorOrgProfileComponent } from './vendor-org-profile/vendor-org-profile.component';
 
 
 
@@ -37,8 +37,8 @@ const routes: Routes = [
   declarations: [
     AddressComponent,
     RegistrationFormLayoutComponent,
-    DomesticVendorPersonalInfoComponent,
-    DomesticVendorOrgProfileComponent,
+    VendorPersonalInfoComponent,
+    VendorOrgProfileComponent,
     ContactsComponent,
     VendorBranchesComponent,
     PartnersComponent,

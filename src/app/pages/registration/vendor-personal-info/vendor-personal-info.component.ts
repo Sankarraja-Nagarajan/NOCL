@@ -12,11 +12,11 @@ import { RegistrationService } from "../../../Services/registration.service";
 import { snackbarStatus } from "../../../Enums/snackbar-status";
 
 @Component({
-  selector: "ngx-domestic-vendor-personal-info",
-  templateUrl: "./domestic-vendor-personal-info.component.html",
-  styleUrls: ["./domestic-vendor-personal-info.component.scss"],
+  selector: "ngx-vendor-personal-info",
+  templateUrl: "./vendor-personal-info.component.html",
+  styleUrls: ["./vendor-personal-info.component.scss"],
 })
-export class DomesticVendorPersonalInfoComponent implements OnInit {
+export class VendorPersonalInfoComponent implements OnInit {
   @Input() form_Id: number;
   @Input() isReadOnly: boolean;
   @Input() v_Id: number;
