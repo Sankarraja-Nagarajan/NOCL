@@ -176,10 +176,10 @@ export class Role {
 }
 
 export class NocilRelatedEmployee {
-  Id:number;
-  Form_Id:number;
-  Employee_Name:string;
-  Type_Of_Relation:string;
+  Id: number;
+  Form_Id: number;
+  Employee_Name: string;
+  Type_Of_Relation: string;
 }
 
 export class AttachmentResponse {
@@ -188,4 +188,23 @@ export class AttachmentResponse {
   Extension: string;
   FilePath: string;
   FileContent: any;
+}
+
+export class ReasonDetail {
+  RejectedBy: string;
+  RejectedOn: Date;
+  Reason: string;
+}
+
+export class Reason {
+  IsRejected: boolean;
+  Reasons: ReasonDetail[];
+}
+
+export class VendorMaster {
+  Vendor_Name: string;
+  Vendor_Mail: string;
+  Vendor_Mobile: string;
+  Vendor_Code: string;
+  Vendor_Type: string;
 }

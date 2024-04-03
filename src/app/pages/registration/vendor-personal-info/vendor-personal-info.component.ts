@@ -30,7 +30,7 @@ export class VendorPersonalInfoComponent implements OnInit {
     private _fb: FormBuilder,
     private _commonService: CommonService,
     private _registration: RegistrationService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     //Generate years for Plant Installation Year
@@ -72,7 +72,27 @@ export class VendorPersonalInfoComponent implements OnInit {
       });
   }
 
-  getDetails() {}
+  getDetails() {
+    if (this.domesticVendorForm.value.GSTIN && this.domesticVendorForm.get('GSTIN').valid) {
+      this._registration.getGstDetails(this.domesticVendorForm.value.GSTIN)
+        .subscribe({
+          next: (res) => {
+            if (res && res.status_code == 1) {
+              console.log(res);
+            }
+            if (res && res.status_code == 0) {
+              this._commonService.openSnackbar(res.error, snackbarStatus.Danger);
+            }
+          },
+          error: (err) => {
+            this._commonService.openSnackbar(err, snackbarStatus.Danger);
+          }
+        });
+    }
+    else {
+      this._commonService.openSnackbar('Enter Valid GSTIN Number', snackbarStatus.Danger);
+    }
+  }
 
   //generate years
   generateYears() {
