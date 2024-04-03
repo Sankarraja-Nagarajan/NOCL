@@ -29,6 +29,8 @@ import { TermsAndConditionsDialogComponent } from "../../../Dialogs/attachment-d
 import { AttachmentsComponent } from "../attachments/attachments.component";
 import { RejectReasonDialogComponent } from "../../../Dialogs/reject-reason-dialog/reject-reason-dialog.component";
 import { ServiceForm } from "../../../Models/ServiceForm";
+import { Reason } from "../../../Models/Dtos";
+import { MatTableDataSource } from "@angular/material/table";
 
 @Component({
   selector: "ngx-registration-form-layout",
@@ -65,6 +67,13 @@ export class RegistrationFormLayoutComponent implements OnInit {
   form_status: string;
   isReadOnly: boolean = true;
   loader: boolean = false;
+  rejectedReason:Reason =  new Reason();
+  dataSource = new MatTableDataSource(this.rejectedReason.Reasons);
+  displayedColumns: string[] = [
+    'RejectedBy',
+    'RejectedOn',
+    'Reason'
+  ]
 
   // boolean variables to show or hide child components
   personalData: boolean = false;
@@ -111,6 +120,18 @@ export class RegistrationFormLayoutComponent implements OnInit {
       //
       this.openTermsAndConditionsDialog();
     }
+
+    this._registration.getReasons(this.form_Id).subscribe({
+      next:(res)=>{
+        if(res){
+          this.rejectedReason = res;
+          this.dataSource = new MatTableDataSource(this.rejectedReason.Reasons);
+        }
+      },
+      error:(err)=>{
+        this._commonService.openSnackbar(err,snackbarStatus.Danger);
+      }
+    });
   }
 
   //#region Open terms and Conditions dialog
@@ -155,7 +176,7 @@ export class RegistrationFormLayoutComponent implements OnInit {
   //#region Updating form API call
   updateForm(formSubmitTemplate: FormSubmitTemplate) {
     this.loader = true;
-    this._registration.formSubmit(formSubmitTemplate).subscribe({
+    this._registration.formUpdate(formSubmitTemplate).subscribe({
       next: (res) => {
         console.log(res);
         if (res.Status === 200) {
@@ -186,8 +207,7 @@ export class RegistrationFormLayoutComponent implements OnInit {
     }
   }
 
-  update(event: Event) {
-    event.preventDefault();
+  update() {
     if (this.v_Id === 1) {
       this.domesticAndImportFormSubmit();
     } else if (this.v_Id === 2) {

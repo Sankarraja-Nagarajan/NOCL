@@ -12,6 +12,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { AuthGuard } from '../../Guards/auth.guard';
 import { MaterialModule } from '../material/material.module';
+import { VendorListComponent } from './vendors/vendor-list/vendor-list.component';
 
 const routes: Routes = [
   {
@@ -29,7 +30,8 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     UserComponent,
-    VendorsComponent
+    VendorsComponent,
+    VendorListComponent
   ],
   imports: [
     CommonModule,

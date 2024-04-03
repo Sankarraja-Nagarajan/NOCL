@@ -15,7 +15,7 @@ import { environment } from "../../environments/environment";
 export class RegistrationService {
   baseURL: string = environment.baseURL;
 
-  constructor(private _http: HttpService) {}
+  constructor(private _http: HttpService) { }
 
   // Initiate form
   formInitiate(form: Form): Observable<any> {
@@ -54,8 +54,20 @@ export class RegistrationService {
   }
 
   // Get single Form Data
-  getSingleFormData(formId: number) {
+  getSingleFormData(formId: number): Observable<any> {
     const URL = `${this.baseURL}/Registration/GetSingleFormData?form_Id=${formId}`;
+    return this._http.get(URL);
+  }
+
+  // Get reasons
+  getReasons(formId: number): Observable<any> {
+    const URL = `${this.baseURL}/Registration/GetRejectedReasons?form_Id=${formId}`;
+    return this._http.get(URL);
+  }
+
+  // Get GSTIN Details
+  getGstDetails(gstin:string) :Observable<any>{
+    const URL = `${this.baseURL}/Registration/GetGstDetails?gstin=${gstin}`;
     return this._http.get(URL);
   }
 }
