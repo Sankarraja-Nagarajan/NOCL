@@ -12,7 +12,9 @@
           <div class="row mb-2">
             <div class="col-sm">
               <div>
-                <label class="input-label-text"> Address <span class="asterisk-required">*</span> </label>
+                <label class="input-label-text">
+                  Address <span class="asterisk-required">*</span>
+                </label>
                 <div class="input-group">
                   <textarea
                     nbInput
@@ -111,7 +113,9 @@
             <div class="col-md-6 d-flex">
               <!-- address type -->
               <div class="address-type col-8">
-                <label class="input-label-text"> Select address type <span class="asterisk-required">*</span> </label>
+                <label class="input-label-text">
+                  Select address type <span class="asterisk-required">*</span>
+                </label>
                 <div class="input-group">
                   <nb-select
                     fullWidth
@@ -144,16 +148,30 @@
               <!-- add btn -->
               <div class="col-4 d-flex align-items-end justify-content-center">
                 <button
+                  *ngIf="editIndex == -1"
                   class="btn btn-design center-flexBox"
                   (click)="addAddress()"
                 >
                   <img
-                    src="../../../../assets/images/pngs/plus.png"
+                    src="assets/images/pngs/plus.png"
                     width="16"
                     height="16"
                     class="me-1"
                   />
                   Add
+                </button>
+                <button
+                  *ngIf="editIndex != -1"
+                  class="btn btn-design center-flexBox"
+                  (click)="updateAddress()"
+                >
+                  <img
+                    src="assets/images/pngs/pen-square.png"
+                    width="16"
+                    height="16"
+                    class="me-1"
+                  />
+                  Update
                 </button>
               </div>
               <!-- add btn -->
@@ -227,7 +245,19 @@
                 *matCellDef="let element; let i = index"
                 [hidden]="role != 'Vendor'"
               >
-                <div>
+                <div class="d-flex gap-2">
+                  <button
+                    mat-mini-fab
+                    color="basic"
+                    class="cancel-btn"
+                    (click)="editAddress(i)"
+                  >
+                    <img
+                      src="assets/images/pngs/pencil.png"
+                      height="18"
+                      width="18"
+                    />
+                  </button>
                   <button
                     mat-mini-fab
                     color="basic"
@@ -235,7 +265,7 @@
                     (click)="removeAddress(i)"
                   >
                     <img
-                      src="../../../../assets/images/pngs/xmark.png"
+                      src="assets/images/pngs/trash.png"
                       height="18"
                       width="18"
                     />

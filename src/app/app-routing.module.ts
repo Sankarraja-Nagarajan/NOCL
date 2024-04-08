@@ -27,6 +27,12 @@ export const routes: Routes = [
       // canActivate:[AuthGuard]
   },
   {
+    path: 'profile',
+    loadChildren: () =>
+      import("./Pages/profile/profile.module").then((m) => m.ProfileModule),
+      canActivate:[AuthGuard]
+  },
+  {
     path: "",
     redirectTo: "auth",
     pathMatch: "full"

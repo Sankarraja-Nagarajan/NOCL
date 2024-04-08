@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AppConfigService } from '../../../Services/app-config.service';
+import { AppConfigService } from '../../Services/app-config.service';
 
 @Component({
   selector: 'ngx-terms-and-conditions-dialog',

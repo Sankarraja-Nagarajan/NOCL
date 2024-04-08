@@ -1,0 +1,49 @@
+<div class="document-view-dialog">
+  <div
+    class="col-xl-12 header d-flex justify-content-between align-items-center py-1 top-stick"
+  >
+    <div>
+      <span class="header-text">{{ fileName }}</span>
+    </div>
+    <div class="text-right">
+      <button type="button" class="btn" (click)="downloadFile()">
+        <img src="assets/images/pngs/download.png" alt="" />
+      </button>
+      <button type="button" class="btn" mat-dialog-close>
+        <img src="assets/images/pngs/xmark.png" alt="" />
+      </button>
+    </div>
+  </div>
+
+  <nb-card>
+    <nb-card-body class="pt-0">
+      <div *ngIf="isImage()">
+        <img [src]="attachmentData" />
+      </div>
+      <div *ngIf="isPdf()">
+        <pdf-viewer
+          [src]="attachmentData.changingThisBreaksApplicationSecurity"
+          [original-size]="true"
+          [render-text]="true"
+          [rotation]="0"
+          [fit-to-page]="true"
+          [zoom]="zoom"
+          [zoom-scale]="'page-width'"
+          [autoresize]="true"
+          [show-borders]="false"
+          [show-all]="true"
+          class="pdf-viewer"
+        ></pdf-viewer>
+      </div>
+    </nb-card-body>
+  </nb-card>
+</div>
+
+<div class="loader-point" id="nb-global-spinner" *ngIf="loader">
+  <div
+    class="spinner-grow text-primary"
+    style="width: 4rem; height: 4rem"
+    role="status"
+  ></div>
+  <span class="sr-only">Submitting...</span>
+</div>

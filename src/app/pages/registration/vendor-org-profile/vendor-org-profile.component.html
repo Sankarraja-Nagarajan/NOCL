@@ -99,7 +99,7 @@
               <div class="display-inputs border-bottom" *ngFor="let employee of nocilRelatedEmployees; index as i">
                 <span>{{ employee.Employee_Name }} -
                   {{ employee.Type_Of_Relation }}</span>
-                <img *ngIf="authResponse?.Role == 'Vendor'" src="assets/images/pngs/xmark.png" class="input-x-mark"
+                <img *ngIf="authResponse?.Role == 'Vendor'" src="assets/images/pngs/trash.png" class="input-x-mark"
                   (click)="removeRelatedNocilEmployee(i)" />
               </div>
             </div>
@@ -140,7 +140,7 @@
                 </div>
                 <div class="display-inputs border-bottom" *ngFor="let subsidery of subsideriesList; index as i">
                   <span>{{ subsidery.Subsidery_Name }}</span>
-                  <img *ngIf="authResponse?.Role == 'Vendor'" src="assets/images/pngs/xmark.png" class="input-x-mark"
+                  <img *ngIf="authResponse?.Role == 'Vendor'" src="assets/images/pngs/trash.png" class="input-x-mark"
                     (click)="removeSubsideriesItems(i)" />
                 </div>
               </div>
@@ -172,7 +172,7 @@
                 <div class="display-inputs border-bottom" *ngFor="let customer of listOfMajorCustomerList; index as i">
                   <span>{{ customer.Customer_Name }} -
                     {{ customer.Location }}</span>
-                  <img *ngIf="authResponse?.Role == 'Vendor'" src="assets/images/pngs/xmark.png" class="input-x-mark"
+                  <img *ngIf="authResponse?.Role == 'Vendor'" src="assets/images/pngs/trash.png" class="input-x-mark"
                     (click)="removeMajorCustomerItems(i)" />
                 </div>
               </div>

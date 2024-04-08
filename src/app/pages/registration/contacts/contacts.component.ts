@@ -1,14 +1,14 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { MatTableDataSource } from '@angular/material/table';
-import { Contact } from '../../../Models/Dtos';
-import { CommonService } from '../../../Services/common.service';
-import { LoginService } from '../../../Services/login.service';
-import { ContactType } from '../../../Models/Master';
-import { MasterService } from '../../../Services/master.service';
-import { snackbarStatus } from '../../../Enums/snackbar-status';
-import { forkJoin } from 'rxjs';
-import { RegistrationService } from '../../../Services/registration.service';
+import { Component, Input, OnInit } from "@angular/core";
+import { FormGroup, FormBuilder, Validators } from "@angular/forms";
+import { MatTableDataSource } from "@angular/material/table";
+import { Contact } from "../../../Models/Dtos";
+import { CommonService } from "../../../Services/common.service";
+import { LoginService } from "../../../Services/login.service";
+import { ContactType } from "../../../Models/Master";
+import { MasterService } from "../../../Services/master.service";
+import { snackbarStatus } from "../../../Enums/snackbar-status";
+import { forkJoin } from "rxjs";
+import { RegistrationService } from "../../../Services/registration.service";
 
 @Component({
   selector: "ngx-contacts",
@@ -32,13 +32,14 @@ export class ContactsComponent implements OnInit {
   contactForm: FormGroup;
   contactTypes: ContactType[] = [];
   role: string = "";
+  editIndex: number = -1;
 
   constructor(
     private _fb: FormBuilder,
     private _commonService: CommonService,
     private _master: MasterService,
-    private _registration: RegistrationService) {
-  }
+    private _registration: RegistrationService
+  ) {}
 
   ngOnInit(): void {
     // contact form Initialization
@@ -46,13 +47,22 @@ export class ContactsComponent implements OnInit {
       Contact_Type_Id: ["", [Validators.required]],
       Name: ["", [Validators.required]],
       Designation: [""],
-      Email_Id: ["", [Validators.required,
-      Validators.pattern("^[a-z][a-z0-9._-]+@[a-z]+\\.[a-z]{2,3}$")]],
-      Phone_Number: ["", [Validators.maxLength(11),
-      Validators.minLength(11)]],
-      Mobile_Number: ["", [Validators.required,
-      Validators.maxLength(10),
-      Validators.minLength(10)]],
+      Email_Id: [
+        "",
+        [
+          Validators.required,
+          Validators.pattern("^[a-z][a-z0-9._-]+@[a-z]+\\.[a-z]{2,3}$"),
+        ],
+      ],
+      Phone_Number: ["", [Validators.maxLength(11), Validators.minLength(11)]],
+      Mobile_Number: [
+        "",
+        [
+          Validators.required,
+          Validators.maxLength(10),
+          Validators.minLength(10),
+        ],
+      ],
     });
 
     // get contact types and contacts data by form id
@@ -77,10 +87,28 @@ export class ContactsComponent implements OnInit {
     }
   }
 
+  // Update contact to the table
+  updateContact() {
+    if (this.editIndex >= 0) {
+      let id = this.dataSource.data[this.editIndex].Contact_Id;
+      this.dataSource.data[this.editIndex] = this.contactForm.value;
+      this.dataSource.data[this.editIndex].Contact_Id = id;
+      this.dataSource._updateChangeSubscription();
+      this.contactForm.reset();
+      this.editIndex = -1;
+    }
+  }
+
   // Remove contact from table
   removeContact(i: number) {
     this.dataSource.data.splice(i, 1);
     this.dataSource._updateChangeSubscription();
+  }
+
+  // Edit Contact from table
+  editContact(i: number) {
+    this.contactForm.patchValue(this.dataSource.data[i]);
+    this.editIndex = i;
   }
 
   // Make sure the contacts array has at least one value
@@ -88,7 +116,7 @@ export class ContactsComponent implements OnInit {
     if (this.dataSource.data.length > 0) {
       return true;
     } else {
-      console.log('contacts');
+      console.log("contacts");
       this.contactForm.markAllAsTouched();
       this._commonService.openRequiredFieldsSnackbar();
       return false;
@@ -115,7 +143,7 @@ export class ContactsComponent implements OnInit {
   getMasterData() {
     forkJoin([
       this._master.getContactTypes(),
-      this._registration.getFormData(this.form_Id, 'Contacts')
+      this._registration.getFormData(this.form_Id, "Contacts"),
     ]).subscribe({
       next: (res) => {
         if (res[0]) {
@@ -128,12 +156,12 @@ export class ContactsComponent implements OnInit {
       },
       error: (err) => {
         this._commonService.openSnackbar(err, snackbarStatus.Danger);
-      }
+      },
     });
   }
 
-  markContactFormAsTouched(){
-    if(this.dataSource.data.length == 0){
+  markContactFormAsTouched() {
+    if (this.dataSource.data.length == 0) {
       this.contactForm.markAllAsTouched();
     }
   }

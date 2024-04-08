@@ -40,10 +40,10 @@ export class UserComponent implements OnInit {
     });
 
     this._master.getRoles().subscribe({
-      next:(res)=>{
+      next: (res) => {
         this.roles = res as Role[];
         this.getUsers();
-      }
+      },
     });
   }
 
@@ -71,8 +71,10 @@ export class UserComponent implements OnInit {
 
   // filter user
   filterUser(filterValue: string) {
-    this.filteredUsers = this.users.filter((user) =>
-      user.Display_Name.toLowerCase().includes(filterValue.toLowerCase())
+    this.filteredUsers = this.users.filter(
+      (user) =>
+        user.Display_Name.toLowerCase().includes(filterValue.toLowerCase()) ||
+        user.Employee_Id.toLowerCase().includes(filterValue.toLowerCase())
     );
   }
 

@@ -25,12 +25,12 @@ import {
 } from "../../../Models/Registration";
 import { AuthResponse } from "../../../Models/authModel";
 import { MatDialog } from "@angular/material/dialog";
-import { TermsAndConditionsDialogComponent } from "../../../Dialogs/attachment-dialog/terms-and-conditions-dialog/terms-and-conditions-dialog.component";
 import { AttachmentsComponent } from "../attachments/attachments.component";
 import { RejectReasonDialogComponent } from "../../../Dialogs/reject-reason-dialog/reject-reason-dialog.component";
 import { ServiceForm } from "../../../Models/ServiceForm";
 import { Reason } from "../../../Models/Dtos";
 import { MatTableDataSource } from "@angular/material/table";
+import { TermsAndConditionsDialogComponent } from "../../../Dialogs/terms-and-conditions-dialog/terms-and-conditions-dialog.component";
 
 @Component({
   selector: "ngx-registration-form-layout",

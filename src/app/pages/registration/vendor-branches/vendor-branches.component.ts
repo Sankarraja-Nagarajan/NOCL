@@ -36,6 +36,7 @@ export class VendorBranchesComponent implements OnInit {
   VendorBranchForm: FormGroup;
   role: any;
   haveVendorBranch: boolean = true;
+  editIndex: number = -1;
 
   constructor(
     private _fb: FormBuilder,
@@ -93,6 +94,25 @@ export class VendorBranchesComponent implements OnInit {
   removeVendorBranch(i: number) {
     this.dataSource.data.splice(i, 1);
     this.dataSource._updateChangeSubscription();
+  }
+
+  
+  // Update Vendor branch to the table
+  updateVendorBranch() {
+    if (this.editIndex >= 0) {
+      let id = this.dataSource.data[this.editIndex].Branch_Id;
+      this.dataSource.data[this.editIndex]=this.VendorBranchForm.value;
+      this.dataSource.data[this.editIndex].Branch_Id = id;
+      this.dataSource._updateChangeSubscription();
+      this.VendorBranchForm.reset();
+      this.editIndex = -1;
+    }
+  }
+  
+  // Edit Vendor branch from table
+  editVendorBranch(i: number) {
+    this.VendorBranchForm.patchValue(this.dataSource.data[i]);
+    this.editIndex = i;
   }
 
   // Make sure the vendorBranches array has at least one value

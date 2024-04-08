@@ -8,7 +8,6 @@ import { AttachmentResponse } from "../Models/Dtos";
 })
 export class FileSaverService {
   FileName: string;
-  AttachmentData: any;
   FILE: any;
 
   constructor(private sanitizer: DomSanitizer) {}
@@ -53,6 +52,26 @@ export class FileSaverService {
     return new Blob([IA], { type: MIMESTRING });
   }
 
+  dataURItoUnit8Array(dataURI: string) {
+    // convert base64/URLEncoded data component to raw binary data held in a string
+    let byteString;
+    if (dataURI.split(",")[0].indexOf("base64") >= 0) {
+      byteString = atob(dataURI.split(",")[1]);
+    } else {
+      byteString = unescape(dataURI.split(",")[1]);
+    }
+
+    // separate out the mime component
+    const MIMESTRING = dataURI.split(",")[0].split(":")[1].split(";")[0];
+    // write the bytes of the string to a typed array
+    const IA = new Uint8Array(byteString.length);
+    for (let i = 0; i < byteString.length; i++) {
+      IA[i] = byteString.charCodeAt(i);
+    }
+
+    return IA.buffer;
+  }
+
   async downloadFile(res: AttachmentResponse): Promise<void> {
     await this.getAttachmentData(res);
     saveAs(this.FILE, this.FileName);
@@ -68,8 +87,6 @@ export class FileSaverService {
     const BLOB = this.dataURItoBlob(BASE64);
     this.FILE = new File([BLOB], res.FileName);
     const fileURL = URL.createObjectURL(this.FILE);
-    this.AttachmentData =
-      this.sanitizer.bypassSecurityTrustResourceUrl(fileURL);
-    return this.AttachmentData;
+    return this.sanitizer.bypassSecurityTrustResourceUrl(fileURL);
   }
 }

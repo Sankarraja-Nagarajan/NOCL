@@ -23,4 +23,12 @@ export class AttachmentService {
     const URL = `${this.baseURL}/Attachments/GetAttachmentById?attachmentId=${docId}`;
     return this._http.get(URL);
   }
+
+  DeleteAttachment(docId:number):Observable<any>{
+    if (docId == null || docId == undefined) {
+      docId = 0;
+    }
+    const URL = `${this.baseURL}/Attachments/DeleteAttachmentById?id=${docId}`;
+    return this._http.post(URL,null);
+  }
 }
