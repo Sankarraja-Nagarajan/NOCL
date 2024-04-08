@@ -1,6 +1,6 @@
 import { Component, Input } from "@angular/core";
 import { FormGroup } from "@angular/forms";
-import { MatDialog } from "@angular/material/dialog";
+import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { MatTableDataSource } from "@angular/material/table";
 import { AttachmentDialogComponent } from "../../../Dialogs/attachment-dialog/attachment-dialog.component";
 import { Attachment } from "../../../Models/Dtos";
@@ -32,6 +32,7 @@ export class AttachmentsComponent {
   attachments: Attachment[] = [];
 
   dataSource = new MatTableDataSource(this.attachments);
+  loader: boolean;
 
   constructor(
     public _dialog: MatDialog,
@@ -80,36 +81,92 @@ export class AttachmentsComponent {
       },
     });
   }
+
   removeAttachment(i: number) {
-    this.dataSource.data.splice(i, 1);
-    this.dataSource._updateChangeSubscription();
+    this.loader = true;
+    this._docService
+      .DeleteAttachment(this.dataSource.data[i].Attachment_Id)
+      .subscribe({
+        next: (res) => {
+          this.dataSource.data.splice(i, 1);
+          this.dataSource._updateChangeSubscription();
+          this.loader = false;
+          this._common.openSnackbar(res.Message, snackbarStatus.Success);
+        },
+        error: (err) => {
+          this.loader = false;
+          this._common.openSnackbar(err, snackbarStatus.Danger);
+        },
+      });
   }
 
   isValid() {
     if (this.dataSource.data.length > 0) {
       return true;
     } else {
-      console.log('attachments');
-      this._common.openSnackbar('Attach necessary files', snackbarStatus.Danger);
+      console.log("attachments");
+      this._common.openSnackbar(
+        "Attach necessary files",
+        snackbarStatus.Danger
+      );
       return false;
     }
   }
 
   openViewDocDialog(attachment: Attachment) {
-    this._docService.getFileById(attachment.Attachment_Id).subscribe({
-      next: async (res) => {
-        await this._fileSaver.downloadFile(res);
+    const dialogconfig: MatDialogConfig = {
+      data: {
+        attachment: attachment,
       },
-      error:(err)=>{
-        
-      }
-    });
+      panelClass: "dialog-box-document",
+      autoFocus: false,
+    };
+
+    if (
+      this.isImage(attachment.File_Name) ||
+      this.isPdf(attachment.File_Name)
+    ) {
+      const dialogRef = this._dialog.open(
+        DocumentViewDialogComponent,
+        dialogconfig
+      );
+    } else {
+      this.loader = true;
+      this._docService.getFileById(attachment.Attachment_Id).subscribe({
+        next: async (res) => {
+          this.loader = false;
+          await this._fileSaver.downloadFile(res);
+        },
+        error: (err) => {
+          this.loader = false;
+        },
+      });
+    }
+  }
+
+  isImage(fileName) {
+    let arr = fileName.split(".");
+    let ext = arr[arr.length - 1].toLowerCase();
+    return (
+      ext == "png" ||
+      ext == "jpg" ||
+      ext == "jpeg" ||
+      ext == "tiff" ||
+      ext == "svg"
+    );
+  }
+
+  isPdf(fileName) {
+    let arr = fileName.split(".");
+    let ext = arr[arr.length - 1].toLowerCase();
+    return ext == "pdf";
   }
 
   isISOAttached() {
-    let isoDoc = this.dataSource.data.find(x => x.File_Type?.toLowerCase().includes('iso'));
-    if (isoDoc)
-      return true;
+    let isoDoc = this.dataSource.data.find((x) =>
+      x.File_Type?.toLowerCase().includes("iso")
+    );
+    if (isoDoc) return true;
     else {
       this._common.openSnackbar(
         "Attach ISO Certificate",
@@ -130,7 +187,9 @@ export class AttachmentsComponent {
         "No permanent establishment certificate",
       ];
       requiredDocs.forEach((element) => {
-        let isoDoc = this.dataSource.data.find(x => x.File_Type?.toLowerCase().includes(element.toLowerCase()));
+        let isoDoc = this.dataSource.data.find((x) =>
+          x.File_Type?.toLowerCase().includes(element.toLowerCase())
+        );
         if (!isoDoc) {
           cnt++;
           message += `\n\t${cnt}. ${element}`;

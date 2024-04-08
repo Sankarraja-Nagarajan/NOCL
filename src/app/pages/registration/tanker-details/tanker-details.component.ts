@@ -23,6 +23,7 @@ export class TankerDetailsComponent implements OnInit {
   TankerDetailsForm: FormGroup;
   role: any;
   typeOfTankers: TankerType[] = [];
+  editIndex: number = -1;
 
   constructor(
     private _fb: FormBuilder,
@@ -74,6 +75,25 @@ export class TankerDetailsComponent implements OnInit {
   removeTanker(i) {
     this.dataSource.data.splice(i, 1);
     this.dataSource._updateChangeSubscription();
+  }
+
+  
+  // Update Tanker to the table
+  updateAddress() {
+    if (this.editIndex >= 0) {
+      let id = this.dataSource.data[this.editIndex].Id;
+      this.dataSource.data[this.editIndex]=this.TankerDetailsForm.value;
+      this.dataSource.data[this.editIndex].Id = id;
+      this.dataSource._updateChangeSubscription();
+      this.TankerDetailsForm.reset();
+      this.editIndex = -1;
+    }
+  }
+  
+  // Edit Tanker from table
+  editAddress(i: number) {
+    this.TankerDetailsForm.patchValue(this.dataSource.data[i]);
+    this.editIndex = i;
   }
 
   // validations

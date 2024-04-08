@@ -1,0 +1,12 @@
+.profile-layout {
+  height: calc(100vh - 150px);
+  background-color: white;
+
+  .common-data {
+    padding: 15px;
+  }
+
+  .tab-title {
+    white-space: nowrap;
+  }
+}

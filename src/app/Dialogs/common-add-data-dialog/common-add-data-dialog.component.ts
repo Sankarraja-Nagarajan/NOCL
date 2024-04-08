@@ -1,15 +1,15 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MajorCustomer, NocilRelatedEmployee } from '../../../Models/Dtos';
-import { CommonService } from '../../../Services/common.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MajorCustomer, NocilRelatedEmployee } from '../../Models/Dtos';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { CommonService } from '../../Services/common.service';
 
 @Component({
-  selector: 'ngx-add-major-customer-dialog',
-  templateUrl: './add-major-customer-dialog.component.html',
-  styleUrls: ['./add-major-customer-dialog.component.scss']
+  selector: 'ngx-common-add-data-dialog',
+  templateUrl: './common-add-data-dialog.component.html',
+  styleUrls: ['./common-add-data-dialog.component.scss']
 })
-export class AddMajorCustomerDialogComponent implements OnInit {
+export class CommonAddDataDialogComponent implements OnInit{
 
   majorCustomerForm: FormGroup;
   majorCustomers: MajorCustomer[] = [];
@@ -18,12 +18,13 @@ export class AddMajorCustomerDialogComponent implements OnInit {
   headingTag:string;
   form_Id: number;
 
+
   constructor(private _common: CommonService,
     private _fb: FormBuilder,
-    public _dialogRef: MatDialogRef<AddMajorCustomerDialogComponent>,
+    public _dialogRef: MatDialogRef<CommonAddDataDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,) {
   }
-
+  
   ngOnInit(): void {
     if (this.data.type == 'Major Customer') {
       // major Customer Form initialization

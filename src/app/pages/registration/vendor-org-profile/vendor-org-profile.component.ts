@@ -7,7 +7,6 @@ import {
   VendorOrganizationProfile,
 } from "../../../Models/Dtos";
 import { MatDialog } from "@angular/material/dialog";
-import { AddMajorCustomerDialogComponent } from "../../../Dialogs/attachment-dialog/add-major-customer-dialog/add-major-customer-dialog.component";
 import { CompanyStatus, OrganizationType } from "../../../Models/Master";
 import { MasterService } from "../../../Services/master.service";
 import { CommonService } from "../../../Services/common.service";
@@ -15,6 +14,7 @@ import { snackbarStatus } from "../../../Enums/snackbar-status";
 import { forkJoin } from "rxjs";
 import { AuthResponse } from "../../../Models/authModel";
 import { RegistrationService } from "../../../Services/registration.service";
+import { CommonAddDataDialogComponent } from "../../../Dialogs/common-add-data-dialog/common-add-data-dialog.component";
 
 @Component({
   selector: "ngx-vendor-org-profile",
@@ -183,7 +183,7 @@ export class VendorOrgProfileComponent {
   }
 
   addMajorCustomer() {
-    const dialogRef = this._dialog.open(AddMajorCustomerDialogComponent, {
+    const dialogRef = this._dialog.open(CommonAddDataDialogComponent, {
       autoFocus: false,
       disableClose: true,
       data: {
@@ -205,7 +205,7 @@ export class VendorOrgProfileComponent {
   }
 
   addNocilRelatedEmployee() {
-    const dialogRef = this._dialog.open(AddMajorCustomerDialogComponent, {
+    const dialogRef = this._dialog.open(CommonAddDataDialogComponent, {
       autoFocus: false,
       disableClose: true,
       data: {

@@ -7,8 +7,8 @@ import { AddressType } from "../../../Models/Master";
 import { MasterService } from "../../../Services/master.service";
 import { snackbarStatus } from "../../../Enums/snackbar-status";
 import { AuthResponse } from "../../../Models/authModel";
-import { RegistrationService } from '../../../Services/registration.service';
-import { forkJoin } from 'rxjs';
+import { RegistrationService } from "../../../Services/registration.service";
+import { forkJoin } from "rxjs";
 
 @Component({
   selector: "ngx-address",
@@ -16,7 +16,6 @@ import { forkJoin } from 'rxjs';
   styleUrls: ["./address.component.scss"],
 })
 export class AddressComponent implements OnInit {
-
   @Input() form_Id: number;
   addresses: Address[] = [];
   role: string = "";
@@ -31,14 +30,14 @@ export class AddressComponent implements OnInit {
   ];
   addressForm: FormGroup;
   addressTypes: AddressType[] = [];
+  editIndex: number = -1;
 
   constructor(
     private _fb: FormBuilder,
     private _commonService: CommonService,
     private _master: MasterService,
-    private _registration: RegistrationService) {
-
-  }
+    private _registration: RegistrationService
+  ) {}
 
   ngOnInit(): void {
     // address form Initialization
@@ -53,12 +52,12 @@ export class AddressComponent implements OnInit {
     // get address types and addresses by form Id
     this.getMasterData();
     const userData = JSON.parse(sessionStorage.getItem("userDetails"));
-    this.role = userData ? userData.Role : '';
+    this.role = userData ? userData.Role : "";
   }
 
   // Allow (numbers, plus, and space) for Tel & Fax
   keyPressValidation(event) {
-    return this._commonService.KeyPressValidation(event, 'tel')
+    return this._commonService.KeyPressValidation(event, "tel");
   }
 
   // Add address to the table
@@ -78,13 +77,30 @@ export class AddressComponent implements OnInit {
     this.dataSource._updateChangeSubscription();
   }
 
+  // Update address to the table
+  updateAddress() {
+    if (this.editIndex >= 0) {
+      let id = this.dataSource.data[this.editIndex].Address_Id;
+      this.dataSource.data[this.editIndex]=this.addressForm.value;
+      this.dataSource.data[this.editIndex].Address_Id = id;
+      this.dataSource._updateChangeSubscription();
+      this.addressForm.reset();
+      this.editIndex = -1;
+    }
+  }
+  
+  // Edit Address from table
+  editAddress(i: number) {
+    this.addressForm.patchValue(this.dataSource.data[i]);
+    this.editIndex = i;
+  }
+
   // Make sure the addresses array has at least one value
   isValid() {
     if (this.dataSource.data.length > 0) {
       return true;
-    }
-    else {
-      console.log('address');
+    } else {
+      console.log("address");
       this.addressForm.markAllAsTouched();
       this._commonService.openRequiredFieldsSnackbar();
       return false;
@@ -111,7 +127,7 @@ export class AddressComponent implements OnInit {
   getMasterData() {
     forkJoin([
       this._master.getAddressTypes(),
-      this._registration.getFormData(this.form_Id, 'Addresses')
+      this._registration.getFormData(this.form_Id, "Addresses"),
     ]).subscribe({
       next: (res) => {
         if (res[0]) {
@@ -124,12 +140,12 @@ export class AddressComponent implements OnInit {
       },
       error: (err) => {
         this._commonService.openSnackbar(err, snackbarStatus.Danger);
-      }
+      },
     });
   }
 
-  markAddressFormAsTouched(){
-    if(this.dataSource.data.length == 0){
+  markAddressFormAsTouched() {
+    if (this.dataSource.data.length == 0) {
       this.addressForm.markAllAsTouched();
     }
   }

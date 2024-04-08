@@ -1,0 +1,39 @@
+<section class="d-flex flex-wrap address-profile w-100 pt-5 gap-4">
+  <div *ngFor="let address of addresses" class="address-container">
+    <div class="center-flexBox py-2">
+      <span>{{ getAddressTypeById(address.Address_Type_Id) }}</span>
+    </div>
+    <div class="d-flex gap-2">
+      <div class="center-flexBox">
+        <img src="assets/images/pngs/map-pin.png" alt="" />
+      </div>
+      <div>
+        <span>{{ address.AddressData }}</span>
+      </div>
+    </div>
+    <div class="d-flex gap-2">
+      <div class="center-flexBox">
+        <img src="assets/images/pngs/phone-office.png" alt="" />
+      </div>
+      <div>
+        <span>{{ address.Tel }}</span>
+      </div>
+    </div>
+    <div class="d-flex gap-2">
+      <div class="center-flexBox">
+        <img src="assets/images/pngs/fax.png" alt="" />
+      </div>
+      <div>
+        <span>{{ address.Fax }}</span>
+      </div>
+    </div>
+    <div class="d-flex gap-2">
+      <div class="center-flexBox">
+        <img src="assets/images/pngs/globe.png" alt="" />
+      </div>
+      <div>
+        <span>{{ address.Website }}</span>
+      </div>
+    </div>
+  </div>
+</section>
