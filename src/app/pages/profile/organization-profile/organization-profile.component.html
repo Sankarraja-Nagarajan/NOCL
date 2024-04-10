@@ -1,0 +1,99 @@
+<section class="organization-profile pt-5 ps-4">
+    <div class="p-3 mb-5 shadow rounded">
+        <div class="d-flex flex-wrap justify-content-around">
+            <div>
+                <label class="input-label-text"> Type of Organization : </label>
+                <span class="detail-type"> {{ getOrgTypeById(orgProfile.Type_of_Org_Id )}} </span>
+            </div>
+            <div>
+                <label class="input-label-text"> Status of Company : </label>
+                <span class="detail-type"> {{ getCompanySttausById(orgProfile.Status_of_Company_Id )}} </span>
+            </div>
+        </div>
+
+        <div>
+            <nb-accordion>
+                <nb-accordion-item>
+                    <nb-accordion-item-header>
+                        Subsideries
+                    </nb-accordion-item-header>
+                    <nb-accordion-item-body>
+                        <div>
+                            <ol *ngIf="subsideriesList.length > 0">
+                                <li *ngFor="let s of subsideriesList" class="detail-type"> {{s.Subsidery_Name}} </li>
+                            </ol>
+                            <span *ngIf="subsideriesList.length == 0" class="detail-type"> No Subideries were found.
+                            </span>
+                        </div>
+                    </nb-accordion-item-body>
+                </nb-accordion-item>
+
+                <nb-accordion-item>
+                    <nb-accordion-item-header>
+                        Major Customers
+                    </nb-accordion-item-header>
+                    <nb-accordion-item-body>
+                        <span *ngIf="listOfMajorCustomerList.length == 0" class="detail-type"> No Major Customers were
+                            found. </span>
+
+                        <div class="row gap-2">
+                            <div *ngFor="let customer of listOfMajorCustomerList"
+                                class="detail-container p-4 shadow  col-sm col-md-4 col-lg-3">
+                                <div class="d-flex">
+                                    <div class="center-flexBox">
+                                        <img src="assets/images/pngs/map-pin.png" alt="" />
+                                    </div>
+                                    <div class="center-flexBox">
+                                        <span class="customer-detail ms-2">{{ customer.Customer_Name }}</span>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex">
+                                    <div class="center-flexBox">
+                                        <img src="assets/images/pngs/map-pin.png" alt="" />
+                                    </div>
+                                    <div class="center-flexBox">
+                                        <span class="customer-detail ms-2">{{ customer.Location }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </nb-accordion-item-body>
+                </nb-accordion-item>
+
+                <nb-accordion-item>
+                    <nb-accordion-item-header>
+                        NOCIL Related Employees
+                    </nb-accordion-item-header>
+                    <nb-accordion-item-body>
+                        <span *ngIf="nocilRelatedEmployees.length == 0" class="detail-type"> No NOCIL related Employee
+                            found. </span>
+
+                        <div class="row gap-2">
+                            <div *ngFor="let emp of nocilRelatedEmployees"
+                                class="detail-container p-4 shadow  col-sm col-md-4 col-lg-3">
+                                <div class="d-flex">
+                                    <div class="center-flexBox">
+                                        <img src="assets/images/pngs/map-pin.png" alt="" />
+                                    </div>
+                                    <div class="center-flexBox">
+                                        <span class="customer-detail ms-2">{{ emp.Employee_Name }}</span>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex">
+                                    <div class="center-flexBox">
+                                        <img src="assets/images/pngs/map-pin.png" alt="" />
+                                    </div>
+                                    <div class="center-flexBox">
+                                        <span class="customer-detail ms-2">{{ emp.Type_Of_Relation }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </nb-accordion-item-body>
+                </nb-accordion-item>
+            </nb-accordion>
+        </div>
+    </div>
+</section>

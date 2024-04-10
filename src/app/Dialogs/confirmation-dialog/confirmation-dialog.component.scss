@@ -1,0 +1,12 @@
+.screenConfirmationDialog{
+    .header{
+        background-color: var(--vp-bluish-violet);
+        h3{
+            color: var(--vp-white) !important;
+        }
+    }
+    .message{
+        font-size: var(--vp-fs-14);
+        text-align: center;
+    }
+}

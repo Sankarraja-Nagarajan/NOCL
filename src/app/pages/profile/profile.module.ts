@@ -6,6 +6,12 @@ import { AuthGuard } from "../../Guards/auth.guard";
 import { MaterialModule } from "../material/material.module";
 import { AddressProfileComponent } from './address-profile/address-profile.component';
 import { ContactProfileComponent } from './contact-profile/contact-profile.component';
+import { TechnicalDetailComponent } from './technical-detail/technical-detail.component';
+import { CommercialDetailComponent } from './commercial-detail/commercial-detail.component';
+import { BankInfoComponent } from './bank-info/bank-info.component';
+import { BranchInfoComponent } from './branch-info/branch-info.component';
+import { AnnualTurnoverDetailComponent } from './annual-turnover-detail/annual-turnover-detail.component';
+import { OrganizationProfileComponent } from './organization-profile/organization-profile.component';
 
 const routes: Routes = [
   {
@@ -16,7 +22,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [ProfileLayoutComponent, AddressProfileComponent, ContactProfileComponent],
+  declarations: [ProfileLayoutComponent, AddressProfileComponent, ContactProfileComponent, TechnicalDetailComponent, CommercialDetailComponent, BankInfoComponent, BranchInfoComponent, AnnualTurnoverDetailComponent, OrganizationProfileComponent],
   imports: [CommonModule, MaterialModule, RouterModule.forChild(routes)],
 })
 export class ProfileModule {}

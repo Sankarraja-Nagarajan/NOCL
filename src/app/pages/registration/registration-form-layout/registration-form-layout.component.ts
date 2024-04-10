@@ -1,20 +1,6 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { AddressComponent } from "../address/address.component";
 import { DomesticAndImportForm } from "../../../Models/DomesticAndImportForm";
-import { ContactsComponent } from "../contacts/contacts.component";
-import { PartnersComponent } from "../partners/partners.component";
-import { AnnualTurnoverComponent } from "../annual-turnover/annual-turnover.component";
-import { VendorBranchesComponent } from "../vendor-branches/vendor-branches.component";
-import { VendorPersonalInfoComponent } from "../vendor-personal-info/vendor-personal-info.component";
-import { BankDetailsComponent } from "../bank-details/bank-details.component";
-import { CommercialProfileComponent } from "../commercial-profile/commercial-profile.component";
-import { TechnicalProfileComponent } from "../technical-profile/technical-profile.component";
-import { VendorOrgProfileComponent } from "../vendor-org-profile/vendor-org-profile.component";
-import { CommonService } from "../../../Services/common.service";
-import { snackbarStatus } from "../../../Enums/snackbar-status";
-import { TransportForm } from "../../../Models/TransportForm";
-import { TransportVendorsPersonalDetailsComponent } from "../transport-vendors-personal-details/transport-vendors-personal-details.component";
-import { TankerDetailsComponent } from "../tanker-details/tanker-details.component";
 import { ActivatedRoute, Router } from "@angular/router";
 import { first } from "rxjs/operators";
 import { RegistrationService } from "../../../Services/registration.service";
@@ -25,12 +11,26 @@ import {
 } from "../../../Models/Registration";
 import { AuthResponse } from "../../../Models/authModel";
 import { MatDialog } from "@angular/material/dialog";
-import { AttachmentsComponent } from "../attachments/attachments.component";
 import { RejectReasonDialogComponent } from "../../../Dialogs/reject-reason-dialog/reject-reason-dialog.component";
 import { ServiceForm } from "../../../Models/ServiceForm";
-import { Reason } from "../../../Models/Dtos";
+import { GstDetail, Reason } from "../../../Models/Dtos";
 import { MatTableDataSource } from "@angular/material/table";
 import { TermsAndConditionsDialogComponent } from "../../../Dialogs/terms-and-conditions-dialog/terms-and-conditions-dialog.component";
+import { snackbarStatus } from "../../../Enums/snackbar-status";
+import { TransportForm } from "../../../Models/TransportForm";
+import { CommonService } from "../../../Services/common.service";
+import { AnnualTurnoverComponent } from "../annual-turnover/annual-turnover.component";
+import { AttachmentsComponent } from "../attachments/attachments.component";
+import { BankDetailsComponent } from "../bank-details/bank-details.component";
+import { CommercialProfileComponent } from "../commercial-profile/commercial-profile.component";
+import { ContactsComponent } from "../contacts/contacts.component";
+import { PartnersComponent } from "../partners/partners.component";
+import { TankerDetailsComponent } from "../tanker-details/tanker-details.component";
+import { TechnicalProfileComponent } from "../technical-profile/technical-profile.component";
+import { TransportVendorsPersonalDetailsComponent } from "../transport-vendors-personal-details/transport-vendors-personal-details.component";
+import { VendorBranchesComponent } from "../vendor-branches/vendor-branches.component";
+import { VendorOrgProfileComponent } from "../vendor-org-profile/vendor-org-profile.component";
+import { VendorPersonalInfoComponent } from "../vendor-personal-info/vendor-personal-info.component";
 
 @Component({
   selector: "ngx-registration-form-layout",
@@ -89,6 +89,7 @@ export class RegistrationFormLayoutComponent implements OnInit {
   bankDetails: boolean = false;
   commercialProfile: boolean = false;
   vendorBranches: boolean = false;
+  gstDetail:GstDetail;
 
   constructor(
     private _commonService: CommonService,
@@ -551,5 +552,9 @@ export class RegistrationFormLayoutComponent implements OnInit {
     this.vendorOrgProfileComponent.vendorOrgForm.reset();
     this.transportVendorsPersonalDetailsComponent.transporterVendorsForm.reset();
     this.tankerDetailsComponent.TankerDetailsForm.reset();
+  }
+
+  getGstDetail(event){
+    this.gstDetail = event;
   }
 }
