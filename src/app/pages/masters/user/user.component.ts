@@ -7,6 +7,7 @@ import { Role, User } from "../../../Models/Dtos";
 import { MasterService } from "../../../Services/master.service";
 import { forkJoin } from "rxjs";
 import { subscribe } from "diagnostics_channel";
+import { error } from "console";
 
 @Component({
   selector: "ngx-user",
@@ -19,6 +20,7 @@ export class UserComponent implements OnInit {
   roles: Role[] = [];
   selectedItem: User;
   filteredUsers: User[] = [];
+  loader: boolean = false;
 
   constructor(
     private _fb: FormBuilder,
@@ -39,11 +41,15 @@ export class UserComponent implements OnInit {
       IsActive: [true],
     });
 
+    this.loader = true;
     this._master.getRoles().subscribe({
       next: (res) => {
         this.roles = res as Role[];
         this.getUsers();
       },
+      error:(err)=>{
+        this.loader = false;
+      }
     });
   }
 
@@ -99,9 +105,11 @@ export class UserComponent implements OnInit {
         if (res) {
           this.users = res as User[];
           this.filteredUsers = this.users;
+          this.loader = false;
         }
       },
       error: (err) => {
+        this.loader = false;
         this._common.openSnackbar(err, snackbarStatus.Danger);
       },
     });

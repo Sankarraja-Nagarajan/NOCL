@@ -1,12 +1,15 @@
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpHeaders,
+} from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { Observable, throwError } from "rxjs";
+import { catchError } from "rxjs/operators";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
-
 export class HttpService {
   constructor(private _httpClient: HttpClient) {}
 
@@ -59,6 +62,15 @@ export class HttpService {
   postFile(URL: string, formData: FormData) {
     return this._httpClient
       .post<any>(URL, formData)
+      .pipe(catchError(this.errorHandler));
+  }
+
+  getFile(URL: string) {
+    return this._httpClient
+      .get<Blob>(URL, {
+        observe: "response",
+        responseType: "blob" as "json",
+      })
       .pipe(catchError(this.errorHandler));
   }
 }

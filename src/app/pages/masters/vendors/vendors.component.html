@@ -1,28 +1,36 @@
 <div class="main">
-    <div class="row">
-        <div class="table-searchbar d-flex ailgn-items-center">
-            <div class="d-flex justify-content-center align-items-center">
-                <span class="title">
-                    Vendor Masters
-                </span>
-            </div>
-            <div class="searchbar">
-                <input nbInput fullWidth placeholder="Search by Code or Name" class="rounded-3 bg-white"/>
-            </div>
-        </div>
-        <nb-tabset fullWidth (changeTab)="onTabChange($event)">
-            <nb-tab tabTitle="ISO Vendors">
-                
-            </nb-tab>
-            <nb-tab tabTitle="Non-ISO Vendors">
-                
-            </nb-tab>
-            <nb-tab tabTitle="Transport Vendors">
-                
-            </nb-tab>
-          </nb-tabset>
-          <div class="row">
-            <ngx-vendor-list [vendorType]="vendorType"></ngx-vendor-list>
-          </div>
+  <div class="row">
+    <div class="table-searchbar d-flex ailgn-items-center">
+      <div class="d-flex justify-content-center align-items-center">
+        <span class="title"> Vendor Masters </span>
+      </div>
+      <div class="searchbar">
+        <input
+          #search
+          nbInput
+          fullWidth
+          placeholder="Search by Code or Name"
+          class="rounded-3 bg-white"
+          (keyup)="filterVendor(search.value)"
+        />
+      </div>
+      <div>
+        <button class="btn btn-download" (click)="downloadVendorsReport()">
+          <img src="assets/images/svgs/Exel.svg" alt="Excel icon" />
+          Download
+        </button>
+      </div>
     </div>
+    <nb-tabset fullWidth (changeTab)="onTabChange($event)">
+      <nb-tab tabTitle="ISO Vendors"> </nb-tab>
+      <nb-tab tabTitle="Non-ISO Vendors"> </nb-tab>
+      <nb-tab tabTitle="Transport Vendors"> </nb-tab>
+    </nb-tabset>
+    <div class="row">
+      <ngx-vendor-list
+        [vendorType]="vendorType"
+        [searchText]="searchText"
+      ></ngx-vendor-list>
+    </div>
+  </div>
 </div>

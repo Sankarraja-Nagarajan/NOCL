@@ -89,4 +89,8 @@ export class FileSaverService {
     const fileURL = URL.createObjectURL(this.FILE);
     return this.sanitizer.bypassSecurityTrustResourceUrl(fileURL);
   }
+
+  downloadBlob(blob: Blob, filename: string) {
+    saveAs(blob, filename);
+  }
 }

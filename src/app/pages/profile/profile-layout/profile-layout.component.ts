@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
 import { NbRouteTab } from "@nebular/theme";
 
 @Component({
@@ -35,7 +36,13 @@ export class ProfileLayoutComponent implements OnInit {
     },
   ];
 
-  constructor() {}
+  constructor(private _activatedRoute: ActivatedRoute) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this._activatedRoute.queryParams.subscribe({
+      next: (res) => {
+        console.log(res);
+      },
+    });
+  }
 }
