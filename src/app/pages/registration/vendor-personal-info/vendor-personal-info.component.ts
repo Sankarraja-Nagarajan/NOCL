@@ -81,7 +81,7 @@ export class VendorPersonalInfoComponent implements OnInit {
             if (res) {
               this.gstDetail.emit(res as GstDetail);
               this.domesticVendorForm.get('Organization_Name').setValue(res.Name);
-              this.domesticVendorForm.get('Plant_Installation_Year').setValue(new Date(res.RegistrationDate).getFullYear().toString());
+              this.domesticVendorForm.get('Plant_Installation_Year').setValue(new Date(res.RegistrationDate).getFullYear());
             }
           },
           error: (err) => {

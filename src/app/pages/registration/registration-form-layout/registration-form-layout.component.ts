@@ -67,13 +67,9 @@ export class RegistrationFormLayoutComponent implements OnInit {
   form_status: string;
   isReadOnly: boolean = true;
   loader: boolean = false;
-  rejectedReason:Reason =  new Reason();
+  rejectedReason: Reason = new Reason();
   dataSource = new MatTableDataSource(this.rejectedReason.Reasons);
-  displayedColumns: string[] = [
-    'RejectedBy',
-    'RejectedOn',
-    'Reason'
-  ]
+  displayedColumns: string[] = ["RejectedBy", "RejectedOn", "Reason"];
 
   // boolean variables to show or hide child components
   personalData: boolean = false;
@@ -89,7 +85,7 @@ export class RegistrationFormLayoutComponent implements OnInit {
   bankDetails: boolean = false;
   commercialProfile: boolean = false;
   vendorBranches: boolean = false;
-  gstDetail:GstDetail;
+  gstDetail: GstDetail = new GstDetail();
 
   constructor(
     private _commonService: CommonService,
@@ -97,7 +93,7 @@ export class RegistrationFormLayoutComponent implements OnInit {
     private _registration: RegistrationService,
     private _dialog: MatDialog,
     private _router: Router
-  ) { }
+  ) {}
   ngOnInit(): void {
     this.authResponse = JSON.parse(sessionStorage.getItem("userDetails"));
     this._activatedRoute.queryParams.subscribe({
@@ -123,15 +119,15 @@ export class RegistrationFormLayoutComponent implements OnInit {
     }
 
     this._registration.getReasons(this.form_Id).subscribe({
-      next:(res)=>{
-        if(res){
+      next: (res) => {
+        if (res) {
           this.rejectedReason = res;
           this.dataSource = new MatTableDataSource(this.rejectedReason.Reasons);
         }
       },
-      error:(err)=>{
-        this._commonService.openSnackbar(err,snackbarStatus.Danger);
-      }
+      error: (err) => {
+        this._commonService.openSnackbar(err, snackbarStatus.Danger);
+      },
     });
   }
 
@@ -320,7 +316,7 @@ export class RegistrationFormLayoutComponent implements OnInit {
     }
   }
 
-  serviceFormSubmit(){
+  serviceFormSubmit() {
     if (this.checkValidationForService()) {
       var payload = this.createServicePayload();
       if (this.form_status == "Initiated") {
@@ -429,26 +425,24 @@ export class RegistrationFormLayoutComponent implements OnInit {
     let serviceForm = new ServiceForm();
     serviceForm.VendorPersonalData =
       this.vendorPersonalInfoComponent.getDomesticVendorPersonalInfo();
-      serviceForm.VendorOrganizationProfile =
+    serviceForm.VendorOrganizationProfile =
       this.vendorOrgProfileComponent.getDomesticVendorOrgProfile();
-      serviceForm.TechnicalProfile =
+    serviceForm.TechnicalProfile =
       this.technicalProfileComponent.getTechnicalProfile();
-      serviceForm.Subsideries =
-      this.vendorOrgProfileComponent.getSubsideries();
-      serviceForm.MajorCustomers =
+    serviceForm.Subsideries = this.vendorOrgProfileComponent.getSubsideries();
+    serviceForm.MajorCustomers =
       this.vendorOrgProfileComponent.getMajorCustomers();
-      serviceForm.CommercialProfile =
+    serviceForm.CommercialProfile =
       this.commercialProfileComponent.getCommercialProfile();
-      serviceForm.BankDetail =
-      this.bankDetailsComponent.getBankDetail();
-      serviceForm.Addresses = this.addressComponent.getAddresses();
-      serviceForm.Contacts = this.contactsComponent.getContacts();
-      serviceForm.VendorBranches =
+    serviceForm.BankDetail = this.bankDetailsComponent.getBankDetail();
+    serviceForm.Addresses = this.addressComponent.getAddresses();
+    serviceForm.Contacts = this.contactsComponent.getContacts();
+    serviceForm.VendorBranches =
       this.vendorBranchesComponent.getVendorBranches();
-      serviceForm.ProprietorOrPartners = this.partnersComponent
+    serviceForm.ProprietorOrPartners = this.partnersComponent
       ? this.partnersComponent.getProprietorOrPartners()
       : [];
-      serviceForm.NocilRelatedEmployees =
+    serviceForm.NocilRelatedEmployees =
       this.vendorOrgProfileComponent.getNocilRelatedEmployees();
     return this.createFormSubmitTemplate(serviceForm);
   }
@@ -554,7 +548,7 @@ export class RegistrationFormLayoutComponent implements OnInit {
     this.tankerDetailsComponent.TankerDetailsForm.reset();
   }
 
-  getGstDetail(event){
+  getGstDetail(event) {
     this.gstDetail = event;
   }
 }
