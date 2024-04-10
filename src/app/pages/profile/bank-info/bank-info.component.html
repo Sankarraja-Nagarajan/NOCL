@@ -1,0 +1,87 @@
+<section class="bank-detail pt-5 ps-4">
+    <div class="detail-container p-3 mb-5 shadow rounded">
+      <div class="row w-100">
+        <div>
+            <div class="row mb-2 mb-md-1">
+                <div class="col-md-4 d-flex justify-content-between align-items-center">
+                    <label class="input-label-text"> Account Holder </label>
+                    <span class="d-none d-md-block"> : </span>
+                </div>
+                <div class="col-md fw-bold">
+                    <span class="detail-type"> {{bankDetail.AccountHolder}} </span>
+                </div>
+            </div>
+
+            <div class="row mb-2 mb-md-1">
+                <div class="col-md-4 d-flex justify-content-between align-items-center">
+                    <label class="input-label-text"> Bank </label>
+                    <span class="d-none d-md-block"> : </span>
+                </div>
+                <div class="col-md fw-bold">
+                    <span class="detail-type"> {{bankDetail.Bank}} </span>
+                </div>
+            </div>
+
+            <div class="row mb-2 mb-md-1">
+                <div class="col-md-4 d-flex justify-content-between align-items-center">
+                    <label class="input-label-text"> Branch </label>
+                    <span class="d-none d-md-block"> : </span>
+                </div>
+                <div class="col-md fw-bold">
+                    <span class="detail-type"> {{bankDetail.Branch}} </span>
+                </div>
+            </div>
+
+            <div class="row mb-2 mb-md-1">
+                <div class="col-md-4 d-flex justify-content-between align-items-center">
+                    <label class="input-label-text"> Address </label>
+                    <span class="d-none d-md-block"> : </span>
+                </div>
+                <div class="col-md fw-bold">
+                    <span class="detail-type"> {{bankDetail.Address ? bankDetail.Address : '-'}} </span>
+                </div>
+            </div>
+
+            <div class="row mb-2 mb-md-1">
+                <div class="col-md-4 d-flex justify-content-between align-items-center">
+                    <label class="input-label-text"> Account Number </label>
+                    <span class="d-none d-md-block"> : </span>
+                </div>
+                <div class="col-md fw-bold">
+                    <span class="detail-type"> {{bankDetail.Account_Number}} </span>
+                </div>
+            </div>
+
+            <div class="row mb-2 mb-md-1">
+                <div class="col-md-4 d-flex justify-content-between align-items-center">
+                    <label class="input-label-text"> IFSC </label>
+                    <span class="d-none d-md-block"> : </span>
+                </div>
+                <div class="col-md fw-bold">
+                    <span class="detail-type"> {{bankDetail.IFSC ? bankDetail.IFSC : '-'}} </span>
+                </div>
+            </div>
+
+            <div class="row mb-2 mb-md-1">
+                <div class="col-md-4 d-flex justify-content-between align-items-center">
+                    <label class="input-label-text"> SWIFT </label>
+                    <span class="d-none d-md-block"> : </span>
+                </div>
+                <div class="col-md fw-bold">
+                    <span class="detail-type"> {{bankDetail.SWIFT ? bankDetail.SWIFT : '-'}} </span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4 d-flex justify-content-between align-items-center">
+                    <label class="input-label-text"> IBAN </label>
+                    <span class="d-none d-md-block"> : </span>
+                </div>
+                <div class="col-md fw-bold">
+                    <span class="detail-type"> {{bankDetail.IBAN ? bankDetail.IBAN : '-'}} </span>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </section>

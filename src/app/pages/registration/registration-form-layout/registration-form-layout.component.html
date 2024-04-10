@@ -59,7 +59,7 @@
             Vendor Personal Information
           </h3>
           <ngx-vendor-personal-info [form_Id]="form_Id" [isReadOnly]="isReadOnly"
-            [v_Id]="v_Id"></ngx-vendor-personal-info>
+            [v_Id]="v_Id" (gstDetail)="getGstDetail($event)"></ngx-vendor-personal-info>
         </div>
       </div>
     </div>
@@ -89,7 +89,7 @@
           <h3 class="d-flex justify-content-center align-items-center d-sm-none title mb-3">
             Address
           </h3>
-          <ngx-address [form_Id]="form_Id"></ngx-address>
+          <ngx-address [form_Id]="form_Id" [gstAddress]="gstDetail.Addresses"></ngx-address>
           <!-- <ngx-domestic-vendor-org-profile></ngx-domestic-vendor-org-profile> -->
         </div>
       </div>

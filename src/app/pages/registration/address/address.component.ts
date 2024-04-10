@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MatTableDataSource } from "@angular/material/table";
 import { Address } from "../../../Models/Dtos";
@@ -15,8 +15,9 @@ import { forkJoin } from "rxjs";
   templateUrl: "./address.component.html",
   styleUrls: ["./address.component.scss"],
 })
-export class AddressComponent implements OnInit {
+export class AddressComponent implements OnInit,OnChanges {
   @Input() form_Id: number;
+  @Input() gstAddress : string[]=[];
   addresses: Address[] = [];
   role: string = "";
   dataSource = new MatTableDataSource(this.addresses);
@@ -53,6 +54,20 @@ export class AddressComponent implements OnInit {
     this.getMasterData();
     const userData = JSON.parse(sessionStorage.getItem("userDetails"));
     this.role = userData ? userData.Role : "";
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.gstAddress && this.gstAddress.length > 0) {
+      this.gstAddress.forEach((element) =>{
+        let address = new Address();
+        address.Address_Id = 0;
+        address.Form_Id = this.form_Id;
+        address.Address_Type_Id = 1;
+        address.AddressData = element;
+        this.dataSource.data.push(address);
+      });
+      this.dataSource._updateChangeSubscription();
+    }
   }
 
   // Allow (numbers, plus, and space) for Tel & Fax

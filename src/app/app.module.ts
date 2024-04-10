@@ -29,6 +29,7 @@ import { RejectReasonDialogComponent } from './Dialogs/reject-reason-dialog/reje
 import { DocumentViewDialogComponent } from './Dialogs/document-view-dialog/document-view-dialog.component';
 import { TermsAndConditionsDialogComponent } from "./Dialogs/terms-and-conditions-dialog/terms-and-conditions-dialog.component";
 import { CommonAddDataDialogComponent } from './Dialogs/common-add-data-dialog/common-add-data-dialog.component';
+import { ConfirmationDialogComponent } from './Dialogs/confirmation-dialog/confirmation-dialog.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { CommonAddDataDialogComponent } from './Dialogs/common-add-data-dialog/c
     TermsAndConditionsDialogComponent,
     RejectReasonDialogComponent,
     DocumentViewDialogComponent,
+    ConfirmationDialogComponent,
   ],
   imports: [
     BrowserModule,

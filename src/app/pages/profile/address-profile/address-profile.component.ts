@@ -6,6 +6,8 @@ import { forkJoin } from "rxjs";
 import { snackbarStatus } from "../../../Enums/snackbar-status";
 import { MasterService } from "../../../Services/master.service";
 import { CommonService } from "../../../Services/common.service";
+import { MatDialog } from "@angular/material/dialog";
+import { ConfirmationDialogComponent } from "../../../Dialogs/confirmation-dialog/confirmation-dialog.component";
 
 @Component({
   selector: "ngx-address-profile",
@@ -20,7 +22,8 @@ export class AddressProfileComponent implements OnInit {
   constructor(
     private _registration: RegistrationService,
     private _master: MasterService,
-    private _commonService: CommonService
+    private _commonService: CommonService,
+    private _dialog:MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -50,6 +53,21 @@ export class AddressProfileComponent implements OnInit {
       error: (err) => {
         this._commonService.openSnackbar(err, snackbarStatus.Danger);
       },
+    });
+  }
+
+  deleteAddress(){
+    const DIALOGREF = this._dialog.open(ConfirmationDialogComponent, {
+      width: "500px",
+      height: "200px",
+      data:'delete address'
+    });
+    DIALOGREF.afterClosed().subscribe({
+      next:(res)=>{
+        if(res){
+          
+        }
+      }
     });
   }
 }
