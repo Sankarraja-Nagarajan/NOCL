@@ -202,15 +202,17 @@ export class Reason {
 }
 
 export class VendorMaster {
-  Vendor_Name: string; 
+  Vendor_Name: string;
   Vendor_Mail: string;
   Vendor_Mobile: string;
   Vendor_Code: string;
   Vendor_Type: string;
+  Form_Id: number;
+  VT_Id: number;
 }
 
 export class GstDetail {
-  Name:string;
-  RegistrationDate:string;
-  Addresses:string[];
+  Name: string;
+  RegistrationDate: string;
+  Addresses: string[];
 }
