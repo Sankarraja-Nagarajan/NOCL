@@ -58,7 +58,7 @@ export class OtpComponent implements OnInit {
           this.getSingleFormData();
         }
       },
-      error: (err) => {},
+      error: (err) => { },
     });
   }
 
@@ -102,11 +102,11 @@ export class OtpComponent implements OnInit {
             };
             sessionStorage.setItem("userDetails", JSON.stringify(res));
             this._router.navigate(["/registration/form"], {
-              queryParams: { data: JSON.stringify(jsonData) },
+              queryParams: { data: JSON.stringify(jsonData) }
             });
           }
         },
-        error: (err) => {},
+        error: (err) => { },
       });
     } else {
       alert("Enter OTP");
