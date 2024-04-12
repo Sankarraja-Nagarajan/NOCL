@@ -101,7 +101,6 @@ export class VendorListComponent implements OnInit, OnChanges {
   preview() {
     this._router.navigate(["/profile/"], {
       queryParams: { Id: 1 },
-      skipLocationChange: true,
     });
   }
 }

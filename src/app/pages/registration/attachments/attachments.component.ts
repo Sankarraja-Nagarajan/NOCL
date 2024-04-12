@@ -10,6 +10,7 @@ import { RegistrationService } from "../../../Services/registration.service";
 import { DocumentViewDialogComponent } from "../../../Dialogs/document-view-dialog/document-view-dialog.component";
 import { AttachmentService } from "../../../Services/attachment.service";
 import { FileSaverService } from "../../../Services/file-saver.service";
+import { AppConfigService } from "../../../Services/app-config.service";
 
 @Component({
   selector: "ngx-attachments",
@@ -30,66 +31,83 @@ export class AttachmentsComponent {
   ];
 
   attachments: Attachment[] = [];
-
-  dataSource = new MatTableDataSource(this.attachments);
   loader: boolean;
+  requiredAttachments: Attachment[] = [];
+  otherAttachments: Attachment[] = [];
+  reqDatasource = new MatTableDataSource(this.requiredAttachments);
+  additionalDatasource = new MatTableDataSource(this.otherAttachments);
+  reqDoctypes: string[] = [];
+  reqDocIndex: number = -1;
+  otherDocIndex: number = -1;
 
   constructor(
     public _dialog: MatDialog,
     private _common: CommonService,
     private _registration: RegistrationService,
     private _docService: AttachmentService,
-    private _fileSaver: FileSaverService
-  ) {}
+    private _fileSaver: FileSaverService,
+    private _config: AppConfigService
+  ) { }
 
   ngOnInit(): void {
     const userData = JSON.parse(sessionStorage.getItem("userDetails"));
     this.role = userData ? userData.Role : "";
-
+    this.reqDoctypes = this._config.get('Required_Attachments').split(',');
     // Get attachments by form Id
     this._registration.getFormData(this.form_Id, "Attachments").subscribe({
       next: (res) => {
-        if (res) {
+        if (res && res.length > 0) {
+          let resFileTypes = [];
           this.attachments = res as Attachment[];
-          this.dataSource = new MatTableDataSource(this.attachments);
+          this.attachments.forEach(element => {
+            resFileTypes.push(element.File_Type);
+            if (this.reqDoctypes.includes(element.File_Type)) {
+              this.reqDatasource.data.push(element);
+            }
+            else {
+              this.additionalDatasource.data.push(element);
+            }
+          });
+
+          this.reqDoctypes.forEach(element => {
+            if (!resFileTypes.includes(element)) {
+              let attachment = new Attachment();
+              attachment.Form_Id = this.form_Id;
+              attachment.File_Type = element;
+              this.reqDatasource.data.push(attachment);
+            }
+          });
+
+          this.reqDatasource._updateChangeSubscription();
+          this.additionalDatasource._updateChangeSubscription();
+        }
+        else {
+          this.reqDoctypes.forEach(element => {
+            let attachment = new Attachment();
+            attachment.Form_Id = this.form_Id;
+            attachment.File_Type = element;
+            this.reqDatasource.data.push(attachment);
+          });
+          this.reqDatasource._updateChangeSubscription();
         }
       },
       error: (err) => {
         this._common.openSnackbar(err, snackbarStatus.Danger);
       },
     });
+
+
+
   }
 
-  openDialog(
-    enterAnimationDuration: string,
-    exitAnimationDuration: string
-  ): void {
-    const dialogRef = this._dialog.open(AttachmentDialogComponent, {
-      enterAnimationDuration,
-      exitAnimationDuration,
-      autoFocus: false,
-      data: {
-        form_Id: this.form_Id,
-      },
-    });
-    dialogRef.afterClosed().subscribe({
-      next: (response) => {
-        if (response) {
-          this.dataSource.data.push(response as Attachment);
-          this.dataSource._updateChangeSubscription();
-        }
-      },
-    });
-  }
-
-  removeAttachment(i: number) {
+  removeAttachment(attachmentId: number, i: number) {
     this.loader = true;
     this._docService
-      .DeleteAttachment(this.dataSource.data[i].Attachment_Id)
+      .DeleteAttachment(attachmentId)
       .subscribe({
         next: (res) => {
-          this.dataSource.data.splice(i, 1);
-          this.dataSource._updateChangeSubscription();
+          this.additionalDatasource.data.splice(i, 1);
+          this.additionalDatasource._updateChangeSubscription();
           this.loader = false;
           this._common.openSnackbar(res.Message, snackbarStatus.Success);
         },
@@ -101,16 +119,19 @@ export class AttachmentsComponent {
   }
 
   isValid() {
-    if (this.dataSource.data.length > 0) {
-      return true;
-    } else {
-      console.log("attachments");
+    let valid = true;
+    this.reqDatasource.data.forEach(element => {
+      if (element.Attachment_Id == 0) {
+        valid = false;
+      }
+    });
+    if(!valid){
       this._common.openSnackbar(
         "Attach necessary files",
         snackbarStatus.Danger
       );
-      return false;
     }
+    return valid;
   }
 
   openViewDocDialog(attachment: Attachment) {
@@ -162,46 +183,81 @@ export class AttachmentsComponent {
     return ext == "pdf";
   }
 
-  isISOAttached() {
-    let isoDoc = this.dataSource.data.find((x) =>
-      x.File_Type?.toLowerCase().includes("iso")
-    );
-    if (isoDoc) return true;
-    else {
-      this._common.openSnackbar(
-        "Attach ISO Certificate",
-        snackbarStatus.Danger
-      );
-      return false;
+  uploadAttachment(fileType: string, type: string, i: number = -1) {
+    if (type == 'req') {
+      this.reqDocIndex = i;
     }
+
+    const DIALOGREF = this._dialog.open(AttachmentDialogComponent, {
+      autoFocus: false,
+      data: {
+        upload: true,
+        reUpload: false,
+        formId: this.form_Id,
+        file_Type: fileType
+      },
+    });
+    DIALOGREF.afterClosed().subscribe({
+      next: (response) => {
+        if (response) {
+          if (this.reqDocIndex >= 0) {
+            console.log(this.reqDatasource.data[this.reqDocIndex]);
+            this.reqDatasource.data[this.reqDocIndex] = response as Attachment;
+            this.reqDatasource._updateChangeSubscription();
+          }
+          if (i == -1) {
+            this.additionalDatasource.data.push(response as Attachment);
+            this.additionalDatasource._updateChangeSubscription();
+          }
+        }
+        this.resetIndexes();
+      },
+    });
+
   }
 
-  isImportVendorDocsAttached() {
-    if (this.v_Id == 4) {
-      let message = "Please attach the following.";
-      let cnt = 0;
-      let requiredDocs = [
-        "ISO",
-        "Certificate of analysis",
-        "Material safety data sheet",
-        "No permanent establishment certificate",
-      ];
-      requiredDocs.forEach((element) => {
-        let isoDoc = this.dataSource.data.find((x) =>
-          x.File_Type?.toLowerCase().includes(element.toLowerCase())
-        );
-        if (!isoDoc) {
-          cnt++;
-          message += `\n\t${cnt}. ${element}`;
-        }
-      });
-      if (cnt == 0) {
-        return true;
-      } else {
-        this._common.openSnackbar(message, snackbarStatus.Danger, 4000);
-      }
-    } else {
-      return true;
+  reUploadAttachment(element: Attachment, type: string, i: number) {
+    console.log(element)
+    if (type == 'req') {
+      this.reqDocIndex = i;
     }
+    if (type == 'not-req') {
+      this.otherDocIndex = i;
+    }
+
+    const DIALOGREF = this._dialog.open(AttachmentDialogComponent, {
+      autoFocus: false,
+      data: {
+        upload: false,
+        reUpload: true,
+        formId: this.form_Id,
+        attachment: element
+      },
+    });
+    DIALOGREF.afterClosed().subscribe({
+      next: (response) => {
+        if (response) {
+          if (this.reqDocIndex >= 0) {
+            this.reqDatasource.data[this.reqDocIndex] = response as Attachment;
+            this.reqDatasource._updateChangeSubscription();
+          }
+          if (this.otherDocIndex >= 0) {
+            this.additionalDatasource.data[this.otherDocIndex] = response as Attachment;
+            this.additionalDatasource._updateChangeSubscription();
+          }
+        }
+        this.resetIndexes();
+      },
+    });
+
+  }
+
+  getToolTip(fileName: string): string {
+    return fileName ? 'Re-upload' : 'Upload'
+  }
+
+  resetIndexes() {
+    this.reqDocIndex = -1;
+    this.otherDocIndex = -1;
   }
 }

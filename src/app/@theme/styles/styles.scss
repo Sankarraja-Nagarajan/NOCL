@@ -61,7 +61,6 @@ select,
 code,
 pre {
   font-family: "Roboto", sans-serif !important;
-  padding: 0px;
   margin: 0px !important;
 }
 
@@ -453,4 +452,15 @@ nb-tabset nb-tab {
 
 .detail-container{
   background-image: linear-gradient(to bottom, #e8ebfa28, #e8ebfa);
+}
+
+.mdc-text-field--filled.mdc-text-field--disabled .mdc-text-field__input {
+  color: #222b45 !important;
+}
+
+.title-underline {
+  padding-left: 10px;
+  text-decoration: solid underline 3px;
+  text-underline-position: under;
+  letter-spacing: 0.5px;
 }
