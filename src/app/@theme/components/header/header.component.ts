@@ -25,7 +25,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   picture: string;
   name: string = "";
   title: string = "";
-  userMenu = [{ title: "Profile" }, { title: "Log out" }];
+  userMenu = [{ title: "Profile" },{ title: "Change Password" }, { title: "Log out" }];
   userData: any;
 
   constructor(

@@ -1,0 +1,67 @@
+<section class="bank-detail pt-5 ps-4">
+    <div class="detail-container p-3 mb-5 shadow rounded">
+        <div class="row">
+            <div class="table-responsive w-100 table-container registration-table p-0">
+                <!-- table starts here -->
+                <table mat-table [dataSource]="dataSource">
+                    <!-- Year column -->
+                    <ng-container matColumnDef="year">
+                        <th mat-header-cell *matHeaderCellDef>Year</th>
+                        <td mat-cell *matCellDef="let element">{{ element.Year }}</td>
+                    </ng-container>
+
+                    <!-- sales Turnover column -->
+                    <ng-container matColumnDef="salesturnover">
+                        <th mat-header-cell *matHeaderCellDef>sales Turnover</th>
+                        <td mat-cell *matCellDef="let element">
+                            {{ element.SalesTurnOver }}
+                        </td>
+                    </ng-container>
+
+                    <!--Operating Profit column -->
+                    <ng-container matColumnDef="operatingprofit">
+                        <th mat-header-cell *matHeaderCellDef>Operating Profit</th>
+                        <td mat-cell *matCellDef="let element">
+                            {{ element.OperatingProfit }}
+                        </td>
+                    </ng-container>
+
+                    <!--Netprofitcolumn -->
+                    <ng-container matColumnDef="netprofit">
+                        <th mat-header-cell *matHeaderCellDef>Net profit</th>
+                        <td mat-cell *matCellDef="let element">
+                            {{ element.NetProfit }}
+                        </td>
+                    </ng-container>
+
+                    <!-- action column -->
+                    <ng-container matColumnDef="action">
+                        <th mat-header-cell *matHeaderCellDef> Action </th>
+                        <td mat-cell *matCellDef="let element; let i = index">
+                            <div class="d-flex gap-2">
+                                <button mat-mini-fab color="basic" class="cancel-btn" (click)="editTurnover(i)">
+                                    <img src="assets/images/pngs/pencil.png" height="18" width="18" />
+                                </button>
+                                <button mat-mini-fab color="basic" class="cancel-btn" (click)="removeTurnover(i)">
+                                    <img src="assets/images/pngs/trash.png" height="20" width="20" />
+                                </button>
+                            </div>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns" class="row-header"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns; let i = index"></tr>
+
+                    <!-- Row shown when there is no matching data that will be provided to the table. -->
+                    <tr class="mat-row" *matNoDataRow>
+                        <td class="mat-cell" colspan="100%" class="no-data-row">
+                            <nb-icon icon="file-text-outline"></nb-icon>
+                            This table is empty.
+                        </td>
+                    </tr>
+                </table>
+                <!-- table ends here -->
+            </div>
+        </div>
+    </div>
+</section>

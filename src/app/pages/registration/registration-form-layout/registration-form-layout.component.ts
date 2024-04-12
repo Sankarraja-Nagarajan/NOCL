@@ -1,20 +1,6 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { AddressComponent } from "../address/address.component";
 import { DomesticAndImportForm } from "../../../Models/DomesticAndImportForm";
-import { ContactsComponent } from "../contacts/contacts.component";
-import { PartnersComponent } from "../partners/partners.component";
-import { AnnualTurnoverComponent } from "../annual-turnover/annual-turnover.component";
-import { VendorBranchesComponent } from "../vendor-branches/vendor-branches.component";
-import { VendorPersonalInfoComponent } from "../vendor-personal-info/vendor-personal-info.component";
-import { BankDetailsComponent } from "../bank-details/bank-details.component";
-import { CommercialProfileComponent } from "../commercial-profile/commercial-profile.component";
-import { TechnicalProfileComponent } from "../technical-profile/technical-profile.component";
-import { VendorOrgProfileComponent } from "../vendor-org-profile/vendor-org-profile.component";
-import { CommonService } from "../../../Services/common.service";
-import { snackbarStatus } from "../../../Enums/snackbar-status";
-import { TransportForm } from "../../../Models/TransportForm";
-import { TransportVendorsPersonalDetailsComponent } from "../transport-vendors-personal-details/transport-vendors-personal-details.component";
-import { TankerDetailsComponent } from "../tanker-details/tanker-details.component";
 import { ActivatedRoute, Router } from "@angular/router";
 import { first } from "rxjs/operators";
 import { RegistrationService } from "../../../Services/registration.service";
@@ -25,12 +11,26 @@ import {
 } from "../../../Models/Registration";
 import { AuthResponse } from "../../../Models/authModel";
 import { MatDialog } from "@angular/material/dialog";
-import { AttachmentsComponent } from "../attachments/attachments.component";
 import { RejectReasonDialogComponent } from "../../../Dialogs/reject-reason-dialog/reject-reason-dialog.component";
 import { ServiceForm } from "../../../Models/ServiceForm";
-import { Reason } from "../../../Models/Dtos";
+import { GstDetail, Reason } from "../../../Models/Dtos";
 import { MatTableDataSource } from "@angular/material/table";
 import { TermsAndConditionsDialogComponent } from "../../../Dialogs/terms-and-conditions-dialog/terms-and-conditions-dialog.component";
+import { snackbarStatus } from "../../../Enums/snackbar-status";
+import { TransportForm } from "../../../Models/TransportForm";
+import { CommonService } from "../../../Services/common.service";
+import { AnnualTurnoverComponent } from "../annual-turnover/annual-turnover.component";
+import { AttachmentsComponent } from "../attachments/attachments.component";
+import { BankDetailsComponent } from "../bank-details/bank-details.component";
+import { CommercialProfileComponent } from "../commercial-profile/commercial-profile.component";
+import { ContactsComponent } from "../contacts/contacts.component";
+import { PartnersComponent } from "../partners/partners.component";
+import { TankerDetailsComponent } from "../tanker-details/tanker-details.component";
+import { TechnicalProfileComponent } from "../technical-profile/technical-profile.component";
+import { TransportVendorsPersonalDetailsComponent } from "../transport-vendors-personal-details/transport-vendors-personal-details.component";
+import { VendorBranchesComponent } from "../vendor-branches/vendor-branches.component";
+import { VendorOrgProfileComponent } from "../vendor-org-profile/vendor-org-profile.component";
+import { VendorPersonalInfoComponent } from "../vendor-personal-info/vendor-personal-info.component";
 
 @Component({
   selector: "ngx-registration-form-layout",
@@ -67,13 +67,9 @@ export class RegistrationFormLayoutComponent implements OnInit {
   form_status: string;
   isReadOnly: boolean = true;
   loader: boolean = false;
-  rejectedReason:Reason =  new Reason();
+  rejectedReason: Reason = new Reason();
   dataSource = new MatTableDataSource(this.rejectedReason.Reasons);
-  displayedColumns: string[] = [
-    'RejectedBy',
-    'RejectedOn',
-    'Reason'
-  ]
+  displayedColumns: string[] = ["RejectedBy", "RejectedOn", "Reason"];
 
   // boolean variables to show or hide child components
   personalData: boolean = false;
@@ -89,6 +85,7 @@ export class RegistrationFormLayoutComponent implements OnInit {
   bankDetails: boolean = false;
   commercialProfile: boolean = false;
   vendorBranches: boolean = false;
+  gstDetail: GstDetail = new GstDetail();
 
   constructor(
     private _commonService: CommonService,
@@ -96,7 +93,7 @@ export class RegistrationFormLayoutComponent implements OnInit {
     private _registration: RegistrationService,
     private _dialog: MatDialog,
     private _router: Router
-  ) { }
+  ) {}
   ngOnInit(): void {
     this.authResponse = JSON.parse(sessionStorage.getItem("userDetails"));
     this._activatedRoute.queryParams.subscribe({
@@ -122,15 +119,15 @@ export class RegistrationFormLayoutComponent implements OnInit {
     }
 
     this._registration.getReasons(this.form_Id).subscribe({
-      next:(res)=>{
-        if(res){
+      next: (res) => {
+        if (res) {
           this.rejectedReason = res;
           this.dataSource = new MatTableDataSource(this.rejectedReason.Reasons);
         }
       },
-      error:(err)=>{
-        this._commonService.openSnackbar(err,snackbarStatus.Danger);
-      }
+      error: (err) => {
+        this._commonService.openSnackbar(err, snackbarStatus.Danger);
+      },
     });
   }
 
@@ -319,7 +316,7 @@ export class RegistrationFormLayoutComponent implements OnInit {
     }
   }
 
-  serviceFormSubmit(){
+  serviceFormSubmit() {
     if (this.checkValidationForService()) {
       var payload = this.createServicePayload();
       if (this.form_status == "Initiated") {
@@ -428,26 +425,24 @@ export class RegistrationFormLayoutComponent implements OnInit {
     let serviceForm = new ServiceForm();
     serviceForm.VendorPersonalData =
       this.vendorPersonalInfoComponent.getDomesticVendorPersonalInfo();
-      serviceForm.VendorOrganizationProfile =
+    serviceForm.VendorOrganizationProfile =
       this.vendorOrgProfileComponent.getDomesticVendorOrgProfile();
-      serviceForm.TechnicalProfile =
+    serviceForm.TechnicalProfile =
       this.technicalProfileComponent.getTechnicalProfile();
-      serviceForm.Subsideries =
-      this.vendorOrgProfileComponent.getSubsideries();
-      serviceForm.MajorCustomers =
+    serviceForm.Subsideries = this.vendorOrgProfileComponent.getSubsideries();
+    serviceForm.MajorCustomers =
       this.vendorOrgProfileComponent.getMajorCustomers();
-      serviceForm.CommercialProfile =
+    serviceForm.CommercialProfile =
       this.commercialProfileComponent.getCommercialProfile();
-      serviceForm.BankDetail =
-      this.bankDetailsComponent.getBankDetail();
-      serviceForm.Addresses = this.addressComponent.getAddresses();
-      serviceForm.Contacts = this.contactsComponent.getContacts();
-      serviceForm.VendorBranches =
+    serviceForm.BankDetail = this.bankDetailsComponent.getBankDetail();
+    serviceForm.Addresses = this.addressComponent.getAddresses();
+    serviceForm.Contacts = this.contactsComponent.getContacts();
+    serviceForm.VendorBranches =
       this.vendorBranchesComponent.getVendorBranches();
-      serviceForm.ProprietorOrPartners = this.partnersComponent
+    serviceForm.ProprietorOrPartners = this.partnersComponent
       ? this.partnersComponent.getProprietorOrPartners()
       : [];
-      serviceForm.NocilRelatedEmployees =
+    serviceForm.NocilRelatedEmployees =
       this.vendorOrgProfileComponent.getNocilRelatedEmployees();
     return this.createFormSubmitTemplate(serviceForm);
   }
@@ -551,5 +546,9 @@ export class RegistrationFormLayoutComponent implements OnInit {
     this.vendorOrgProfileComponent.vendorOrgForm.reset();
     this.transportVendorsPersonalDetailsComponent.transporterVendorsForm.reset();
     this.tankerDetailsComponent.TankerDetailsForm.reset();
+  }
+
+  getGstDetail(event) {
+    this.gstDetail = event;
   }
 }

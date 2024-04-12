@@ -59,7 +59,7 @@
             Vendor Personal Information
           </h3>
           <ngx-vendor-personal-info [form_Id]="form_Id" [isReadOnly]="isReadOnly"
-            [v_Id]="v_Id"></ngx-vendor-personal-info>
+            [v_Id]="v_Id" (gstDetail)="getGstDetail($event)"></ngx-vendor-personal-info>
         </div>
       </div>
     </div>
@@ -89,7 +89,7 @@
           <h3 class="d-flex justify-content-center align-items-center d-sm-none title mb-3">
             Address
           </h3>
-          <ngx-address [form_Id]="form_Id"></ngx-address>
+          <ngx-address [form_Id]="form_Id" [gstAddress]="gstDetail.Addresses"></ngx-address>
           <!-- <ngx-domestic-vendor-org-profile></ngx-domestic-vendor-org-profile> -->
         </div>
       </div>
@@ -129,7 +129,7 @@
       <div class="row">
         <div class="d-none d-sm-flex flex-column align-items-center justify-content-center col-sm-3">
           <h3 class="outer-title mb-4">Vendor Organization Profile</h3>
-          <img src="../assets/images/pngs/open.png" class="img-fluid" width="70" height="70" />
+          <img src="../assets/images/svgs/Organization profile.svg" class="img-fluid" width="70" height="70" />
         </div>
         <div class="col-12 col-sm-9">
           <h3 class="d-flex justify-content-center align-items-center d-sm-none title mb-3">
@@ -160,7 +160,7 @@
       <div class="row">
         <div class="d-none d-sm-flex flex-column align-items-center justify-content-center col-sm-3">
           <h3 class="outer-title mb-4">Annual Turnover</h3>
-          <img src="../assets/images/pngs/open.png" class="img-fluid" width="70" height="70" />
+          <img src="../assets/images/svgs/Annual turnover.svg" class="img-fluid" width="70" height="70" />
         </div>
         <div class="col-12 col-sm-9">
           <h3 class="d-flex justify-content-center align-items-center d-sm-none title mb-3">
@@ -175,7 +175,7 @@
       <div class="row">
         <div class="d-none d-sm-flex flex-column align-items-center justify-content-center col-sm-3">
           <h3 class="outer-title mb-4">Technical Profile</h3>
-          <img src="../assets/images/pngs/info.png" class="img-fluid" width="70" height="70" />
+          <img src="../assets/images/svgs/technical profile.svg" class="img-fluid" width="70" height="70" />
         </div>
         <div class="col-12 col-sm-9">
           <h3 class="d-flex justify-content-center align-items-center d-sm-none title mb-3">
@@ -220,7 +220,7 @@
       <div class="row">
         <div class="d-none d-sm-flex flex-column align-items-center justify-content-center col-sm-3">
           <h3 class="outer-title mb-4">Commercial Profile</h3>
-          <img src="../assets/images/pngs/open.png" class="img-fluid" width="70" height="70" />
+          <img src="../assets/images/svgs/commercial profile.svg" class="img-fluid" width="70" height="70" />
         </div>
         <div class="col-12 col-sm-9">
           <h3 class="d-flex justify-content-center align-items-center d-sm-none title mb-3">
@@ -235,7 +235,7 @@
       <div class="row">
         <div class="d-none d-sm-flex flex-column align-items-center justify-content-center col-sm-3">
           <h3 class="outer-title mb-4">Vendor Branches</h3>
-          <img src="../assets/images/pngs/viewing.png" class="img-fluid" width="100" height="100" />
+          <img src="../assets/images/svgs/vendor branches.svg" class="img-fluid" width="100" height="100" />
         </div>
         <div class="col-12 col-sm-9">
           <h3 class="d-flex justify-content-center align-items-center d-sm-none title mb-3">

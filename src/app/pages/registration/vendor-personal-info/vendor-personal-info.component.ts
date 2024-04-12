@@ -1,11 +1,11 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import {
   FormBuilder,
   FormControl,
   FormGroup,
   Validators,
 } from "@angular/forms";
-import { VendorPersonalData } from "../../../Models/Dtos";
+import { GstDetail, VendorPersonalData } from "../../../Models/Dtos";
 import { CommonService } from "../../../Services/common.service";
 import { AuthResponse } from "../../../Models/authModel";
 import { RegistrationService } from "../../../Services/registration.service";
@@ -20,6 +20,7 @@ export class VendorPersonalInfoComponent implements OnInit {
   @Input() form_Id: number;
   @Input() isReadOnly: boolean;
   @Input() v_Id: number;
+  @Output() gstDetail: EventEmitter<GstDetail> = new EventEmitter<GstDetail>();
 
   domesticVendorForm: FormGroup;
   years: number[] = [];
@@ -72,16 +73,15 @@ export class VendorPersonalInfoComponent implements OnInit {
       });
   }
 
-  getDetails() {
+  getGstDetails() {
     if (this.domesticVendorForm.value.GSTIN && this.domesticVendorForm.get('GSTIN').valid) {
       this._registration.getGstDetails(this.domesticVendorForm.value.GSTIN)
         .subscribe({
           next: (res) => {
-            if (res && res.status_code == 1) {
-              console.log(res);
-            }
-            if (res && res.status_code == 0) {
-              this._commonService.openSnackbar(res.error, snackbarStatus.Danger);
+            if (res) {
+              this.gstDetail.emit(res as GstDetail);
+              this.domesticVendorForm.get('Organization_Name').setValue(res.Name);
+              this.domesticVendorForm.get('Plant_Installation_Year').setValue(new Date(res.RegistrationDate).getFullYear());
             }
           },
           error: (err) => {

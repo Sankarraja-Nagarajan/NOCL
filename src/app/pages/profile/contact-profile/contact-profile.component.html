@@ -1,1 +1,60 @@
-<p>contact-profile works!</p>
+<section class="d-flex flex-wrap contact-profile w-100 pt-5 gap-4 ps-4">
+    <div *ngFor="let contact of contacts"
+        class="profile-container d-flex flex-column justify-content-between p-3 mb-5 shadow rounded">
+        <div>
+            <div class="center-flexBox py-2">
+                <span class="detail-type">{{ getContactTypeById(contact.Contact_Type_Id) }}</span>
+            </div>
+            <div class="d-flex gap-2">
+                <div class="center-flexBox">
+                    <img src="assets/images/pngs/map-pin.png" alt="" />
+                </div>
+                <div>
+                    <span class="detail">{{ contact.Name }}</span>
+                </div>
+            </div>
+            <div class="d-flex gap-2">
+                <div class="center-flexBox">
+                    <img src="assets/images/pngs/phone-office.png" alt="" />
+                </div>
+                <div>
+                    <span class="detail">{{ contact.Designation }}</span>
+                </div>
+            </div>
+            <div class="d-flex gap-2">
+                <div class="center-flexBox">
+                    <img src="assets/images/pngs/fax.png" alt="" />
+                </div>
+                <div>
+                    <span class="detail">{{ contact.Email_Id }}</span>
+                </div>
+            </div>
+            <div class="d-flex gap-2">
+                <div class="center-flexBox">
+                    <img src="assets/images/pngs/globe.png" alt="" />
+                </div>
+                <div>
+                    <span class="detail">{{ contact.Phone_Number }}</span>
+                </div>
+            </div>
+            <div class="d-flex gap-2">
+                <div class="center-flexBox">
+                    <img src="assets/images/pngs/globe.png" alt="" />
+                </div>
+                <div>
+                    <span class="detail">{{ contact.Mobile_Number }}</span>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="d-flex justify-content-end align-items-center">
+                <div>
+                    <img src="/../assets/images/pngs/pencil.png" alt="" class="edit">
+                </div>
+                <div>
+                    <img src="/../assets/images/pngs/trash.png" alt="" class="delete ms-2" (click)="deleteContact()">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
