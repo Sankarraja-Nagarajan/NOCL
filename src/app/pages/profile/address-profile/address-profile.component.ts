@@ -19,11 +19,13 @@ export class AddressProfileComponent implements OnInit {
   addresses: Address[] = [];
   addressTypes: AddressType[] = [];
 
+  loader: boolean = false;
+
   constructor(
     private _registration: RegistrationService,
     private _master: MasterService,
     private _commonService: CommonService,
-    private _dialog:MatDialog
+    private _dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -38,6 +40,7 @@ export class AddressProfileComponent implements OnInit {
   }
 
   getMasterData() {
+    this.loader = true;
     forkJoin([
       this._master.getAddressTypes(),
       this._registration.getFormData(this.formId, "Addresses"),
@@ -49,25 +52,26 @@ export class AddressProfileComponent implements OnInit {
         if (res[1]) {
           this.addresses = res[1] as Address[];
         }
+        this.loader = false;
       },
       error: (err) => {
+        this.loader = false;
         this._commonService.openSnackbar(err, snackbarStatus.Danger);
       },
     });
   }
 
-  deleteAddress(){
+  deleteAddress() {
     const DIALOGREF = this._dialog.open(ConfirmationDialogComponent, {
       width: "500px",
       height: "200px",
-      data:'delete address'
+      data: "delete address",
     });
     DIALOGREF.afterClosed().subscribe({
-      next:(res)=>{
-        if(res){
-          
+      next: (res) => {
+        if (res) {
         }
-      }
+      },
     });
   }
 }

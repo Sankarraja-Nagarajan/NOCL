@@ -1,6 +1,6 @@
 <section class="organization-profile pt-5 ps-4">
-    <div class="p-3 mb-5 shadow rounded">
-        <div class="d-flex flex-wrap justify-content-around">
+    <div class="detail-container p-3 mb-5 shadow rounded">
+        <div class="d-flex flex-wrap justify-content-around mb-3">
             <div>
                 <label class="input-label-text"> Type of Organization : </label>
                 <span class="detail-type"> {{ getOrgTypeById(orgProfile.Type_of_Org_Id )}} </span>
@@ -10,7 +10,6 @@
                 <span class="detail-type"> {{ getCompanySttausById(orgProfile.Status_of_Company_Id )}} </span>
             </div>
         </div>
-
         <div>
             <nb-accordion>
                 <nb-accordion-item>
