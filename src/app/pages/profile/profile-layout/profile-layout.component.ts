@@ -36,6 +36,7 @@ export class ProfileLayoutComponent implements OnInit {
     },
   ];
 
+  loader: boolean = false;
   constructor(private _activatedRoute: ActivatedRoute) {}
 
   ngOnInit(): void {
