@@ -1,27 +1,14 @@
 <section class="screenAddress">
-  <div style="user-select: none">
-    <div
-      class="input-document-alignment p-0 d-flex justify-content-center align-items-center d-sm-block"
-    >
-      <label *ngIf="role == 'Vendor'">
-        <div class="attachmentLabel" (click)="openDialog('0ms', '0ms')">
-          <mat-icon
-            class="ping-icon d-flex justify-content-center align-items-center"
-          >
-            attach_file</mat-icon
-          >
-          <span class="ps-1 attachment-text">Attachments</span>
-        </div>
-      </label>
-    </div>
-  </div>
   <div class="container">
     <div class="row" style="user-select: none">
-      <div
-        class="mt-3 table-responsive w-100 table-container registration-table p-0"
-      >
+      <div>
+        <h3 class="fw-bold">
+          Required Documents
+        </h3>
+      </div>
+      <div class="mt-1 table-responsive w-100 table-container p-0">
         <!-- table starts here -->
-        <table mat-table [dataSource]="dataSource">
+        <table mat-table [dataSource]="reqDatasource">
           <ng-container matColumnDef="typeOfAttachments">
             <th mat-header-cell *matHeaderCellDef>Doc Type</th>
             <td mat-cell *matCellDef="let element">{{ element.File_Type }}</td>
@@ -31,9 +18,9 @@
             <th mat-header-cell *matHeaderCellDef>Valid Till Date</th>
             <td mat-cell *matCellDef="let element">
               {{
-                element.Expiry_Date
-                  ? (element.Expiry_Date | date : "mediumDate")
-                  : "-"
+              element.Expiry_Date
+              ? (element.Expiry_Date | date : "mediumDate")
+              : "-"
               }}
             </td>
           </ng-container>
@@ -44,7 +31,6 @@
               <button type="button" (click)="openViewDocDialog(element)" class="btn btn-link linkBtn">
                 <span> {{ element.File_Name }} </span>
               </button>
-              <!-- <a (click)="openViewDocDialog(element)">{{ element.File_Name }}</a> -->
             </td>
           </ng-container>
 
@@ -52,37 +38,90 @@
             <th mat-header-cell *matHeaderCellDef [hidden]="role != 'Vendor'">
               Action
             </th>
-            <td
-              mat-cell
-              *matCellDef="let element; let i = index"
-              [hidden]="role != 'Vendor'"
-            >
+            <td mat-cell *matCellDef="let element; let i = index" [hidden]="role != 'Vendor'">
               <div>
-                <button
-                  mat-mini-fab
-                  color="basic"
-                  class="cancel-btn"
-                  (click)="removeAttachment(i)"
-                >
-                  <img
-                    src="../../../../assets/images/pngs/trash.png"
-                    height="20"
-                    width="20"
-                  />
+                <button mat-mini-fab color="basic" [nbTooltip]="getToolTip(element.File_Name)" nbTooltipStatus="primary"
+                 class="cancel-btn"
+                  (click)="element.Attachment_Id !=0 ? reUploadAttachment(element,'req',i) : uploadAttachment(element.File_Type,'req',i)">
+                  <img src="../../../../assets/images/svgs/file-upload.svg" height="20" width="20" />
                 </button>
               </div>
             </td>
           </ng-container>
 
-          <tr
-            mat-header-row
-            *matHeaderRowDef="displayedColumns"
-            class="row-header"
-          ></tr>
-          <tr
-            mat-row
-            *matRowDef="let row; columns: displayedColumns; let i = index"
-          ></tr>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns" class="row-header"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns; let i = index"></tr>
+
+          <!-- Row shown when there is no matching data that will be provided to the table. -->
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" colspan="100%" class="no-data-row">
+              <nb-icon icon="file-text-outline"></nb-icon>
+              This table is empty.
+            </td>
+          </tr>
+        </table>
+        <!-- table ends here -->
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-between align-items-center mt-2">
+      <div>
+        <h3 class="fw-bold"> Other Documents </h3>
+      </div>
+      <button mat-fab-button class="btn btn-design center-flexBox" (click)="uploadAttachment('','not-req')"> 
+        <img src="../../../../assets/images/svgs/file-alt.svg" class="me-1" height="20" width="20">
+        Add </button>
+    </div>
+    <div class="row" style="user-select: none">
+      
+      <div class="mt-1 table-responsive w-100 table-container registration-table p-0">
+        <!-- table starts here -->
+        <table mat-table [dataSource]="additionalDatasource">
+          <ng-container matColumnDef="typeOfAttachments">
+            <th mat-header-cell *matHeaderCellDef>Doc Type</th>
+            <td mat-cell *matCellDef="let element">{{ element.File_Type }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="expiryDate">
+            <th mat-header-cell *matHeaderCellDef>Valid Till Date</th>
+            <td mat-cell *matCellDef="let element">
+              {{
+              element.Expiry_Date
+              ? (element.Expiry_Date | date : "mediumDate")
+              : "-"
+              }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="document">
+            <th mat-header-cell *matHeaderCellDef>File Name</th>
+            <td mat-cell *matCellDef="let element">
+              <button type="button" (click)="openViewDocDialog(element)" class="btn btn-link linkBtn">
+                <span> {{ element.File_Name }} </span>
+              </button>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef [hidden]="role != 'Vendor'">
+              Action
+            </th>
+            <td mat-cell *matCellDef="let element; let i = index" [hidden]="role != 'Vendor'">
+              <div>
+                <button mat-mini-fab color="basic" [nbTooltip]="getToolTip(element.File_Name)" nbTooltipStatus="primary" class="cancel-btn"
+                (click)="element.Attachment_Id !=0 ? reUploadAttachment(element,'req',i) : uploadAttachment(element.File_Type,'req',i)">
+                  <img src="../../../../assets/images/svgs/file-upload.svg" height="20" width="20" />
+                </button>
+
+                <button mat-mini-fab color="basic" class="cancel-btn ms-2" (click)="removeAttachment(element.Attachment_Id,i)">
+                  <img src="../../../../assets/images/pngs/trash.png" height="20" width="20" />
+                </button>
+              </div>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns" class="row-header"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns; let i = index"></tr>
 
           <!-- Row shown when there is no matching data that will be provided to the table. -->
           <tr class="mat-row" *matNoDataRow>

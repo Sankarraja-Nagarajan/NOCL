@@ -11,5 +11,7 @@
             "File_Name":"NOCIL Supplier code of conduct 2022",
             "File_Path":"../../../../assets/data/NOCIL Supplier code of conduct 2022.pdf"
         }
-    ]
+    ],
+    "Required_Attachments":"ISO 9001,GST,MSME,Aadhar,PAN,Blank Cheque",
+    "Expiry_Attachments" : "ISO 9001"
 }
