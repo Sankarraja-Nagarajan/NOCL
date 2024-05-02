@@ -5,6 +5,7 @@ import { NbRouteTab } from "@nebular/theme";
 import { ReportService } from "../../../Services/report.service";
 import { FileSaverService } from "../../../Services/file-saver.service";
 import { HttpHeaderResponse, HttpResponse } from "@angular/common/http";
+import { MatTabChangeEvent } from "@angular/material/tabs";
 
 @Component({
   selector: "ngx-vendors",
@@ -14,6 +15,8 @@ import { HttpHeaderResponse, HttpResponse } from "@angular/common/http";
 export class VendorsComponent implements OnInit {
   tabChange: EventEmitter<NbRouteTab> = new EventEmitter();
   searchText: string = "";
+  tabLinks: string[] = ["ISO Vendors", "Non-ISO Vendors", "Transport Vendors"];
+  activeLink: string = this.tabLinks[0];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -23,10 +26,12 @@ export class VendorsComponent implements OnInit {
     private _fileSaver: FileSaverService
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.vendorType = this.tabLinks[0];
+  }
 
-  onTabChange(event: any) {
-    this.vendorType = event.tabTitle;
+  onTabChange(event: MatTabChangeEvent) {
+    this.vendorType = this.tabLinks[event.index];
   }
 
   filterVendor(text) {

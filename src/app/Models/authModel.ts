@@ -19,8 +19,26 @@ export class AuthResponse {
   RmRole: string;
 }
 
+export class RequestOtp {
+  FormId: number;
+  Mobile: string;
+}
+
 export class VerifyOtp {
   Otp: string;
   Mobile: string;
   FormId: number;
+  TxId: string;
+}
+
+export class UpdatePassword {
+  EmployeeId: string;
+  CurrentPassword: string;
+  NewPassword: string;
+}
+
+export class ForgotPassword {
+  Employee_Id: string;
+  Otp: string;
+  Password: string;
 }

@@ -1,0 +1,71 @@
+#roles {
+  height: calc(100vh - 150px);
+  width: auto;
+  background-color: white;
+
+  .role-container {
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px var(--vp-otp-input);
+
+    .header {
+      height: 40px;
+      background-color: var(--vp-primary-blue);
+      .title {
+        color: white;
+        font-weight: bold;
+      }
+    }
+
+    .role-data-container {
+      height: calc(100% - 40px);
+
+      .fab-button {
+        background-color: var(--vp-primary-blue);
+        box-shadow: none;
+        height: 28px;
+        width: 28px;
+
+        .plus-icon {
+          font-size: 12px;
+        }
+      }
+
+      .search {
+        min-height: 50px;
+        height: 10%;
+      }
+      .role-data {
+        height: 84%;
+        min-height: 250px;
+        overflow: auto;
+        .role-name {
+          cursor: pointer;
+        }
+
+        .role-name:hover {
+          color: var(--vp-primary-blue);
+          background-color: #e9ecfa;
+          .role-text {
+            font-weight: bold;
+          }
+        }
+      }
+    }
+
+    .role-form {
+      position: relative;
+      .title-block {
+        .title {
+          text-decoration: underline;
+          font-weight: bold;
+        }
+      }
+
+      .createBtn {
+        position: absolute;
+        bottom: 5%;
+        right: 5%;
+      }
+    }
+  }
+}

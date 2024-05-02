@@ -24,7 +24,7 @@ export const routes: Routes = [
     path: 'registration',
     loadChildren: () =>
       import("./Pages/registration/registration.module").then((m) => m.RegistrationModule),
-      // canActivate:[AuthGuard]
+      canActivate:[AuthGuard]
   },
   {
     path: 'profile',

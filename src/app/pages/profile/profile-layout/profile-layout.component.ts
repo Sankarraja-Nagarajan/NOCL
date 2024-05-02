@@ -36,14 +36,12 @@ export class ProfileLayoutComponent implements OnInit {
     },
   ];
 
+  vendorInfo: any;
   loader: boolean = false;
   constructor(private _activatedRoute: ActivatedRoute) {}
 
   ngOnInit(): void {
-    this._activatedRoute.queryParams.subscribe({
-      next: (res) => {
-        console.log(res);
-      },
-    });
+    let vInfo = sessionStorage.getItem("vendorInfo");
+    this.vendorInfo = JSON.parse(vInfo);
   }
 }

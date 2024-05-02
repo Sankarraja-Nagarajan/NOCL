@@ -37,7 +37,7 @@ export class ApiInterceptor implements HttpInterceptor {
 
     return next.handle(request).pipe(
       catchError((err: any) => {
-        console.log(err);
+        console.log("Error", err);
         if (err instanceof HttpErrorResponse) {
           if (err.status === 401) {
             this._common.openSnackbar(
@@ -52,12 +52,13 @@ export class ApiInterceptor implements HttpInterceptor {
               "Unable to establish connection with the server.",
               snackbarStatus.Danger
             );
-            return;
-          } else if (
-            err.status === 404 ||
-            err.status === 500 ||
-            err.status === 401
-          ) {
+            return throwError(
+              new HttpErrorResponse({
+                error: "Unable to establish connection with the server.",
+                status: 0,
+              })
+            );
+          } else if (err.status === 404 || err.status === 500) {
             // this._router.navigate(["/error"], {
             //   queryParams: { Status: err.status },
             // });
@@ -75,6 +76,12 @@ export class ApiInterceptor implements HttpInterceptor {
             snackbarStatus.Danger
           );
           console.log(err);
+          return throwError(
+            new HttpErrorResponse({
+              error: "Something went wrong! Please try after sometime.",
+              status: 500
+            })
+          );
         }
       })
     );

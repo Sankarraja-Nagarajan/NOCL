@@ -5,6 +5,8 @@ import { LoginDetail } from "../../../Models/authModel";
 import { CommonService } from "../../../Services/common.service";
 import { snackbarStatus } from "../../../Enums/snackbar-status";
 import { Router } from "@angular/router";
+import { ForgotPasswordComponent } from "../../../Dialogs/forgot-password/forgot-password.component";
+import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 
 @Component({
   selector: "ngx-login",
@@ -19,7 +21,8 @@ export class LoginComponent implements OnInit {
     private _fb: FormBuilder,
     private _login: LoginService,
     private _common: CommonService,
-    private _router: Router
+    private _router: Router,
+    private _dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -58,11 +61,29 @@ export class LoginComponent implements OnInit {
         },
         error: (err) => {
           this.loader = false;
-          this._common.openSnackbar(err, snackbarStatus.Danger);
         },
       });
     } else {
       this.loginForm.markAllAsTouched();
     }
+  }
+
+  forgotPassword() {
+    const dialogconfig: MatDialogConfig = {
+      data: {},
+      autoFocus: false,
+    };
+    const dialogRef = this._dialog.open(ForgotPasswordComponent, dialogconfig);
+    dialogRef.afterClosed().subscribe({
+      next: (res) => {
+        if (res) {
+          this._common.openSnackbar(
+            "Your Password hasbeen updated successfully",
+            snackbarStatus.Success
+          );
+        }
+      },
+      error: (err) => {},
+    });
   }
 }

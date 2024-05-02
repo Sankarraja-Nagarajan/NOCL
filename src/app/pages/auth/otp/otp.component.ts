@@ -1,11 +1,13 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation } from "@angular/core";
 import { LoginService } from "../../../Services/login.service";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { VerifyOtp } from "../../../Models/authModel";
+import { RequestOtp, VerifyOtp } from "../../../Models/authModel";
 import { ActivatedRoute, Router } from "@angular/router";
 import { RegistrationService } from "../../../Services/registration.service";
 import { error } from "console";
 import { Dashboard } from "../../../Models/Dtos";
+import { CommonService } from "../../../Services/common.service";
+import { snackbarStatus } from "../../../Enums/snackbar-status";
 
 @Component({
   selector: "ngx-otp",
@@ -39,7 +41,8 @@ export class OtpComponent implements OnInit {
     private _fb: FormBuilder,
     private _router: Router,
     private _activatedRoute: ActivatedRoute,
-    private _registration: RegistrationService
+    private _registration: RegistrationService,
+    private _commonService: CommonService
   ) {
     this.onboardingform = _fb.group({
       firmname: [""],
@@ -58,7 +61,7 @@ export class OtpComponent implements OnInit {
           this.getSingleFormData();
         }
       },
-      error: (err) => { },
+      error: (err) => {},
     });
   }
 
@@ -83,6 +86,22 @@ export class OtpComponent implements OnInit {
 
   requestForOtp() {
     this.requestOtp = true;
+    this.loader = true;
+    let payload = new RequestOtp();
+    payload.FormId = this.form_Id;
+    payload.Mobile = this.onboardingform.get("mobile").value;
+    if (!payload.Mobile.includes("+91")) {
+      payload.Mobile = "+91" + payload.Mobile;
+    }
+    this._login.requestOtp(payload).subscribe({
+      next: (res) => {
+        this.loader = false;
+        this._commonService.openSnackbar(res.Message, snackbarStatus.Success);
+      },
+      error: (err) => {
+        this.loader = false;
+      },
+    });
   }
 
   Submit() {
@@ -92,7 +111,7 @@ export class OtpComponent implements OnInit {
       verifyOtp.Mobile = this.onboardingform.get("mobile").value;
       verifyOtp.Otp = this.otp;
 
-      this._login.VerifyOtp(verifyOtp).subscribe({
+      this._login.verifyOtp(verifyOtp).subscribe({
         next: (res) => {
           if (res) {
             let jsonData = {
@@ -102,11 +121,11 @@ export class OtpComponent implements OnInit {
             };
             sessionStorage.setItem("userDetails", JSON.stringify(res));
             this._router.navigate(["/registration/form"], {
-              queryParams: { data: JSON.stringify(jsonData) }
+              queryParams: { data: JSON.stringify(jsonData) },
             });
           }
         },
-        error: (err) => { },
+        error: (err) => {},
       });
     } else {
       alert("Enter OTP");

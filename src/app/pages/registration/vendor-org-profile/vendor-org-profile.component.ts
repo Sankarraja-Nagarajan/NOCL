@@ -43,7 +43,7 @@ export class VendorOrgProfileComponent {
     private _master: MasterService,
     private _common: CommonService,
     private _registration: RegistrationService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.vendorOrgForm = this._fb.group({
@@ -51,7 +51,7 @@ export class VendorOrgProfileComponent {
       Status_of_Company_Id: ["", Validators.required],
       RelationToNocil: [false],
       Subsideries: [null],
-      Annual_Prod_Capacity: [0,],
+      Annual_Prod_Capacity: [0],
     });
 
     this.valueChangeEvents();
@@ -65,59 +65,68 @@ export class VendorOrgProfileComponent {
   }
 
   valueChangeEvents() {
-    this.vendorOrgForm.get('Type_of_Org_Id').valueChanges.subscribe({
+    this.vendorOrgForm.get("Type_of_Org_Id").valueChanges.subscribe({
       next: (res) => {
         if (res == 1) {
-          this.vendorOrgForm.get('Annual_Prod_Capacity').addValidators([Validators.required]);
-          this.vendorOrgForm.get('Annual_Prod_Capacity').updateValueAndValidity();
+          this.vendorOrgForm
+            .get("Annual_Prod_Capacity")
+            .addValidators([Validators.required]);
+          this.vendorOrgForm
+            .get("Annual_Prod_Capacity")
+            .updateValueAndValidity();
           this.isAnnualProdShown = true;
-        }
-        else {
-          this.vendorOrgForm.get('Annual_Prod_Capacity').clearValidators();
-          this.vendorOrgForm.get('Annual_Prod_Capacity').updateValueAndValidity();
+        } else {
+          this.vendorOrgForm.get("Annual_Prod_Capacity").clearValidators();
+          this.vendorOrgForm
+            .get("Annual_Prod_Capacity")
+            .updateValueAndValidity();
           this.isAnnualProdShown = false;
         }
-      }
+      },
     });
 
-    this.vendorOrgForm.get('Status_of_Company_Id').valueChanges.subscribe({
+    this.vendorOrgForm.get("Status_of_Company_Id").valueChanges.subscribe({
       next: (res) => {
         if (res == 2 || res == 4) {
           this.havePartner.emit(true);
-        }
-        else
-          this.havePartner.emit(false);
-      }
+        } else this.havePartner.emit(false);
+      },
     });
 
-    this.vendorOrgForm.get('RelationToNocil').valueChanges.subscribe({
+    this.vendorOrgForm.get("RelationToNocil").valueChanges.subscribe({
       next: (res) => {
         if (res) {
           this.isNocilEmployeeRelated = true;
-          this.vendorOrgForm.get('RelationToNocil').addValidators([Validators.required]);
-        }
-        else {
+          this.vendorOrgForm
+            .get("RelationToNocil")
+            .addValidators([Validators.required]);
+        } else {
           this.isNocilEmployeeRelated = false;
-          this.vendorOrgForm.get('RelationToNocil').clearValidators();
+          this.vendorOrgForm.get("RelationToNocil").clearValidators();
           this.nocilRelatedEmployees = [];
         }
-      }
+      },
     });
   }
 
   // Make sure the Vendor Organization Profile Form is valid
   isValid() {
     if (this.vendorOrgForm.valid) {
-      if (!this.vendorOrgForm.value.RelationToNocil || (this.vendorOrgForm.value.RelationToNocil && this.nocilRelatedEmployees.length > 0)) {
+      if (
+        !this.vendorOrgForm.value.RelationToNocil ||
+        (this.vendorOrgForm.value.RelationToNocil &&
+          this.nocilRelatedEmployees.length > 0)
+      ) {
         return true;
-      }
-      else {
-        this._common.openSnackbar('Add NOCIL Related Employee', snackbarStatus.Danger);
+      } else {
+        this._common.openSnackbar(
+          "Add NOCIL Related Employee",
+          snackbarStatus.Danger
+        );
         return false;
       }
-
     } else {
-      console.log('vendor org prof');
+      console.log("vendor org prof");
       this.vendorOrgForm.markAllAsTouched();
       this._common.openRequiredFieldsSnackbar();
       return false;
@@ -188,8 +197,8 @@ export class VendorOrgProfileComponent {
       disableClose: true,
       data: {
         form_Id: this.form_Id,
-        type: 'Major Customer'
-      }
+        type: "Major Customer",
+      },
     });
     dialogRef.afterClosed().subscribe({
       next: (res) => {
@@ -210,8 +219,8 @@ export class VendorOrgProfileComponent {
       disableClose: true,
       data: {
         form_Id: this.form_Id,
-        type: 'Nocil Member'
-      }
+        type: "Nocil Member",
+      },
     });
     dialogRef.afterClosed().subscribe({
       next: (res) => {
@@ -264,13 +273,11 @@ export class VendorOrgProfileComponent {
         if (res[4]) {
           this.listOfMajorCustomerList = res[4] as MajorCustomer[];
         }
-        if(res[5]){
+        if (res[5]) {
           this.nocilRelatedEmployees = res[5] as NocilRelatedEmployee[];
         }
       },
-      error: (err) => {
-        this._common.openSnackbar(err, snackbarStatus.Danger);
-      },
+      error: (err) => {},
     });
   }
 }

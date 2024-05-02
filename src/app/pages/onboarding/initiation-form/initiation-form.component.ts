@@ -79,7 +79,7 @@ export class InitiationFormComponent implements OnInit {
       },
       error: (err) => {
         this.loader = false;
-        this._common.openSnackbar(err, snackbarStatus.Danger);
+        
       },
     });
   }
@@ -107,7 +107,7 @@ export class InitiationFormComponent implements OnInit {
         },
         error: (err) => {
           this.loader = false;
-          this._common.openSnackbar(err, snackbarStatus.Danger);
+          
         },
       });
     } else {

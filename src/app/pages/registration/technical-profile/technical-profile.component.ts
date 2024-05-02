@@ -47,7 +47,7 @@ export class TechnicalProfileComponent implements OnInit {
         }
       },
       error: (err) => {
-        this._common.openSnackbar(err, snackbarStatus.Danger);
+        
       },
     });
   }

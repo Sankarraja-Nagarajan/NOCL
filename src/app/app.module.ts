@@ -6,7 +6,7 @@
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { APP_INITIALIZER, NgModule } from "@angular/core";
-import { HttpClientModule } from "@angular/common/http";
+import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
 import { CoreModule } from "./@core/core.module";
 import { ThemeModule } from "./@theme/theme.module";
 import { AppComponent } from "./app.component";
@@ -24,12 +24,15 @@ import {
 import { AppConfigService } from "./Services/app-config.service";
 import { AttachmentDialogComponent } from "./Dialogs/attachment-dialog/attachment-dialog.component";
 import { MaterialModule } from "./Pages/material/material.module";
-import { PdfViewerModule } from 'ng2-pdf-viewer';
-import { RejectReasonDialogComponent } from './Dialogs/reject-reason-dialog/reject-reason-dialog.component';
-import { DocumentViewDialogComponent } from './Dialogs/document-view-dialog/document-view-dialog.component';
+import { PdfViewerModule } from "ng2-pdf-viewer";
+import { RejectReasonDialogComponent } from "./Dialogs/reject-reason-dialog/reject-reason-dialog.component";
+import { DocumentViewDialogComponent } from "./Dialogs/document-view-dialog/document-view-dialog.component";
 import { TermsAndConditionsDialogComponent } from "./Dialogs/terms-and-conditions-dialog/terms-and-conditions-dialog.component";
-import { CommonAddDataDialogComponent } from './Dialogs/common-add-data-dialog/common-add-data-dialog.component';
-import { ConfirmationDialogComponent } from './Dialogs/confirmation-dialog/confirmation-dialog.component';
+import { CommonAddDataDialogComponent } from "./Dialogs/common-add-data-dialog/common-add-data-dialog.component";
+import { ConfirmationDialogComponent } from "./Dialogs/confirmation-dialog/confirmation-dialog.component";
+import { ChangePasswordComponent } from "./Dialogs/change-password/change-password.component";
+import { ForgotPasswordComponent } from "./Dialogs/forgot-password/forgot-password.component";
+import { ApiInterceptor } from "./Interceptor/api.interceptor";
 
 @NgModule({
   declarations: [
@@ -40,6 +43,8 @@ import { ConfirmationDialogComponent } from './Dialogs/confirmation-dialog/confi
     RejectReasonDialogComponent,
     DocumentViewDialogComponent,
     ConfirmationDialogComponent,
+    ChangePasswordComponent,
+    ForgotPasswordComponent,
   ],
   imports: [
     BrowserModule,
@@ -58,10 +63,15 @@ import { ConfirmationDialogComponent } from './Dialogs/confirmation-dialog/confi
     CoreModule.forRoot(),
     ThemeModule.forRoot(),
     MaterialModule,
-    PdfViewerModule
+    PdfViewerModule,
   ],
   bootstrap: [AppComponent],
   providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ApiInterceptor,
+      multi: true,
+    },
     {
       provide: APP_INITIALIZER,
       multi: true,

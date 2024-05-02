@@ -48,7 +48,6 @@ export class DocumentViewDialogComponent implements OnInit {
       },
       error: (err) => {
         this.loader = false;
-        this._common.openSnackbar(err, snackbarStatus.Danger);
         this._dialogRef.close();
       },
     });

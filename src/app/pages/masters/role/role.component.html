@@ -1,0 +1,69 @@
+<section id="roles">
+  <div class="role-container h-100">
+    <div class="header d-flex justify-content-start align-items-center">
+      <h3 class="title ps-2">Roles</h3>
+    </div>
+    <div class="role-data-container row">
+      <div class="col-4 h-100">
+        <div
+          class="search d-flex justify-content-between align-items-center gap-4 p-2"
+        >
+          <input
+            type="search"
+            #roleFilter
+            (input)="filterRoles(roleFilter.value)"
+            placeholder="Enter role"
+            nbInput
+            fullWidth
+          />
+          <button mat-mini-fab class="fab-button" (click)="create()">
+            <mat-icon
+              class="plus-icon d-flex justify-content-center align-items-center"
+              >add</mat-icon
+            >
+          </button>
+        </div>
+        <div class="p-2 role-data">
+          <div
+            class="role-name d-flex justify-content-start align-items-center ps-2 py-2"
+            *ngFor="let role of filteredRoles; let i = index"
+            (click)="update(role)"
+          >
+            <span class="role-text">{{ role.Role_Name }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-8 h-100 role-form">
+        <div
+          class="title-block d-flex justify-content-center align-items-center mb-3"
+        >
+          <h3 class="title">Create Role</h3>
+        </div>
+        <div>
+          <input
+            nbInput
+            fullWidth
+            placeholder="Enter the Role"
+            [formControl]="roleControl"
+          />
+        </div>
+        <button
+          *ngIf="action == 'Create'"
+          class="btn btn-design createBtn"
+          (click)="createRole()"
+        >
+          Create
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="loader-point" id="nb-global-spinner" *ngIf="loader">
+  <div
+    class="spinner-grow text-primary"
+    style="width: 4rem; height: 4rem"
+    role="status"
+  ></div>
+  <span class="sr-only">Submitting...</span>
+</div>

@@ -15,17 +15,18 @@
         />
       </div>
       <div>
-        <button class="btn btn-download" (click)="downloadVendorsReport()">
+        <button class="btn btn-download d-flex" (click)="downloadVendorsReport()">
           <img src="assets/images/svgs/Exel.svg" alt="Excel icon" />
-          Download
+          <span class="d-none d-lg-block">Download</span>
         </button>
       </div>
     </div>
-    <nb-tabset fullWidth (changeTab)="onTabChange($event)">
-      <nb-tab tabTitle="ISO Vendors"> </nb-tab>
-      <nb-tab tabTitle="Non-ISO Vendors"> </nb-tab>
-      <nb-tab tabTitle="Transport Vendors"> </nb-tab>
-    </nb-tabset>
+
+    <mat-tab-group fitInkBarToContent (selectedTabChange)="onTabChange($event)">
+      <mat-tab *ngFor="let link of tabLinks">
+        <ng-template mat-tab-label>{{ link }}</ng-template>
+      </mat-tab>
+    </mat-tab-group>
     <div class="row">
       <ngx-vendor-list
         [vendorType]="vendorType"
