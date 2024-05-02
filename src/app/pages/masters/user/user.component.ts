@@ -47,9 +47,9 @@ export class UserComponent implements OnInit {
         this.roles = res as Role[];
         this.getUsers();
       },
-      error:(err)=>{
+      error: (err) => {
         this.loader = false;
-      }
+      },
     });
   }
 
@@ -64,9 +64,7 @@ export class UserComponent implements OnInit {
           this.filteredUsers = this.users;
         }
       },
-      error: (err) => {
-        this._common.openSnackbar(err, snackbarStatus.Danger);
-      },
+      error: (err) => {},
     });
   }
 
@@ -110,7 +108,6 @@ export class UserComponent implements OnInit {
       },
       error: (err) => {
         this.loader = false;
-        this._common.openSnackbar(err, snackbarStatus.Danger);
       },
     });
   }
@@ -126,9 +123,7 @@ export class UserComponent implements OnInit {
             this._common.openSnackbar(res.Message, snackbarStatus.Success);
           }
         },
-        error: (err) => {
-          this._common.openSnackbar(err, snackbarStatus.Danger);
-        },
+        error: (err) => {},
       });
     } else {
       this.userForm.markAllAsTouched();
@@ -146,9 +141,7 @@ export class UserComponent implements OnInit {
             this._common.openSnackbar(res.Message, snackbarStatus.Success);
           }
         },
-        error: (err) => {
-          this._common.openSnackbar(err, snackbarStatus.Danger);
-        },
+        error: (err) => {},
       });
     } else {
       this.userForm.markAllAsTouched();
@@ -168,9 +161,7 @@ export class UserComponent implements OnInit {
             this._common.openSnackbar(res.Message, snackbarStatus.Success);
           }
         },
-        error: (err) => {
-          this._common.openSnackbar(err, snackbarStatus.Danger);
-        },
+        error: (err) => {},
       });
     } else {
       this.userForm.markAllAsTouched();

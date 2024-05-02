@@ -31,9 +31,4 @@ export class AttachmentService {
     const URL = `${this.baseURL}/Attachments/DeleteAttachmentById?id=${docId}`;
     return this._http.post(URL,null);
   }
-
-  updateFiles(formData: FormData): Observable<any> {
-    const URL = `${this.baseURL}/Attachments/UpdateFiles`;
-    return this._http.postFile(URL, formData);
-  }
 }

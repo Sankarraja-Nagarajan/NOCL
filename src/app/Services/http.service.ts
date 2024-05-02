@@ -49,6 +49,16 @@ export class HttpService {
       .pipe(catchError(this.errorHandler));
   }
 
+  put(URL: string, Model: any) {
+    return this._httpClient
+      .put<any>(URL, Model, {
+        headers: new HttpHeaders({
+          "Content-Type": "application/json",
+        }),
+      })
+      .pipe(catchError(this.errorHandler));
+  }
+
   postUrl(URL: string) {
     return this._httpClient
       .post<any>(URL, {

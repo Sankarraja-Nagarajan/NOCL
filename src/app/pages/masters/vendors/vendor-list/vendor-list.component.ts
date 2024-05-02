@@ -32,7 +32,7 @@ export class VendorListComponent implements OnInit, OnChanges {
     "Vendor_Type",
     "view",
   ];
-  dataSource = new MatTableDataSource();
+  dataSource = new MatTableDataSource<VendorMaster>();
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   loader: boolean = false;
@@ -53,7 +53,6 @@ export class VendorListComponent implements OnInit, OnChanges {
     }
 
     if (changes.searchText) {
-      console.log(this.searchText);
       this.dataSource.filter = this.searchText.trim().toLowerCase();
     }
   }
@@ -75,7 +74,6 @@ export class VendorListComponent implements OnInit, OnChanges {
       },
       error: (err) => {
         this.loader = false;
-        this._common.openSnackbar(err, snackbarStatus.Danger);
       },
     });
   }
@@ -93,14 +91,16 @@ export class VendorListComponent implements OnInit, OnChanges {
       },
       error: (err) => {
         this.loader = false;
-        this._common.openSnackbar(err, snackbarStatus.Danger);
       },
     });
   }
 
-  preview() {
-    this._router.navigate(["/profile/"], {
-      queryParams: { Id: 1 },
-    });
+  preview(i: number) {
+    let formInfo = {
+      FormId: this.dataSource.data[i].Form_Id,
+      VT_Id: this.dataSource.data[i].VT_Id,
+    };
+    sessionStorage.setItem("vendorInfo", JSON.stringify(formInfo));
+    this._router.navigate(["/profile/"]);
   }
 }

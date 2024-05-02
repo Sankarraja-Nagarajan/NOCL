@@ -98,7 +98,6 @@ export class DashboardComponent implements OnInit {
       },
       error: (err) => {
         this.loader = false;
-        this._common.openSnackbar(err, snackbarStatus.Danger);
       },
     });
   }
@@ -119,7 +118,6 @@ export class DashboardComponent implements OnInit {
       },
       error: (err) => {
         this.loader = false;
-        this._common.openSnackbar(err, snackbarStatus.Danger);
       },
     });
   }
@@ -139,7 +137,6 @@ export class DashboardComponent implements OnInit {
         },
         error: (err) => {
           this.loader = false;
-          this._common.openSnackbar(err, snackbarStatus.Danger);
         },
       });
     } else {
@@ -155,7 +152,6 @@ export class DashboardComponent implements OnInit {
         },
         error: (err) => {
           this.loader = false;
-          this._common.openSnackbar(err, snackbarStatus.Danger);
         },
       });
     }
@@ -176,7 +172,6 @@ export class DashboardComponent implements OnInit {
         },
         error: (err) => {
           this.loader = false;
-          this._common.openSnackbar(err, snackbarStatus.Danger);
         },
       });
     } else {
@@ -192,7 +187,6 @@ export class DashboardComponent implements OnInit {
         },
         error: (err) => {
           this.loader = false;
-          this._common.openSnackbar(err, snackbarStatus.Danger);
         },
       });
     }
@@ -200,7 +194,7 @@ export class DashboardComponent implements OnInit {
 
   getAllApprovedData() {
     this.loader = true;
-    if(this.authResponse?.Role != "Admin"){
+    if (this.authResponse?.Role != "Admin") {
       this._dashboard.getApprovedData(this.emp_id).subscribe({
         next: (res) => {
           if (res) {
@@ -213,11 +207,9 @@ export class DashboardComponent implements OnInit {
         },
         error: (err) => {
           this.loader = false;
-          this._common.openSnackbar(err, snackbarStatus.Danger);
         },
       });
-    }
-    else{
+    } else {
       this._dashboard.getAllApprovedData().subscribe({
         next: (res) => {
           if (res) {
@@ -230,7 +222,6 @@ export class DashboardComponent implements OnInit {
         },
         error: (err) => {
           this.loader = false;
-          this._common.openSnackbar(err, snackbarStatus.Danger);
         },
       });
     }
@@ -238,7 +229,7 @@ export class DashboardComponent implements OnInit {
 
   getAllRejectedData() {
     this.loader = true;
-    if(this.authResponse?.Role != "Admin"){
+    if (this.authResponse?.Role != "Admin") {
       this._dashboard.getRejectedData(this.emp_id).subscribe({
         next: (res) => {
           if (res) {
@@ -251,11 +242,9 @@ export class DashboardComponent implements OnInit {
         },
         error: (err) => {
           this.loader = false;
-          this._common.openSnackbar(err, snackbarStatus.Danger);
         },
       });
-    }
-    else{
+    } else {
       this._dashboard.getAllRejectedData().subscribe({
         next: (res) => {
           if (res) {
@@ -268,7 +257,6 @@ export class DashboardComponent implements OnInit {
         },
         error: (err) => {
           this.loader = false;
-          this._common.openSnackbar(err, snackbarStatus.Danger);
         },
       });
     }
@@ -288,7 +276,6 @@ export class DashboardComponent implements OnInit {
       },
       error: (err) => {
         this.loader = false;
-        this._common.openSnackbar(err, snackbarStatus.Danger);
       },
     });
   }

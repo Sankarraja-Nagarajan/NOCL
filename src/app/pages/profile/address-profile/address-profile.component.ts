@@ -20,6 +20,7 @@ export class AddressProfileComponent implements OnInit {
   addressTypes: AddressType[] = [];
 
   loader: boolean = false;
+  vendorInfo: any;
 
   constructor(
     private _registration: RegistrationService,
@@ -29,6 +30,8 @@ export class AddressProfileComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    let vInfo = sessionStorage.getItem("vendorInfo");
+    this.vendorInfo = JSON.parse(vInfo);
     this.getMasterData();
   }
 

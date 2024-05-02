@@ -68,7 +68,7 @@
       <div>
         <h3 class="fw-bold"> Other Documents </h3>
       </div>
-      <button mat-fab-button class="btn btn-design center-flexBox" (click)="uploadAttachment('','not-req')"> 
+      <button mat-fab-button *ngIf="role == 'Vendor'" class="btn btn-design center-flexBox" (click)="uploadAttachment('','not-req')"> 
         <img src="../../../../assets/images/svgs/file-alt.svg" class="me-1" height="20" width="20">
         Add </button>
     </div>

@@ -90,7 +90,7 @@ export class CommercialProfileComponent {
           }
         },
         error: (err) => {
-          this._common.openSnackbar(err, snackbarStatus.Danger);
+          
         },
       });
   }

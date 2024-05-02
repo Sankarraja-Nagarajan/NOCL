@@ -1,67 +1,90 @@
-import { Injectable } from '@angular/core';
-import { HttpService } from './http.service';
-import { Observable } from 'rxjs';
-import { environment } from '../../environments/environment';
+import { Injectable } from "@angular/core";
+import { HttpService } from "./http.service";
+import { Observable } from "rxjs";
+import { environment } from "../../environments/environment";
+import { Role } from "../Models/Dtos";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class MasterService {
   baseURL: string = environment.baseURL;
 
-  constructor(private _http: HttpService) { }
+  constructor(private _http: HttpService) {}
 
+  //#region  Get Master Data
   // Get Company codes
   getCompanyCodes(): Observable<any> {
-    const URL = this.baseURL + '/Master/GetCompanyCodes';
+    const URL = this.baseURL + "/Master/GetCompanyCodes";
     return this._http.get(URL);
   }
 
   // get Departments
-  getDepartments():Observable<any>{
-    const URL = this.baseURL + '/Master/GetDepartments';
+  getDepartments(): Observable<any> {
+    const URL = this.baseURL + "/Master/GetDepartments";
     return this._http.get(URL);
   }
 
   // get vendor types
-  getVendorTypes():Observable<any>{
-    const URL = this.baseURL + '/Master/GetVendorTypes';
+  getVendorTypes(): Observable<any> {
+    const URL = this.baseURL + "/Master/GetVendorTypes";
     return this._http.get(URL);
   }
 
   // get Organization types
-  getOrganizationTypes():Observable<any>{
-    const URL = this.baseURL + '/Master/GetOrganizationTypes';
+  getOrganizationTypes(): Observable<any> {
+    const URL = this.baseURL + "/Master/GetOrganizationTypes";
     return this._http.get(URL);
   }
 
   // get company statuses
-  getCompanyStatuses():Observable<any>{
-    const URL = this.baseURL + '/Master/GetCompanyStatuses';
+  getCompanyStatuses(): Observable<any> {
+    const URL = this.baseURL + "/Master/GetCompanyStatuses";
     return this._http.get(URL);
   }
 
   // Get Address Types
-  getAddressTypes():Observable<any>{
-    const URL = this.baseURL + '/Master/GetAddressTypes';
+  getAddressTypes(): Observable<any> {
+    const URL = this.baseURL + "/Master/GetAddressTypes";
     return this._http.get(URL);
   }
 
   // Get Contact Types
-  getContactTypes():Observable<any>{
-    const URL = this.baseURL + '/Master/GetContactTypes';
+  getContactTypes(): Observable<any> {
+    const URL = this.baseURL + "/Master/GetContactTypes";
     return this._http.get(URL);
   }
 
   // get roles
-  getRoles():Observable<any>{
-    const URL = this.baseURL + '/Roles/GetRoles';
+  getRoles(): Observable<any> {
+    const URL = this.baseURL + "/Roles/GetRoles";
     return this._http.get(URL);
   }
 
   // get vendor types
-  getTankerTypes():Observable<any>{
-    const URL = this.baseURL + '/Master/GetTankerTypes';
+  getTankerTypes(): Observable<any> {
+    const URL = this.baseURL + "/Master/GetTankerTypes";
     return this._http.get(URL);
   }
+
+  //#endregion
+
+  //#region Create Masters
+
+  createRole(role: Role) {
+    const URL = this.baseURL + "/Roles/AddRole";
+    return this._http.post(URL, role);
+  }
+
+  //#endregion
+
+
+  //#region Update Masters
+
+  updateRole(role: Role) {
+    const URL = this.baseURL + "/Roles/UpdateRole";
+    return this._http.put(URL, role);
+  }
+
+  //#endregion
 }

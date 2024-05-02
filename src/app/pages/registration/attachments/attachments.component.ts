@@ -47,29 +47,35 @@ export class AttachmentsComponent {
     private _docService: AttachmentService,
     private _fileSaver: FileSaverService,
     private _config: AppConfigService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     const userData = JSON.parse(sessionStorage.getItem("userDetails"));
     this.role = userData ? userData.Role : "";
-    this.reqDoctypes = this._config.get('Required_Attachments').split(',');
+    if (this.v_Id == 4) {
+      this.reqDoctypes = this._config
+        .get("Import_Required_Attachments")
+        .split(",");
+    } else {
+      this.reqDoctypes = this._config.get("Required_Attachments").split(",");
+    }
+
     // Get attachments by form Id
     this._registration.getFormData(this.form_Id, "Attachments").subscribe({
       next: (res) => {
         if (res && res.length > 0) {
           let resFileTypes = [];
           this.attachments = res as Attachment[];
-          this.attachments.forEach(element => {
+          this.attachments.forEach((element) => {
             resFileTypes.push(element.File_Type);
             if (this.reqDoctypes.includes(element.File_Type)) {
               this.reqDatasource.data.push(element);
-            }
-            else {
+            } else {
               this.additionalDatasource.data.push(element);
             }
           });
 
-          this.reqDoctypes.forEach(element => {
+          this.reqDoctypes.forEach((element) => {
             if (!resFileTypes.includes(element)) {
               let attachment = new Attachment();
               attachment.Form_Id = this.form_Id;
@@ -80,9 +86,8 @@ export class AttachmentsComponent {
 
           this.reqDatasource._updateChangeSubscription();
           this.additionalDatasource._updateChangeSubscription();
-        }
-        else {
-          this.reqDoctypes.forEach(element => {
+        } else {
+          this.reqDoctypes.forEach((element) => {
             let attachment = new Attachment();
             attachment.Form_Id = this.form_Id;
             attachment.File_Type = element;
@@ -91,41 +96,33 @@ export class AttachmentsComponent {
           this.reqDatasource._updateChangeSubscription();
         }
       },
-      error: (err) => {
-        this._common.openSnackbar(err, snackbarStatus.Danger);
-      },
+      error: (err) => {},
     });
-
-
-
   }
 
   removeAttachment(attachmentId: number, i: number) {
     this.loader = true;
-    this._docService
-      .DeleteAttachment(attachmentId)
-      .subscribe({
-        next: (res) => {
-          this.additionalDatasource.data.splice(i, 1);
-          this.additionalDatasource._updateChangeSubscription();
-          this.loader = false;
-          this._common.openSnackbar(res.Message, snackbarStatus.Success);
-        },
-        error: (err) => {
-          this.loader = false;
-          this._common.openSnackbar(err, snackbarStatus.Danger);
-        },
-      });
+    this._docService.DeleteAttachment(attachmentId).subscribe({
+      next: (res) => {
+        this.additionalDatasource.data.splice(i, 1);
+        this.additionalDatasource._updateChangeSubscription();
+        this.loader = false;
+        this._common.openSnackbar(res.Message, snackbarStatus.Success);
+      },
+      error: (err) => {
+        this.loader = false;
+      },
+    });
   }
 
   isValid() {
     let valid = true;
-    this.reqDatasource.data.forEach(element => {
+    this.reqDatasource.data.forEach((element) => {
       if (element.Attachment_Id == 0) {
         valid = false;
       }
     });
-    if(!valid){
+    if (!valid) {
       this._common.openSnackbar(
         "Attach necessary files",
         snackbarStatus.Danger
@@ -139,6 +136,8 @@ export class AttachmentsComponent {
       data: {
         attachment: attachment,
       },
+      height: "calc(100vh - 100px)",
+      minWidth: "600px",
       panelClass: "dialog-box-document",
       autoFocus: false,
     };
@@ -184,7 +183,7 @@ export class AttachmentsComponent {
   }
 
   uploadAttachment(fileType: string, type: string, i: number = -1) {
-    if (type == 'req') {
+    if (type == "req") {
       this.reqDocIndex = i;
     }
 
@@ -194,7 +193,7 @@ export class AttachmentsComponent {
         upload: true,
         reUpload: false,
         formId: this.form_Id,
-        file_Type: fileType
+        file_Type: fileType,
       },
     });
     DIALOGREF.afterClosed().subscribe({
@@ -213,15 +212,14 @@ export class AttachmentsComponent {
         this.resetIndexes();
       },
     });
-
   }
 
   reUploadAttachment(element: Attachment, type: string, i: number) {
-    console.log(element)
-    if (type == 'req') {
+    console.log(element);
+    if (type == "req") {
       this.reqDocIndex = i;
     }
-    if (type == 'not-req') {
+    if (type == "not-req") {
       this.otherDocIndex = i;
     }
 
@@ -231,7 +229,7 @@ export class AttachmentsComponent {
         upload: false,
         reUpload: true,
         formId: this.form_Id,
-        attachment: element
+        attachment: element,
       },
     });
     DIALOGREF.afterClosed().subscribe({
@@ -242,18 +240,18 @@ export class AttachmentsComponent {
             this.reqDatasource._updateChangeSubscription();
           }
           if (this.otherDocIndex >= 0) {
-            this.additionalDatasource.data[this.otherDocIndex] = response as Attachment;
+            this.additionalDatasource.data[this.otherDocIndex] =
+              response as Attachment;
             this.additionalDatasource._updateChangeSubscription();
           }
         }
         this.resetIndexes();
       },
     });
-
   }
 
   getToolTip(fileName: string): string {
-    return fileName ? 'Re-upload' : 'Upload'
+    return fileName ? "Re-upload" : "Upload";
   }
 
   resetIndexes() {

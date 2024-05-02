@@ -77,7 +77,7 @@ export class OrganizationProfileComponent implements OnInit {
         }
       },
       error: (err) => {
-        this._common.openSnackbar(err, snackbarStatus.Danger);
+        
       },
     });
   }

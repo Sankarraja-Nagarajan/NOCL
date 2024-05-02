@@ -5,5 +5,5 @@
  */
 export const environment = {
   production: true,
-  baseURL : 'https://localhost:44300/api'
+  baseURL : 'http://10.100.102.125:8090/v1/api'
 };

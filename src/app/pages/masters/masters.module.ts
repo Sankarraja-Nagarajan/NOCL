@@ -13,11 +13,17 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { AuthGuard } from '../../Guards/auth.guard';
 import { MaterialModule } from '../material/material.module';
 import { VendorListComponent } from './vendors/vendor-list/vendor-list.component';
+import { RoleComponent } from './role/role.component';
 
 const routes: Routes = [
   {
     path: "users",
     component: UserComponent,
+    canActivate:[AuthGuard]
+  },
+  {
+    path: "roles",
+    component: RoleComponent,
     canActivate:[AuthGuard]
   },
   {
@@ -31,7 +37,8 @@ const routes: Routes = [
   declarations: [
     UserComponent,
     VendorsComponent,
-    VendorListComponent
+    VendorListComponent,
+    RoleComponent
   ],
   imports: [
     CommonModule,

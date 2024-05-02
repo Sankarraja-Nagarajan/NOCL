@@ -14,6 +14,9 @@ import { CommonService } from "../../../Services/common.service";
 import { NbUser } from "@nebular/auth";
 import { Router } from "@angular/router";
 import { LoginService } from "../../../Services/login.service";
+import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
+import { ChangePasswordComponent } from "../../../Dialogs/change-password/change-password.component";
+import { snackbarStatus } from "../../../Enums/snackbar-status";
 
 @Component({
   selector: "ngx-header",
@@ -25,27 +28,26 @@ export class HeaderComponent implements OnInit, OnDestroy {
   picture: string;
   name: string = "";
   title: string = "";
-  userMenu = [{ title: "Profile" },{ title: "Change Password" }, { title: "Log out" }];
+  userMenu = [{ title: "Change Password" }, { title: "Log out" }];
   userData: any;
 
   constructor(
     private sidebarService: NbSidebarService,
     private menuService: NbMenuService,
     private layoutService: LayoutService,
-    private commonservice: CommonService,
-    private _router: Router
-  ) { }
+    private _common: CommonService,
+    private _router: Router,
+    private _dialog: MatDialog
+  ) {}
 
   ngOnInit() {
     this.picture = "../../../../assets/images/dummy-user.png";
-    const USER = sessionStorage.getItem('userDetails');
+    const USER = sessionStorage.getItem("userDetails");
     if (USER) {
-      this.userData = JSON.parse(USER)
+      this.userData = JSON.parse(USER);
       this.name = this.userData.DisplayName;
       this.title = this.userData.Role;
     }
-
-
 
     this.menuService
       .onItemClick()
@@ -59,17 +61,39 @@ export class HeaderComponent implements OnInit, OnDestroy {
             sessionStorage.clear();
             this._router.navigate(["auth/login"]);
           }
+          if (title == "Change Password") {
+            this.openChangePasswordDialog();
+          }
         },
-        error: (err) => { },
+        error: (err) => {},
       });
   }
 
-  ngOnDestroy() { }
+  ngOnDestroy() {}
 
   toggleSidebar(): boolean {
     this.sidebarService.toggle(true, "menu-sidebar");
     this.layoutService.changeLayoutSize();
-    this.commonservice.getStateOfSidebar();
+    this._common.getStateOfSidebar();
     return false;
+  }
+
+  openChangePasswordDialog() {
+    const dialogconfig: MatDialogConfig = {
+      data: {},
+      autoFocus: false,
+    };
+    const dialogRef = this._dialog.open(ChangePasswordComponent, dialogconfig);
+    dialogRef.afterClosed().subscribe({
+      next: (res) => {
+        if (res) {
+          this._common.openSnackbar(
+            "Your Password hasbeen updated successfully",
+            snackbarStatus.Success
+          );
+        }
+      },
+      error: (err) => {},
+    });
   }
 }

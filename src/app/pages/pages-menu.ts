@@ -43,6 +43,11 @@ export class Sample{
             icon: 'person-outline',
           },
           {
+            title: 'Roles',
+            link: 'masters/roles',
+            icon: 'award-outline',
+          },
+          {
             title: 'Vendors',
             link: 'masters/vendors',
             icon: 'people-outline',

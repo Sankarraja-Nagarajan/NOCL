@@ -1,17 +1,19 @@
 {
-    "BaseURL": "https://uatwhite-digitalonboarding.jkcement.com/CP_API/api",
-    "MSME_Types": "Micro,Small,Medium",
-    "Attachment_Types": "GST,PAN,Aadhar,MSME,ISO,Certificate of analysis,Material safety data sheet,No permanent establishment certificate",
-    "Terms_And_Conditions":[
-        {
-            "File_Name":"Sustainable Procurement Policy",
-            "File_Path":"../../../../assets/data/Sustainable proc Policy.pdf"
-        },
-        {
-            "File_Name":"NOCIL Supplier code of conduct 2022",
-            "File_Path":"../../../../assets/data/NOCIL Supplier code of conduct 2022.pdf"
-        }
-    ],
-    "Required_Attachments":"ISO 9001,GST,MSME,Aadhar,PAN,Blank Cheque",
-    "Expiry_Attachments" : "ISO 9001"
+  "BaseURL": "https://uatwhite-digitalonboarding.jkcement.com/CP_API/api",
+  "MSME_Types": "Micro,Small,Medium",
+  "Attachment_Types": "GST,PAN,Aadhar,MSME,ISO 9001,ISO 14001,ISO 45001,Certificate of Analysis,MSDS,No PE certificate",
+  "Terms_And_Conditions": [
+    {
+      "File_Name": "Sustainable Procurement Policy",
+      "File_Path": "assets/data/Sustainable proc Policy.pdf"
+    },
+    {
+      "File_Name": "NOCIL Supplier code of conduct 2022",
+      "File_Path": "assets/data/NOCIL Supplier code of conduct 2022.pdf"
+    }
+  ],
+
+  "Required_Attachments": "ISO 9001,GST,MSME,PAN,Blank Cheque",
+  "Import_Required_Attachments": "ISO 9001,ISO 14001,ISO 45001,MSME,Blank Cheque,Certificate of Analysis,MSDS,No PE certificate",
+  "Expiry_Attachments": "ISO 9001,ISO 14001,ISO 45001,MSME,Certificate of Analysis,MSDS"
 }

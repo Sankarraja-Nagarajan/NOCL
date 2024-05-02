@@ -150,7 +150,7 @@ export class RegistrationFormLayoutComponent implements OnInit {
   }
   //#endregion
 
-  //#region Submittinerfg form API Call
+  //#region Submitting form API Call
   submitForm(formSubmitTemplate: FormSubmitTemplate) {
     this.loader = true;
     this._registration.formSubmit(formSubmitTemplate).subscribe({

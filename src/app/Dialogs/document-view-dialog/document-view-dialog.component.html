@@ -15,28 +15,30 @@
     </div>
   </div>
 
-  <nb-card>
-    <nb-card-body class="pt-0">
-      <div *ngIf="isImage()">
-        <img [src]="attachmentData" />
-      </div>
-      <div *ngIf="isPdf()">
-        <pdf-viewer
-          [src]="attachmentData.changingThisBreaksApplicationSecurity"
-          [original-size]="true"
-          [render-text]="true"
-          [rotation]="0"
-          [fit-to-page]="true"
-          [zoom]="zoom"
-          [zoom-scale]="'page-width'"
-          [autoresize]="true"
-          [show-borders]="false"
-          [show-all]="true"
-          class="pdf-viewer"
-        ></pdf-viewer>
-      </div>
-    </nb-card-body>
-  </nb-card>
+  <div class="nbcard-container">
+    <nb-card class="nbcard">
+      <nb-card-body class="pt-0">
+        <div *ngIf="isImage()" class="pdf-image-container d-flex justify-content-center align-items-start h-100">
+          <img class="image-doc" [src]="attachmentData" />
+        </div>
+        <div *ngIf="isPdf()" class="pdf-image-container">
+          <pdf-viewer
+            [src]="attachmentData.changingThisBreaksApplicationSecurity"
+            [original-size]="true"
+            [render-text]="true"
+            [rotation]="0"
+            [fit-to-page]="true"
+            [zoom]="zoom"
+            [zoom-scale]="'page-width'"
+            [autoresize]="true"
+            [show-borders]="false"
+            [show-all]="true"
+            class="pdf-viewer"
+          ></pdf-viewer>
+        </div>
+      </nb-card-body>
+    </nb-card>
+  </div>
 </div>
 
 <div class="loader-point" id="nb-global-spinner" *ngIf="loader">

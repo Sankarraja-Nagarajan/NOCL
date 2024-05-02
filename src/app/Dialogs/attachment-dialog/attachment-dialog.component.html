@@ -54,8 +54,8 @@
         </div>
     </form>
     <div class="submit-session d-flex justify-content-center align-items-center">
-        <button *ngIf="!data.attachment" class="btn btn-design" type="submit" (click)="submit()">Submit</button>
-        <button *ngIf="data.attachment" class="btn btn-design" (click)="update()">Update</button>
+        <button *ngIf="!data.attachment" class="btn btn-design" type="submit" (click)="submit('Add')">Submit</button>
+        <button *ngIf="data.attachment" class="btn btn-design" (click)="submit('Update')">Update</button>
         <button class="btn cancel-btn-design" type="button" mat-dialog-close>Cancel</button>
     </div>
 </div>

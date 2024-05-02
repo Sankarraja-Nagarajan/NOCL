@@ -1,7 +1,13 @@
 import { Injectable } from "@angular/core";
 import { Observable, Subject } from "rxjs";
 import { HttpService } from "./http.service";
-import { LoginDetail, VerifyOtp } from "../Models/authModel";
+import {
+  ForgotPassword,
+  LoginDetail,
+  RequestOtp,
+  UpdatePassword,
+  VerifyOtp,
+} from "../Models/authModel";
 import { environment } from "../../environments/environment";
 
 @Injectable({
@@ -45,8 +51,30 @@ export class LoginService {
     return this._http.post(URL, loginDetails);
   }
 
-  VerifyOtp(otp: VerifyOtp): Observable<any> {
+  requestOtp(requestOtp: RequestOtp) {
+    const URL = this.baseURL + "/Auth/RequestOtp";
+    return this._http.post(URL, requestOtp);
+  }
+
+  verifyOtp(verifyOtp: VerifyOtp): Observable<any> {
     const URL = this.baseURL + "/Auth/VerifyOtp";
-    return this._http.post(URL, otp);
+    return this._http.post(URL, verifyOtp);
+  }
+
+  changePassword(updatePassword: UpdatePassword) {
+    const URL = this.baseURL + "/Auth/UpdatePassword";
+    return this._http.post(URL, updatePassword);
+  }
+
+  forgotPasswordRequestOtp(emplyee_Id: string) {
+    const URL =
+      this.baseURL +
+      `/Auth/RequestOtpForForgotPassword?employee_Id=${emplyee_Id}`;
+    return this._http.get(URL);
+  }
+
+  forgotPassword(forgotPassword: ForgotPassword) {
+    const URL = this.baseURL + "/Auth/ForgotPassword";
+    return this._http.post(URL, forgotPassword);
   }
 }

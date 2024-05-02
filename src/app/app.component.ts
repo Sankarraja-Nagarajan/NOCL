@@ -6,7 +6,7 @@
 import { Component, OnInit } from "@angular/core";
 import { AnalyticsService } from "./@core/utils/analytics.service";
 import { SeoService } from "./@core/utils/seo.service";
-import { NbMenuItem } from "@nebular/theme";
+import { NbIconLibraries, NbMenuItem } from "@nebular/theme";
 import { Sample } from "./Pages/pages-menu";
 import { Router } from "@angular/router";
 
@@ -20,10 +20,9 @@ export class AppComponent implements OnInit {
   _sample = new Sample();
 
   constructor(
-    private analytics: AnalyticsService,
-    private seoService: SeoService,
     private _router: Router
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
     this._router.events.subscribe({
