@@ -22,6 +22,7 @@ export class CommercialProfileComponent {
   msmeTypes: string[] = [];
   authResponse: AuthResponse;
   astheriskRequired:boolean=false;
+  msmedisabled: boolean = true;
 
   constructor(
     private _fb: FormBuilder,
@@ -55,6 +56,7 @@ export class CommercialProfileComponent {
         "^(UDYAM-[A-Z]{2}-[0-9]{2}-[0-9]{7})+$"
       )],
       ServiceCategory: [""],
+      Is_MSME_Type: [true],
     });
 
     this.authResponse = JSON.parse(sessionStorage.getItem("userDetails"));
@@ -85,12 +87,13 @@ export class CommercialProfileComponent {
       .subscribe({
         next: (res) => {
           if (res) {
+            console.log("res",res)
             this.commercialId = (res as CommercialProfile).Id;
             this.commercialProfileForm.patchValue(res);
           }
         },
         error: (err) => {
-          
+
         },
       });
   }
@@ -114,5 +117,19 @@ export class CommercialProfileComponent {
     commercialProfile.Id = this.commercialId ? this.commercialId : 0;
     commercialProfile.Form_Id = this.form_Id;
     return commercialProfile;
+  }
+
+  changeOptions(){
+    console.log('msme type', this.commercialProfileForm.get('Is_MSME_Type').value);
+
+    if(!this.commercialProfileForm.get('Is_MSME_Type').value){
+      this.commercialProfileForm.get('MSME_Type').disable();
+      this.commercialProfileForm.get('MSME_Number').disable();
+      this.msmedisabled = false;
+    } else {
+      this.commercialProfileForm.get('MSME_Type').enable();
+      this.commercialProfileForm.get('MSME_Number').enable();
+      this.msmedisabled = true;
+    }
   }
 }

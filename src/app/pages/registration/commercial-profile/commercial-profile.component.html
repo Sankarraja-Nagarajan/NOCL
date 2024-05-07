@@ -56,9 +56,32 @@
                     </div>
                     <!-- PAN & GSTIN -->
 
+
+<!--                  <nb-select size="small" status="primary" formControlName="Is_MSME_Type" (selectedChange)="changeOptions()">-->
+<!--                    <nb-option [value]="true">Yes</nb-option>-->
+<!--                    <nb-option [value]="false">No</nb-option>-->
+<!--                  </nb-select>-->
+
                     <!--MSME_Type & MSME_Number-->
                     <div class="row mb-2">
-                        <div class="col-sm">
+
+                      <div class="col-sm">
+                        <div>
+                          <label class="input-label-text">MSME Type <span  class="asterisk-required">*</span></label>
+                          <div class="input-group">
+
+                            <nb-select size="small" status="primary" formControlName="Is_MSME_Type" (selectedChange)="changeOptions()">
+                              <nb-option [value]="true">Yes</nb-option>
+                              <nb-option [value]="false">No</nb-option>
+                            </nb-select>
+
+                            <mat-error *ngIf="this.commercialProfileForm.get('Is_MSME_Type').hasError('required') && this.commercialProfileForm.get('Is_MSME_Type').touched"
+                                       class="error-msg"> Is_MSME_Type is required </mat-error>
+                          </div>
+                        </div>
+                      </div>
+
+                        <div class="col-sm" [hidden]="!msmedisabled">
                             <div>
                                 <label class="input-label-text">MSME Type <span *ngIf="astheriskRequired" class="asterisk-required">*</span></label>
                                 <div class="input-group">
@@ -73,8 +96,11 @@
                                 </div>
                             </div>
                         </div>
+
+
+
                         <div class="col-sm">
-                            <div>
+                            <div [hidden]="!msmedisabled">
                                 <label class="input-label-text">MSME Number <span *ngIf="astheriskRequired" class="asterisk-required">*</span></label>
                                 <div class="input-group">
                                     <input nbInput fullWidth fieldSize="small" class="input-border"
