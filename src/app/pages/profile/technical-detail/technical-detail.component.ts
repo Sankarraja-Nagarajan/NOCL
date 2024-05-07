@@ -14,17 +14,21 @@ import { RegistrationService } from '../../../Services/registration.service';
   styleUrls: ['./technical-detail.component.scss']
 })
 export class TechnicalDetailComponent implements OnInit {
-  @Input() formId: number = 17;
+  //@Input() formId: number = 17;
   technicalProfileForm: FormGroup;
   technicalProfile: TechnicalProfile = new TechnicalProfile();
   isEditBtn:boolean=true;
-
+  vendorInfo:any;
+  formId:number;
   constructor(private _registration: RegistrationService,
     private _commonService: CommonService,
     private _dialog:MatDialog,
     private _fb: FormBuilder,) {}
 
   ngOnInit(): void {
+    let vInfo = sessionStorage.getItem("vendorInfo");
+    this.vendorInfo    = JSON.parse(vInfo);
+    this.formId = this.vendorInfo.FormId;
     this.technicalProfileForm = this._fb.group({
       Is_ISO_Certified: [false],
       Other_Qms_Certified: [false],

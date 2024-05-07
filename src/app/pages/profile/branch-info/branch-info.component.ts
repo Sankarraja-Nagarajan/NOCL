@@ -12,15 +12,22 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrls: ['./branch-info.component.scss']
 })
 export class BranchInfoComponent implements OnInit {
-  @Input() formId: number = 17;
+  //@Input() formId: number = 17;
   vendorBranches: VendorBranch[] = [];
-
+  vendorInfo:any;
+  formId:number;
   constructor(private _commonService: CommonService,
     private _registration: RegistrationService,
     private _dialog:MatDialog) { }
 
   ngOnInit(): void {
-
+    let vInfo = sessionStorage.getItem("vendorInfo");
+    this.vendorInfo    = JSON.parse(vInfo);
+    this.formId = this.vendorInfo.FormId;
+    this.getMasterData();
+    
+  }
+  getMasterData(){
     this._registration.getFormData(this.formId, "VendorBranches").subscribe({
       next: (res) => {
         if (res) {
@@ -32,7 +39,6 @@ export class BranchInfoComponent implements OnInit {
       },
     });
   }
-
   deleteBranch(){
     const DIALOGREF = this._dialog.open(ConfirmationDialogComponent, {
       width: "500px",

@@ -15,10 +15,10 @@ import { ConfirmationDialogComponent } from "../../../Dialogs/confirmation-dialo
   styleUrls: ["./address-profile.component.scss"],
 })
 export class AddressProfileComponent implements OnInit {
-  @Input() formId: number = 17;
+  //@Input() formId: number = 17;
   addresses: Address[] = [];
   addressTypes: AddressType[] = [];
-
+  formId:number;
   loader: boolean = false;
   vendorInfo: any;
 
@@ -31,7 +31,9 @@ export class AddressProfileComponent implements OnInit {
 
   ngOnInit(): void {
     let vInfo = sessionStorage.getItem("vendorInfo");
-    this.vendorInfo = JSON.parse(vInfo);
+    this.vendorInfo    = JSON.parse(vInfo);
+    this.formId = this.vendorInfo.FormId;
+    
     this.getMasterData();
   }
 
@@ -51,9 +53,11 @@ export class AddressProfileComponent implements OnInit {
       next: (res) => {
         if (res[0]) {
           this.addressTypes = res[0] as AddressType[];
+        
         }
         if (res[1]) {
           this.addresses = res[1] as Address[];
+         
         }
         this.loader = false;
       },

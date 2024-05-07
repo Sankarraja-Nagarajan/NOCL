@@ -43,5 +43,6 @@ export class ProfileLayoutComponent implements OnInit {
   ngOnInit(): void {
     let vInfo = sessionStorage.getItem("vendorInfo");
     this.vendorInfo = JSON.parse(vInfo);
+    console.log(this.vendorInfo);
   }
 }

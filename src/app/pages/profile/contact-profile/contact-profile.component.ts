@@ -15,16 +15,20 @@ import { forkJoin } from "rxjs/internal/observable/forkJoin";
   styleUrls: ["./contact-profile.component.scss"],
 })
 export class ContactProfileComponent implements OnInit {
-  @Input() formId: number = 17;
+ // @Input() formId: number = 17;
   contacts: Contact[] = [];
   contactTypes: ContactType[] = [];
-
+  vendorInfo:any;
+  formId:number;
   constructor(private _registration: RegistrationService,
     private _master: MasterService,
     private _commonService: CommonService,
     private _dialog:MatDialog) {}
 
   ngOnInit(): void {
+    let vInfo = sessionStorage.getItem("vendorInfo");
+    this.vendorInfo    = JSON.parse(vInfo);
+    this.formId = this.vendorInfo.FormId;
     this.getMasterData();
   }
 
@@ -43,9 +47,11 @@ export class ContactProfileComponent implements OnInit {
       next: (res) => {
         if (res[0]) {
           this.contactTypes = res[0] as ContactType[];
+       
         }
         if (res[1]) {
           this.contacts = res[1] as Contact[];
+        
         }
       },
       error: (err) => {
