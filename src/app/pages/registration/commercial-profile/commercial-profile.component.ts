@@ -20,16 +20,18 @@ export class CommercialProfileComponent {
   commercialProfileForm: FormGroup;
   commercialId: number = 0;
   msmeTypes: string[] = [];
+  reqDoctypes: string[] = [];
+  documents:string= "";
   authResponse: AuthResponse;
-  astheriskRequired:boolean=false;
+  astheriskRequired: boolean = false;
   msmedisabled: boolean = true;
-
+  MSMEindex: number;
   constructor(
     private _fb: FormBuilder,
     private _config: AppConfigService,
     private _registration: RegistrationService,
     private _common: CommonService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.commercialProfileForm = this._fb.group({
@@ -52,7 +54,7 @@ export class CommercialProfileComponent {
         ],
       ],
       MSME_Type: [""],
-      MSME_Number: ["",Validators.pattern(
+      MSME_Number: ["", Validators.pattern(
         "^(UDYAM-[A-Z]{2}-[0-9]{2}-[0-9]{7})+$"
       )],
       ServiceCategory: [""],
@@ -76,18 +78,19 @@ export class CommercialProfileComponent {
       this.commercialProfileForm
         .get("MSME_Number")
         .addValidators(Validators.required);
-        this.astheriskRequired = true;
+      this.astheriskRequired = true;
     }
 
     this.msmeTypes = this._config.get("MSME_Types").split(",");
-
+    this.reqDoctypes = this._config.get("Required_Attachments").split(",");
+    console.log("reqDoctypes : ", this.reqDoctypes);
     // Get Form data by form Id
     this._registration
       .getFormData(this.form_Id, "CommercialProfile")
       .subscribe({
         next: (res) => {
           if (res) {
-            console.log("res",res)
+            console.log("res", res)
             this.commercialId = (res as CommercialProfile).Id;
             this.commercialProfileForm.patchValue(res);
           }
@@ -119,17 +122,40 @@ export class CommercialProfileComponent {
     return commercialProfile;
   }
 
-  changeOptions(){
+  changeOptions() {
     console.log('msme type', this.commercialProfileForm.get('Is_MSME_Type').value);
 
-    if(!this.commercialProfileForm.get('Is_MSME_Type').value){
+    if (!this.commercialProfileForm.get('Is_MSME_Type').value) {
       this.commercialProfileForm.get('MSME_Type').disable();
       this.commercialProfileForm.get('MSME_Number').disable();
       this.msmedisabled = false;
+      this.MSMEindex = this.reqDoctypes.indexOf("MSME");
+      if (this.MSMEindex != -1) {
+        this.reqDoctypes.splice(this.MSMEindex, 1);
+        this.documents = this.reqDoctypes.join(",");
+      //  this._config.loadAppConfig().then(() => {
+          this._config.updateConfigValue('Required_Attachments', this.documents);
+          const value = this._config.get("Required_Attachments").split(",");
+          console.log(value);
+       // });
+        console.log("reqDoctypes : ", this.reqDoctypes);
+      }
+
+
     } else {
       this.commercialProfileForm.get('MSME_Type').enable();
       this.commercialProfileForm.get('MSME_Number').enable();
       this.msmedisabled = true;
+      this.MSMEindex = this.reqDoctypes.indexOf("MSME");
+      if (this.MSMEindex == -1) {
+        this.reqDoctypes.push("MSME");
+        this.documents = this.reqDoctypes.join(",");
+        this._config.updateConfigValue('Required_Attachments', this.documents);
+        const value = this._config.get("Required_Attachments").split(",");
+        console.log(value);
+      }
+
+      console.log(this.reqDoctypes);
     }
   }
 }

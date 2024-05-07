@@ -14,11 +14,19 @@ export class AppConfigService {
       .get("../../assets/configuration/config.json")
       .toPromise()
       .then((data) => {
-        this.appConfig = data;
+          this.appConfig = data;
       });
   }
 
   get(key): any {
     return this.appConfig[key];
+  }
+  updateConfigValue(key: string, value: any): void {
+    if (this.appConfig) {
+      this.appConfig[key] = value;
+     
+    } else {
+      console.error('Config not loaded yet.');
+    }
   }
 }
