@@ -14,14 +14,15 @@ import { snackbarStatus } from '../../../Enums/snackbar-status';
   styleUrls: ['./organization-profile.component.scss']
 })
 export class OrganizationProfileComponent implements OnInit {
-  @Input() formId: number = 17;
+ // @Input() formId: number = 17;
   orgProfile: VendorOrganizationProfile = new VendorOrganizationProfile();
   orgTypes: OrganizationType[] = [];
   companyStatuses: CompanyStatus[] = [];
   subsideriesList: Subsideries[] = [];
   listOfMajorCustomerList: MajorCustomer[] = [];
   nocilRelatedEmployees: NocilRelatedEmployee[] = [];
-
+  vendorInfo:any;
+  formId:number;
   constructor(private _dialog: MatDialog,
     private _master: MasterService,
     private _common: CommonService,
@@ -30,6 +31,9 @@ export class OrganizationProfileComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    let vInfo = sessionStorage.getItem("vendorInfo");
+    this.vendorInfo    = JSON.parse(vInfo);
+    this.formId = this.vendorInfo.FormId;
     this.getAllData();
   }
 

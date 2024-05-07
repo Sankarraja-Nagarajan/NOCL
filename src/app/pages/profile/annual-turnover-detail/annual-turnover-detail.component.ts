@@ -13,8 +13,10 @@ import { ConfirmationDialogComponent } from '../../../Dialogs/confirmation-dialo
   styleUrls: ['./annual-turnover-detail.component.scss']
 })
 export class AnnualTurnoverDetailComponent implements OnInit {
-  @Input() formId: number = 17;
+  //@Input() formId: number = 17;
   dataSource = new MatTableDataSource();
+  vendorInfo:any;
+  formId:number;
   displayedColumns: string[] = [
     "year",
     "salesturnover",
@@ -30,6 +32,13 @@ export class AnnualTurnoverDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    let vInfo = sessionStorage.getItem("vendorInfo");
+    this.vendorInfo = JSON.parse(vInfo);
+    this.formId = this.vendorInfo.FormId;
+    this.getMasterData();
+    
+  }
+  getMasterData():void{
     this._registration.getFormData(this.formId, "AnnualTurnOvers").subscribe({
       next: (res) => {
         if (res) {
@@ -41,7 +50,6 @@ export class AnnualTurnoverDetailComponent implements OnInit {
       },
     });
   }
-
   removeTurnover(i:number){
     const DIALOGREF = this._dialog.open(ConfirmationDialogComponent, {
       width: "500px",

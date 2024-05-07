@@ -14,14 +14,15 @@ import { AppConfigService } from '../../../Services/app-config.service';
   styleUrls: ['./commercial-detail.component.scss']
 })
 export class CommercialDetailComponent implements OnInit {
-  @Input() formId: number = 17;
+ // @Input() formId: number = 17;
   msmeTypes: string[] = [];
   authResponse: AuthResponse;
   astheriskRequired:boolean=false;
   commercialProfileForm: FormGroup;
   commercialProfile: CommercialProfile = new CommercialProfile();
   isEditBtn:boolean=true;
-
+  vendorInfo:any;
+  formId:number;
   constructor(private _registration: RegistrationService,
     private _commonService: CommonService,
     private _dialog:MatDialog,
@@ -29,6 +30,9 @@ export class CommercialDetailComponent implements OnInit {
     private _config: AppConfigService) {}
 
   ngOnInit(): void {
+    let vInfo = sessionStorage.getItem("vendorInfo");
+    this.vendorInfo    = JSON.parse(vInfo);
+    this.formId = this.vendorInfo.FormId;
     this.commercialProfileForm = this._fb.group({
       Financial_Credit_Rating: [""],
       Agency_Name: [""],
@@ -65,6 +69,7 @@ export class CommercialDetailComponent implements OnInit {
         if(res){
           this.commercialProfile = res as CommercialProfile;
           this.commercialProfileForm.patchValue(this.commercialProfile);
+         
         }
       },
       error: (err) => {
