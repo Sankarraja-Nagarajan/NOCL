@@ -551,4 +551,5 @@ export class RegistrationFormLayoutComponent implements OnInit {
   getGstDetail(event) {
     this.gstDetail = event;
   }
+
 }

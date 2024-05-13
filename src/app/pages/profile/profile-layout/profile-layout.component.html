@@ -26,7 +26,7 @@
       <mat-tab class="tab-title" label="Contact">
         <ngx-contact-profile></ngx-contact-profile>
       </mat-tab>
-      <mat-tab class="tab-title" label="Technical Profile">
+      <mat-tab *ngIf="vendorInfo.Vendor_Type != 'Transport'" class="tab-title" label="Technical Profile">
         <ngx-technical-detail></ngx-technical-detail>
       </mat-tab>
       <mat-tab class="tab-title" label="Commercial Profile">
@@ -38,10 +38,16 @@
       <mat-tab class="tab-title" label="Branches">
         <ngx-branch-info></ngx-branch-info>
       </mat-tab>
-      <mat-tab class="tab-title" label="Annual Turnover">
+      <mat-tab *ngIf="vendorInfo.Vendor_Type != 'Transport'" class="tab-title" label="Annual Turnover">
         <ngx-annual-turnover-detail></ngx-annual-turnover-detail>
       </mat-tab>
-      <mat-tab class="tab-title" label="Organization Profile">
+      <mat-tab *ngIf="vendorInfo.Vendor_Type == 'Transport'" class="tab-title" label="Transport Vendor Profile">
+        <ngx-transport-vendor-profile></ngx-transport-vendor-profile>
+      </mat-tab>
+      <mat-tab *ngIf="vendorInfo.Vendor_Type == 'Transport'" class="tab-title" label="Tanker Details">
+        <ngx-tanker-details></ngx-tanker-details>
+      </mat-tab>
+      <mat-tab *ngIf="vendorInfo.Vendor_Type != 'Transport'" class="tab-title" label="Organization Profile">
         <ngx-organization-profile></ngx-organization-profile>
       </mat-tab>
     </mat-tab-group>
