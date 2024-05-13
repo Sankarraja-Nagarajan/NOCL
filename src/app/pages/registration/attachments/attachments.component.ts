@@ -11,16 +11,18 @@ import { DocumentViewDialogComponent } from "../../../Dialogs/document-view-dial
 import { AttachmentService } from "../../../Services/attachment.service";
 import { FileSaverService } from "../../../Services/file-saver.service";
 import { AppConfigService } from "../../../Services/app-config.service";
+import { EmitterService } from "../../../Services/emitter.service";
+import { MatAccordion } from "@angular/material/expansion";
 
 @Component({
   selector: "ngx-attachments",
   templateUrl: "./attachments.component.html",
   styleUrls: ["./attachments.component.scss"],
 })
-export class AttachmentsComponent {
+export class AttachmentsComponent  {
   @Input() form_Id: number;
   @Input() v_Id: number;
-
+  
   role: string = "";
 
   displayedColumns: string[] = [
@@ -46,9 +48,12 @@ export class AttachmentsComponent {
     private _registration: RegistrationService,
     private _docService: AttachmentService,
     private _fileSaver: FileSaverService,
-    private _config: AppConfigService
-  ) {}
-
+    private _config: AppConfigService,private emitterService: EmitterService
+  ) { }
+  // ngAfterViewInit(): void {
+  //   this.reqDoctypes = this.document;
+  //   this.GetAttachment();
+  // }
   ngOnInit(): void {
     const userData = JSON.parse(sessionStorage.getItem("userDetails"));
     this.role = userData ? userData.Role : "";
@@ -59,8 +64,19 @@ export class AttachmentsComponent {
     } else {
       this.reqDoctypes = this._config.get("Required_Attachments").split(",");
     }
-
+    this.GetAttachment();
+    this.emitterService.DocumentData().subscribe((data) => {
+      this.reqDoctypes = data ;
+      this.GetAttachment();
+    });
+    // this.emitterService.ISODocumentData().subscribe((data) => {
+    //   this.reqDoctypes = data ;
+    //   this.GetAttachment();
+    // });
     // Get attachments by form Id
+
+  }
+  GetAttachment() {
     this._registration.getFormData(this.form_Id, "Attachments").subscribe({
       next: (res) => {
         if (res && res.length > 0) {
@@ -86,8 +102,11 @@ export class AttachmentsComponent {
 
           this.reqDatasource._updateChangeSubscription();
           this.additionalDatasource._updateChangeSubscription();
-        } else {
+        } 
+        else {
+          this.reqDatasource = new MatTableDataSource();
           this.reqDoctypes.forEach((element) => {
+            
             let attachment = new Attachment();
             attachment.Form_Id = this.form_Id;
             attachment.File_Type = element;
@@ -95,11 +114,13 @@ export class AttachmentsComponent {
           });
           this.reqDatasource._updateChangeSubscription();
         }
+        // else if(this.reqDoctypes.length <= 5){
+
+        // }
       },
-      error: (err) => {},
+      error: (err) => { },
     });
   }
-
   removeAttachment(attachmentId: number, i: number) {
     this.loader = true;
     this._docService.DeleteAttachment(attachmentId).subscribe({

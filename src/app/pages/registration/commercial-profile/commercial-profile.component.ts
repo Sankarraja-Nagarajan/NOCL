@@ -6,7 +6,8 @@ import { AuthResponse } from "../../../Models/authModel";
 import { RegistrationService } from "../../../Services/registration.service";
 import { CommonService } from "../../../Services/common.service";
 import { snackbarStatus } from "../../../Enums/snackbar-status";
-
+import { Output, EventEmitter } from '@angular/core';
+import { EmitterService } from "../../../Services/emitter.service";
 @Component({
   selector: "ngx-commercial-profile",
   templateUrl: "./commercial-profile.component.html",
@@ -16,7 +17,7 @@ export class CommercialProfileComponent {
   @Input() form_Id: number;
   @Input() v_Id: number;
   @Input() isReadOnly: boolean;
-
+  
   commercialProfileForm: FormGroup;
   commercialId: number = 0;
   msmeTypes: string[] = [];
@@ -30,7 +31,7 @@ export class CommercialProfileComponent {
     private _fb: FormBuilder,
     private _config: AppConfigService,
     private _registration: RegistrationService,
-    private _common: CommonService
+    private _common: CommonService,private emitterService: EmitterService
   ) { }
 
   ngOnInit(): void {
@@ -82,15 +83,14 @@ export class CommercialProfileComponent {
     }
 
     this.msmeTypes = this._config.get("MSME_Types").split(",");
-    this.reqDoctypes = this._config.get("Required_Attachments").split(",");
-    console.log("reqDoctypes : ", this.reqDoctypes);
+    
+    
     // Get Form data by form Id
     this._registration
       .getFormData(this.form_Id, "CommercialProfile")
       .subscribe({
         next: (res) => {
           if (res) {
-            console.log("res", res)
             this.commercialId = (res as CommercialProfile).Id;
             this.commercialProfileForm.patchValue(res);
           }
@@ -106,7 +106,6 @@ export class CommercialProfileComponent {
     if (this.commercialProfileForm.valid) {
       return true;
     } else {
-      console.log('commercial');
       this.commercialProfileForm.markAllAsTouched();
       this._common.openRequiredFieldsSnackbar();
       return false;
@@ -123,8 +122,7 @@ export class CommercialProfileComponent {
   }
 
   changeOptions() {
-    console.log('msme type', this.commercialProfileForm.get('Is_MSME_Type').value);
-
+    this.reqDoctypes = this._config.get("Required_Attachments").split(",");
     if (!this.commercialProfileForm.get('Is_MSME_Type').value) {
       this.commercialProfileForm.get('MSME_Type').disable();
       this.commercialProfileForm.get('MSME_Number').disable();
@@ -133,15 +131,10 @@ export class CommercialProfileComponent {
       if (this.MSMEindex != -1) {
         this.reqDoctypes.splice(this.MSMEindex, 1);
         this.documents = this.reqDoctypes.join(",");
-      //  this._config.loadAppConfig().then(() => {
           this._config.updateConfigValue('Required_Attachments', this.documents);
           const value = this._config.get("Required_Attachments").split(",");
-          console.log(value);
-       // });
-        console.log("reqDoctypes : ", this.reqDoctypes);
+          this.updateRequireDocument(value);
       }
-
-
     } else {
       this.commercialProfileForm.get('MSME_Type').enable();
       this.commercialProfileForm.get('MSME_Number').enable();
@@ -152,10 +145,11 @@ export class CommercialProfileComponent {
         this.documents = this.reqDoctypes.join(",");
         this._config.updateConfigValue('Required_Attachments', this.documents);
         const value = this._config.get("Required_Attachments").split(",");
-        console.log(value);
+      this.updateRequireDocument(value);
       }
-
-      console.log(this.reqDoctypes);
     }
+  }
+  updateRequireDocument(value:string) {
+    this.emitterService.emitRequiredDocument(value);
   }
 }

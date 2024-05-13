@@ -6,6 +6,7 @@ import { RegistrationService } from "../../../Services/registration.service";
 import { CommonService } from "../../../Services/common.service";
 import { snackbarStatus } from "../../../Enums/snackbar-status";
 import { AppConfigService } from "../../../Services/app-config.service";
+import { EmitterService } from "../../../Services/emitter.service";
 
 @Component({
   selector: "ngx-technical-profile",
@@ -25,7 +26,7 @@ export class TechnicalProfileComponent implements OnInit {
   constructor(
     private _fb: FormBuilder,
     private _registration: RegistrationService,
-    private _common: CommonService,private _config: AppConfigService
+    private _common: CommonService,private _config: AppConfigService,private emitterService: EmitterService
   ) { }
 
   ngOnInit(): void {
@@ -36,7 +37,7 @@ export class TechnicalProfileComponent implements OnInit {
       Is_Statutory_Provisions_Adheard: [false],
       Initiatives_for_Development: [""],
     });
-    this.reqDoctypes = this._config.get("Required_Attachments").split(",");
+   
     this.authResponse = JSON.parse(sessionStorage.getItem("userDetails"));
     if (this.authResponse && this.authResponse?.Role != "Vendor") {
       this.technicalProfileForm.disable();
@@ -56,6 +57,7 @@ export class TechnicalProfileComponent implements OnInit {
   }
 
   changeOptions() {
+    this.reqDoctypes = this._config.get("Required_Attachments").split(",");
     if (this.technicalProfileForm.get("Is_ISO_Certified").value == true || this.technicalProfileForm.get("Other_Qms_Certified").value) {
       this.technicalProfileForm.get("Planning_for_Qms").disable();
     } 
@@ -75,8 +77,7 @@ export class TechnicalProfileComponent implements OnInit {
         this.documents = this.reqDoctypes.join(",");
         this._config.updateConfigValue('Required_Attachments', this.documents);
         const value = this._config.get("Required_Attachments").split(",");
-        console.log(value);
-        console.log("reqDoctypes : ", this.reqDoctypes);
+        this.updateRequireDocument(value);
       }
     }
     else{
@@ -86,9 +87,9 @@ export class TechnicalProfileComponent implements OnInit {
         this.documents = this.reqDoctypes.join(",");
         this._config.updateConfigValue('Required_Attachments', this.documents);
         const value = this._config.get("Required_Attachments").split(",");
-        console.log(value);
+        this.updateRequireDocument(value);
       }
-      console.log("reqDoctypes : ", this.reqDoctypes);
+   
     }
   }
 
@@ -99,5 +100,9 @@ export class TechnicalProfileComponent implements OnInit {
     technicalProfile.Id = this.techId ? this.techId : 0;
     technicalProfile.Form_Id = this.form_Id;
     return technicalProfile;
+  }
+  updateRequireDocument(value:string) {
+    // Logic to update value
+    this.emitterService.emitRequiredDocument(value);
   }
 }
