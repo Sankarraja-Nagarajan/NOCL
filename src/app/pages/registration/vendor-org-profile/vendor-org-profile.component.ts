@@ -52,6 +52,7 @@ export class VendorOrgProfileComponent {
       RelationToNocil: [false],
       Subsideries: [null],
       Annual_Prod_Capacity: [0],
+      Unit:[""],
     });
 
     this.valueChangeEvents();
@@ -74,12 +75,16 @@ export class VendorOrgProfileComponent {
           this.vendorOrgForm
             .get("Annual_Prod_Capacity")
             .updateValueAndValidity();
+            this.vendorOrgForm.get("Unit").addValidators([Validators.required]);
+            this.vendorOrgForm.get("Unit").updateValueAndValidity();
           this.isAnnualProdShown = true;
         } else {
           this.vendorOrgForm.get("Annual_Prod_Capacity").clearValidators();
           this.vendorOrgForm
             .get("Annual_Prod_Capacity")
             .updateValueAndValidity();
+            this.vendorOrgForm.get("Unit").clearValidators();
+            this.vendorOrgForm.get("Unit").updateValueAndValidity();
           this.isAnnualProdShown = false;
         }
       },

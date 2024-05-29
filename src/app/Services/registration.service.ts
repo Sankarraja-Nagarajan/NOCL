@@ -64,7 +64,14 @@ export class RegistrationService {
     const URL = `${this.baseURL}/Registration/GetRejectedReasons?form_Id=${formId}`;
     return this._http.get(URL);
   }
-
+getExpiryNotifications(formId: string) : Observable<any>{
+  const URL = `${this.baseURL}/Notifications/GetAllExpiryNotificationsByVendorCode?vCode=${formId}`;
+    return this._http.get(URL);
+}
+getAllExpiryNotifications() : Observable<any>{
+  const URL = `${this.baseURL}/Notifications/GetAllExpiryNotifications`;
+    return this._http.get(URL);
+}
   // Get GSTIN Details
   getGstDetails(gstin:string) :Observable<any>{
     const URL = `${this.baseURL}/Registration/GetGstDetails?gstin=${gstin}`;

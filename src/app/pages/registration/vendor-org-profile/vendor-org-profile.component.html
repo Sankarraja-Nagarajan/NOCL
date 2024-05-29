@@ -47,8 +47,8 @@
 
           <!--AnnualProdCapacity  & RelationToNocil-->
           <div class="row">
-            <div *ngIf="isAnnualProdShown" class="mt-2">
-              <label class="input-label-text">Annual Prod Capacity </label>
+            <div *ngIf="isAnnualProdShown" class="mt-2 col-sm">
+              <label class="input-label-text">Annual Prod Capacity <span class="asterisk-required">*</span></label>
               <div class="input-group">
                 <input [readOnly]="isReadOnly" nbInput fullWidth fieldSize="small" class="input-border"
                   formControlName="Annual_Prod_Capacity" placeholder="Enter Annual Prod Capacity"
@@ -60,6 +60,21 @@
                   this.vendorOrgForm.get('Annual_Prod_Capacity').touched
                 " class="error-msg">
                   Annual Production Capacity is required</mat-error>
+              </div>
+            </div>
+            <div *ngIf="isAnnualProdShown" class="mt-2 col-sm">
+              <label class="input-label-text">Units <span class="asterisk-required">*</span></label>
+              <div class="input-group">
+                <input nbInput fullWidth fieldSize="small" class="input-border"
+                  formControlName="Unit" placeholder="Units"
+                   />
+                <mat-error *ngIf="
+                  this.vendorOrgForm
+                    .get('Unit')
+                    .hasError('required') &&
+                  this.vendorOrgForm.get('Unit').touched
+                " class="error-msg">
+                Units is required</mat-error>
               </div>
             </div>
           </div>

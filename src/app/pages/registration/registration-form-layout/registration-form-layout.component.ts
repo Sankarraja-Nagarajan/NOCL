@@ -93,7 +93,7 @@ export class RegistrationFormLayoutComponent implements OnInit {
     private _registration: RegistrationService,
     private _dialog: MatDialog,
     private _router: Router
-  ) {}
+  ) { }
   ngOnInit(): void {
     this.authResponse = JSON.parse(sessionStorage.getItem("userDetails"));
     this._activatedRoute.queryParams.subscribe({
@@ -129,8 +129,16 @@ export class RegistrationFormLayoutComponent implements OnInit {
         this._commonService.openSnackbar(err, snackbarStatus.Danger);
       },
     });
+    //this.ExpiryNotifications();
+   
   }
-
+  // ExpiryNotifications() {
+  //   this._registration.getExpiryNotifications(this.form_Id.toString()).subscribe({
+  //     next: (res) => {
+  //       console.log("getExpiryNotifications : ", res);
+  //     }
+  //   })
+  // }
   //#region Open terms and Conditions dialog
   openTermsAndConditionsDialog() {
     const dialogRef = this._dialog.open(TermsAndConditionsDialogComponent, {

@@ -35,7 +35,7 @@ export class AnnualTurnoverComponent implements OnInit {
   ) {
     this.turnoverForm = _fb.group({
       Year: ["", Validators.required],
-      SalesTurnOver: [0],
+      SalesTurnOver: [0,Validators.required],
       OperatingProfit: [0],
       NetProfit: [0],
     });

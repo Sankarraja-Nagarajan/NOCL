@@ -81,10 +81,12 @@ export class AttachmentsComponent  {
       next: (res) => {
         if (res && res.length > 0) {
           let resFileTypes = [];
+          this.reqDatasource.data = [];
           this.attachments = res as Attachment[];
           this.attachments.forEach((element) => {
             resFileTypes.push(element.File_Type);
             if (this.reqDoctypes.includes(element.File_Type)) {
+             
               this.reqDatasource.data.push(element);
             } else {
               this.additionalDatasource.data.push(element);

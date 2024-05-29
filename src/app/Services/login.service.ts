@@ -52,12 +52,12 @@ export class LoginService {
   }
 
   requestOtp(requestOtp: RequestOtp) {
-    const URL = this.baseURL + "/Auth/RequestOtp";
+    const URL = this.baseURL + "/Auth/RequestOtpForVendorLogin";
     return this._http.post(URL, requestOtp);
   }
 
   verifyOtp(verifyOtp: VerifyOtp): Observable<any> {
-    const URL = this.baseURL + "/Auth/VerifyOtp";
+    const URL = this.baseURL + "/Auth/VerifyOtpForVendorLogin";
     return this._http.post(URL, verifyOtp);
   }
 

@@ -12,6 +12,7 @@ export class VendorOrganizationProfile {
   Status_of_Company_Id: number;
   Annual_Prod_Capacity: number;
   RelationToNocil: boolean;
+  Unit:string;
 }
 
 export class TechnicalProfile {

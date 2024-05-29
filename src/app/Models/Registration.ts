@@ -32,3 +32,11 @@ export class Rejection {
     Employee_Id: string;
     Reason: string;
 }
+export class ExpiryDetails {
+
+    Doc_Type: string;
+    Valid_Till_Date: string;
+    Vendor_Mail: string;
+    Vendor_Mobile: string;
+    Vendor_Name: string;
+}

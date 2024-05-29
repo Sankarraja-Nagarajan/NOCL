@@ -83,6 +83,7 @@ export class TechnicalProfileComponent implements OnInit {
     else{
       this.isoindex = this.reqDoctypes.indexOf("ISO 9001");
       if (this.isoindex == -1) {
+        //this.reqDoctypes = [];
         this.reqDoctypes.push("ISO 9001");
         this.documents = this.reqDoctypes.join(",");
         this._config.updateConfigValue('Required_Attachments', this.documents);
