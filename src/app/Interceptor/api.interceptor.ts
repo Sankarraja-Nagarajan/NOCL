@@ -11,13 +11,14 @@ import { Router } from "@angular/router";
 import { CommonService } from "../Services/common.service";
 import { catchError } from "rxjs/operators";
 import { snackbarStatus } from "../Enums/snackbar-status";
+import { getSession } from "../Utils";
 
 @Injectable()
 export class ApiInterceptor implements HttpInterceptor {
   constructor(private _router: Router, private _common: CommonService) {}
 
   getToken() {
-    var users = sessionStorage.getItem("userDetails");
+    var users = getSession("userDetails");
     if (users) {
       let userData = JSON.parse(users);
       return userData.Token;
@@ -39,52 +40,70 @@ export class ApiInterceptor implements HttpInterceptor {
       catchError((err: any) => {
         console.log("Error", err);
         if (err instanceof HttpErrorResponse) {
-          if (err.status === 401) {
-            this._common.openSnackbar(
-              "Session Expired, Please login again",
-              snackbarStatus.Warning
-            );
-            localStorage.clear();
-            this._router.navigate(["/auth/login"]);
-            return;
-          } else if (err.status === 0 || err.statusText.includes("Unknown")) {
-            this._common.openSnackbar(
-              "Unable to establish connection with the server.",
-              snackbarStatus.Danger
-            );
-            return throwError(
-              new HttpErrorResponse({
-                error: "Unable to establish connection with the server.",
-                status: 0,
-              })
-            );
-          } else if (err.status === 404 || err.status === 500) {
-            // this._router.navigate(["/error"], {
-            //   queryParams: { Status: err.status },
-            // });
-            // return;
-          } else {
-            this._common.openSnackbar(
-              this.errorMessageExtract(err),
-              snackbarStatus.Danger
-            );
-          }
-          return throwError(err);
+          return this.standardErrorCodeHandler(err);
         } else {
           this._common.openSnackbar(
             "Something went wrong! Please try after sometime.",
             snackbarStatus.Danger
           );
-          console.log(err);
           return throwError(
             new HttpErrorResponse({
               error: "Something went wrong! Please try after sometime.",
-              status: 500
+              status: 500,
             })
           );
         }
       })
     );
+  }
+
+  standardErrorCodeHandler(err: HttpErrorResponse) {
+    switch (err.status) {
+      case 401:
+        this._common.openSnackbar(
+          "Session Expired, Please login again",
+          snackbarStatus.Warning
+        );
+        localStorage.clear();
+        this._router.navigate(["/auth/login"]);
+        return;
+      case 403:
+        this._common.openSnackbar(
+          "Permission Denied. You don't have the access.",
+          snackbarStatus.Warning
+        );
+        break;
+      case 0:
+        this._common.openSnackbar(
+          "Unable to establish connection with the server.",
+          snackbarStatus.Danger
+        );
+        return throwError(
+          new HttpErrorResponse({
+            error: "Unable to establish connection with the server.",
+            status: 0,
+          })
+        );
+      case 404:
+        this._common.openSnackbar(
+          "Resource/Page Not Found",
+          snackbarStatus.Danger
+        );
+        break;
+      case 500:
+        this._common.openSnackbar(
+          "Internal Server Error",
+          snackbarStatus.Danger
+        );
+        break;
+      default:
+        this._common.openSnackbar(
+          this.errorMessageExtract(err),
+          snackbarStatus.Danger
+        );
+        break;
+    }
+    return throwError(err);
   }
 
   errorMessageExtract(error: HttpErrorResponse): string {

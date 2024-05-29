@@ -8,6 +8,7 @@ import {
   Rejection,
 } from "../Models/Registration";
 import { environment } from "../../environments/environment";
+import { AppConfigService } from "./app-config.service";
 
 @Injectable({
   providedIn: "root",
@@ -15,7 +16,9 @@ import { environment } from "../../environments/environment";
 export class RegistrationService {
   baseURL: string = environment.baseURL;
 
-  constructor(private _http: HttpService) { }
+  constructor(private _http: HttpService,private _config:AppConfigService) { 
+    this.baseURL = this._config.get("BaseURL");
+  }
 
   // Initiate form
   formInitiate(form: Form): Observable<any> {

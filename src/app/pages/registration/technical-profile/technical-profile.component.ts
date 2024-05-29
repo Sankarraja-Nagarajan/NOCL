@@ -7,6 +7,7 @@ import { CommonService } from "../../../Services/common.service";
 import { snackbarStatus } from "../../../Enums/snackbar-status";
 import { AppConfigService } from "../../../Services/app-config.service";
 import { EmitterService } from "../../../Services/emitter.service";
+import { getSession } from "../../../Utils";
 
 @Component({
   selector: "ngx-technical-profile",
@@ -37,8 +38,8 @@ export class TechnicalProfileComponent implements OnInit {
       Is_Statutory_Provisions_Adheard: [false],
       Initiatives_for_Development: [""],
     });
-   
-    this.authResponse = JSON.parse(sessionStorage.getItem("userDetails"));
+
+    this.authResponse = JSON.parse(getSession("userDetails"));
     if (this.authResponse && this.authResponse?.Role != "Vendor") {
       this.technicalProfileForm.disable();
     }
@@ -60,11 +61,11 @@ export class TechnicalProfileComponent implements OnInit {
     this.reqDoctypes = this._config.get("Required_Attachments").split(",");
     if (this.technicalProfileForm.get("Is_ISO_Certified").value == true || this.technicalProfileForm.get("Other_Qms_Certified").value) {
       this.technicalProfileForm.get("Planning_for_Qms").disable();
-    } 
+    }
     else if (this.technicalProfileForm.get("Planning_for_Qms").value == true) {
       this.technicalProfileForm.get("Is_ISO_Certified").disable();
       this.technicalProfileForm.get("Other_Qms_Certified").disable();
-    } 
+    }
     else {
       this.technicalProfileForm.get("Planning_for_Qms").enable();
       this.technicalProfileForm.get("Is_ISO_Certified").enable();
@@ -90,7 +91,7 @@ export class TechnicalProfileComponent implements OnInit {
         const value = this._config.get("Required_Attachments").split(",");
         this.updateRequireDocument(value);
       }
-   
+
     }
   }
 

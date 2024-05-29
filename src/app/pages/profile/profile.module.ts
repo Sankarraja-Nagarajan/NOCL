@@ -20,6 +20,10 @@ const routes: Routes = [
     path: "",
     component: ProfileLayoutComponent,
     canActivate: [AuthGuard],
+    data: {
+      allowed: ["Admin","Vendor"],
+      notAllowed: ["PO","RM","Manager"],
+    },
   },
 ];
 

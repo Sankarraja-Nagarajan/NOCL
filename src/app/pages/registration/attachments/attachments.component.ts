@@ -13,6 +13,7 @@ import { FileSaverService } from "../../../Services/file-saver.service";
 import { AppConfigService } from "../../../Services/app-config.service";
 import { EmitterService } from "../../../Services/emitter.service";
 import { MatAccordion } from "@angular/material/expansion";
+import { getSession } from "../../../Utils";
 
 @Component({
   selector: "ngx-attachments",
@@ -22,7 +23,7 @@ import { MatAccordion } from "@angular/material/expansion";
 export class AttachmentsComponent  {
   @Input() form_Id: number;
   @Input() v_Id: number;
-  
+
   role: string = "";
 
   displayedColumns: string[] = [
@@ -55,7 +56,7 @@ export class AttachmentsComponent  {
   //   this.GetAttachment();
   // }
   ngOnInit(): void {
-    const userData = JSON.parse(sessionStorage.getItem("userDetails"));
+    const userData = JSON.parse(getSession("userDetails"));
     this.role = userData ? userData.Role : "";
     if (this.v_Id == 4) {
       this.reqDoctypes = this._config
@@ -86,7 +87,7 @@ export class AttachmentsComponent  {
           this.attachments.forEach((element) => {
             resFileTypes.push(element.File_Type);
             if (this.reqDoctypes.includes(element.File_Type)) {
-             
+
               this.reqDatasource.data.push(element);
             } else {
               this.additionalDatasource.data.push(element);
@@ -104,11 +105,11 @@ export class AttachmentsComponent  {
 
           this.reqDatasource._updateChangeSubscription();
           this.additionalDatasource._updateChangeSubscription();
-        } 
+        }
         else {
           this.reqDatasource = new MatTableDataSource();
           this.reqDoctypes.forEach((element) => {
-            
+
             let attachment = new Attachment();
             attachment.Form_Id = this.form_Id;
             attachment.File_Type = element;

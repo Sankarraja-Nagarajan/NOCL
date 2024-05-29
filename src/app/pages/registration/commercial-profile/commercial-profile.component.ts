@@ -8,6 +8,8 @@ import { CommonService } from "../../../Services/common.service";
 import { snackbarStatus } from "../../../Enums/snackbar-status";
 import { Output, EventEmitter } from '@angular/core';
 import { EmitterService } from "../../../Services/emitter.service";
+import { getSession } from "../../../Utils";
+
 @Component({
   selector: "ngx-commercial-profile",
   templateUrl: "./commercial-profile.component.html",
@@ -17,7 +19,7 @@ export class CommercialProfileComponent {
   @Input() form_Id: number;
   @Input() v_Id: number;
   @Input() isReadOnly: boolean;
-  
+
   commercialProfileForm: FormGroup;
   commercialId: number = 0;
   msmeTypes: string[] = [];
@@ -62,7 +64,7 @@ export class CommercialProfileComponent {
       Is_MSME_Type: [true],
     });
 
-    this.authResponse = JSON.parse(sessionStorage.getItem("userDetails"));
+    this.authResponse = JSON.parse(getSession("userDetails"));
     if (this.isReadOnly) {
       this.commercialProfileForm.disable();
     }
@@ -83,8 +85,8 @@ export class CommercialProfileComponent {
     }
 
     this.msmeTypes = this._config.get("MSME_Types").split(",");
-    
-    
+
+
     // Get Form data by form Id
     this._registration
       .getFormData(this.form_Id, "CommercialProfile")

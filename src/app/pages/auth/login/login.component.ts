@@ -7,6 +7,7 @@ import { snackbarStatus } from "../../../Enums/snackbar-status";
 import { Router } from "@angular/router";
 import { ForgotPasswordComponent } from "../../../Dialogs/forgot-password/forgot-password.component";
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
+import { isNullOrEmpty, setSession } from "../../../Utils";
 
 @Component({
   selector: "ngx-login",
@@ -43,7 +44,7 @@ export class LoginComponent implements OnInit {
           if (res) {
             this.loader = false;
             this.loginForm.reset();
-            sessionStorage.setItem("userDetails", JSON.stringify(res));
+            setSession("userDetails", JSON.stringify(res));
             if (res.Role != "Vendor") {
               this._router.navigate(["onboarding/dashboard"]);
               this._common.openSnackbar(
@@ -76,7 +77,7 @@ export class LoginComponent implements OnInit {
     const dialogRef = this._dialog.open(ForgotPasswordComponent, dialogconfig);
     dialogRef.afterClosed().subscribe({
       next: (res) => {
-        if (res) {
+        if (!isNullOrEmpty(res)) {
           this._common.openSnackbar(
             "Your Password hasbeen updated successfully",
             snackbarStatus.Success

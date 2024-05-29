@@ -7,6 +7,7 @@ import { RegistrationService } from "../../../Services/registration.service";
 import { snackbarStatus } from "../../../Enums/snackbar-status";
 import { MasterService } from "../../../Services/master.service";
 import { TankerType } from "../../../Models/Master";
+import { getSession } from "../../../Utils";
 
 @Component({
   selector: "ngx-tanker-details",
@@ -37,7 +38,7 @@ export class TankerDetailsComponent implements OnInit {
       Capacity_of_Tanker: ["", [Validators.required]],
     });
 
-    const userData = JSON.parse(sessionStorage.getItem("userDetails"));
+    const userData = JSON.parse(getSession("userDetails"));
     this.role = userData ? userData.Role : "";
 
     this._master.getTankerTypes().subscribe({

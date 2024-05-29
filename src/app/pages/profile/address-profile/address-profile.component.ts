@@ -8,6 +8,7 @@ import { MasterService } from "../../../Services/master.service";
 import { CommonService } from "../../../Services/common.service";
 import { MatDialog } from "@angular/material/dialog";
 import { ConfirmationDialogComponent } from "../../../Dialogs/confirmation-dialog/confirmation-dialog.component";
+import { getSession } from "../../../Utils";
 
 @Component({
   selector: "ngx-address-profile",
@@ -33,7 +34,7 @@ export class AddressProfileComponent implements OnInit {
     let vInfo = sessionStorage.getItem("vendorInfo");
     this.vendorInfo    = JSON.parse(vInfo);
     this.formId = this.vendorInfo.FormId;
-    
+
     this.getMasterData();
   }
 
@@ -53,11 +54,11 @@ export class AddressProfileComponent implements OnInit {
       next: (res) => {
         if (res[0]) {
           this.addressTypes = res[0] as AddressType[];
-        
+
         }
         if (res[1]) {
           this.addresses = res[1] as Address[];
-         
+
         }
         this.loader = false;
       },

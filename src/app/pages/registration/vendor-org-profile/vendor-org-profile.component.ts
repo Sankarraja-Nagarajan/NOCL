@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
+import {
+  AfterViewInit,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+} from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import {
   MajorCustomer,
@@ -15,13 +22,14 @@ import { forkJoin } from "rxjs";
 import { AuthResponse } from "../../../Models/authModel";
 import { RegistrationService } from "../../../Services/registration.service";
 import { CommonAddDataDialogComponent } from "../../../Dialogs/common-add-data-dialog/common-add-data-dialog.component";
+import { getSession } from "../../../Utils";
 
 @Component({
   selector: "ngx-vendor-org-profile",
   templateUrl: "./vendor-org-profile.component.html",
   styleUrls: ["./vendor-org-profile.component.scss"],
 })
-export class VendorOrgProfileComponent {
+export class VendorOrgProfileComponent implements OnInit, AfterViewInit {
   @Input() form_Id: number;
   @Input() isReadOnly: boolean;
   @Output() havePartner = new EventEmitter<boolean>();
@@ -45,6 +53,7 @@ export class VendorOrgProfileComponent {
     private _registration: RegistrationService
   ) {}
 
+  
   ngOnInit(): void {
     this.vendorOrgForm = this._fb.group({
       Type_of_Org_Id: ["", Validators.required],
@@ -55,14 +64,16 @@ export class VendorOrgProfileComponent {
       Unit:[""],
     });
 
-    this.valueChangeEvents();
-
-    this.authResponse = JSON.parse(sessionStorage.getItem("userDetails"));
+    this.authResponse = JSON.parse(getSession("userDetails"));
     if (this.isReadOnly) {
       this.vendorOrgForm.disable();
     }
     // get master data
     this.getAllMasters();
+  }
+
+  ngAfterViewInit(): void {
+    this.valueChangeEvents();
   }
 
   valueChangeEvents() {
@@ -113,6 +124,10 @@ export class VendorOrgProfileComponent {
       },
     });
   }
+
+emitPartnerStatus(bool){
+  this.havePartner.emit(bool);
+}
 
   // Make sure the Vendor Organization Profile Form is valid
   isValid() {

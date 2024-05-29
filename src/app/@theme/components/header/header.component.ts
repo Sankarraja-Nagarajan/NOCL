@@ -1,24 +1,18 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import {
-  NbMediaBreakpointsService,
   NbMenuService,
   NbSidebarService,
-  NbThemeService,
 } from "@nebular/theme";
-
-import { UserData } from "../../../@core/data/users";
-import { LayoutService } from "../../../@core/utils";
-import { filter, map, takeUntil } from "rxjs/operators";
-import { Subject } from "rxjs";
+import { filter, map } from "rxjs/operators";
 import { CommonService } from "../../../Services/common.service";
-import { NbUser } from "@nebular/auth";
 import { Router } from "@angular/router";
-import { LoginService } from "../../../Services/login.service";
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { ChangePasswordComponent } from "../../../Dialogs/change-password/change-password.component";
 import { snackbarStatus } from "../../../Enums/snackbar-status";
 import { RegistrationService } from "../../../Services/registration.service";
 import { ExpiryDetails } from "../../../Models/Registration";
+import { getSession } from "../../../Utils";
+import { LayoutService } from "../../../@core/utils";
 
 @Component({
   selector: "ngx-header",
@@ -45,7 +39,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.picture = "../../../../assets/images/dummy-user.png";
-    const USER = sessionStorage.getItem("userDetails");
+    const USER = getSession("userDetails");
     if (USER) {
       this.userData = JSON.parse(USER);
       this.name = this.userData.DisplayName;

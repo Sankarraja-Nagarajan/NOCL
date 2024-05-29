@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { Observable, Subject } from "rxjs";
 import { HttpService } from "./http.service";
 import {
+  AuthResponse,
   ForgotPassword,
   LoginDetail,
   RequestOtp,
@@ -9,6 +10,8 @@ import {
   VerifyOtp,
 } from "../Models/authModel";
 import { environment } from "../../environments/environment";
+import { getSession, isArrayInclude, isNullOrEmpty } from "../Utils";
+import { AppConfigService } from "./app-config.service";
 
 @Injectable({
   providedIn: "root",
@@ -22,19 +25,31 @@ export class LoginService {
   private userChange = new Subject<any>();
   userChangeEmitted = this.userChange.asObservable();
 
-  constructor(private _http: HttpService) {}
+  constructor(private _http: HttpService, private _config: AppConfigService) {
+    this.baseURL = this._config.get("BaseURL");
+  }
 
   islogin(change: boolean) {
     this.emitChangeSource.next(change);
   }
 
   isLoggedIn(): boolean {
-    const userData = JSON.parse(sessionStorage.getItem("userDetails"));
+    const userData = JSON.parse(getSession("userDetails"));
     if (userData) {
       return !!userData.Token;
     } else {
       return false;
     }
+  }
+
+  hasRoles(allowed: string[], notAllowed: string[]) {
+    let user = JSON.parse(getSession("userDetails")) as AuthResponse;
+    if (!isNullOrEmpty(user)) {
+      return (
+        isArrayInclude([user.Role], allowed) ||
+        !isArrayInclude([user.Role], notAllowed)
+      );
+    } else return false;
   }
 
   numberOnly(event: KeyboardEvent): any {

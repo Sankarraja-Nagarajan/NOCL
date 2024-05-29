@@ -1,6 +1,7 @@
 import { NbMenuItem } from '@nebular/theme';
 import { title } from 'process';
 import { AuthResponse } from '../Models/authModel';
+import { getSession } from '../Utils';
 
 export class Sample{
 
@@ -10,7 +11,7 @@ export class Sample{
    getMenuItems(): NbMenuItem[] {
 
 
-    const userData = sessionStorage.getItem('userDetails');
+    const userData = getSession("userDetails");
     if (userData == undefined || userData == null) {
       this.userData = null;
     } else {

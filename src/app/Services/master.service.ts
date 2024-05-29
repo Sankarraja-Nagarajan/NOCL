@@ -3,6 +3,7 @@ import { HttpService } from "./http.service";
 import { Observable } from "rxjs";
 import { environment } from "../../environments/environment";
 import { Role } from "../Models/Dtos";
+import { AppConfigService } from "./app-config.service";
 
 @Injectable({
   providedIn: "root",
@@ -10,7 +11,9 @@ import { Role } from "../Models/Dtos";
 export class MasterService {
   baseURL: string = environment.baseURL;
 
-  constructor(private _http: HttpService) {}
+  constructor(private _http: HttpService,private _config:AppConfigService) { 
+    this.baseURL = this._config.get("BaseURL");
+  }
 
   //#region  Get Master Data
   // Get Company codes

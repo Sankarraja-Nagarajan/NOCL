@@ -4,6 +4,7 @@ import { LoginService } from "../../../Services/login.service";
 import { CommonService } from "../../../Services/common.service";
 import { NbSidebarService } from "@nebular/theme";
 import { AuthResponse } from "../../../Models/authModel";
+import { getSession } from "../../../Utils";
 
 @Component({
   selector: "ngx-one-column-layout",
@@ -25,7 +26,7 @@ export class OneColumnLayoutComponent implements OnInit {
   ngOnInit(): void {
     this._router.events.subscribe({
       next: (res) => {
-        let userData = JSON.parse(sessionStorage.getItem('userDetails')) as AuthResponse;
+        let userData = JSON.parse(getSession("userDetails")) as AuthResponse;
         if(userData){
           this.role = userData.Role;
         }
