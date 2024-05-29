@@ -8,6 +8,7 @@ import { MasterService } from "../../../Services/master.service";
 import { CommonService } from "../../../Services/common.service";
 import { MatDialog } from "@angular/material/dialog";
 import { ConfirmationDialogComponent } from "../../../Dialogs/confirmation-dialog/confirmation-dialog.component";
+import { getSession } from "../../../Utils";
 
 @Component({
   selector: "ngx-address-profile",
@@ -30,7 +31,7 @@ export class AddressProfileComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    let vInfo = sessionStorage.getItem("vendorInfo");
+    let vInfo = getSession("vendorInfo");
     this.vendorInfo = JSON.parse(vInfo);
     this.getMasterData();
   }

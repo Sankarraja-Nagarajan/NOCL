@@ -8,6 +8,8 @@ import { Dashboard, InitialData } from "../../../Models/Dtos";
 import { CommonService } from "../../../Services/common.service";
 import { snackbarStatus } from "../../../Enums/snackbar-status";
 import { AuthResponse } from "../../../Models/authModel";
+import { EncryptionService } from "../../../Services/encryption.service";
+import { getSession, isNullOrEmpty } from "../../../Utils";
 
 @Component({
   selector: "ngx-dashboard",
@@ -38,15 +40,17 @@ export class DashboardComponent implements OnInit {
   constructor(
     private _dashboard: DashboardService,
     private _common: CommonService,
-    private _router: Router
+    private _router: Router,
+    private _encryptor: EncryptionService
   ) {}
   ngOnInit(): void {
-    this.authResponse = JSON.parse(
-      sessionStorage.getItem("userDetails")
-    ) as AuthResponse;
+    this.authResponse = JSON.parse(getSession("userDetails")) as AuthResponse;
     this.emp_id = this.authResponse.Employee_Id;
     // get dashboard data
-    if (this.authResponse?.Role == "Admin") {
+    if (
+      !isNullOrEmpty(this.authResponse) &&
+      this.authResponse?.Role == "Admin"
+    ) {
       this.getAllData();
       this.headerStatus = "All";
     } else {
@@ -290,7 +294,7 @@ export class DashboardComponent implements OnInit {
 
     this._router.navigate(["registration/form"], {
       queryParams: {
-        data: JSON.stringify(jsonData),
+        data: this._encryptor.encrypt(JSON.stringify(jsonData)),
       },
     });
   }

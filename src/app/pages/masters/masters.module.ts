@@ -19,17 +19,29 @@ const routes: Routes = [
   {
     path: "users",
     component: UserComponent,
-    canActivate:[AuthGuard]
+    canActivate:[AuthGuard],
+    data: {
+      allowed: ["Admin"],
+      notAllowed: ["PO","RM","Manager","Vendor"],
+    },
   },
   {
     path: "roles",
     component: RoleComponent,
-    canActivate:[AuthGuard]
+    canActivate:[AuthGuard],
+    data: {
+      allowed: ["Admin"],
+      notAllowed: ["PO","RM","Manager","Vendor"],
+    },
   },
   {
     path: "vendors",
     component: VendorsComponent,
-    canActivate:[AuthGuard]
+    canActivate:[AuthGuard],
+    data: {
+      allowed: ["Admin"],
+      notAllowed: ["PO","RM","Manager","Vendor"],
+    },
   }
 ]
 

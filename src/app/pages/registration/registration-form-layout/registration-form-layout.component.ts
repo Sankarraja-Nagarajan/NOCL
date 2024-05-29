@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { AfterViewInit, Component, OnInit, ViewChild } from "@angular/core";
 import { AddressComponent } from "../address/address.component";
 import { DomesticAndImportForm } from "../../../Models/DomesticAndImportForm";
 import { ActivatedRoute, Router } from "@angular/router";
@@ -31,6 +31,8 @@ import { TransportVendorsPersonalDetailsComponent } from "../transport-vendors-p
 import { VendorBranchesComponent } from "../vendor-branches/vendor-branches.component";
 import { VendorOrgProfileComponent } from "../vendor-org-profile/vendor-org-profile.component";
 import { VendorPersonalInfoComponent } from "../vendor-personal-info/vendor-personal-info.component";
+import { EncryptionService } from "../../../Services/encryption.service";
+import { getSession } from "../../../Utils";
 
 @Component({
   selector: "ngx-registration-form-layout",
@@ -87,31 +89,20 @@ export class RegistrationFormLayoutComponent implements OnInit {
   vendorBranches: boolean = false;
   gstDetail: GstDetail = new GstDetail();
 
+  json_data: any;
+
   constructor(
     private _commonService: CommonService,
     private _activatedRoute: ActivatedRoute,
     private _registration: RegistrationService,
     private _dialog: MatDialog,
-    private _router: Router
+    private _router: Router,
+    private _encryptor:EncryptionService
   ) {}
-  ngOnInit(): void {
-    this.authResponse = JSON.parse(sessionStorage.getItem("userDetails"));
-    this._activatedRoute.queryParams.subscribe({
-      next: (params) => {
-        if (params != null && params["data"] != null) {
-          const JSON_DATA = JSON.parse(params["data"]);
-          this.form_Id = JSON_DATA.Form_Id;
-          this.v_Id = JSON_DATA.V_Id;
-          this.form_status = JSON_DATA.Status;
-          console.log(JSON_DATA);
-          this.selectFormBasedOnVendorType(this.v_Id);
-        }
-      },
-      error: (err) => {
-        this._commonService.openSnackbar(err, snackbarStatus.Danger);
-      },
-    });
 
+  ngOnInit(): void {
+    this.authResponse = JSON.parse(getSession("userDetails"));
+    this.paramSubscription();
     if (this.authResponse?.Role === "Vendor") {
       this.isReadOnly = false;
       //
@@ -129,6 +120,27 @@ export class RegistrationFormLayoutComponent implements OnInit {
         this._commonService.openSnackbar(err, snackbarStatus.Danger);
       },
     });
+  }
+
+  paramSubscription() {
+    this._activatedRoute.queryParams.subscribe({
+      next: (params) => {
+        if (params != null && params["data"] != null) {
+          this.json_data = JSON.parse(this._encryptor.decrypt(params["data"]));
+          this.updateSubscriptionValues();
+        }
+      },
+      error: (err) => {
+        this._commonService.openSnackbar(err, snackbarStatus.Danger);
+      },
+    });
+  }
+
+  updateSubscriptionValues() {
+    this.form_Id = this.json_data.Form_Id;
+    this.v_Id = this.json_data.V_Id;
+    this.form_status = this.json_data.Status;
+    this.selectFormBasedOnVendorType(this.v_Id);
   }
 
   //#region Open terms and Conditions dialog

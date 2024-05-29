@@ -9,6 +9,7 @@ import { MasterService } from "../../../Services/master.service";
 import { snackbarStatus } from "../../../Enums/snackbar-status";
 import { forkJoin } from "rxjs";
 import { RegistrationService } from "../../../Services/registration.service";
+import { getSession } from "../../../Utils";
 
 @Component({
   selector: "ngx-contacts",
@@ -67,7 +68,7 @@ export class ContactsComponent implements OnInit {
 
     // get contact types and contacts data by form id
     this.getMasterData();
-    const userData = JSON.parse(sessionStorage.getItem("userDetails"));
+    const userData = JSON.parse(getSession("userDetails"));
     this.role = userData ? userData.Role : "";
   }
 

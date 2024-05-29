@@ -6,6 +6,7 @@ import { AuthResponse } from "../../../Models/authModel";
 import { RegistrationService } from "../../../Services/registration.service";
 import { CommonService } from "../../../Services/common.service";
 import { snackbarStatus } from "../../../Enums/snackbar-status";
+import { getSession } from "../../../Utils";
 
 @Component({
   selector: "ngx-commercial-profile",
@@ -57,7 +58,7 @@ export class CommercialProfileComponent {
       ServiceCategory: [""],
     });
 
-    this.authResponse = JSON.parse(sessionStorage.getItem("userDetails"));
+    this.authResponse = JSON.parse(getSession("userDetails"));
     if (this.isReadOnly) {
       this.commercialProfileForm.disable();
     }

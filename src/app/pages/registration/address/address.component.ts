@@ -15,6 +15,7 @@ import { snackbarStatus } from "../../../Enums/snackbar-status";
 import { AuthResponse } from "../../../Models/authModel";
 import { RegistrationService } from "../../../Services/registration.service";
 import { forkJoin } from "rxjs";
+import { getSession } from "../../../Utils";
 
 @Component({
   selector: "ngx-address",
@@ -58,7 +59,7 @@ export class AddressComponent implements OnInit, OnChanges {
 
     // get address types and addresses by form Id
     this.getMasterData();
-    const userData = JSON.parse(sessionStorage.getItem("userDetails"));
+    const userData = JSON.parse(getSession("userDetails"));
     this.role = userData ? userData.Role : "";
   }
 

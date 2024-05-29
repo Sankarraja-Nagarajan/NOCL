@@ -11,12 +11,20 @@ const routes: Routes = [
   {
     path: 'dashboard',
     component: DashboardComponent,
-    canActivate:[AuthGuard]
+    canActivate:[AuthGuard],
+    data: {
+      allowed: ["Admin","PO","RM","Manager"],
+      notAllowed: ["Vendor"],
+    },
   },
   {
     path:'initiator-form',
     component:InitiationFormComponent,
-    canActivate:[AuthGuard]
+    canActivate:[AuthGuard],
+    data: {
+      allowed: ["PO"],
+      notAllowed: ["Admin","Vendor","RM","Manager"],
+    },
   }
 ];
 

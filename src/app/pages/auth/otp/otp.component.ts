@@ -8,6 +8,8 @@ import { error } from "console";
 import { Dashboard } from "../../../Models/Dtos";
 import { CommonService } from "../../../Services/common.service";
 import { snackbarStatus } from "../../../Enums/snackbar-status";
+import { isNullOrEmpty, setSession } from "../../../Utils";
+import { EncryptionService } from "../../../Services/encryption.service";
 
 @Component({
   selector: "ngx-otp",
@@ -42,19 +44,19 @@ export class OtpComponent implements OnInit {
     private _router: Router,
     private _activatedRoute: ActivatedRoute,
     private _registration: RegistrationService,
-    private _commonService: CommonService
-  ) {
-    this.onboardingform = _fb.group({
-      firmname: [""],
-      mobile: ["", Validators.required],
-    });
-  }
+    private _commonService: CommonService,
+    private _encryptor: EncryptionService
+  ) {}
 
   ngOnInit(): void {
     sessionStorage.clear();
+    this.onboardingform = this._fb.group({
+      firmname: [""],
+      mobile: ["", Validators.required],
+    });
     this._activatedRoute.queryParams.subscribe({
       next: (params) => {
-        if (params != null && params["data"] != null) {
+        if (params != null && isNullOrEmpty(params["data"])) {
           const jsonData = JSON.parse(params["data"]);
           this.form_Id = jsonData.Form_Id;
           this.vendorTypeId = jsonData.V_Id;
@@ -70,7 +72,6 @@ export class OtpComponent implements OnInit {
     this._registration.getSingleFormData(this.form_Id).subscribe({
       next: (res) => {
         this.loader = false;
-        console.log(res);
         if (res) {
           this.singleFormData = res as Dashboard;
           this.onboardingform.get("firmname").patchValue(res.Name);
@@ -119,9 +120,11 @@ export class OtpComponent implements OnInit {
               V_Id: this.vendorTypeId,
               Status: this.singleFormData.Status,
             };
-            sessionStorage.setItem("userDetails", JSON.stringify(res));
+            setSession("userDetails", JSON.stringify(res));
             this._router.navigate(["/registration/form"], {
-              queryParams: { data: JSON.stringify(jsonData) },
+              queryParams: {
+                data: this._encryptor.encrypt(JSON.stringify(jsonData)),
+              },
             });
           }
         },

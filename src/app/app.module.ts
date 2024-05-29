@@ -5,7 +5,7 @@
  */
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { APP_INITIALIZER, NgModule } from "@angular/core";
+import { APP_INITIALIZER, ErrorHandler, NgModule } from "@angular/core";
 import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
 import { CoreModule } from "./@core/core.module";
 import { ThemeModule } from "./@theme/theme.module";
@@ -33,6 +33,7 @@ import { ConfirmationDialogComponent } from "./Dialogs/confirmation-dialog/confi
 import { ChangePasswordComponent } from "./Dialogs/change-password/change-password.component";
 import { ForgotPasswordComponent } from "./Dialogs/forgot-password/forgot-password.component";
 import { ApiInterceptor } from "./Interceptor/api.interceptor";
+import { GlobalErrorHandler } from "./Global/global.error.handler";
 
 @NgModule({
   declarations: [
@@ -72,6 +73,7 @@ import { ApiInterceptor } from "./Interceptor/api.interceptor";
       useClass: ApiInterceptor,
       multi: true,
     },
+    { provide: ErrorHandler, useClass: GlobalErrorHandler },
     {
       provide: APP_INITIALIZER,
       multi: true,

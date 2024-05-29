@@ -5,6 +5,7 @@ import { AnnualTurnOver } from "../../../Models/Dtos";
 import { CommonService } from "../../../Services/common.service";
 import { RegistrationService } from "../../../Services/registration.service";
 import { snackbarStatus } from "../../../Enums/snackbar-status";
+import { getSession } from "../../../Utils";
 
 @Component({
   selector: "ngx-annual-turnover",
@@ -56,7 +57,7 @@ export class AnnualTurnoverComponent implements OnInit {
       },
     });
 
-    const userData = JSON.parse(sessionStorage.getItem("userDetails"));
+    const userData = JSON.parse(getSession("userDetails"));
     this.role = userData ? userData.Role : "";
   }
 

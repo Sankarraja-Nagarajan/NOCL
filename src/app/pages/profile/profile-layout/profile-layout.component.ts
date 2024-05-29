@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { NbRouteTab } from "@nebular/theme";
+import { getSession } from "../../../Utils";
 
 @Component({
   selector: "ngx-profile-layout",
@@ -41,7 +42,7 @@ export class ProfileLayoutComponent implements OnInit {
   constructor(private _activatedRoute: ActivatedRoute) {}
 
   ngOnInit(): void {
-    let vInfo = sessionStorage.getItem("vendorInfo");
+    let vInfo = getSession("vendorInfo");
     this.vendorInfo = JSON.parse(vInfo);
   }
 }

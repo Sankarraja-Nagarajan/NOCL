@@ -3,6 +3,7 @@ import { HttpService } from './http.service';
 import { Observable } from 'rxjs';
 import { User } from '../Models/Dtos';
 import { environment } from '../../environments/environment';
+import { AppConfigService } from './app-config.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,9 @@ import { environment } from '../../environments/environment';
 export class UserService {
   baseURL: string = environment.baseURL;
 
-  constructor(private _http: HttpService) { }
+  constructor(private _http: HttpService,private _config:AppConfigService) { 
+    this.baseURL = this._config.get("BaseURL");
+  }
 
   getUsers(): Observable<any> {
     const URL = `${this.baseURL}/Users/GetUsers`;

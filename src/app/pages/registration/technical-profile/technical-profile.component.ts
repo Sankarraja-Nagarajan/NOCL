@@ -5,6 +5,7 @@ import { AuthResponse } from "../../../Models/authModel";
 import { RegistrationService } from "../../../Services/registration.service";
 import { CommonService } from "../../../Services/common.service";
 import { snackbarStatus } from "../../../Enums/snackbar-status";
+import { getSession } from "../../../Utils";
 
 @Component({
   selector: "ngx-technical-profile",
@@ -34,7 +35,7 @@ export class TechnicalProfileComponent implements OnInit {
       Initiatives_for_Development: [""],
     });
 
-    this.authResponse = JSON.parse(sessionStorage.getItem("userDetails"));
+    this.authResponse = JSON.parse(getSession("userDetails"));
     if (this.authResponse && this.authResponse?.Role != "Vendor") {
       this.technicalProfileForm.disable();
     }

@@ -11,6 +11,7 @@ import { DocumentViewDialogComponent } from "../../../Dialogs/document-view-dial
 import { AttachmentService } from "../../../Services/attachment.service";
 import { FileSaverService } from "../../../Services/file-saver.service";
 import { AppConfigService } from "../../../Services/app-config.service";
+import { getSession } from "../../../Utils";
 
 @Component({
   selector: "ngx-attachments",
@@ -50,7 +51,7 @@ export class AttachmentsComponent {
   ) {}
 
   ngOnInit(): void {
-    const userData = JSON.parse(sessionStorage.getItem("userDetails"));
+    const userData = JSON.parse(getSession("userDetails"));
     this.role = userData ? userData.Role : "";
     if (this.v_Id == 4) {
       this.reqDoctypes = this._config

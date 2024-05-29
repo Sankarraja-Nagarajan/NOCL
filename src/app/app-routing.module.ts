@@ -1,6 +1,6 @@
-import { ExtraOptions, RouterModule, Routes } from '@angular/router';
-import { NgModule } from '@angular/core';
-import { AuthGuard } from './Guards/auth.guard';
+import { ExtraOptions, RouterModule, Routes } from "@angular/router";
+import { NgModule } from "@angular/core";
+import { AuthGuard } from "./Guards/auth.guard";
 
 export const routes: Routes = [
   {
@@ -12,30 +12,50 @@ export const routes: Routes = [
     path: "masters",
     loadChildren: () =>
       import("./Pages/masters/masters.module").then((m) => m.MastersModule),
-      canActivate:[AuthGuard]
+    canActivate: [AuthGuard],
+    data: {
+      allowed: ["Admin"],
+      notAllowed: ["PO","RM","Manager","Vendor"],
+    },
   },
   {
-    path: 'onboarding',
+    path: "onboarding",
     loadChildren: () =>
-      import("./Pages/onboarding/onboarding.module").then((m) => m.OnboardingModule),
-      canActivate:[AuthGuard]
+      import("./Pages/onboarding/onboarding.module").then(
+        (m) => m.OnboardingModule
+      ),
+    canActivate: [AuthGuard],
+    data: {
+      allowed: ["Admin","PO","RM","Manager"],
+      notAllowed: ["Vendor"],
+    },
   },
   {
-    path: 'registration',
+    path: "registration",
     loadChildren: () =>
-      import("./Pages/registration/registration.module").then((m) => m.RegistrationModule),
-      canActivate:[AuthGuard]
+      import("./Pages/registration/registration.module").then(
+        (m) => m.RegistrationModule
+      ),
+    canActivate: [AuthGuard],
+    data: {
+      allowed: ["Vendor","PO","RM","Manager"],
+      notAllowed: ["Admin"],
+    },
   },
   {
-    path: 'profile',
+    path: "profile",
     loadChildren: () =>
       import("./Pages/profile/profile.module").then((m) => m.ProfileModule),
-      canActivate:[AuthGuard]
+    canActivate: [AuthGuard],
+    data: {
+      allowed: ["Admin","Vendor"],
+      notAllowed: ["PO","RM","Manager"],
+    },
   },
   {
     path: "",
     redirectTo: "auth",
-    pathMatch: "full"
+    pathMatch: "full",
   },
 ];
 
@@ -47,5 +67,4 @@ const config: ExtraOptions = {
   imports: [RouterModule.forRoot(routes, config)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {
-}
+export class AppRoutingModule {}
