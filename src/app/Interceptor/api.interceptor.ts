@@ -17,7 +17,7 @@ export class ApiInterceptor implements HttpInterceptor {
   constructor(private _router: Router, private _common: CommonService) {}
 
   getToken() {
-    var users = localStorage.getItem("userDetails");
+    var users = sessionStorage.getItem("userDetails");
     if (users) {
       let userData = JSON.parse(users);
       return userData.Token;

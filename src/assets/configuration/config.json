@@ -13,7 +13,7 @@
     }
   ],
 
-  "Required_Attachments": "ISO 9001,GST,MSME,PAN,Blank Cheque",
+  "Required_Attachments": "GST,MSME,PAN,Blank Cheque",
   "Import_Required_Attachments": "ISO 9001,ISO 14001,ISO 45001,MSME,Blank Cheque,Certificate of Analysis,MSDS,No PE certificate",
   "Expiry_Attachments": "ISO 9001,ISO 14001,ISO 45001,MSME,Certificate of Analysis,MSDS"
 }

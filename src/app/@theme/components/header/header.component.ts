@@ -17,6 +17,8 @@ import { LoginService } from "../../../Services/login.service";
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { ChangePasswordComponent } from "../../../Dialogs/change-password/change-password.component";
 import { snackbarStatus } from "../../../Enums/snackbar-status";
+import { RegistrationService } from "../../../Services/registration.service";
+import { ExpiryDetails } from "../../../Models/Registration";
 
 @Component({
   selector: "ngx-header",
@@ -30,15 +32,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
   title: string = "";
   userMenu = [{ title: "Change Password" }, { title: "Log out" }];
   userData: any;
-
+  ExpiryDetails: boolean = false;
+  allExpiryDetails: ExpiryDetails[] = []
   constructor(
     private sidebarService: NbSidebarService,
     private menuService: NbMenuService,
     private layoutService: LayoutService,
     private _common: CommonService,
     private _router: Router,
-    private _dialog: MatDialog
-  ) {}
+    private _dialog: MatDialog, private _registration: RegistrationService,
+  ) { }
 
   ngOnInit() {
     this.picture = "../../../../assets/images/dummy-user.png";
@@ -65,11 +68,22 @@ export class HeaderComponent implements OnInit, OnDestroy {
             this.openChangePasswordDialog();
           }
         },
-        error: (err) => {},
+        error: (err) => { },
       });
+      this. Notification() ;
+  }
+  Notification() {
+    this.ExpiryDetails = true;
+   this._router.navigate(["onboarding/expiry-details"])
+    this._registration.getAllExpiryNotifications().subscribe({
+      next: (res) => {
+        this.allExpiryDetails = res as ExpiryDetails[];
+        console.log("getExpiryNotifications : ", this.allExpiryDetails);
+      }
+    });
   }
 
-  ngOnDestroy() {}
+  ngOnDestroy() { }
 
   toggleSidebar(): boolean {
     this.sidebarService.toggle(true, "menu-sidebar");
@@ -93,7 +107,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
           );
         }
       },
-      error: (err) => {},
+      error: (err) => { },
     });
   }
 }

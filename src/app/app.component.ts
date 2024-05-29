@@ -7,7 +7,8 @@ import { Component, OnInit } from "@angular/core";
 import { AnalyticsService } from "./@core/utils/analytics.service";
 import { SeoService } from "./@core/utils/seo.service";
 import { NbIconLibraries, NbMenuItem } from "@nebular/theme";
-import { Sample } from "./Pages/pages-menu";
+// import { Sample } from "./Pages/pages-menu";
+import { Sample } from "./pages/pages-menu";
 import { Router } from "@angular/router";
 
 @Component({

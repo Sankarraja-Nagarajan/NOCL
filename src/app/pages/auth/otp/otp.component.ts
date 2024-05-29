@@ -51,7 +51,7 @@ export class OtpComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    sessionStorage.clear();
+   // sessionStorage.clear();
     this._activatedRoute.queryParams.subscribe({
       next: (params) => {
         if (params != null && params["data"] != null) {
