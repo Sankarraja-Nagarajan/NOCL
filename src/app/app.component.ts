@@ -5,9 +5,8 @@
  */
 import { Component, OnInit } from "@angular/core";
 import { NbIconLibraries, NbMenuItem } from "@nebular/theme";
-// import { Sample } from "./Pages/pages-menu";
-import { Sample } from "./pages/pages-menu";
 import { Router } from "@angular/router";
+import { Sample } from "./Pages/pages-menu";
 
 @Component({
   selector: "ngx-app",
@@ -18,17 +17,13 @@ export class AppComponent implements OnInit {
   menu: NbMenuItem[] = [];
   _sample = new Sample();
 
-  constructor(
-    private _router: Router
-  ) {
-  }
+  constructor(private _router: Router) {}
 
   ngOnInit(): void {
     this._router.events.subscribe({
-      next:(res)=>{
+      next: (res) => {
         this.menu = this._sample.getMenuItems();
-      }
+      },
     });
-    
   }
 }

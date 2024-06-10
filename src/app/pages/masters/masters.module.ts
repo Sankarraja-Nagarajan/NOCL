@@ -14,6 +14,7 @@ import { AuthGuard } from '../../Guards/auth.guard';
 import { MaterialModule } from '../material/material.module';
 import { VendorListComponent } from './vendors/vendor-list/vendor-list.component';
 import { RoleComponent } from './role/role.component';
+import { VendorGradeComponent } from './vendors/vendor-grade/vendor-grade.component';
 
 const routes: Routes = [
   {
@@ -50,7 +51,8 @@ const routes: Routes = [
     UserComponent,
     VendorsComponent,
     VendorListComponent,
-    RoleComponent
+    RoleComponent,
+    VendorGradeComponent
   ],
   imports: [
     CommonModule,

@@ -107,7 +107,6 @@ export class ApiInterceptor implements HttpInterceptor {
   }
 
   errorMessageExtract(error: HttpErrorResponse): string {
-    console.log(error.error);
     var message = "";
     if (error.error instanceof Object) {
       if (error.error.errors && error.error.errors instanceof Object) {

@@ -16,7 +16,7 @@ import { AppConfigService } from "./app-config.service";
 export class RegistrationService {
   baseURL: string = environment.baseURL;
 
-  constructor(private _http: HttpService,private _config:AppConfigService) { 
+  constructor(private _http: HttpService, private _config: AppConfigService) {
     this.baseURL = this._config.get("BaseURL");
   }
 
@@ -67,16 +67,16 @@ export class RegistrationService {
     const URL = `${this.baseURL}/Registration/GetRejectedReasons?form_Id=${formId}`;
     return this._http.get(URL);
   }
-getExpiryNotifications(formId: string) : Observable<any>{
-  const URL = `${this.baseURL}/Notifications/GetAllExpiryNotificationsByVendorCode?vCode=${formId}`;
+  getExpiryNotificationsByVendorCode(vCode: string): Observable<any> {
+    const URL = `${this.baseURL}/Notifications/GetAllExpiryNotificationsByVendorCode?vCode=${vCode}`;
     return this._http.get(URL);
-}
-getAllExpiryNotifications() : Observable<any>{
-  const URL = `${this.baseURL}/Notifications/GetAllExpiryNotifications`;
+  }
+  getAllExpiryNotifications(): Observable<any> {
+    const URL = `${this.baseURL}/Notifications/GetAllExpiryNotifications`;
     return this._http.get(URL);
-}
+  }
   // Get GSTIN Details
-  getGstDetails(gstin:string) :Observable<any>{
+  getGstDetails(gstin: string): Observable<any> {
     const URL = `${this.baseURL}/Registration/GetGstDetails?gstin=${gstin}`;
     return this._http.get(URL);
   }

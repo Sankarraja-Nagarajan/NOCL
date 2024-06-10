@@ -29,7 +29,6 @@ export class DocumentViewDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
   ngOnInit(): void {
-    console.log(this.data);
     if (this.data.attachment.Attachment_Id != null) {
       this.getAttachmentById();
     }
@@ -42,8 +41,6 @@ export class DocumentViewDialogComponent implements OnInit {
         this.fileData = res;
         this.fileName = res.FileName;
         this.attachmentData = await this._fileSaver.getAttachmentData(res);
-        console.log(typeof this.attachmentData);
-        console.log(this.attachmentData);
         this.loader = false;
       },
       error: (err) => {

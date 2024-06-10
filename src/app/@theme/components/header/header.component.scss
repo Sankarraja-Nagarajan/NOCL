@@ -1,6 +1,6 @@
-@import 'bootstrap/scss/mixins/breakpoints';
-@import '@nebular/theme/styles/global/breakpoints';
-@import '../../styles/themes';
+@import "bootstrap/scss/mixins/breakpoints";
+@import "@nebular/theme/styles/global/breakpoints";
+@import "../../styles/themes";
 
 @include nb-install-component() {
   display: flex;
@@ -76,7 +76,6 @@
     }
   }
 
-
   .dropdown-alt {
     position: relative;
     display: inline-block;
@@ -104,11 +103,12 @@
     display: none;
     position: absolute;
     background-color: #f1f1f1;
-    min-width: 160px;
+    min-width: 300px;
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     z-index: 1;
     right: 0;
     border-radius: 5px;
+    overflow-x: hidden;
   }
 
   .dropdown-content-alt a {
@@ -123,29 +123,31 @@
     background-color: #ddd;
   }
 
-  .dropdown-alt:hover .dropdown-content-alt {
-    display: block;
-  }
+  // .dropdown-alt:hover .dropdown-content-alt {
+  //   display: block;
+  // }
 
   .drop-notify {
-    width: 300px;
+    min-width: 300px;
+    width: auto;
     max-height: 350px !important;
+    word-wrap: break-word;
     overflow-y: scroll;
+    overflow-x: hidden;
   }
-  .font-align{
+  .font-align {
     color: #0866a1;
   }
 
   .border-bottom {
     border-bottom: 1px solid #e0e0e0 !important;
-}
-.readed-dot {
-  width: 11px !important;
-  height: 11px !important;
-  border-radius: 50px;
-  background-color: #1055a0;
-  display: inline-block;
-  margin-right: 5px;
-}
-
+  }
+  .readed-dot {
+    width: 11px !important;
+    height: 11px !important;
+    border-radius: 50px;
+    background-color: #1055a0;
+    display: inline-block;
+    margin-right: 5px;
+  }
 }

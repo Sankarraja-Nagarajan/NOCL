@@ -14,6 +14,7 @@ import { AnnualTurnoverDetailComponent } from './annual-turnover-detail/annual-t
 import { OrganizationProfileComponent } from './organization-profile/organization-profile.component';
 import { TransportVendorProfileComponent } from './transport-vendor-profile/transport-vendor-profile.component';
 import { TankerDetailsComponent } from './tanker-details/tanker-details.component';
+import { AttachmentProfileComponent } from './attachment-profile/attachment-profile.component';
 
 const routes: Routes = [
   {
@@ -28,7 +29,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [ProfileLayoutComponent, AddressProfileComponent, ContactProfileComponent, TechnicalDetailComponent, CommercialDetailComponent, BankInfoComponent, BranchInfoComponent, AnnualTurnoverDetailComponent, OrganizationProfileComponent, TransportVendorProfileComponent, TankerDetailsComponent],
+  declarations: [ProfileLayoutComponent, AddressProfileComponent, ContactProfileComponent, TechnicalDetailComponent, CommercialDetailComponent, BankInfoComponent, BranchInfoComponent, AnnualTurnoverDetailComponent, OrganizationProfileComponent, TransportVendorProfileComponent, TankerDetailsComponent, AttachmentProfileComponent],
   imports: [CommonModule, MaterialModule, RouterModule.forChild(routes)],
 })
 export class ProfileModule {}

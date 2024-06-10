@@ -146,7 +146,6 @@ emitPartnerStatus(bool){
         return false;
       }
     } else {
-      console.log("vendor org prof");
       this.vendorOrgForm.markAllAsTouched();
       this._common.openRequiredFieldsSnackbar();
       return false;
@@ -199,12 +198,10 @@ emitPartnerStatus(bool){
 
   removeSubsideriesItems(i: number) {
     this.subsideriesList.splice(i, 1);
-    console.log(this.subsideriesList);
   }
 
   removeMajorCustomerItems(i: number) {
     this.listOfMajorCustomerList.splice(i, 1);
-    console.log(this.subsideriesList);
   }
 
   removeRelatedNocilEmployee(i: number) {

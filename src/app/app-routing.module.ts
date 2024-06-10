@@ -1,6 +1,7 @@
 import { ExtraOptions, RouterModule, Routes } from "@angular/router";
 import { NgModule } from "@angular/core";
 import { AuthGuard } from "./Guards/auth.guard";
+import { SuccessMessageComponent } from "./Components/success-message/success-message.component";
 
 export const routes: Routes = [
   {
@@ -15,7 +16,7 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
     data: {
       allowed: ["Admin"],
-      notAllowed: ["PO","RM","Manager","Vendor"],
+      notAllowed: ["PO", "RM", "Manager", "Vendor"],
     },
   },
   {
@@ -26,7 +27,7 @@ export const routes: Routes = [
       ),
     canActivate: [AuthGuard],
     data: {
-      allowed: ["Admin","PO","RM","Manager"],
+      allowed: ["Admin", "PO", "RM", "Manager"],
       notAllowed: ["Vendor"],
     },
   },
@@ -38,7 +39,7 @@ export const routes: Routes = [
       ),
     canActivate: [AuthGuard],
     data: {
-      allowed: ["Vendor","PO","RM","Manager"],
+      allowed: ["Vendor", "PO", "RM", "Manager"],
       notAllowed: ["Admin"],
     },
   },
@@ -48,14 +49,18 @@ export const routes: Routes = [
       import("./Pages/profile/profile.module").then((m) => m.ProfileModule),
     canActivate: [AuthGuard],
     data: {
-      allowed: ["Admin","Vendor"],
-      notAllowed: ["PO","RM","Manager"],
+      allowed: ["Admin", "Vendor"],
+      notAllowed: ["PO", "RM", "Manager"],
     },
   },
   {
     path: "",
     redirectTo: "auth",
     pathMatch: "full",
+  },
+  {
+    path: "success",
+    component: SuccessMessageComponent,
   },
 ];
 

@@ -12,10 +12,10 @@ import { getSession } from "../../../Utils";
   templateUrl: "./one-column.layout.html",
 })
 export class OneColumnLayoutComponent implements OnInit {
-  isLogin: boolean = true;
-  isDashboardShown: boolean = true;
+  isLogin: boolean = false;
+  isDashboardShown: boolean = false;
   footerLogoVisible: boolean = true;
-  role:string='';
+  role: string = "";
 
   constructor(
     private _router: Router,
@@ -27,7 +27,7 @@ export class OneColumnLayoutComponent implements OnInit {
     this._router.events.subscribe({
       next: (res) => {
         let userData = JSON.parse(getSession("userDetails")) as AuthResponse;
-        if(userData){
+        if (userData) {
           this.role = userData.Role;
         }
         if (res instanceof NavigationEnd) {
@@ -36,7 +36,8 @@ export class OneColumnLayoutComponent implements OnInit {
             res.url.includes("otp") ||
             res.url.includes("forgot") ||
             res.url == "/" ||
-            res.url.includes("error")
+            res.url.includes("error") ||
+            res.url.includes("success")
           ) {
             this.isLogin = false;
           } else {
@@ -55,10 +56,9 @@ export class OneColumnLayoutComponent implements OnInit {
     });
 
     this._common.sidebarEmitted.subscribe({
-      next:(res)=>{
-        console.log(res);
+      next: (res) => {
         this.footerLogoVisible = res;
-      }
+      },
     });
   }
 }

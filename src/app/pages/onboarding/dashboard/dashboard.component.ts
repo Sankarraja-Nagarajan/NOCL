@@ -43,6 +43,7 @@ export class DashboardComponent implements OnInit {
     private _router: Router,
     private _encryptor: EncryptionService
   ) {}
+
   ngOnInit(): void {
     this.authResponse = JSON.parse(getSession("userDetails")) as AuthResponse;
     this.emp_id = this.authResponse.Employee_Id;
@@ -58,6 +59,7 @@ export class DashboardComponent implements OnInit {
       this.headerStatus = "Pending";
     }
   }
+  
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
   }

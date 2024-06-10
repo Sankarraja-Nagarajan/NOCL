@@ -3,7 +3,11 @@
     <a (click)="toggleSidebar()" href="#" class="sidebar-toggle">
       <nb-icon icon="menu-2-outline"></nb-icon>
     </a>
-    <img class="nocil-logo" src="assets/logos/nocil-limited-logo.png" alt="Nocil Logo" />
+    <img
+      class="nocil-logo"
+      src="assets/logos/nocil-limited-logo.png"
+      alt="Nocil Logo"
+    />
   </div>
 </div>
 
@@ -11,21 +15,25 @@
   <h2>Vendor Onboarding</h2>
 </div>
 <!-- <div class="dropdown-alt"> -->
-<div class="col-md-4 col-6 text-right px-md-3 px-0 d-flex align-items-center justify-content-end">
+<div
+  class="col-md-4 col-6 text-right px-md-3 px-0 d-flex align-items-center justify-content-end"
+>
   <div class="control-item">
     <div class="dropdown-content-alt p-2 bg-white">
       <div class="drop-notify">
         <div class="col" *ngFor="let expiryvendor of allExpiryDetails">
-
           <!-- <span class="border-bottom p-2"> -->
-            <div class="row">
-              <div class="mt-2">
-                <nb-icon icon="alert-circle"></nb-icon>
-                <span class="font-align"> {{expiryvendor.Vendor_Name}} :  {{expiryvendor.Doc_Type}} is expired on {{expiryvendor.Valid_Till_Date | date: 'dd/MM/yyyy'}}</span>
-             
-              </div>
-              <span class="border-bottom p-2"></span>
+          <div class="row">
+            <div class="mt-2">
+              <nb-icon icon="alert-circle"></nb-icon>
+              <span class="font-align">
+                {{ expiryvendor.Vendor_Name }} : {{ expiryvendor.Doc_Type }} is
+                expired on
+                {{ expiryvendor.Valid_Till_Date | date : "dd/MM/yyyy" }}</span
+              >
             </div>
+            <span class="border-bottom p-2"></span>
+          </div>
           <!-- </span> -->
 
           <!-- <div class="row">
@@ -49,31 +57,27 @@
           <span class="font-align">{{expiryvendor.Valid_Till_Date | date: 'dd/MM/yyyy'}}</span>
          
         </div> -->
-          
         </div>
       </div>
     </div>
-    <!-- </div> -->
-    <!-- <div *ngIf="ExpiryDetails"> -->
 
-    <!-- <nb-card style="width: ;">
-    <nb-card-body>
-      <nb-list>
-        <nb-list-item *ngFor="let expiryvendor of allExpiryDetails">
-          {{expiryvendor.Vendor_Name}} - {{expiryvendor.Doc_Type}}
-        </nb-list-item>
-      </nb-list>
-    </nb-card-body>
-  </nb-card> -->
-    <!-- </div> -->
     <div class="header-container">
-      <nb-actions size="small">
-
-        <nb-action class="control-item" icon="bell-outline"></nb-action>
+      <nb-actions size="medium">
+        <nb-action
+          class="notify-icon"
+          icon="bell-outline"
+          [badgeText]="allExpiryDetails.length"
+          badgePosition="top right"
+          badgeStatus="info"
+          *ngIf="isNotificationVisible"
+        ></nb-action>
         <nb-action class="user-action" *nbIsGranted="['view', 'user']">
-
-          <nb-user [nbContextMenu]="userMenu" nbContextMenuTag="user-menu-tag" [onlyPicture]="userPictureOnly"
-            [picture]="picture">
+          <nb-user
+            [nbContextMenu]="userMenu"
+            nbContextMenuTag="user-menu-tag"
+            [onlyPicture]="userPictureOnly"
+            [picture]="picture"
+          >
           </nb-user>
           <div class="d-flex flex-column">
             <span>{{ name }}</span>
@@ -82,3 +86,5 @@
         </nb-action>
       </nb-actions>
     </div>
+  </div>
+</div>

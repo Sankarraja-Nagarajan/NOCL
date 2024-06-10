@@ -28,7 +28,6 @@ export class TransportVendorProfileComponent {
       next: (res) => {
         if (res) {
           this.tansportVendor = res as TransportVendorPersonalData;
-          console.log("this.tansportVendor :",this.tansportVendor)
         }
       },
       error: (err) => {

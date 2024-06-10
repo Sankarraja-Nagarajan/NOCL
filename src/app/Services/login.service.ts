@@ -52,15 +52,6 @@ export class LoginService {
     } else return false;
   }
 
-  numberOnly(event: KeyboardEvent): any {
-    const Pattern = /[0-9]/;
-    const Char = String.fromCharCode(event.charCode);
-    if (!Pattern.test(Char)) {
-      event.preventDefault();
-      return false;
-    } else return true;
-  }
-
   authUser(loginDetails: LoginDetail): Observable<any> {
     const URL = this.baseURL + "/Auth/AuthenticateUser";
     return this._http.post(URL, loginDetails);

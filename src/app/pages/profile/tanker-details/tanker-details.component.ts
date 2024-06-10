@@ -34,7 +34,6 @@ tanktype:string;
         if (res) {
           this.tankerDetails = res as TankerDetail;
           this.capacityoftank = this.tankerDetails[0].Capacity_of_Tanker;
-          console.log("this.tankerDetails", this.tankerDetails)
           if(this.tankerDetails.Tanker_Type_Id !=0){
             this.GetTankerDetails();
             

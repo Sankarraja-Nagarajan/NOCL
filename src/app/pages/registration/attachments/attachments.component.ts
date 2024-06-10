@@ -224,7 +224,6 @@ export class AttachmentsComponent  {
       next: (response) => {
         if (response) {
           if (this.reqDocIndex >= 0) {
-            console.log(this.reqDatasource.data[this.reqDocIndex]);
             this.reqDatasource.data[this.reqDocIndex] = response as Attachment;
             this.reqDatasource._updateChangeSubscription();
           }
@@ -239,7 +238,6 @@ export class AttachmentsComponent  {
   }
 
   reUploadAttachment(element: Attachment, type: string, i: number) {
-    console.log(element);
     if (type == "req") {
       this.reqDocIndex = i;
     }

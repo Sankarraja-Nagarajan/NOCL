@@ -121,7 +121,6 @@ export class VendorBranchesComponent implements OnInit {
     if (!this.isVendorBranchRequired.value || this.dataSource.data.length > 0) {
       return true;
     } else {
-      console.log('vendor branches');
       this.VendorBranchForm.markAllAsTouched();
       this._commonService.openRequiredFieldsSnackbar();
       return false;

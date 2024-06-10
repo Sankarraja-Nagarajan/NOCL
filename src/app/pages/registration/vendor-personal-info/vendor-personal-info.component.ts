@@ -113,7 +113,6 @@ export class VendorPersonalInfoComponent implements OnInit {
     if (this.domesticVendorForm.valid) {
       return true;
     } else {
-      console.log('vendor personal');
       this.domesticVendorForm.markAllAsTouched();
       this._commonService.openRequiredFieldsSnackbar();
       return false;

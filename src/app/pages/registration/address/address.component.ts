@@ -122,7 +122,6 @@ export class AddressComponent implements OnInit, OnChanges {
     if (this.dataSource.data.length > 0) {
       return true;
     } else {
-      console.log("address");
       this.addressForm.markAllAsTouched();
       this._commonService.openRequiredFieldsSnackbar();
       return false;

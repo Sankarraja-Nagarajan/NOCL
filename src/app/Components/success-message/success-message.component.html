@@ -1,0 +1,13 @@
+<div class="container success-container">
+  <div class="success-message">
+    <div class="paper-blast d-flex flex-column gap-4">
+      <div><h1>Thank You!</h1></div>
+      <div><p>Your form has been submitted successfully.</p></div>
+      <a href="https://www.nocil.com/" class="btn">Go Back</a>
+    </div>
+  </div>
+
+  <div class="confetti-container">
+    <div *ngFor="let confetti of confettis" class="confetti" [ngStyle]="confetti.style"></div>
+  </div>
+</div>

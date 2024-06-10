@@ -96,7 +96,6 @@ export class PartnersComponent implements OnInit {
     if (this.dataSource.data.length > 0) {
       return true;
     } else {
-      console.log("partner");
       this.partnersForm.markAllAsTouched();
       this._commonService.openRequiredFieldsSnackbar();
       return false;

@@ -121,6 +121,7 @@ export class RegistrationFormLayoutComponent implements OnInit {
       },
     });
     //this.ExpiryNotifications();
+  }
 
   paramSubscription() {
     this._activatedRoute.queryParams.subscribe({
@@ -167,11 +168,10 @@ export class RegistrationFormLayoutComponent implements OnInit {
     this.loader = true;
     this._registration.formSubmit(formSubmitTemplate).subscribe({
       next: (res) => {
-        console.log(res);
         if (res.Status === 200) {
           this.loader = false;
           this._commonService.openSnackbar(res.Message, snackbarStatus.Success);
-          this._router.navigate(["/auth/otp"]);
+          this._router.navigate(["/success"]);
         }
       },
       error: (err) => {
@@ -187,11 +187,10 @@ export class RegistrationFormLayoutComponent implements OnInit {
     this.loader = true;
     this._registration.formUpdate(formSubmitTemplate).subscribe({
       next: (res) => {
-        console.log(res);
         if (res.Status === 200) {
           this.loader = false;
           this._commonService.openSnackbar(res.Message, snackbarStatus.Success);
-          this._router.navigate(["/auth/otp"]);
+          this._router.navigate(["/success"]);
         }
       },
       error: (err) => {

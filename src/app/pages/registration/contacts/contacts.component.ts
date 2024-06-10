@@ -117,7 +117,6 @@ export class ContactsComponent implements OnInit {
     if (this.dataSource.data.length > 0) {
       return true;
     } else {
-      console.log("contacts");
       this.contactForm.markAllAsTouched();
       this._commonService.openRequiredFieldsSnackbar();
       return false;

@@ -11,7 +11,7 @@ import { AppConfigService } from "./app-config.service";
 export class MasterService {
   baseURL: string = environment.baseURL;
 
-  constructor(private _http: HttpService,private _config:AppConfigService) { 
+  constructor(private _http: HttpService, private _config: AppConfigService) {
     this.baseURL = this._config.get("BaseURL");
   }
 
@@ -70,6 +70,12 @@ export class MasterService {
     return this._http.get(URL);
   }
 
+  // get Vendor Profile
+  getVendorProfile(formId: number): Observable<any> {
+    const URL = this.baseURL + `/GetFormData/GetVendorProfile?formId=${formId}`;
+    return this._http.get(URL);
+  }
+
   //#endregion
 
   //#region Create Masters
@@ -80,7 +86,6 @@ export class MasterService {
   }
 
   //#endregion
-
 
   //#region Update Masters
 

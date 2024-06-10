@@ -110,7 +110,6 @@ export class AnnualTurnoverComponent implements OnInit {
     if (this.dataSource.data.length > 0) {
       return true;
     } else {
-      console.log("annual turn over");
       this.turnoverForm.markAllAsTouched();
       this._commonService.openRequiredFieldsSnackbar();
       return false;
