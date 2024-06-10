@@ -1,20 +1,20 @@
 <section class="row profile-layout">
   <div class="col-3 h-100 common-data">
-    <h2 class="display-4 fw-bold">Exalca Technologies Pvt Ltd</h2>
+    <h2 class="display-4 fw-bold">{{ vendorProfile.Vendor_Name }}</h2>
     <div class="d-flex justify-content-center align-items-center">
-      <h5>Since 2017</h5>
+      <h5>Since {{ vendorProfile.Year }}</h5>
     </div>
     <div>
       <h4>Overall Grade</h4>
-      <h3>90%</h3>
+      <h3>{{ vendorProfile.Grade?.Grade }}%</h3>
     </div>
     <div>
       <p>Last Audit Date</p>
-      <p>2024-04-16</p>
+      <p>{{ vendorProfile.Grade?.Last_Audit_Date | date }}</p>
     </div>
     <div>
       <h4>Audited By</h4>
-      <h3>Auditor</h3>
+      <h3>{{vendorProfile.Grade?.Last_Audited_By}}</h3>
     </div>
   </div>
 
@@ -26,7 +26,11 @@
       <mat-tab class="tab-title" label="Contact">
         <ngx-contact-profile></ngx-contact-profile>
       </mat-tab>
-      <mat-tab class="tab-title" label="Technical Profile">
+      <mat-tab
+        *ngIf="vendorInfo.Vendor_Type != 'Transport'"
+        class="tab-title"
+        label="Technical Profile"
+      >
         <ngx-technical-detail></ngx-technical-detail>
       </mat-tab>
       <mat-tab class="tab-title" label="Commercial Profile">
@@ -38,11 +42,39 @@
       <mat-tab class="tab-title" label="Branches">
         <ngx-branch-info></ngx-branch-info>
       </mat-tab>
-      <mat-tab class="tab-title" label="Annual Turnover">
+      <mat-tab
+        *ngIf="vendorInfo.Vendor_Type != 'Transport'"
+        class="tab-title"
+        label="Annual Turnover"
+      >
         <ngx-annual-turnover-detail></ngx-annual-turnover-detail>
       </mat-tab>
-      <mat-tab class="tab-title" label="Organization Profile">
+      <mat-tab
+        *ngIf="vendorInfo.Vendor_Type == 'Transport'"
+        class="tab-title"
+        label="Transport Vendor Profile"
+      >
+        <ngx-transport-vendor-profile></ngx-transport-vendor-profile>
+      </mat-tab>
+      <mat-tab
+        *ngIf="vendorInfo.Vendor_Type == 'Transport'"
+        class="tab-title"
+        label="Tanker Details"
+      >
+        <ngx-tanker-details></ngx-tanker-details>
+      </mat-tab>
+      <mat-tab
+        *ngIf="vendorInfo.Vendor_Type != 'Transport'"
+        class="tab-title"
+        label="Organization Profile"
+      >
         <ngx-organization-profile></ngx-organization-profile>
+      </mat-tab>
+      <mat-tab
+        class="tab-title"
+        label="Attachments"
+      >
+        <ngx-attachment-profile></ngx-attachment-profile>
       </mat-tab>
     </mat-tab-group>
   </div>

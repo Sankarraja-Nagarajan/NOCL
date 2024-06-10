@@ -6,6 +6,7 @@ import { CommonService } from "../../Services/common.service";
 import { AuthResponse, UpdatePassword } from "../../Models/authModel";
 import { snackbarStatus } from "../../Enums/snackbar-status";
 import { LoginService } from "../../Services/login.service";
+import { getSession } from "../../Utils";
 
 @Component({
   selector: "ngx-change-password",
@@ -37,7 +38,7 @@ export class ChangePasswordComponent implements OnInit {
     });
 
     this.authResponse = JSON.parse(
-      sessionStorage.getItem("userDetails")
+      getSession("userDetails")
     ) as AuthResponse;
     if (!this.authResponse.Employee_Id) {
       this._common.openSnackbar("Please login again!", snackbarStatus.Danger);

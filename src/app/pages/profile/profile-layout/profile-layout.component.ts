@@ -1,6 +1,9 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { NbRouteTab } from "@nebular/theme";
+import { getSession } from "../../../Utils";
+import { MasterService } from "../../../Services/master.service";
+import { VendorProfile } from "../../../Models/Master";
 
 @Component({
   selector: "ngx-profile-layout",
@@ -38,10 +41,22 @@ export class ProfileLayoutComponent implements OnInit {
 
   vendorInfo: any;
   loader: boolean = false;
-  constructor(private _activatedRoute: ActivatedRoute) {}
+  vendorProfile: VendorProfile = new VendorProfile();
+
+  constructor(
+    private _activatedRoute: ActivatedRoute,
+    private _master: MasterService
+  ) {}
 
   ngOnInit(): void {
-    let vInfo = sessionStorage.getItem("vendorInfo");
+    let vInfo = getSession("vendorInfo");
     this.vendorInfo = JSON.parse(vInfo);
+    this._master
+      .getVendorProfile(Number.parseInt(this.vendorInfo.FormId))
+      .subscribe({
+        next: (res) => {
+          this.vendorProfile = res as VendorProfile;
+        },
+      });
   }
 }

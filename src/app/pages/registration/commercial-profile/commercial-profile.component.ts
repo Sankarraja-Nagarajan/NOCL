@@ -6,6 +6,9 @@ import { AuthResponse } from "../../../Models/authModel";
 import { RegistrationService } from "../../../Services/registration.service";
 import { CommonService } from "../../../Services/common.service";
 import { snackbarStatus } from "../../../Enums/snackbar-status";
+import { Output, EventEmitter } from '@angular/core';
+import { EmitterService } from "../../../Services/emitter.service";
+import { getSession } from "../../../Utils";
 
 @Component({
   selector: "ngx-commercial-profile",
@@ -20,15 +23,18 @@ export class CommercialProfileComponent {
   commercialProfileForm: FormGroup;
   commercialId: number = 0;
   msmeTypes: string[] = [];
+  reqDoctypes: string[] = [];
+  documents:string= "";
   authResponse: AuthResponse;
-  astheriskRequired:boolean=false;
-
+  astheriskRequired: boolean = false;
+  msmedisabled: boolean = true;
+  MSMEindex: number;
   constructor(
     private _fb: FormBuilder,
     private _config: AppConfigService,
     private _registration: RegistrationService,
-    private _common: CommonService
-  ) {}
+    private _common: CommonService,private emitterService: EmitterService
+  ) { }
 
   ngOnInit(): void {
     this.commercialProfileForm = this._fb.group({
@@ -51,13 +57,14 @@ export class CommercialProfileComponent {
         ],
       ],
       MSME_Type: [""],
-      MSME_Number: ["",Validators.pattern(
+      MSME_Number: ["", Validators.pattern(
         "^(UDYAM-[A-Z]{2}-[0-9]{2}-[0-9]{7})+$"
       )],
       ServiceCategory: [""],
+      Is_MSME_Type: [true],
     });
 
-    this.authResponse = JSON.parse(sessionStorage.getItem("userDetails"));
+    this.authResponse = JSON.parse(getSession("userDetails"));
     if (this.isReadOnly) {
       this.commercialProfileForm.disable();
     }
@@ -74,10 +81,11 @@ export class CommercialProfileComponent {
       this.commercialProfileForm
         .get("MSME_Number")
         .addValidators(Validators.required);
-        this.astheriskRequired = true;
+      this.astheriskRequired = true;
     }
 
     this.msmeTypes = this._config.get("MSME_Types").split(",");
+
 
     // Get Form data by form Id
     this._registration
@@ -90,7 +98,7 @@ export class CommercialProfileComponent {
           }
         },
         error: (err) => {
-          
+
         },
       });
   }
@@ -100,7 +108,6 @@ export class CommercialProfileComponent {
     if (this.commercialProfileForm.valid) {
       return true;
     } else {
-      console.log('commercial');
       this.commercialProfileForm.markAllAsTouched();
       this._common.openRequiredFieldsSnackbar();
       return false;
@@ -114,5 +121,37 @@ export class CommercialProfileComponent {
     commercialProfile.Id = this.commercialId ? this.commercialId : 0;
     commercialProfile.Form_Id = this.form_Id;
     return commercialProfile;
+  }
+
+  changeOptions() {
+    this.reqDoctypes = this._config.get("Required_Attachments").split(",");
+    if (!this.commercialProfileForm.get('Is_MSME_Type').value) {
+      this.commercialProfileForm.get('MSME_Type').disable();
+      this.commercialProfileForm.get('MSME_Number').disable();
+      this.msmedisabled = false;
+      this.MSMEindex = this.reqDoctypes.indexOf("MSME");
+      if (this.MSMEindex != -1) {
+        this.reqDoctypes.splice(this.MSMEindex, 1);
+        this.documents = this.reqDoctypes.join(",");
+          this._config.updateConfigValue('Required_Attachments', this.documents);
+          const value = this._config.get("Required_Attachments").split(",");
+          this.updateRequireDocument(value);
+      }
+    } else {
+      this.commercialProfileForm.get('MSME_Type').enable();
+      this.commercialProfileForm.get('MSME_Number').enable();
+      this.msmedisabled = true;
+      this.MSMEindex = this.reqDoctypes.indexOf("MSME");
+      if (this.MSMEindex == -1) {
+        this.reqDoctypes.push("MSME");
+        this.documents = this.reqDoctypes.join(",");
+        this._config.updateConfigValue('Required_Attachments', this.documents);
+        const value = this._config.get("Required_Attachments").split(",");
+      this.updateRequireDocument(value);
+      }
+    }
+  }
+  updateRequireDocument(value:string) {
+    this.emitterService.emitRequiredDocument(value);
   }
 }

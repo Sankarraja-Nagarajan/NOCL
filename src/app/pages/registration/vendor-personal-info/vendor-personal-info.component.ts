@@ -10,6 +10,7 @@ import { CommonService } from "../../../Services/common.service";
 import { AuthResponse } from "../../../Models/authModel";
 import { RegistrationService } from "../../../Services/registration.service";
 import { snackbarStatus } from "../../../Enums/snackbar-status";
+import { getSession } from "../../../Utils";
 
 @Component({
   selector: "ngx-vendor-personal-info",
@@ -51,7 +52,7 @@ export class VendorPersonalInfoComponent implements OnInit {
       ],
     });
 
-    this.authResponse = JSON.parse(sessionStorage.getItem("userDetails"));
+    this.authResponse = JSON.parse(getSession("userDetails"));
     if (this.isReadOnly) {
       this.domesticVendorForm.disable();
     }
@@ -112,7 +113,6 @@ export class VendorPersonalInfoComponent implements OnInit {
     if (this.domesticVendorForm.valid) {
       return true;
     } else {
-      console.log('vendor personal');
       this.domesticVendorForm.markAllAsTouched();
       this._commonService.openRequiredFieldsSnackbar();
       return false;

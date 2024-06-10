@@ -10,17 +10,26 @@ import { snackbarStatus } from '../../../Enums/snackbar-status';
   styleUrls: ['./bank-info.component.scss']
 })
 export class BankInfoComponent implements OnInit {
-  @Input() formId: number = 17;
+ // @Input() formId: number = 17;
   bankDetail: Bank_Detail = new Bank_Detail();
-
+  vendorInfo:any;
+  formId:number;
   constructor(private _registration: RegistrationService,
     private _commonService: CommonService,) { }
 
   ngOnInit(): void {
+    let vInfo = sessionStorage.getItem("vendorInfo");
+    this.vendorInfo    = JSON.parse(vInfo);
+    this.formId = this.vendorInfo.FormId;
+    this.getMasterData();
+   
+  }
+  getMasterData():void{
     this._registration.getFormData(this.formId, "BankDetail").subscribe({
       next: (res) => {
         if (res) {
           this.bankDetail = res as Bank_Detail;
+          
         }
       },
       error: (err) => {
@@ -28,5 +37,4 @@ export class BankInfoComponent implements OnInit {
       },
     });
   }
-
 }

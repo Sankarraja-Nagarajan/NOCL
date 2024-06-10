@@ -11,6 +11,7 @@ import { VendorBranch } from "../../../Models/Dtos";
 import { CommonService } from "../../../Services/common.service";
 import { RegistrationService } from "../../../Services/registration.service";
 import { snackbarStatus } from "../../../Enums/snackbar-status";
+import { getSession } from "../../../Utils";
 
 @Component({
   selector: "ngx-vendor-branches",
@@ -55,7 +56,7 @@ export class VendorBranchesComponent implements OnInit {
     });
     this.valueChangeEvents();
 
-    const userData = JSON.parse(sessionStorage.getItem("userDetails"));
+    const userData = JSON.parse(getSession("userDetails"));
     this.role = userData ? userData.Role : "";
     this.role != 'Vendor' ? this.isVendorBranchRequired.disable() : this.isVendorBranchRequired.enable();
     // Get vendor branches by form Id
@@ -120,7 +121,6 @@ export class VendorBranchesComponent implements OnInit {
     if (!this.isVendorBranchRequired.value || this.dataSource.data.length > 0) {
       return true;
     } else {
-      console.log('vendor branches');
       this.VendorBranchForm.markAllAsTouched();
       this._commonService.openRequiredFieldsSnackbar();
       return false;

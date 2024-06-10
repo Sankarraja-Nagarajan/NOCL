@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
+import {
+  AfterViewInit,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+} from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import {
   MajorCustomer,
@@ -15,13 +22,14 @@ import { forkJoin } from "rxjs";
 import { AuthResponse } from "../../../Models/authModel";
 import { RegistrationService } from "../../../Services/registration.service";
 import { CommonAddDataDialogComponent } from "../../../Dialogs/common-add-data-dialog/common-add-data-dialog.component";
+import { getSession } from "../../../Utils";
 
 @Component({
   selector: "ngx-vendor-org-profile",
   templateUrl: "./vendor-org-profile.component.html",
   styleUrls: ["./vendor-org-profile.component.scss"],
 })
-export class VendorOrgProfileComponent {
+export class VendorOrgProfileComponent implements OnInit, AfterViewInit {
   @Input() form_Id: number;
   @Input() isReadOnly: boolean;
   @Output() havePartner = new EventEmitter<boolean>();
@@ -45,6 +53,7 @@ export class VendorOrgProfileComponent {
     private _registration: RegistrationService
   ) {}
 
+  
   ngOnInit(): void {
     this.vendorOrgForm = this._fb.group({
       Type_of_Org_Id: ["", Validators.required],
@@ -52,16 +61,19 @@ export class VendorOrgProfileComponent {
       RelationToNocil: [false],
       Subsideries: [null],
       Annual_Prod_Capacity: [0],
+      Unit:[""],
     });
 
-    this.valueChangeEvents();
-
-    this.authResponse = JSON.parse(sessionStorage.getItem("userDetails"));
+    this.authResponse = JSON.parse(getSession("userDetails"));
     if (this.isReadOnly) {
       this.vendorOrgForm.disable();
     }
     // get master data
     this.getAllMasters();
+  }
+
+  ngAfterViewInit(): void {
+    this.valueChangeEvents();
   }
 
   valueChangeEvents() {
@@ -74,12 +86,16 @@ export class VendorOrgProfileComponent {
           this.vendorOrgForm
             .get("Annual_Prod_Capacity")
             .updateValueAndValidity();
+            this.vendorOrgForm.get("Unit").addValidators([Validators.required]);
+            this.vendorOrgForm.get("Unit").updateValueAndValidity();
           this.isAnnualProdShown = true;
         } else {
           this.vendorOrgForm.get("Annual_Prod_Capacity").clearValidators();
           this.vendorOrgForm
             .get("Annual_Prod_Capacity")
             .updateValueAndValidity();
+            this.vendorOrgForm.get("Unit").clearValidators();
+            this.vendorOrgForm.get("Unit").updateValueAndValidity();
           this.isAnnualProdShown = false;
         }
       },
@@ -109,6 +125,10 @@ export class VendorOrgProfileComponent {
     });
   }
 
+emitPartnerStatus(bool){
+  this.havePartner.emit(bool);
+}
+
   // Make sure the Vendor Organization Profile Form is valid
   isValid() {
     if (this.vendorOrgForm.valid) {
@@ -126,7 +146,6 @@ export class VendorOrgProfileComponent {
         return false;
       }
     } else {
-      console.log("vendor org prof");
       this.vendorOrgForm.markAllAsTouched();
       this._common.openRequiredFieldsSnackbar();
       return false;
@@ -179,12 +198,10 @@ export class VendorOrgProfileComponent {
 
   removeSubsideriesItems(i: number) {
     this.subsideriesList.splice(i, 1);
-    console.log(this.subsideriesList);
   }
 
   removeMajorCustomerItems(i: number) {
     this.listOfMajorCustomerList.splice(i, 1);
-    console.log(this.subsideriesList);
   }
 
   removeRelatedNocilEmployee(i: number) {

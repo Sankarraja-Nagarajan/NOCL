@@ -1,0 +1,54 @@
+<section class="bank-detail pt-5 ps-4">
+    <div class="detail-container p-3 mb-5 shadow rounded">
+        <div class="row w-100">
+            <div>
+                <div class="row mb-2 mb-md-1">
+                    <div class="col-md-4 d-flex justify-content-between align-items-center">
+                        <label class="input-label-text"> Transporter Name </label>
+                        <span class="d-none d-md-block"> : </span>
+                    </div>
+                    <div class="col-md fw-bold">
+                        <span class="detail-type"> {{tansportVendor.Name_of_Transporter}} </span>
+                    </div>
+                </div>
+
+                <div class="row mb-2 mb-md-1">
+                    <div class="col-md-4 d-flex justify-content-between align-items-center">
+                        <label class="input-label-text"> Date Of Establishment </label>
+                        <span class="d-none d-md-block"> : </span>
+                    </div>
+                    <div class="col-md fw-bold">
+                        <span class="detail-type"> {{tansportVendor.Date_of_Establishment | date:'yyyy-MM-dd'}} </span>
+                    </div>
+                </div>
+                <div class="row mb-2 mb-md-1">
+                    <div class="col-md-4 d-flex justify-content-between align-items-center">
+                        <label class="input-label-text"> No. of Own Vehicle </label>
+                        <span class="d-none d-md-block"> : </span>
+                    </div>
+                    <div class="col-md fw-bold">
+                        <span class="detail-type"> {{tansportVendor.No_of_Own_Vehicles}} </span>
+                    </div>
+                </div>
+                <div class="row mb-2 mb-md-1">
+                    <div class="col-md-4 d-flex justify-content-between align-items-center">
+                        <label class="input-label-text"> No. of Drivers </label>
+                        <span class="d-none d-md-block"> : </span>
+                    </div>
+                    <div class="col-md fw-bold">
+                        <span class="detail-type"> {{tansportVendor.No_of_Drivers}} </span>
+                    </div>
+                </div>
+                <!-- <div class="row mb-2 mb-md-1">
+                    <div class="col-md-4 d-flex justify-content-between align-items-center">
+                        <label class="input-label-text"> Nicerglobe Registration Status </label>
+                        <span class="d-none d-md-block"> : </span>
+                    </div>
+                    <div class="col-md fw-bold">
+                        <span class="detail-type"> {{tansportVendor.}} </span>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+    </div>
+</section>

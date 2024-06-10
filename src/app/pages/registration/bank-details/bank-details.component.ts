@@ -5,6 +5,7 @@ import { CommonService } from "../../../Services/common.service";
 import { AuthResponse } from "../../../Models/authModel";
 import { RegistrationService } from "../../../Services/registration.service";
 import { snackbarStatus } from "../../../Enums/snackbar-status";
+import { getSession } from "../../../Utils";
 
 @Component({
   selector: "ngx-bank-details",
@@ -51,7 +52,7 @@ export class BankDetailsComponent {
       this.bankDetailsForm.get("IFSC").addValidators(Validators.required);
     }
 
-    this.authResponse = JSON.parse(sessionStorage.getItem("userDetails"));
+    this.authResponse = JSON.parse(getSession("userDetails"));
     if (this.isReadOnly) {
       this.bankDetailsForm.disable();
     }
@@ -79,7 +80,6 @@ export class BankDetailsComponent {
     if (this.bankDetailsForm.valid) {
       return true;
     } else {
-      console.log('bank');
       this.bankDetailsForm.markAllAsTouched();
       this._commonService.openRequiredFieldsSnackbar();
       return false;

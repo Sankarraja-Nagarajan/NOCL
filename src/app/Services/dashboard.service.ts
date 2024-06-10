@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpService } from './http.service';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
+import { AppConfigService } from './app-config.service';
 
 @Injectable({
   providedIn: "root",
@@ -9,7 +10,9 @@ import { environment } from '../../environments/environment';
 export class DashboardService {
   baseURL: string = environment.baseURL;
 
-  constructor(private _http: HttpService) {}
+  constructor(private _http: HttpService,private _config:AppConfigService) { 
+    this.baseURL = this._config.get("BaseURL");
+  }
 
   // get initial form data
   getInitialData(emp_Id: string): Observable<any> {

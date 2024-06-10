@@ -9,6 +9,7 @@ import { Form } from "../../../Models/Registration";
 import { RegistrationService } from "../../../Services/registration.service";
 import { AuthResponse } from "../../../Models/authModel";
 import { Router } from "@angular/router";
+import { getSession } from "../../../Utils";
 
 @Component({
   selector: "ngx-initiation-form",
@@ -33,7 +34,7 @@ export class InitiationFormComponent implements OnInit {
   ngOnInit() {
     // get Auth Response
     this.userData = JSON.parse(
-      sessionStorage.getItem("userDetails")
+      getSession("userDetails")
     ) as AuthResponse;
 
     // get all master data

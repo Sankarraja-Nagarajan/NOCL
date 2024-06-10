@@ -185,21 +185,7 @@
         </div>
       </div>
     </div>
-    <!-- Attachments -->
-    <div *ngIf="attachments" class="p-3 border-bottom">
-      <div class="row">
-        <div class="d-none d-sm-flex flex-column align-items-center justify-content-center col-sm-3">
-          <h3 class="outer-title mb-4">Attachments</h3>
-          <img src="../assets/images/pngs/files-and-folder-flatline.png" class="img-fluid" width="70" height="70" />
-        </div>
-        <div class="col-12 col-sm-9">
-          <h3 class="d-flex justify-content-center align-items-center d-sm-none title-underline mb-3">
-            Attachments
-          </h3>
-          <ngx-attachments [form_Id]="form_Id"></ngx-attachments>
-        </div>
-      </div>
-    </div>
+
     <!-- Bank Details -->
     <div *ngIf="bankDetails" class="p-3 border-bottom">
       <div class="row">
@@ -226,10 +212,27 @@
           <h3 class="d-flex justify-content-center align-items-center d-sm-none title-underline mb-3">
             Commercial Profile
           </h3>
-          <ngx-commercial-profile [form_Id]="form_Id" [v_Id]="v_Id" [isReadOnly]="isReadOnly"></ngx-commercial-profile>
+          <ngx-commercial-profile [form_Id]="form_Id" [v_Id]="v_Id"  [isReadOnly]="isReadOnly"></ngx-commercial-profile>
         </div>
       </div>
     </div>
+
+    <!-- Attachments -->
+    <div *ngIf="attachments" class="p-3 border-bottom">
+      <div class="row">
+        <div class="d-none d-sm-flex flex-column align-items-center justify-content-center col-sm-3">
+          <h3 class="outer-title mb-4">Attachments</h3>
+          <img src="../assets/images/pngs/files-and-folder-flatline.png" class="img-fluid" width="70" height="70" />
+        </div>
+        <div class="col-12 col-sm-9">
+          <h3 class="d-flex justify-content-center align-items-center d-sm-none title-underline mb-3">
+            Attachments
+          </h3>
+          <ngx-attachments [form_Id]="form_Id"></ngx-attachments>
+        </div>
+      </div>
+    </div>
+
     <!-- Vendor Branches -->
     <div *ngIf="vendorBranches" class="p-3 border-bottom mb-2">
       <div class="row">

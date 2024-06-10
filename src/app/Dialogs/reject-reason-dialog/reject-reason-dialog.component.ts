@@ -3,6 +3,7 @@ import { FormControl, Validators } from '@angular/forms';
 import { Rejection } from '../../Models/Registration';
 import { AuthResponse } from '../../Models/authModel';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { getSession } from '../../Utils';
 
 @Component({
   selector: 'ngx-reject-reason-dialog',
@@ -18,7 +19,7 @@ export class RejectReasonDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.authResponse = JSON.parse(sessionStorage.getItem('userDetails'));
+    this.authResponse = JSON.parse(getSession("userDetails"));
   }
 
   reject() {

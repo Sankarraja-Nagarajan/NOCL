@@ -11,13 +11,16 @@ import { DocumentViewDialogComponent } from "../../../Dialogs/document-view-dial
 import { AttachmentService } from "../../../Services/attachment.service";
 import { FileSaverService } from "../../../Services/file-saver.service";
 import { AppConfigService } from "../../../Services/app-config.service";
+import { EmitterService } from "../../../Services/emitter.service";
+import { MatAccordion } from "@angular/material/expansion";
+import { getSession } from "../../../Utils";
 
 @Component({
   selector: "ngx-attachments",
   templateUrl: "./attachments.component.html",
   styleUrls: ["./attachments.component.scss"],
 })
-export class AttachmentsComponent {
+export class AttachmentsComponent  {
   @Input() form_Id: number;
   @Input() v_Id: number;
 
@@ -46,11 +49,14 @@ export class AttachmentsComponent {
     private _registration: RegistrationService,
     private _docService: AttachmentService,
     private _fileSaver: FileSaverService,
-    private _config: AppConfigService
-  ) {}
-
+    private _config: AppConfigService,private emitterService: EmitterService
+  ) { }
+  // ngAfterViewInit(): void {
+  //   this.reqDoctypes = this.document;
+  //   this.GetAttachment();
+  // }
   ngOnInit(): void {
-    const userData = JSON.parse(sessionStorage.getItem("userDetails"));
+    const userData = JSON.parse(getSession("userDetails"));
     this.role = userData ? userData.Role : "";
     if (this.v_Id == 4) {
       this.reqDoctypes = this._config
@@ -59,16 +65,29 @@ export class AttachmentsComponent {
     } else {
       this.reqDoctypes = this._config.get("Required_Attachments").split(",");
     }
-
+    this.GetAttachment();
+    this.emitterService.DocumentData().subscribe((data) => {
+      this.reqDoctypes = data ;
+      this.GetAttachment();
+    });
+    // this.emitterService.ISODocumentData().subscribe((data) => {
+    //   this.reqDoctypes = data ;
+    //   this.GetAttachment();
+    // });
     // Get attachments by form Id
+
+  }
+  GetAttachment() {
     this._registration.getFormData(this.form_Id, "Attachments").subscribe({
       next: (res) => {
         if (res && res.length > 0) {
           let resFileTypes = [];
+          this.reqDatasource.data = [];
           this.attachments = res as Attachment[];
           this.attachments.forEach((element) => {
             resFileTypes.push(element.File_Type);
             if (this.reqDoctypes.includes(element.File_Type)) {
+
               this.reqDatasource.data.push(element);
             } else {
               this.additionalDatasource.data.push(element);
@@ -86,8 +105,11 @@ export class AttachmentsComponent {
 
           this.reqDatasource._updateChangeSubscription();
           this.additionalDatasource._updateChangeSubscription();
-        } else {
+        }
+        else {
+          this.reqDatasource = new MatTableDataSource();
           this.reqDoctypes.forEach((element) => {
+
             let attachment = new Attachment();
             attachment.Form_Id = this.form_Id;
             attachment.File_Type = element;
@@ -95,11 +117,13 @@ export class AttachmentsComponent {
           });
           this.reqDatasource._updateChangeSubscription();
         }
+        // else if(this.reqDoctypes.length <= 5){
+
+        // }
       },
-      error: (err) => {},
+      error: (err) => { },
     });
   }
-
   removeAttachment(attachmentId: number, i: number) {
     this.loader = true;
     this._docService.DeleteAttachment(attachmentId).subscribe({
@@ -200,7 +224,6 @@ export class AttachmentsComponent {
       next: (response) => {
         if (response) {
           if (this.reqDocIndex >= 0) {
-            console.log(this.reqDatasource.data[this.reqDocIndex]);
             this.reqDatasource.data[this.reqDocIndex] = response as Attachment;
             this.reqDatasource._updateChangeSubscription();
           }
@@ -215,7 +238,6 @@ export class AttachmentsComponent {
   }
 
   reUploadAttachment(element: Attachment, type: string, i: number) {
-    console.log(element);
     if (type == "req") {
       this.reqDocIndex = i;
     }

@@ -5,6 +5,7 @@ import { ProprietorOrPartner } from "../../../Models/Dtos";
 import { CommonService } from "../../../Services/common.service";
 import { RegistrationService } from "../../../Services/registration.service";
 import { snackbarStatus } from "../../../Enums/snackbar-status";
+import { getSession } from "../../../Utils";
 
 @Component({
   selector: "ngx-partners",
@@ -32,7 +33,7 @@ export class PartnersComponent implements OnInit {
       PercentageShare: ["", [Validators.required]],
     });
 
-    const userData = JSON.parse(sessionStorage.getItem("userDetails"));
+    const userData = JSON.parse(getSession("userDetails"));
     this.role = userData ? userData.Role : "";
     // Get Proprietor or Partners data by form Id
     this._registration
@@ -95,7 +96,6 @@ export class PartnersComponent implements OnInit {
     if (this.dataSource.data.length > 0) {
       return true;
     } else {
-      console.log("partner");
       this.partnersForm.markAllAsTouched();
       this._commonService.openRequiredFieldsSnackbar();
       return false;

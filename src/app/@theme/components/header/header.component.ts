@@ -1,22 +1,15 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
-import {
-  NbMediaBreakpointsService,
-  NbMenuService,
-  NbSidebarService,
-  NbThemeService,
-} from "@nebular/theme";
-
-import { UserData } from "../../../@core/data/users";
-import { LayoutService } from "../../../@core/utils";
-import { filter, map, takeUntil } from "rxjs/operators";
-import { Subject } from "rxjs";
+import { NbMenuService, NbSidebarService } from "@nebular/theme";
+import { filter, map } from "rxjs/operators";
 import { CommonService } from "../../../Services/common.service";
-import { NbUser } from "@nebular/auth";
 import { Router } from "@angular/router";
-import { LoginService } from "../../../Services/login.service";
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { ChangePasswordComponent } from "../../../Dialogs/change-password/change-password.component";
 import { snackbarStatus } from "../../../Enums/snackbar-status";
+import { RegistrationService } from "../../../Services/registration.service";
+import { ExpiryDetails } from "../../../Models/Registration";
+import { getSession, isNullOrWhiteSpace } from "../../../Utils";
+import { LayoutService } from "../../../@core/utils";
 
 @Component({
   selector: "ngx-header",
@@ -30,6 +23,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   title: string = "";
   userMenu = [{ title: "Change Password" }, { title: "Log out" }];
   userData: any;
+  isNotificationVisible: boolean = false;
+  allExpiryDetails: ExpiryDetails[] = [];
 
   constructor(
     private sidebarService: NbSidebarService,
@@ -37,16 +32,27 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private layoutService: LayoutService,
     private _common: CommonService,
     private _router: Router,
-    private _dialog: MatDialog
+    private _dialog: MatDialog,
+    private _registration: RegistrationService
   ) {}
 
   ngOnInit() {
     this.picture = "../../../../assets/images/dummy-user.png";
-    const USER = sessionStorage.getItem("userDetails");
+    const USER = getSession("userDetails");
     if (USER) {
       this.userData = JSON.parse(USER);
       this.name = this.userData.DisplayName;
       this.title = this.userData.Role;
+      if (this.title.toLowerCase() == "admin") {
+        this.getAllNotification();
+      } else if (
+        this.userData.Role.toLowerCase() == "vendor" &&
+        !isNullOrWhiteSpace(this.userData.Employee_Id)
+      ) {
+        this.getAllNotificationByVendorCode(this.userData.Employee_Id);
+      } else {
+        this.isNotificationVisible = false;
+      }
     }
 
     this.menuService
@@ -67,6 +73,24 @@ export class HeaderComponent implements OnInit, OnDestroy {
         },
         error: (err) => {},
       });
+  }
+
+  getAllNotification() {
+    this.isNotificationVisible = true;
+    this._registration.getAllExpiryNotifications().subscribe({
+      next: (res) => {
+        this.allExpiryDetails = res as ExpiryDetails[];
+      },
+    });
+  }
+
+  getAllNotificationByVendorCode(vCode: string) {
+    this.isNotificationVisible = true;
+    this._registration.getExpiryNotificationsByVendorCode(vCode).subscribe({
+      next: (res) => {
+        this.allExpiryDetails = res as ExpiryDetails[];
+      },
+    });
   }
 
   ngOnDestroy() {}

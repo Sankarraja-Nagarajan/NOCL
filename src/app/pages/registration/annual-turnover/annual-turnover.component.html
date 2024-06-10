@@ -1,6 +1,6 @@
 <section class="screenAddress">
   <div class="container">
-    <div class="turnover" style="user-select: none">
+    <div class="turnover" >
       <div class="row">
         <form
           action=""
@@ -39,7 +39,7 @@
             </div>
             <div class="col-sm">
               <div>
-                <label class="input-label-text">Sales Turnover(in crores)</label>
+                <label class="input-label-text">Sales Turnover(in lakhs) <span class="asterisk-required">*</span> </label>
                 <div class="input-group">
                   <input
                     nbInput
@@ -50,6 +50,14 @@
                     placeholder="Enter Sales Turnover"
                     (keypress)="keyPressValidation($event, 'decimal')"
                   />
+                  <mat-error
+                  *ngIf="
+                    this.turnoverForm.get('SalesTurnOver').hasError('required') &&
+                    this.turnoverForm.get('SalesTurnOver').touched
+                  "
+                  class="error-msg"
+                  >Sales Turn Over is required</mat-error
+                >
                 </div>
               </div>
             </div>

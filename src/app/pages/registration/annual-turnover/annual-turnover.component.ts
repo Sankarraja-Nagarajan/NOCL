@@ -5,6 +5,7 @@ import { AnnualTurnOver } from "../../../Models/Dtos";
 import { CommonService } from "../../../Services/common.service";
 import { RegistrationService } from "../../../Services/registration.service";
 import { snackbarStatus } from "../../../Enums/snackbar-status";
+import { getSession } from "../../../Utils";
 
 @Component({
   selector: "ngx-annual-turnover",
@@ -35,7 +36,7 @@ export class AnnualTurnoverComponent implements OnInit {
   ) {
     this.turnoverForm = _fb.group({
       Year: ["", Validators.required],
-      SalesTurnOver: [0],
+      SalesTurnOver: [0,Validators.required],
       OperatingProfit: [0],
       NetProfit: [0],
     });
@@ -56,7 +57,7 @@ export class AnnualTurnoverComponent implements OnInit {
       },
     });
 
-    const userData = JSON.parse(sessionStorage.getItem("userDetails"));
+    const userData = JSON.parse(getSession("userDetails"));
     this.role = userData ? userData.Role : "";
   }
 
@@ -109,7 +110,6 @@ export class AnnualTurnoverComponent implements OnInit {
     if (this.dataSource.data.length > 0) {
       return true;
     } else {
-      console.log("annual turn over");
       this.turnoverForm.markAllAsTouched();
       this._commonService.openRequiredFieldsSnackbar();
       return false;
