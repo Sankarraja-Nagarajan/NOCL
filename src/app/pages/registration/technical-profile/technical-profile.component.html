@@ -1,6 +1,6 @@
 <section class="screenAddress">
   <div class="container">
-    <div class="profile" >
+    <div class="profile">
       <div class="row">
         <form action="" [formGroup]="technicalProfileForm" class="p-0">
           <!-- Is_ISO_Certified & Other_Qms_Certified  -->
@@ -13,18 +13,38 @@
                 formControlName="Is_ISO_Certified"
                 (change)="changeOptions()"
               /> -->
-              <label
-                class="input-label-text ps-2"
-                style="cursor: pointer"
-                for="isoChecked"
-                >Are You Certified For ISO Quality Systems?</label
-              >
-              <nb-select size="small" status="primary" formControlName="Is_ISO_Certified" (selectedChange)="changeOptions()">
+              <label class="input-label-text ps-2" style="cursor: pointer" for="isoChecked">Are You Certified For ISO
+                Quality Systems?</label>
+              <nb-select size="small" status="primary" formControlName="Is_ISO_Certified"
+                (selectedChange)="changeOptions()">
                 <nb-option [value]="true">Yes</nb-option>
                 <nb-option [value]="false">No</nb-option>
               </nb-select>
             </div>
+
+
+            <div *ngIf="technicalProfileForm.value.Is_ISO_Certified === true"
+              class="d-flex justify-content-center align-items-center">
+              <div class="isoDialog border p-1 m-2 w-75 d-flex justify-content-between align-items-center input-border"
+                fieldSize="tiny">
+                <span>{{ isoAttachment?.File_Type }}</span>
+                <span><b>Expires on </b>
+                  <span>{{ isoAttachment?.Expiry_Date | date : "mediumDate"}}</span>
+                </span>
+                <button type="button" (click)="openViewDocDialog(fileName)" class="btn isoDialog btn-link linkBtn">
+                  <span> {{ isoAttachment?.File_Name }} </span>
+                </button>
+                <button mat-mini-fab color="basic" nbTooltipStatus="primary" class="cancel-btn"
+                  [nbTooltip]="getToolTip(isoAttachment?.File_Name)"
+                  (click)="isoAttachment?.Attachment_Id!=0 ? reUploadAttachment(isoAttachment) : uploadAttachment('ISO 9001')">
+                  <img src="../../../../assets/images/svgs/file-upload.svg" height="20" width="20" />
+                </button>
+              </div>
+            </div>
           </div>
+
+
+
           <div class="checks-fields">
             <div class="check d-flex justify-content-between align-items-center">
               <!-- <input
@@ -34,13 +54,11 @@
                 formControlName="Other_Qms_Certified"
                 (change)="changeOptions()"
               /> -->
-              <label
-                class="input-label-text ps-2 cursor-pointer"
-                for="QmsChecked"
-                >Are you certified in any other Quality Management
-                Systems (QMS)?</label
-              >
-              <nb-select size="small" status="primary" formControlName="Other_Qms_Certified" (selectedChange)="changeOptions()">
+              <label class="input-label-text ps-2 cursor-pointer" for="QmsChecked">Are you certified in any other
+                Quality Management
+                Systems (QMS)?</label>
+              <nb-select size="small" status="primary" formControlName="Other_Qms_Certified"
+                (selectedChange)="changeOptions()">
                 <nb-option [value]="true">Yes</nb-option>
                 <nb-option [value]="false">No</nb-option>
               </nb-select>
@@ -58,12 +76,10 @@
                 formControlName="Planning_for_Qms"
                 (change)="changeOptions()"
               /> -->
-              <label
-                class="input-label-text ps-2 cursor-pointer"
-                for="planQmsChecked"
-                >If not certified, Are you planning for it?</label
-              >
-              <nb-select size="small" status="primary" formControlName="Planning_for_Qms" (selectedChange)="changeOptions()">
+              <label class="input-label-text ps-2 cursor-pointer" for="planQmsChecked">If not certified, Are you
+                planning for it?</label>
+              <nb-select size="small" status="primary" formControlName="Planning_for_Qms"
+                (selectedChange)="changeOptions()">
                 <nb-option [value]="true">Yes</nb-option>
                 <nb-option [value]="false">No</nb-option>
               </nb-select>
@@ -77,11 +93,8 @@
                 id="statusProvisions"
                 formControlName="Is_Statutory_Provisions_Adheard"
               /> -->
-              <label
-                class="input-label-text ps-2 cursor-pointer"
-                for="statusProvisions"
-                >Are you adheard to statutory Provisions?</label
-              >
+              <label class="input-label-text ps-2 cursor-pointer" for="statusProvisions">Are you adheard to statutory
+                Provisions?</label>
               <nb-select size="small" status="primary" formControlName="Is_Statutory_Provisions_Adheard">
                 <nb-option [value]="true">Yes</nb-option>
                 <nb-option [value]="false">No</nb-option>
@@ -92,18 +105,10 @@
 
           <!--Initiatives_for_Development-->
           <div class="input-group">
-            <label class="input-label-text"
-              >Initiatives for sustainable Development</label
-            >
+            <label class="input-label-text">Initiatives for sustainable Development</label>
             <div class="input-group">
-              <textarea
-                nbInput
-                fullWidth
-                fieldSize="tiny"
-                class="input-border"
-                formControlName="Initiatives_for_Development"
-                placeholder="Initiatives..."
-              ></textarea>
+              <textarea nbInput fullWidth fieldSize="tiny" class="input-border"
+                formControlName="Initiatives_for_Development" placeholder="Initiatives..."></textarea>
             </div>
           </div>
           <!--Initiatives_for_Development-->

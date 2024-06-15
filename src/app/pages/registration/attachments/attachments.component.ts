@@ -14,13 +14,14 @@ import { AppConfigService } from "../../../Services/app-config.service";
 import { EmitterService } from "../../../Services/emitter.service";
 import { MatAccordion } from "@angular/material/expansion";
 import { getSession } from "../../../Utils";
+import { PreviewDialogComponent } from "../../../Dialogs/preview-dialog/preview-dialog.component";
 
 @Component({
   selector: "ngx-attachments",
   templateUrl: "./attachments.component.html",
   styleUrls: ["./attachments.component.scss"],
 })
-export class AttachmentsComponent  {
+export class AttachmentsComponent {
   @Input() form_Id: number;
   @Input() v_Id: number;
 
@@ -42,6 +43,9 @@ export class AttachmentsComponent  {
   reqDoctypes: string[] = [];
   reqDocIndex: number = -1;
   otherDocIndex: number = -1;
+  attachmentsArray: Attachment[] = [];
+  responseToTechnical;
+  FileType;
 
   constructor(
     public _dialog: MatDialog,
@@ -49,12 +53,14 @@ export class AttachmentsComponent  {
     private _registration: RegistrationService,
     private _docService: AttachmentService,
     private _fileSaver: FileSaverService,
-    private _config: AppConfigService,private emitterService: EmitterService
+    private _config: AppConfigService, private emitterService: EmitterService
   ) { }
+
   // ngAfterViewInit(): void {
   //   this.reqDoctypes = this.document;
   //   this.GetAttachment();
   // }
+
   ngOnInit(): void {
     const userData = JSON.parse(getSession("userDetails"));
     this.role = userData ? userData.Role : "";
@@ -66,17 +72,23 @@ export class AttachmentsComponent  {
       this.reqDoctypes = this._config.get("Required_Attachments").split(",");
     }
     this.GetAttachment();
-    this.emitterService.DocumentData().subscribe((data) => {
-      this.reqDoctypes = data ;
-      this.GetAttachment();
-    });
+    // this.emitterService.DocumentData().subscribe((data) => {
+    //   this.reqDoctypes = data ;
+    //   console.log("reqDoctypes", this.reqDoctypes)
+    //   this.GetAttachment();
+    // });
+
+
     // this.emitterService.ISODocumentData().subscribe((data) => {
     //   this.reqDoctypes = data ;
     //   this.GetAttachment();
     // });
-    // Get attachments by form Id
 
   }
+
+
+
+  // Get attachments by form Id
   GetAttachment() {
     this._registration.getFormData(this.form_Id, "Attachments").subscribe({
       next: (res) => {
@@ -89,6 +101,7 @@ export class AttachmentsComponent  {
             if (this.reqDoctypes.includes(element.File_Type)) {
 
               this.reqDatasource.data.push(element);
+              this.FileType = element.File_Type;
             } else {
               this.additionalDatasource.data.push(element);
             }
@@ -99,12 +112,16 @@ export class AttachmentsComponent  {
               let attachment = new Attachment();
               attachment.Form_Id = this.form_Id;
               attachment.File_Type = element;
+
               this.reqDatasource.data.push(attachment);
             }
           });
 
           this.reqDatasource._updateChangeSubscription();
-          this.additionalDatasource._updateChangeSubscription();
+          this.responseToTechnical = res;
+          this.filterISOType();
+
+          // this.additionalDatasource._updateChangeSubscription();
         }
         else {
           this.reqDatasource = new MatTableDataSource();
@@ -124,6 +141,7 @@ export class AttachmentsComponent  {
       error: (err) => { },
     });
   }
+
   removeAttachment(attachmentId: number, i: number) {
     this.loader = true;
     this._docService.DeleteAttachment(attachmentId).subscribe({
@@ -206,10 +224,10 @@ export class AttachmentsComponent  {
     return ext == "pdf";
   }
 
-  uploadAttachment(fileType: string, type: string, i: number = -1) {
-    if (type == "req") {
-      this.reqDocIndex = i;
-    }
+  
+
+  uploadAttachment(fileType: string, type: string, i = -1) {
+    this.getDocIndex(type, i);
 
     const DIALOGREF = this._dialog.open(AttachmentDialogComponent, {
       autoFocus: false,
@@ -220,6 +238,9 @@ export class AttachmentsComponent  {
         file_Type: fileType,
       },
     });
+
+    // const DIALOGREF = this._common.uploadAttachment(this.form_Id, fileType);
+
     DIALOGREF.afterClosed().subscribe({
       next: (response) => {
         if (response) {
@@ -237,13 +258,8 @@ export class AttachmentsComponent  {
     });
   }
 
-  reUploadAttachment(element: Attachment, type: string, i: number) {
-    if (type == "req") {
-      this.reqDocIndex = i;
-    }
-    if (type == "not-req") {
-      this.otherDocIndex = i;
-    }
+  reUploadAttachment(element: Attachment, type: string, i) {
+    this.getDocIndex(type, i);
 
     const DIALOGREF = this._dialog.open(AttachmentDialogComponent, {
       autoFocus: false,
@@ -254,6 +270,9 @@ export class AttachmentsComponent  {
         attachment: element,
       },
     });
+
+    // const DIALOGREF = this._common.reuploadAttachment(this.form_Id, element);
+
     DIALOGREF.afterClosed().subscribe({
       next: (response) => {
         if (response) {
@@ -272,6 +291,17 @@ export class AttachmentsComponent  {
     });
   }
 
+  getDocIndex(type: string, i: number) {
+    if (type == "req") {
+      this.reqDocIndex = i;
+      this.otherDocIndex = -1;
+    }
+    if (type == "not-req") {
+      this.otherDocIndex = i;
+      this.reqDocIndex = -1;
+    }
+  }
+
   getToolTip(fileName: string): string {
     return fileName ? "Re-upload" : "Upload";
   }
@@ -280,4 +310,38 @@ export class AttachmentsComponent  {
     this.reqDocIndex = -1;
     this.otherDocIndex = -1;
   }
+
+
+  // getAttachments() {
+  //   this._registration.getFormData(this.form_Id, "Attachments").subscribe({
+  //     next: (res) => {
+  //       this.attachmentsArray = res;
+  //       this.openDialog();
+  //     }
+  //   });
+  // }
+
+
+  // openDialog(): void {
+  //   const dialogRef = this._dialog.open(PreviewDialogComponent, {
+  //     data:
+  //       { attach: this.attachmentsArray },
+  //     height: "500px",
+  //     width: "700px",
+  //     autoFocus: false
+  //   });
+
+  // }
+
+
+
+  filterISOType() {
+    this.responseToTechnical.forEach((element) => {
+      if (element.File_Type.includes("ISO 9001")) {
+        this.emitterService.emitISODocument(element);
+      }
+    })
+  }
+
+
 }

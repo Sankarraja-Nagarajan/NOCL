@@ -19,7 +19,7 @@ export class AttachmentService {
     return this._http.postFile(URL, formData);
   }
 
-  getFileById(docId:number):Observable<any>{
+    getFileById(docId:number):Observable<any>{
     if (docId == null || docId == undefined) {
       docId = 0;
     }

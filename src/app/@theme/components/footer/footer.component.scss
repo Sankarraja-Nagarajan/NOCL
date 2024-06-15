@@ -9,7 +9,6 @@
   align-items: center;
 
 
-
   .socials {
 
     display: flex;
@@ -27,7 +26,8 @@
 
     a {
       padding: 0px;
-      color: nb-theme(text-hint-color);
+      // color: nb-theme(text-hint-color);
+      color:#fff;
       transition: color ease-out 0.1s;
       font-weight: bold;
       text-decoration: none;

@@ -1,0 +1,62 @@
+<div class="document-preview-dialog">
+
+    <div class="col-xl-12 header d-flex justify-content-between align-items-center py-1 top-stick">
+        <div>
+            <span class="header-text">{{fileName}} </span>
+        </div>
+        <div class="text-right">
+            <button type="button" class="btn" (click)="downloadFile()">
+                <img src="assets/images/pngs/download1.png" alt="" class="download" />
+            </button>
+            <button type="button" class="btn" mat-dialog-close>
+                <img src="assets/images/pngs/xmark1.png" alt="" class="download" />
+            </button>
+        </div>
+    </div>
+
+    <div class="nbcard-container">
+        <nb-card class="nbcard">
+            <nb-card-body class="pt-0">
+
+                <div *ngIf="isImage()"
+                    class="pdf-image-container d-flex justify-content-center align-items-start h-100">
+                    <img class="image-doc" [src]="attachmentData" />
+                </div>
+
+                <div *ngIf="isPdf(); else otherTypeFile" class="pdf-image-container">
+                    <pdf-viewer [src]="attachmentData.changingThisBreaksApplicationSecurity" [original-size]="true"
+                        [render-text]="true" [rotation]="0" [fit-to-page]="true" [zoom]="zoom"
+                        [zoom-scale]="'page-width'" [autoresize]="true" [show-borders]="false" [show-all]="true"
+                        class="pdf-viewer"></pdf-viewer>
+                </div>
+
+                <ng-template #otherTypeFile>
+                    <div class="d-flex flex-column justify-content-center align-items-center h-100">
+                        You can't preview this type of file.
+                        <span>You can download here.</span>
+                        <button type="button" class="btn isoDialog btn-link linkBtn">
+                            <span (click)="downloadFile()"> {{ fileName }} </span>
+                        </button>
+                    </div>
+                </ng-template>
+
+
+            </nb-card-body>
+        </nb-card>
+    </div>
+
+    <div class="footer d-flex justify-content-end align-items-center">
+        <button type="button" *ngIf="currentIndex > 0" class="btn cancel-btn-design center-flexBox submit-icon me-2"
+            (click)="OnPreviousClick()"> Previous</button>
+        <button type="button" *ngIf="currentIndex < loopingArrayData.length - 1"
+            class="btn cancel-btn-design center-flexBox submit-icon me-2s" (click)="OnNextClick()"> Next</button>
+        <button *ngIf="currentIndex === loopingArrayData.length - 1" class="btn cancel-btn-design"
+            mat-dialog-close="true">Confirm</button>
+    </div>
+
+</div>
+
+<div class="loader-point" id="nb-global-spinner" *ngIf="loader">
+    <div class="spinner-grow text-primary" style="width: 4rem; height: 4rem" role="status"></div>
+    <span class="sr-only">Submitting...</span>
+</div>

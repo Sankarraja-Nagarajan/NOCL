@@ -108,6 +108,14 @@
                 <td mat-cell *matCellDef="let element"> {{element.Status}} </td>
             </ng-container>
 
+            
+            <!-- PendingWith column -->
+            <ng-container matColumnDef="PendingWith">
+                <th mat-header-cell *matHeaderCellDef> Pending With </th>
+                <td mat-cell *matCellDef="let element"> {{element.PendingWith}} </td>
+            </ng-container>
+
+
             <!-- Action column -->
             <ng-container matColumnDef="Action">
                 <th mat-header-cell *matHeaderCellDef> Action </th>
