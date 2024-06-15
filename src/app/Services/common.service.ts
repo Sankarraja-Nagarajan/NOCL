@@ -7,6 +7,8 @@ import {
 import { Subject } from "rxjs";
 import { snackbarStatus } from "../Enums/snackbar-status";
 import { NbSidebarService } from "@nebular/theme";
+import { MatDialog } from "@angular/material/dialog";
+import { AttachmentDialogComponent } from "../Dialogs/attachment-dialog/attachment-dialog.component";
 
 @Injectable({
   providedIn: "root",
@@ -20,12 +22,13 @@ export class CommonService {
 
   private sidebarSubject: Subject<boolean> = new Subject<boolean>();
   sidebarEmitted = this.sidebarSubject.asObservable();
-  footerLogoVisible:boolean = true;
+  footerLogoVisible: boolean = true;
 
   constructor(private _snackbar: MatSnackBar,
-    private sidebarService: NbSidebarService) { }
+    private sidebarService: NbSidebarService,
+    private _dialog: MatDialog) { }
 
- // Opens Snackbar notification
+  // Opens Snackbar notification
   openSnackbar(
     message: string,
     status: snackbarStatus,
@@ -39,10 +42,10 @@ export class CommonService {
         status === snackbarStatus.Success
           ? "success"
           : status === snackbarStatus.Danger
-          ? "danger"
-          : status === snackbarStatus.Warning
-          ? "warning"
-          : "info",
+            ? "danger"
+            : status === snackbarStatus.Warning
+              ? "warning"
+              : "info",
     };
     this._snackbar.open(message, "", config);
   }
@@ -65,7 +68,7 @@ export class CommonService {
       return (
         (k >= 65 && k <= 90) ||
         (k >= 97 && k <= 122) ||
-        (k == 46) || (k == 32) 
+        (k == 46) || (k == 32)
       );
     }
     if (type === 'alphanumeric') {
@@ -89,21 +92,22 @@ export class CommonService {
     }
   }
 
-  getStateOfSidebar(){
+  getStateOfSidebar() {
     this.sidebarService.getSidebarState('menu-sidebar').subscribe({
-      next:(res)=>{
-        res && res=="expanded" ? this.footerLogoVisible = true : this.footerLogoVisible = false;
+      next: (res) => {
+        res && res == "expanded" ? this.footerLogoVisible = true : this.footerLogoVisible = false;
         this.sidebarSubject.next(this.footerLogoVisible);
       },
     });
   }
 
-  setSidebarState(){
-    
-  }
 
   // common snackbar- please fill required fields for all components
-  openRequiredFieldsSnackbar(){
-    this.openSnackbar('Please fill required fields.',snackbarStatus.Danger);
+  openRequiredFieldsSnackbar() {
+    this.openSnackbar('Please fill required fields.', snackbarStatus.Danger);
   }
+
+
+ 
+
 }

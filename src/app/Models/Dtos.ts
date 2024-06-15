@@ -147,6 +147,7 @@ export class Dashboard {
   Email: string;
   CreatedOn: Date;
   Status: string;
+  PendingWith:string;
 }
 
 export class InitialData {

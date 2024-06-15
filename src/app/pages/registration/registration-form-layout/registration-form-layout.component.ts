@@ -13,12 +13,14 @@ import { AuthResponse } from "../../../Models/authModel";
 import { MatDialog } from "@angular/material/dialog";
 import { RejectReasonDialogComponent } from "../../../Dialogs/reject-reason-dialog/reject-reason-dialog.component";
 import { ServiceForm } from "../../../Models/ServiceForm";
-import { GstDetail, Reason } from "../../../Models/Dtos";
+import { Attachment, GstDetail, Reason } from "../../../Models/Dtos";
 import { MatTableDataSource } from "@angular/material/table";
 import { TermsAndConditionsDialogComponent } from "../../../Dialogs/terms-and-conditions-dialog/terms-and-conditions-dialog.component";
 import { snackbarStatus } from "../../../Enums/snackbar-status";
 import { TransportForm } from "../../../Models/TransportForm";
 import { CommonService } from "../../../Services/common.service";
+import { EncryptionService } from "../../../Services/encryption.service";
+import { getSession } from "../../../Utils";
 import { AnnualTurnoverComponent } from "../annual-turnover/annual-turnover.component";
 import { AttachmentsComponent } from "../attachments/attachments.component";
 import { BankDetailsComponent } from "../bank-details/bank-details.component";
@@ -31,8 +33,8 @@ import { TransportVendorsPersonalDetailsComponent } from "../transport-vendors-p
 import { VendorBranchesComponent } from "../vendor-branches/vendor-branches.component";
 import { VendorOrgProfileComponent } from "../vendor-org-profile/vendor-org-profile.component";
 import { VendorPersonalInfoComponent } from "../vendor-personal-info/vendor-personal-info.component";
-import { EncryptionService } from "../../../Services/encryption.service";
-import { getSession } from "../../../Utils";
+import { table } from "console";
+import { PreviewDialogComponent } from "../../../Dialogs/preview-dialog/preview-dialog.component";
 
 @Component({
   selector: "ngx-registration-form-layout",
@@ -70,6 +72,7 @@ export class RegistrationFormLayoutComponent implements OnInit {
   isReadOnly: boolean = true;
   loader: boolean = false;
   rejectedReason: Reason = new Reason();
+  attachmentsArray: Attachment[] = [];
   dataSource = new MatTableDataSource(this.rejectedReason.Reasons);
   displayedColumns: string[] = ["RejectedBy", "RejectedOn", "Reason"];
 
@@ -97,10 +100,12 @@ export class RegistrationFormLayoutComponent implements OnInit {
     private _registration: RegistrationService,
     private _dialog: MatDialog,
     private _router: Router,
-    private _encryptor:EncryptionService
-  ) {}
+    private _encryptor: EncryptionService
+  ) { }
 
   ngOnInit(): void {
+
+
     this.authResponse = JSON.parse(getSession("userDetails"));
     this.paramSubscription();
     if (this.authResponse?.Role === "Vendor") {
@@ -562,5 +567,30 @@ export class RegistrationFormLayoutComponent implements OnInit {
   getGstDetail(event) {
     this.gstDetail = event;
   }
+
+
+
+  getAttachments() {
+    this._registration.getFormData(this.form_Id, "Attachments").subscribe({
+      next: (res) => {
+        this.attachmentsArray = res;
+        this.openDialog();
+      }
+    });
+  }
+
+
+  openDialog(): void {
+    const dialogRef = this._dialog.open(PreviewDialogComponent, {
+      data:
+        { attach: this.attachmentsArray },
+      height: "500px",
+      width: "700px",
+      autoFocus: false
+    });
+
+  }
+
+
 
 }

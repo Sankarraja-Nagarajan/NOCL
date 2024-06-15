@@ -13,35 +13,35 @@
           <nb-accordion-item-body>
             <!-- table starts here -->
             <div class="table-responsive w-100 table-container p-0">
-                <table mat-table [dataSource]="dataSource">
-                  <!-- RejectedBy column -->
-                  <ng-container matColumnDef="RejectedBy">
-                    <th mat-header-cell *matHeaderCellDef>Rejected By</th>
-                    <td mat-cell *matCellDef="let element">
-                      {{ element.RejectedBy }}
-                    </td>
-                  </ng-container>
+              <table mat-table [dataSource]="dataSource">
+                <!-- RejectedBy column -->
+                <ng-container matColumnDef="RejectedBy">
+                  <th mat-header-cell *matHeaderCellDef>Rejected By</th>
+                  <td mat-cell *matCellDef="let element">
+                    {{ element.RejectedBy }}
+                  </td>
+                </ng-container>
 
-                  <!-- RejectedOn column -->
-                  <ng-container matColumnDef="RejectedOn">
-                    <th mat-header-cell *matHeaderCellDef>Rejected On</th>
-                    <td mat-cell *matCellDef="let element">
-                      {{ element.RejectedOn | date }}
-                    </td>
-                  </ng-container>
+                <!-- RejectedOn column -->
+                <ng-container matColumnDef="RejectedOn">
+                  <th mat-header-cell *matHeaderCellDef>Rejected On</th>
+                  <td mat-cell *matCellDef="let element">
+                    {{ element.RejectedOn | date }}
+                  </td>
+                </ng-container>
 
-                  <!-- Reason column -->
-                  <ng-container matColumnDef="Reason">
-                    <th mat-header-cell *matHeaderCellDef>Reason</th>
-                    <td mat-cell *matCellDef="let element">
-                      {{ element.Reason }}
-                    </td>
-                  </ng-container>
+                <!-- Reason column -->
+                <ng-container matColumnDef="Reason">
+                  <th mat-header-cell *matHeaderCellDef>Reason</th>
+                  <td mat-cell *matCellDef="let element">
+                    {{ element.Reason }}
+                  </td>
+                </ng-container>
 
-                  <tr mat-header-row *matHeaderRowDef="displayedColumns" class="row-header"></tr>
-                  <tr mat-row *matRowDef="let row; columns: displayedColumns; let i = index"></tr>
-                </table>
-              </div>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns" class="row-header"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns; let i = index"></tr>
+              </table>
+            </div>
             <!-- table ends here -->
           </nb-accordion-item-body>
         </nb-accordion-item>
@@ -58,8 +58,8 @@
           <h3 class="d-flex justify-content-center align-items-center d-sm-none title-underline mb-3">
             Vendor Personal Information
           </h3>
-          <ngx-vendor-personal-info [form_Id]="form_Id" [isReadOnly]="isReadOnly"
-            [v_Id]="v_Id" (gstDetail)="getGstDetail($event)"></ngx-vendor-personal-info>
+          <ngx-vendor-personal-info [form_Id]="form_Id" [isReadOnly]="isReadOnly" [v_Id]="v_Id"
+            (gstDetail)="getGstDetail($event)"></ngx-vendor-personal-info>
         </div>
       </div>
     </div>
@@ -212,7 +212,7 @@
           <h3 class="d-flex justify-content-center align-items-center d-sm-none title-underline mb-3">
             Commercial Profile
           </h3>
-          <ngx-commercial-profile [form_Id]="form_Id" [v_Id]="v_Id"  [isReadOnly]="isReadOnly"></ngx-commercial-profile>
+          <ngx-commercial-profile [form_Id]="form_Id" [v_Id]="v_Id" [isReadOnly]="isReadOnly"></ngx-commercial-profile>
         </div>
       </div>
     </div>
@@ -256,6 +256,11 @@
       <button type="button" class="btn btn-cancel-design center-flexBox submit-icon me-2" (click)="resetForm()">
         <img src="assets/images/pngs/xmark.png" width="16" height="16" class="me-1" />Cancel
       </button>
+
+      <button type="button" class="btn btn-design center-flexBox submit-icon me-2" (click)="getAttachments()">
+        Preview
+      </button>
+
       <button *ngIf="form_status == 'Initiated'" type="button" class="btn btn-design center-flexBox submit-icon"
         (click)="submit($event)">
         <img src="assets/images/pngs/check.png" width="16" height="16" class="me-1" />

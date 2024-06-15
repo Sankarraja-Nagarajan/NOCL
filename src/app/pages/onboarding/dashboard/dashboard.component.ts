@@ -29,6 +29,7 @@ export class DashboardComponent implements OnInit {
     "Mobile",
     "CreatedOn",
     "Status",
+    "PendingWith",
     "Action",
   ];
   dashboardAllData: Dashboard[] = [];

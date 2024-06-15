@@ -35,6 +35,7 @@ import { ForgotPasswordComponent } from "./Dialogs/forgot-password/forgot-passwo
 import { ApiInterceptor } from "./Interceptor/api.interceptor";
 import { GlobalErrorHandler } from "./Global/global.error.handler";
 import { SuccessMessageComponent } from './Components/success-message/success-message.component';
+import { PreviewDialogComponent } from './Dialogs/preview-dialog/preview-dialog.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { SuccessMessageComponent } from './Components/success-message/success-me
     ChangePasswordComponent,
     ForgotPasswordComponent,
     SuccessMessageComponent,
+    PreviewDialogComponent,
   ],
   imports: [
     BrowserModule,
