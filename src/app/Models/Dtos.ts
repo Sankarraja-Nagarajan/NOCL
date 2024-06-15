@@ -12,7 +12,7 @@ export class VendorOrganizationProfile {
   Status_of_Company_Id: number;
   Annual_Prod_Capacity: number;
   RelationToNocil: boolean;
-  Unit:string;
+  Unit: string;
 }
 
 export class TechnicalProfile {
@@ -112,6 +112,7 @@ export class TankerDetail {
   Form_Id: number;
   Tanker_Type_Id: number;
   Capacity_of_Tanker: number;
+  Unit: string;
 }
 
 export class Subsideries {
@@ -216,4 +217,20 @@ export class GstDetail {
   Name: string;
   RegistrationDate: string;
   Addresses: string[];
+}
+
+export class FormsToShow {
+  personalData: boolean = false;
+  transportPersonalData: boolean = false;
+  address: boolean = false;
+  tankerDetails: boolean = false;
+  contact: boolean = false;
+  organizationData: boolean = false;
+  proprietorOrPartner: boolean = false;
+  annualTurnOver: boolean = false;
+  technicalProfile: boolean = false;
+  attachments: boolean = false;
+  bankDetails: boolean = false;
+  commercialProfile: boolean = false;
+  vendorBranches: boolean = false;
 }

@@ -15,5 +15,89 @@
 
   "Required_Attachments": "GST,MSME,PAN,Blank Cheque",
   "Import_Required_Attachments": "ISO 9001,ISO 14001,ISO 45001,MSME,Blank Cheque,Certificate of Analysis,MSDS,No PE certificate",
-  "Expiry_Attachments": "ISO 9001,ISO 14001,ISO 45001,MSME,Certificate of Analysis,MSDS"
+  "Expiry_Attachments": "ISO 9001,ISO 14001,ISO 45001,MSME,Certificate of Analysis,MSDS",
+  "RequiredDocs": {
+    "1": "GST,MSME,PAN,Blank Cheque",
+    "2": "GST,MSME,PAN,Blank Cheque",
+    "3": "GST,MSME,PAN,Blank Cheque",
+    "4": "GST,PAN,Blank Cheque",
+    "5": "Certificate of Analysis,MSDS,No PE certificate"
+  },
+  "FormsToShow": {
+    "1": {
+      "personalData": true,
+      "transportPersonalData": false,
+      "address": true,
+      "tankerDetails": false,
+      "contact": true,
+      "organizationData": true,
+      "proprietorOrPartner": true,
+      "annualTurnOver": true,
+      "technicalProfile": true,
+      "attachments": true,
+      "bankDetails": true,
+      "commercialProfile": true,
+      "vendorBranches": true
+    },
+    "2": {
+      "personalData": true,
+      "transportPersonalData": false,
+      "address": true,
+      "tankerDetails": false,
+      "contact": true,
+      "organizationData": true,
+      "proprietorOrPartner": true,
+      "annualTurnOver": true,
+      "technicalProfile": true,
+      "attachments": true,
+      "bankDetails": true,
+      "commercialProfile": true,
+      "vendorBranches": true
+    },
+    "3": {
+      "personalData": true,
+      "transportPersonalData": false,
+      "address": true,
+      "tankerDetails": false,
+      "contact": true,
+      "organizationData": true,
+      "proprietorOrPartner": true,
+      "annualTurnOver": false,
+      "technicalProfile": true,
+      "attachments": true,
+      "bankDetails": true,
+      "commercialProfile": true,
+      "vendorBranches": true
+    },
+    "4": {
+      "personalData": false,
+      "transportPersonalData": true,
+      "address": true,
+      "tankerDetails": true,
+      "contact": true,
+      "organizationData": false,
+      "proprietorOrPartner": false,
+      "annualTurnOver": false,
+      "technicalProfile": false,
+      "attachments": true,
+      "bankDetails": true,
+      "commercialProfile": true,
+      "vendorBranches": true
+    },
+    "5": {
+      "personalData": true,
+      "transportPersonalData": false,
+      "address": true,
+      "tankerDetails": false,
+      "contact": true,
+      "organizationData": true,
+      "proprietorOrPartner": true,
+      "annualTurnOver": true,
+      "technicalProfile": true,
+      "attachments": true,
+      "bankDetails": true,
+      "commercialProfile": true,
+      "vendorBranches": true
+    }
+  }
 }

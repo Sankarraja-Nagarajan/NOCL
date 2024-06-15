@@ -13,7 +13,7 @@ import { AuthResponse } from "../../../Models/authModel";
 import { MatDialog } from "@angular/material/dialog";
 import { RejectReasonDialogComponent } from "../../../Dialogs/reject-reason-dialog/reject-reason-dialog.component";
 import { ServiceForm } from "../../../Models/ServiceForm";
-import { GstDetail, Reason } from "../../../Models/Dtos";
+import { FormsToShow, GstDetail, Reason } from "../../../Models/Dtos";
 import { MatTableDataSource } from "@angular/material/table";
 import { TermsAndConditionsDialogComponent } from "../../../Dialogs/terms-and-conditions-dialog/terms-and-conditions-dialog.component";
 import { snackbarStatus } from "../../../Enums/snackbar-status";
@@ -33,6 +33,7 @@ import { VendorOrgProfileComponent } from "../vendor-org-profile/vendor-org-prof
 import { VendorPersonalInfoComponent } from "../vendor-personal-info/vendor-personal-info.component";
 import { EncryptionService } from "../../../Services/encryption.service";
 import { getSession } from "../../../Utils";
+import { AppConfigService } from "../../../Services/app-config.service";
 
 @Component({
   selector: "ngx-registration-form-layout",
@@ -73,21 +74,8 @@ export class RegistrationFormLayoutComponent implements OnInit {
   dataSource = new MatTableDataSource(this.rejectedReason.Reasons);
   displayedColumns: string[] = ["RejectedBy", "RejectedOn", "Reason"];
 
-  // boolean variables to show or hide child components
-  personalData: boolean = false;
-  transportPersonalData: boolean = false;
-  address: boolean = false;
-  tankerDetails: boolean = false;
-  contact: boolean = false;
-  organizationData: boolean = false;
-  proprietorOrPartner: boolean = false;
-  annualTurnOver: boolean = false;
-  technicalProfile: boolean = false;
-  attachments: boolean = false;
-  bankDetails: boolean = false;
-  commercialProfile: boolean = false;
-  vendorBranches: boolean = false;
   gstDetail: GstDetail = new GstDetail();
+  formsToShow: FormsToShow = new FormsToShow();
 
   json_data: any;
 
@@ -97,7 +85,8 @@ export class RegistrationFormLayoutComponent implements OnInit {
     private _registration: RegistrationService,
     private _dialog: MatDialog,
     private _router: Router,
-    private _encryptor:EncryptionService
+    private _encryptor: EncryptionService,
+    private _appConfig: AppConfigService
   ) {}
 
   ngOnInit(): void {
@@ -356,7 +345,7 @@ export class RegistrationFormLayoutComponent implements OnInit {
       this.addressComponent.isValid() &&
       this.contactsComponent.isValid() &&
       this.vendorBranchesComponent.isValid() &&
-      (!this.proprietorOrPartner || this.partnersComponent?.isValid()) &&
+      (!this.formsToShow.proprietorOrPartner || this.partnersComponent?.isValid()) &&
       this.annualTurnoverComponent.isValid() &&
       this.attachmentsComponent.isValid()
     );
@@ -381,7 +370,7 @@ export class RegistrationFormLayoutComponent implements OnInit {
       this.addressComponent.isValid() &&
       this.contactsComponent.isValid() &&
       this.vendorBranchesComponent.isValid() &&
-      (!this.proprietorOrPartner || this.partnersComponent?.isValid()) &&
+      (!this.formsToShow.proprietorOrPartner || this.partnersComponent?.isValid()) &&
       this.attachmentsComponent.isValid()
     );
   }
@@ -472,59 +461,37 @@ export class RegistrationFormLayoutComponent implements OnInit {
   selectFormBasedOnVendorType(vId: number) {
     switch (vId) {
       case 1:
-        this.personalData = true;
-        this.address = true;
-        this.contact = true;
-        this.organizationData = true;
-        this.proprietorOrPartner = true;
-        this.annualTurnOver = true;
-        this.technicalProfile = true;
-        this.attachments = true;
-        this.bankDetails = true;
-        this.commercialProfile = true;
-        this.vendorBranches = true;
+        this.formsToShow = this._appConfig.getSubItem(
+          "FormsToShow",
+          "1"
+        ) as FormsToShow;
         break;
       case 2:
-        this.personalData = true;
-        this.organizationData = true;
-        this.technicalProfile = true;
-        this.commercialProfile = true;
-        this.bankDetails = true;
-        this.address = true;
-        this.contact = true;
-        this.proprietorOrPartner = true;
-        this.attachments = true;
-        this.vendorBranches = true;
+        this.formsToShow = this._appConfig.getSubItem(
+          "FormsToShow","2"
+        ) as FormsToShow;
         break;
       case 3:
-        this.transportPersonalData = true;
-        this.tankerDetails = true;
-        this.address = true;
-        this.contact = true;
-        this.attachments = true;
-        this.bankDetails = true;
-        this.commercialProfile = true;
-        this.vendorBranches = true;
+        this.formsToShow = this._appConfig.getSubItem(
+          "FormsToShow","3"
+        ) as FormsToShow;
         break;
       case 4:
-        this.personalData = true;
-        this.address = true;
-        this.contact = true;
-        this.organizationData = true;
-        this.proprietorOrPartner = true;
-        this.annualTurnOver = true;
-        this.technicalProfile = true;
-        this.attachments = true;
-        this.bankDetails = true;
-        this.commercialProfile = true;
-        this.vendorBranches = true;
+        this.formsToShow = this._appConfig.getSubItem(
+          "FormsToShow","4"
+        ) as FormsToShow;
+        break;
+      case 5:
+        this.formsToShow = this._appConfig.getSubItem(
+          "FormsToShow","5"
+        ) as FormsToShow;
         break;
     }
   }
 
   // Emitter functions
   getCompanyStatus(event) {
-    this.proprietorOrPartner = event;
+    this.formsToShow.proprietorOrPartner = event;
   }
 
   // mark all forms as touched
@@ -562,5 +529,4 @@ export class RegistrationFormLayoutComponent implements OnInit {
   getGstDetail(event) {
     this.gstDetail = event;
   }
-
 }
