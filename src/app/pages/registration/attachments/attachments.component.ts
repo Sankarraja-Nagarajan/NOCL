@@ -64,13 +64,14 @@ export class AttachmentsComponent {
   ngOnInit(): void {
     const userData = JSON.parse(getSession("userDetails"));
     this.role = userData ? userData.Role : "";
-    if (this.v_Id == 4) {
-      this.reqDoctypes = this._config
-        .get("Import_Required_Attachments")
-        .split(",");
-    } else {
-      this.reqDoctypes = this._config.get("Required_Attachments").split(",");
-    }
+    this.reqDoctypes = this._config.getSubItem("RequiredDocs",this.v_Id.toString()).split(",");
+    // if (this.v_Id == 4) {
+    //   this.reqDoctypes = this._config
+    //     .get("Import_Required_Attachments")
+    //     .split(",");
+    // } else {
+    //   this.reqDoctypes = this._config.get("Required_Attachments").split(",");
+    // }
     this.GetAttachment();
     // this.emitterService.DocumentData().subscribe((data) => {
     //   this.reqDoctypes = data ;

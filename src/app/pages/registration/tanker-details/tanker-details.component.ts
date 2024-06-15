@@ -20,7 +20,12 @@ export class TankerDetailsComponent implements OnInit {
   tankerDetails: TankerDetail[] = [];
   dataSource = new MatTableDataSource(this.tankerDetails);
 
-  displayedColumns: string[] = ["tankerType", "capacityOfTanker", "action"];
+  displayedColumns: string[] = [
+    "tankerType",
+    "capacityOfTanker",
+    "unit",
+    "action",
+  ];
   TankerDetailsForm: FormGroup;
   role: any;
   typeOfTankers: TankerType[] = [];
@@ -36,6 +41,7 @@ export class TankerDetailsComponent implements OnInit {
     this.TankerDetailsForm = this._fb.group({
       Tanker_Type_Id: ["", Validators.required],
       Capacity_of_Tanker: ["", [Validators.required]],
+      Unit: ["", [Validators.required]],
     });
 
     const userData = JSON.parse(getSession("userDetails"));
@@ -78,19 +84,18 @@ export class TankerDetailsComponent implements OnInit {
     this.dataSource._updateChangeSubscription();
   }
 
-  
   // Update Tanker to the table
   updateAddress() {
     if (this.editIndex >= 0) {
       let id = this.dataSource.data[this.editIndex].Id;
-      this.dataSource.data[this.editIndex]=this.TankerDetailsForm.value;
+      this.dataSource.data[this.editIndex] = this.TankerDetailsForm.value;
       this.dataSource.data[this.editIndex].Id = id;
       this.dataSource._updateChangeSubscription();
       this.TankerDetailsForm.reset();
       this.editIndex = -1;
     }
   }
-  
+
   // Edit Tanker from table
   editAddress(i: number) {
     this.TankerDetailsForm.patchValue(this.dataSource.data[i]);
