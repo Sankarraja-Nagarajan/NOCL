@@ -10,7 +10,7 @@ import { CommonService } from "../../../Services/common.service";
 import { AuthResponse } from "../../../Models/authModel";
 import { RegistrationService } from "../../../Services/registration.service";
 import { snackbarStatus } from "../../../Enums/snackbar-status";
-import { getSession } from "../../../Utils";
+import { getSession, isNullOrEmpty } from "../../../Utils";
 
 @Component({
   selector: "ngx-vendor-personal-info",
@@ -32,7 +32,7 @@ export class VendorPersonalInfoComponent implements OnInit {
     private _fb: FormBuilder,
     private _commonService: CommonService,
     private _registration: RegistrationService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     //Generate years for Plant Installation Year
@@ -62,10 +62,9 @@ export class VendorPersonalInfoComponent implements OnInit {
       .subscribe({
         next: (res) => {
           if (res) {
-            this.personalInfoId = (
-              res as VendorPersonalData
-            ).Personal_Info_Id;
+            this.personalInfoId = (res as VendorPersonalData).Personal_Info_Id;
             this.domesticVendorForm.patchValue(res);
+            this.patchVendorname();
           }
         },
         error: (err) => {
@@ -74,24 +73,45 @@ export class VendorPersonalInfoComponent implements OnInit {
       });
   }
 
+  patchVendorname() {
+    if (
+      this.authResponse.Role.toLowerCase() == "vendor" &&
+      isNullOrEmpty(this.domesticVendorForm.get("Organization_Name").value)
+    ) {
+      this.domesticVendorForm
+        .get("Organization_Name")
+        .patchValue(this.authResponse.DisplayName);
+    }
+  }
+
   getGstDetails() {
-    if (this.domesticVendorForm.value.GSTIN && this.domesticVendorForm.get('GSTIN').valid) {
-      this._registration.getGstDetails(this.domesticVendorForm.value.GSTIN)
+    if (
+      this.domesticVendorForm.value.GSTIN &&
+      this.domesticVendorForm.get("GSTIN").valid
+    ) {
+      this._registration
+        .getGstDetails(this.domesticVendorForm.value.GSTIN)
         .subscribe({
           next: (res) => {
             if (res) {
               this.gstDetail.emit(res as GstDetail);
-              this.domesticVendorForm.get('Organization_Name').setValue(res.Name);
-              this.domesticVendorForm.get('Plant_Installation_Year').setValue(new Date(res.RegistrationDate).getFullYear());
+              this.domesticVendorForm
+                .get("Organization_Name")
+                .setValue(res.Name);
+              this.domesticVendorForm
+                .get("Plant_Installation_Year")
+                .setValue(new Date(res.RegistrationDate).getFullYear());
             }
           },
           error: (err) => {
             this._commonService.openSnackbar(err, snackbarStatus.Danger);
-          }
+          },
         });
-    }
-    else {
-      this._commonService.openSnackbar('Enter Valid GSTIN Number', snackbarStatus.Danger);
+    } else {
+      this._commonService.openSnackbar(
+        "Enter Valid GSTIN Number",
+        snackbarStatus.Danger
+      );
     }
   }
 

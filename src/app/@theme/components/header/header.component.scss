@@ -7,7 +7,6 @@
   justify-content: space-between;
   width: 100%;
 
-
   .logo-container {
     display: flex;
     align-items: center;
@@ -15,8 +14,9 @@
 
     .nocil-logo {
       padding-left: 10px;
-      height: 45px;
-      width: 50px;
+      height: 50px;
+      width: 100px;
+      object-fit: contain;
     }
   }
 
@@ -39,11 +39,13 @@
     align-items: center;
     width: auto;
 
-    h2{
-      color: #fff; 
+    h2 {
+      color: var(--vp-bluish-black);
       display: flex;
       align-items: center;
       justify-content: center;
+      margin-left: 30% !important;
+      white-space: nowrap;
     }
 
     .sidebar-toggle {
@@ -159,7 +161,7 @@
     margin-right: 5px;
   }
 
-  .header-color{
-    color: #fff;
+  .header-color {
+    color: var(--vp-bluish-black);
   }
 }

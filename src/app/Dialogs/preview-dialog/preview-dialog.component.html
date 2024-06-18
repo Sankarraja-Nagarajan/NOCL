@@ -18,17 +18,19 @@
         <nb-card class="nbcard">
             <nb-card-body class="pt-0">
 
-                <div *ngIf="isImage()"
+                <div *ngIf="isImage(); else pdfFile"
                     class="pdf-image-container d-flex justify-content-center align-items-start h-100">
                     <img class="image-doc" [src]="attachmentData" />
                 </div>
-
-                <div *ngIf="isPdf(); else otherTypeFile" class="pdf-image-container">
-                    <pdf-viewer [src]="attachmentData.changingThisBreaksApplicationSecurity" [original-size]="true"
-                        [render-text]="true" [rotation]="0" [fit-to-page]="true" [zoom]="zoom"
-                        [zoom-scale]="'page-width'" [autoresize]="true" [show-borders]="false" [show-all]="true"
-                        class="pdf-viewer"></pdf-viewer>
-                </div>
+ 
+                <ng-template #pdfFile>
+                    <div *ngIf="isPdf(); else otherTypeFile" class="pdf-image-container">
+                        <pdf-viewer [src]="attachmentData.changingThisBreaksApplicationSecurity" [original-size]="true"
+                            [render-text]="true" [rotation]="0" [fit-to-page]="true" [zoom]="zoom"
+                            [zoom-scale]="'page-width'" [autoresize]="true" [show-borders]="false" [show-all]="true"
+                            class="pdf-viewer"></pdf-viewer>
+                    </div>
+                </ng-template>
 
                 <ng-template #otherTypeFile>
                     <div class="d-flex flex-column justify-content-center align-items-center h-100">

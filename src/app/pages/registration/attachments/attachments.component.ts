@@ -1,4 +1,11 @@
-import { Component, Input } from "@angular/core";
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChange,
+  SimpleChanges,
+} from "@angular/core";
 import { FormGroup } from "@angular/forms";
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { MatTableDataSource } from "@angular/material/table";
@@ -21,7 +28,7 @@ import { PreviewDialogComponent } from "../../../Dialogs/preview-dialog/preview-
   templateUrl: "./attachments.component.html",
   styleUrls: ["./attachments.component.scss"],
 })
-export class AttachmentsComponent {
+export class AttachmentsComponent implements OnInit, OnChanges {
   @Input() form_Id: number;
   @Input() v_Id: number;
 
@@ -53,8 +60,9 @@ export class AttachmentsComponent {
     private _registration: RegistrationService,
     private _docService: AttachmentService,
     private _fileSaver: FileSaverService,
-    private _config: AppConfigService, private emitterService: EmitterService
-  ) { }
+    private _config: AppConfigService,
+    private emitterService: EmitterService
+  ) {}
 
   // ngAfterViewInit(): void {
   //   this.reqDoctypes = this.document;
@@ -64,30 +72,21 @@ export class AttachmentsComponent {
   ngOnInit(): void {
     const userData = JSON.parse(getSession("userDetails"));
     this.role = userData ? userData.Role : "";
-    this.reqDoctypes = this._config.getSubItem("RequiredDocs",this.v_Id.toString()).split(",");
-    // if (this.v_Id == 4) {
-    //   this.reqDoctypes = this._config
-    //     .get("Import_Required_Attachments")
-    //     .split(",");
-    // } else {
-    //   this.reqDoctypes = this._config.get("Required_Attachments").split(",");
-    // }
-    this.GetAttachment();
-    // this.emitterService.DocumentData().subscribe((data) => {
-    //   this.reqDoctypes = data ;
-    //   console.log("reqDoctypes", this.reqDoctypes)
-    //   this.GetAttachment();
-    // });
-
-
-    // this.emitterService.ISODocumentData().subscribe((data) => {
-    //   this.reqDoctypes = data ;
-    //   this.GetAttachment();
-    // });
-
   }
 
-
+  ngOnChanges(changes: SimpleChanges) {
+    console.log(changes);
+    if (changes.v_Id) {
+      this.v_Id = changes.v_Id.currentValue;
+      this.reqDoctypes = this._config
+        .getSubItem("RequiredDocs", this.v_Id.toString())
+        .split(",");
+      this.GetAttachment();
+    }
+    if (changes.form_Id) {
+      this.form_Id = changes.form_Id.currentValue;
+    }
+  }
 
   // Get attachments by form Id
   GetAttachment() {
@@ -100,7 +99,6 @@ export class AttachmentsComponent {
           this.attachments.forEach((element) => {
             resFileTypes.push(element.File_Type);
             if (this.reqDoctypes.includes(element.File_Type)) {
-
               this.reqDatasource.data.push(element);
               this.FileType = element.File_Type;
             } else {
@@ -123,11 +121,9 @@ export class AttachmentsComponent {
           this.filterISOType();
 
           // this.additionalDatasource._updateChangeSubscription();
-        }
-        else {
+        } else {
           this.reqDatasource = new MatTableDataSource();
           this.reqDoctypes.forEach((element) => {
-
             let attachment = new Attachment();
             attachment.Form_Id = this.form_Id;
             attachment.File_Type = element;
@@ -139,7 +135,7 @@ export class AttachmentsComponent {
 
         // }
       },
-      error: (err) => { },
+      error: (err) => {},
     });
   }
 
@@ -224,8 +220,6 @@ export class AttachmentsComponent {
     let ext = arr[arr.length - 1].toLowerCase();
     return ext == "pdf";
   }
-
-  
 
   uploadAttachment(fileType: string, type: string, i = -1) {
     this.getDocIndex(type, i);
@@ -312,7 +306,6 @@ export class AttachmentsComponent {
     this.otherDocIndex = -1;
   }
 
-
   // getAttachments() {
   //   this._registration.getFormData(this.form_Id, "Attachments").subscribe({
   //     next: (res) => {
@@ -321,7 +314,6 @@ export class AttachmentsComponent {
   //     }
   //   });
   // }
-
 
   // openDialog(): void {
   //   const dialogRef = this._dialog.open(PreviewDialogComponent, {
@@ -334,15 +326,11 @@ export class AttachmentsComponent {
 
   // }
 
-
-
   filterISOType() {
     this.responseToTechnical.forEach((element) => {
       if (element.File_Type.includes("ISO 9001")) {
         this.emitterService.emitISODocument(element);
       }
-    })
+    });
   }
-
-
 }

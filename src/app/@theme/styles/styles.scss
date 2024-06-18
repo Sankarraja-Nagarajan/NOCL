@@ -139,15 +139,21 @@ nb-layout {
 nb-layout-header nav {
   padding: 0px 20px !important;
   height: 60px !important;
-  background-color:var(--vp-bluish-violet);
+  // background-color:var(--vp-bluish-violet);
+  background-image: linear-gradient(
+    to left,
+    var(--vp-header-bg),
+    white,
+    var(--vp-header-bg)
+  );
 }
 
 // footer-layout-height
 nb-layout-footer nav {
   padding: 0px 20px !important;
   height: 40px !important;
-  background-color:var(--vp-bluish-violet) !important;
-
+  // background-color:var(--vp-bluish-violet) !important;
+  background-color: var(--vp-header-bg) !important;
 }
 
 // Sidebar Customization
@@ -166,7 +172,7 @@ nb-menu .menu-item .menu-item:first-child {
   border-top: none;
 }
 
-nb-menu .menu-item>.menu-items {
+nb-menu .menu-item > .menu-items {
   padding: 0px 0px;
 }
 
@@ -204,13 +210,21 @@ nb-sidebar .main-container {
   width: var(--vp-sidebar-width);
 }
 
-nb-layout-header.fixed~.layout-container nb-sidebar .main-container {
+nb-layout-header.fixed ~ .layout-container nb-sidebar .main-container {
   height: calc(100vh - 4rem);
+}
+
+nb-layout-header.fixed ~ .layout-container {
+  padding-top: 3.75rem !important;
 }
 
 nb-layout .layout .layout-container nb-sidebar.fixed,
 nb-layout .layout .layout-container nb-sidebar .main-container-fixed {
   top: 4rem;
+}
+
+nb-layout .layout {
+  background-color: inherit !important;
 }
 
 //overall-layout-padding
@@ -254,16 +268,29 @@ nb-layout .layout .layout-container nb-sidebar .main-container-fixed {
   background-color: var(--vp-white) !important;
 
   th {
-    background-color:var(--vp-table-th-bg) !important;
-    color:var(--vp-white) !important;
+    background-color: var(--vp-table-th-bg) !important;
+    color: var(--vp-bluish-black) !important;
     font-size: var(--vp-fs-14);
-    position: sticky;
-    top: 0;
-    z-index: 10;
+    // position: sticky;
+    // top: 0;
+    // z-index: 10;
+  }
+
+  .row-header {
+    height: 40px;
   }
 
   td {
     font-size: var(--vp-fs-12);
+  }
+
+  th[mat-header-cell][stickyEnd] {
+    z-index: 11;
+  }
+
+  td[mat-cell][stickyEnd] {
+    background-color: var(--vp-table-th-bg) !important;
+    z-index: 10;
   }
 
   .no-data-row {

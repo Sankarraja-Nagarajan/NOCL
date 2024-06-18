@@ -327,7 +327,7 @@
           >
             Attachments
           </h3>
-          <ngx-attachments [form_Id]="form_Id"></ngx-attachments>
+          <ngx-attachments [form_Id]="form_Id" [v_Id]="v_Id"></ngx-attachments>
         </div>
       </div>
     </div>
@@ -372,9 +372,9 @@
         />Cancel
       </button>
 
-      <button type="button" class="btn btn-design center-flexBox submit-icon me-2" (click)="getAttachments()">
+      <!-- <button type="button" class="btn btn-design center-flexBox submit-icon me-2" (click)="getAttachments()">
         Preview
-      </button>
+      </button> -->
 
       <button *ngIf="form_status == 'Initiated'" type="button" class="btn btn-design center-flexBox submit-icon"
         (click)="submit($event)">

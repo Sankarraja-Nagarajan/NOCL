@@ -1,153 +1,177 @@
 <section class="screenDashboard">
-    <!--card starts here-->
-    <div class="d-flex flex-wrap gap-4">
-        <div class="d-flex justify-content-around align-items-center bg-white p-3 col rounded-3 tile"
-            (click)="data('Open')">
-            <div>
-                <p class="card-text mb-2">Open Documents</p>
-                <h1>{{initialDashboardData.Open}}</h1>
-            </div>
-            <img src="../../../assets/images/pngs/open.png" height="70">
-        </div>
-
-        <div class="d-flex justify-content-around align-items-center bg-white p-3 col rounded-3 tile"
-            (click)="data('Pending')">
-            <div>
-                <p class="card-text mb-2">Pending Documents</p>
-                <h1>{{initialDashboardData.Pending}}</h1>
-            </div>
-            <img src="../../../assets/images/pngs/pending.png" height="70">
-        </div>
-
-        <div class="d-flex justify-content-around align-items-center bg-white p-3 col rounded-3 tile"
-            (click)="data('Approved')">
-            <div>
-                <p class="card-text mb-2">Approved Documents</p>
-                <h1>{{initialDashboardData.Approved}}</h1>
-            </div>
-            <img src="../../../assets/images/pngs/approved.png" height="70">
-        </div>
-
-        <div class="d-flex justify-content-around align-items-center bg-white p-3 col rounded-3 tile"
-            (click)="data('Rejected')">
-            <div>
-                <p class="card-text mb-2">Rejected Documents</p>
-                <h1>{{initialDashboardData.Rejected}}</h1>
-            </div>
-            <img src="../../../assets/images/pngs/reject.png" height="70">
-        </div>
-
-        <div *ngIf="authResponse?.Role=='Admin'" class="d-flex justify-content-around align-items-center bg-white p-3 col rounded-3 tile"
-            (click)="data('SAP')">
-            <div>
-                <p class="card-text mb-2">SAP</p>
-                <h1>{{initialDashboardData.SAP}}</h1>
-            </div>
-            <img src="../../../assets/images/pngs/sap-waiting.png" height="70">
-        </div>
-    </div>
-    <!--card ends here-->
-
-    <!-- search starts here-->
-    <div class="row mt-2 flex-column-reverse flex-sm-row">
-        <div class="col d-flex justify-content-center justify-content-sm-start align-items-center">
-            <h4 class="doc-text">{{headerStatus}} Documents 
-                <!-- <span class="ms-2 doc-count">{{dashboardAllData.length}}</span> -->
-            </h4>
-        </div>
-        <div class="col-sm-5 col-md-4 mb-sm-0 mb-2">
-            <input nbInput fullWidth placeholder="Search all parameter" class="rounded-3 bg-white" 
-            (keyup)="filterTableData($event.target.value)"/>
-        </div>
-    </div>
-    <!-- search ends heres-->
-
-    <!-- table starts here -->
-    <div class="mt-3 table-responsive w-100 table-container dashboard-table">
-        <table mat-table [dataSource]="dataSource">
-
-            <!-- FormId column -->
-            <ng-container matColumnDef="FormId">
-                <th mat-header-cell *matHeaderCellDef> Form Id </th>
-                <td mat-cell *matCellDef="let element"> {{element.FormId}} </td>
-            </ng-container>
-
-            <!-- Name column -->
-            <ng-container matColumnDef="Name">
-                <th mat-header-cell *matHeaderCellDef> Name </th>
-                <td mat-cell *matCellDef="let element"> {{element.Name}} </td>
-            </ng-container>
-
-            <!-- VendorType column -->
-            <ng-container matColumnDef="VendorType">
-                <th mat-header-cell *matHeaderCellDef> Vendor Type </th>
-                <td mat-cell *matCellDef="let element"> {{element.VendorType}} </td>
-            </ng-container>
-
-            <!-- Email column -->
-            <ng-container matColumnDef="Email">
-                <th mat-header-cell *matHeaderCellDef> Email </th>
-                <td mat-cell *matCellDef="let element"> {{element.Email}} </td>
-            </ng-container>
-
-            <!-- Mobile column -->
-            <ng-container matColumnDef="Mobile">
-                <th mat-header-cell *matHeaderCellDef> Mobile </th>
-                <td mat-cell *matCellDef="let element"> {{element.Mobile}} </td>
-            </ng-container>
-
-            <!-- CreatedOn column -->
-            <ng-container matColumnDef="CreatedOn">
-                <th mat-header-cell *matHeaderCellDef> CreatedOn </th>
-                <td mat-cell *matCellDef="let element"> {{element.CreatedOn | date}} </td>
-            </ng-container>
-
-            <!-- Status column -->
-            <ng-container matColumnDef="Status">
-                <th mat-header-cell *matHeaderCellDef> Status </th>
-                <td mat-cell *matCellDef="let element"> {{element.Status}} </td>
-            </ng-container>
-
-            
-            <!-- PendingWith column -->
-            <ng-container matColumnDef="PendingWith">
-                <th mat-header-cell *matHeaderCellDef> Pending With </th>
-                <td mat-cell *matCellDef="let element"> {{element.PendingWith}} </td>
-            </ng-container>
-
-
-            <!-- Action column -->
-            <ng-container matColumnDef="Action">
-                <th mat-header-cell *matHeaderCellDef> Action </th>
-                <td mat-cell *matCellDef="let element">
-                    <button mat-raised-button class="btn btn-design btn-review" (click)="formReview(element)">Review</button>
-                </td>
-            </ng-container>
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-
-             <!-- Row shown when there is no matching data that will be provided to the table. -->
-             <tr class="mat-row" *matNoDataRow>
-                <td class="mat-cell" colspan="100%" class="no-data-row">
-                    <nb-icon icon="file-text-outline"></nb-icon>
-                                This table is empty.
-                </td>
-            </tr>
-        </table>
+  <!--card starts here-->
+  <div class="d-flex flex-wrap gap-4">
+    <div
+      class="d-flex justify-content-around align-items-center bg-white p-3 col rounded-3 tile"
+      (click)="data('Open')"
+    >
+      <div>
+        <p class="card-text mb-2">Open Documents</p>
+        <h1>{{ initialDashboardData.Open }}</h1>
+      </div>
+      <img src="../../../assets/images/pngs/open.png" height="70" />
     </div>
 
-    <!-- paginator starts here-->
-    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
-    <!-- paginator ends here -->
+    <div
+      class="d-flex justify-content-around align-items-center bg-white p-3 col rounded-3 tile"
+      (click)="data('Pending')"
+    >
+      <div>
+        <p class="card-text mb-2">Pending Documents</p>
+        <h1>{{ initialDashboardData.Pending }}</h1>
+      </div>
+      <img src="../../../assets/images/pngs/pending.png" height="70" />
+    </div>
 
-    <!-- table ends here-->
+    <div
+      class="d-flex justify-content-around align-items-center bg-white p-3 col rounded-3 tile"
+      (click)="data('Approved')"
+    >
+      <div>
+        <p class="card-text mb-2">Approved Documents</p>
+        <h1>{{ initialDashboardData.Approved }}</h1>
+      </div>
+      <img src="../../../assets/images/pngs/approved.png" height="70" />
+    </div>
+
+    <div
+      class="d-flex justify-content-around align-items-center bg-white p-3 col rounded-3 tile"
+      (click)="data('Rejected')"
+    >
+      <div>
+        <p class="card-text mb-2">Rejected Documents</p>
+        <h1>{{ initialDashboardData.Rejected }}</h1>
+      </div>
+      <img src="../../../assets/images/pngs/reject.png" height="70" />
+    </div>
+
+    <div
+      *ngIf="authResponse?.Role == 'Admin'"
+      class="d-flex justify-content-around align-items-center bg-white p-3 col rounded-3 tile"
+      (click)="data('SAP')"
+    >
+      <div>
+        <p class="card-text mb-2">SAP</p>
+        <h1>{{ initialDashboardData.SAP }}</h1>
+      </div>
+      <img src="../../../assets/images/pngs/sap-waiting.png" height="70" />
+    </div>
+  </div>
+  <!--card ends here-->
+
+  <!-- search starts here-->
+  <div class="row mt-2 flex-column-reverse flex-sm-row">
+    <div
+      class="col d-flex justify-content-center justify-content-sm-start align-items-center"
+    >
+      <h4 class="doc-text">
+        {{ headerStatus }} Documents
+        <!-- <span class="ms-2 doc-count">{{dashboardAllData.length}}</span> -->
+      </h4>
+    </div>
+    <div class="col-sm-5 col-md-4 mb-sm-0 mb-2">
+      <input
+        nbInput
+        fullWidth
+        placeholder="Search all parameter"
+        class="rounded-3 bg-white"
+        (keyup)="filterTableData($event.target.value)"
+      />
+    </div>
+  </div>
+  <!-- search ends heres-->
+
+  <!-- table starts here -->
+  <div class="mt-3 table-responsive w-100 table-container dashboard-table">
+    <table mat-table [dataSource]="dataSource">
+      <!-- FormId column -->
+      <ng-container matColumnDef="FormId">
+        <th mat-header-cell *matHeaderCellDef>Form Id</th>
+        <td mat-cell *matCellDef="let element">{{ element.FormId }}</td>
+      </ng-container>
+
+      <!-- Name column -->
+      <ng-container matColumnDef="Name">
+        <th mat-header-cell *matHeaderCellDef>Name</th>
+        <td mat-cell *matCellDef="let element">{{ element.Name }}</td>
+      </ng-container>
+
+      <!-- VendorType column -->
+      <ng-container matColumnDef="VendorType">
+        <th mat-header-cell *matHeaderCellDef>Vendor Type</th>
+        <td mat-cell *matCellDef="let element">{{ element.VendorType }}</td>
+      </ng-container>
+
+      <!-- Email column -->
+      <ng-container matColumnDef="Email">
+        <th mat-header-cell *matHeaderCellDef>Email</th>
+        <td mat-cell *matCellDef="let element">{{ element.Email }}</td>
+      </ng-container>
+
+      <!-- Mobile column -->
+      <ng-container matColumnDef="Mobile">
+        <th mat-header-cell *matHeaderCellDef>Mobile</th>
+        <td mat-cell *matCellDef="let element">{{ element.Mobile }}</td>
+      </ng-container>
+
+      <!-- CreatedOn column -->
+      <ng-container matColumnDef="CreatedOn">
+        <th mat-header-cell *matHeaderCellDef>CreatedOn</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.CreatedOn | date }}
+        </td>
+      </ng-container>
+
+      <!-- Status column -->
+      <ng-container matColumnDef="Status">
+        <th mat-header-cell *matHeaderCellDef>Status</th>
+        <td mat-cell *matCellDef="let element">{{ element.Status }}</td>
+      </ng-container>
+
+      <!-- PendingWith column -->
+      <ng-container matColumnDef="PendingWith">
+        <th mat-header-cell *matHeaderCellDef>Pending With</th>
+        <td mat-cell *matCellDef="let element">{{ element.PendingWith }}</td>
+      </ng-container>
+
+      <!-- Action column -->
+      <ng-container matColumnDef="Action">
+        <th mat-header-cell *matHeaderCellDef>Action</th>
+        <td mat-cell *matCellDef="let element">
+          <button
+            mat-raised-button
+            class="btn btn-design btn-review"
+            (click)="formReview(element)"
+          >
+            Review
+          </button>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+      <!-- Row shown when there is no matching data that will be provided to the table. -->
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" colspan="100%" class="no-data-row">
+          <nb-icon icon="file-text-outline"></nb-icon>
+          This table is empty.
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- paginator starts here-->
+  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+  <!-- paginator ends here -->
+
+  <!-- table ends here-->
 </section>
 
 <div class="loader-point" id="nb-global-spinner" *ngIf="loader">
-    <div
-      class="spinner-grow text-primary"
-      style="width: 4rem; height: 4rem"
-      role="status"
-    ></div>
-    <span class="sr-only">Submitting...</span>
-  </div>
+  <div
+    class="spinner-grow text-primary"
+    style="width: 4rem; height: 4rem"
+    role="status"
+  ></div>
+  <span class="sr-only">Submitting...</span>
+</div>

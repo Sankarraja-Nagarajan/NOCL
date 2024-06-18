@@ -157,20 +157,7 @@ export class RegistrationFormLayoutComponent implements OnInit {
 
   //#region Submitting form API Call
   submitForm(formSubmitTemplate: FormSubmitTemplate) {
-    this.loader = true;
-    this._registration.formSubmit(formSubmitTemplate).subscribe({
-      next: (res) => {
-        if (res.Status === 200) {
-          this.loader = false;
-          this._commonService.openSnackbar(res.Message, snackbarStatus.Success);
-          this._router.navigate(["/success"]);
-        }
-      },
-      error: (err) => {
-        this.loader = false;
-        this._commonService.openSnackbar(err, snackbarStatus.Danger);
-      },
-    });
+    this.getAttachments(formSubmitTemplate)
   }
   //#endregion
 
@@ -533,16 +520,21 @@ export class RegistrationFormLayoutComponent implements OnInit {
     this.gstDetail = event;
   }
 
-  getAttachments() {
+  getAttachments(formSubmitTemplate: FormSubmitTemplate) {
+    this.loader = true;
     this._registration.getFormData(this.form_Id, "Attachments").subscribe({
       next: (res) => {
         this.attachmentsArray = res;
-        this.openDialog();
+        this.loader = false;
+        this.openDialog(formSubmitTemplate);
+      },
+      error:(err)=>{
+        this.loader = false;
       }
     });
   }
 
-  openDialog(): void {
+  openDialog(formSubmitTemplate: FormSubmitTemplate): void {
     const dialogRef = this._dialog.open(PreviewDialogComponent, {
       data:
         { attach: this.attachmentsArray },
@@ -551,6 +543,25 @@ export class RegistrationFormLayoutComponent implements OnInit {
       autoFocus: false
     });
 
+    dialogRef.afterClosed().subscribe({
+      next:()=>{
+        this.loader = true;
+        this._registration.formSubmit(formSubmitTemplate).subscribe({
+          next: (res) => {
+            if (res.Status === 200) {
+              this.loader = false;
+              this._commonService.openSnackbar(res.Message, snackbarStatus.Success);
+              this._router.navigate(["/success"]);
+            }
+          },
+          error: (err) => {
+            this.loader = false;
+            this._commonService.openSnackbar(err, snackbarStatus.Danger);
+          },
+        });
+      }
+    })
   }
+
 
 }
