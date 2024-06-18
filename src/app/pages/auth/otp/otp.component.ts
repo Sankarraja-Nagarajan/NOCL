@@ -56,8 +56,9 @@ export class OtpComponent implements OnInit {
     });
     this._activatedRoute.queryParams.subscribe({
       next: (params) => {
-        if (params != null && isNullOrEmpty(params["data"])) {
+        if (params != null && !isNullOrEmpty(params["data"])) {
           const jsonData = JSON.parse(params["data"]);
+          console.log("param", jsonData);
           this.form_Id = jsonData.Form_Id;
           this.vendorTypeId = jsonData.V_Id;
           this.getSingleFormData();

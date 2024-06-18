@@ -9,19 +9,22 @@ export class EmitterService {
   ISODocument = new Subject<any>();
   constructor() { 
     this.requireddocument.asObservable();
-    this.ISODocument.asObservable()
+    this.ISODocument.asObservable();
   }
   
   emitRequiredDocument(status: string) {
     this.requireddocument.next(status);
   }
+  
   DocumentData() {
     return this.requireddocument.asObservable();
   }
-  // emitISODocument(status: string) {
-  //   this.ISODocument.next(status);
-  // }
-  // ISODocumentData() {
-  //   return this.ISODocument.asObservable();
-  // }
+
+  emitISODocument(status: string) {
+    this.ISODocument.next(status);
+  }
+
+  ISODocumentData() {
+    return this.ISODocument.asObservable();
+  }
 }

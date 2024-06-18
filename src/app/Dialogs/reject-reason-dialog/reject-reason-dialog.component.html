@@ -15,7 +15,7 @@
                     fullWidth
                     fieldSize="tiny"
                     class="input-border"
-                    placeholder="Enter address"
+                    placeholder="Enter Reason"
                     [formControl]="reason"
                     required
                   ></textarea>
@@ -28,9 +28,9 @@
         </div>
 
         <!-- Submit-Cancel buttons -->
-        <div class="d-flex justify-content-center align-items-center gap-2" mat-dialog-actions>
+        <div class="d-flex justify-content-center align-items-center gap-2 mt-3">
             <div>
-                <button class="btn btn-design center-flexBox" (click)="reject()">
+                <button type="button" class="btn btn-design center-flexBox" (click)="reject()">
                     Submit</button>
             </div>
             <div>

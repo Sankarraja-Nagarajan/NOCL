@@ -15,7 +15,8 @@
     .nocil-logo {
       padding-left: 10px;
       height: 50px;
-      width: 90px;
+      width: 100px;
+      object-fit: contain;
     }
   }
 
@@ -37,6 +38,15 @@
     display: flex;
     align-items: center;
     width: auto;
+
+    h2 {
+      color: var(--vp-bluish-black);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-left: 30% !important;
+      white-space: nowrap;
+    }
 
     .sidebar-toggle {
       @include nb-ltr(padding-right, 1.25rem);
@@ -149,5 +159,9 @@
     background-color: #1055a0;
     display: inline-block;
     margin-right: 5px;
+  }
+
+  .header-color {
+    color: var(--vp-bluish-black);
   }
 }

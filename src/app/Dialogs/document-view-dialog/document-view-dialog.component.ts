@@ -28,6 +28,7 @@ export class DocumentViewDialogComponent implements OnInit {
     public _dialogRef: MatDialogRef<DocumentViewDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
+  
   ngOnInit(): void {
     if (this.data.attachment.Attachment_Id != null) {
       this.getAttachmentById();

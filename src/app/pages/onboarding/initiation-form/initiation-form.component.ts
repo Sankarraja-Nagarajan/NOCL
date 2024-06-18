@@ -31,6 +31,7 @@ export class InitiationFormComponent implements OnInit {
     private _registration: RegistrationService,
     private _router: Router
   ) {}
+
   ngOnInit() {
     // get Auth Response
     this.userData = JSON.parse(
@@ -120,7 +121,8 @@ export class InitiationFormComponent implements OnInit {
   isOptionDisabled(dept_Id: number): boolean {
     if (
       (this.initiationForm.value.Vendor_Type_Id == 1 && dept_Id == 1) ||
-      (this.initiationForm.value.Vendor_Type_Id == 4 && dept_Id == 2)
+      (this.initiationForm.value.Vendor_Type_Id == 2 && dept_Id == 1) ||
+      (this.initiationForm.value.Vendor_Type_Id == 5 && dept_Id == 2)
     )
       return true;
   }

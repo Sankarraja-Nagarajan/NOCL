@@ -35,4 +35,9 @@ export class RejectReasonDialogComponent implements OnInit {
     }
   }
 
+
+  close(){
+    this._dialogRef.close();
+  }
+
 }
