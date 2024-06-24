@@ -7,18 +7,7 @@
   justify-content: space-between;
   width: 100%;
 
-  .logo-container {
-    display: flex;
-    align-items: center;
-    width: calc(#{nb-theme(sidebar-width)} - #{nb-theme(header-padding)});
-
-    .nocil-logo {
-      padding-left: 10px;
-      height: 50px;
-      width: 100px;
-      object-fit: contain;
-    }
-  }
+  
 
   nb-action {
     height: auto;
@@ -30,14 +19,11 @@
     cursor: pointer;
   }
 
-  ::ng-deep nb-search button {
-    padding: 0 !important;
-  }
-
   .header-container {
     display: flex;
     align-items: center;
     width: auto;
+    position: relative;
 
     h2 {
       color: var(--vp-bluish-black);
@@ -46,6 +32,21 @@
       justify-content: center;
       margin-left: 30% !important;
       white-space: nowrap;
+      margin-left: 30% !important;
+      white-space: nowrap;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      width: calc(#{nb-theme(sidebar-width)} - #{nb-theme(header-padding)});
+  
+      .nocil-logo {
+        padding-left: 10px;
+        height: 50px;
+        width: 100px;
+        object-fit: contain;
+      }
     }
 
     .sidebar-toggle {
@@ -69,44 +70,9 @@
     }
   }
 
-  @include media-breakpoint-down(sm) {
-    .control-item {
-      display: none;
-    }
-
-    .user-action {
-      border: none;
-      padding: 0;
-    }
-  }
-
-  @include media-breakpoint-down(is) {
-    nb-select {
-      display: none;
-    }
-  }
-
   .dropdown-alt {
     position: relative;
     display: inline-block;
-  }
-
-  .control-item:hover .dropdown-content-alt {
-    display: block;
-  }
-
-  .control-item:hover .dropbtn-alt {
-    background-color: #04aa6d00;
-  }
-
-  .dropbtn-alt {
-    background-color: #04aa6d00;
-    color: white;
-    padding: 0px;
-    font-size: 16px;
-    border: none;
-    display: flex;
-    align-items: center;
   }
 
   .dropdown-content-alt {
@@ -117,6 +83,7 @@
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     z-index: 1;
     right: 0;
+    top: 0;
     border-radius: 5px;
     overflow-x: hidden;
   }
@@ -133,6 +100,10 @@
     background-color: #ddd;
   }
 
+  .dropdown-content-alt.show {
+    display: block;
+  }
+
   // .dropdown-alt:hover .dropdown-content-alt {
   //   display: block;
   // }
@@ -145,6 +116,7 @@
     overflow-y: scroll;
     overflow-x: hidden;
   }
+
   .font-align {
     color: #0866a1;
   }
@@ -152,6 +124,7 @@
   .border-bottom {
     border-bottom: 1px solid #e0e0e0 !important;
   }
+
   .readed-dot {
     width: 11px !important;
     height: 11px !important;
@@ -163,5 +136,22 @@
 
   .header-color {
     color: var(--vp-bluish-black);
+  }
+
+  @include media-breakpoint-down(sm) {
+    .control-item {
+      display: none;
+    }
+
+    .user-action {
+      border: none;
+      padding: 0;
+    }
+  }
+
+  @include media-breakpoint-down(is) {
+    nb-select {
+      display: none;
+    }
   }
 }

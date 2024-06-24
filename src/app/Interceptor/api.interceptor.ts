@@ -9,13 +9,18 @@ import {
 import { Observable, throwError } from "rxjs";
 import { Router } from "@angular/router";
 import { CommonService } from "../Services/common.service";
-import { catchError } from "rxjs/operators";
+import { catchError, finalize } from "rxjs/operators";
 import { snackbarStatus } from "../Enums/snackbar-status";
 import { getSession } from "../Utils";
+import { GlobalLoaderService } from "../Services/global-loader.service";
 
 @Injectable()
 export class ApiInterceptor implements HttpInterceptor {
-  constructor(private _router: Router, private _common: CommonService) {}
+  constructor(
+    private _router: Router,
+    private _common: CommonService,
+    private _loader: GlobalLoaderService
+  ) {}
 
   getToken() {
     var users = getSession("userDetails");
@@ -35,26 +40,32 @@ export class ApiInterceptor implements HttpInterceptor {
         setHeaders: { Authorization: `Bearer ${TOKEN}` },
       });
     }
-
-    return next.handle(request).pipe(
-      catchError((err: any) => {
-        console.log("Error", err);
-        if (err instanceof HttpErrorResponse) {
-          return this.standardErrorCodeHandler(err);
-        } else {
-          this._common.openSnackbar(
-            "Something went wrong! Please try after sometime.",
-            snackbarStatus.Danger
-          );
-          return throwError(
-            new HttpErrorResponse({
-              error: "Something went wrong! Please try after sometime.",
-              status: 500,
-            })
-          );
-        }
-      })
-    );
+    this._loader.setLoading(true, request.url);
+    return next
+      .handle(request)
+      .pipe(
+        catchError((err: any) => {
+          this._loader.setLoading(false,request.url);
+          console.log("Error", err);
+          if (err instanceof HttpErrorResponse) {
+            return this.standardErrorCodeHandler(err);
+          } else {
+            this._common.openSnackbar(
+              "Something went wrong! Please try after sometime.",
+              snackbarStatus.Danger
+            );
+            return throwError(
+              new HttpErrorResponse({
+                error: "Something went wrong! Please try after sometime.",
+                status: 500,
+              })
+            );
+          }
+        })
+      )
+      .pipe(finalize(() => {
+        this._loader.setLoading(false,request.url);
+      }));
   }
 
   standardErrorCodeHandler(err: HttpErrorResponse) {

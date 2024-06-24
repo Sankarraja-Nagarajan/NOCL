@@ -11,6 +11,9 @@ import { AuthResponse } from "../../../Models/authModel";
 import { RegistrationService } from "../../../Services/registration.service";
 import { snackbarStatus } from "../../../Enums/snackbar-status";
 import { getSession, isNullOrEmpty } from "../../../Utils";
+import { MasterService } from "../../../Services/master.service";
+import { forkJoin } from "rxjs";
+import { GSTVenClass, Title } from "../../../Models/Master";
 
 @Component({
   selector: "ngx-vendor-personal-info",
@@ -25,14 +28,17 @@ export class VendorPersonalInfoComponent implements OnInit {
 
   domesticVendorForm: FormGroup;
   years: number[] = [];
+  titles: Title[] = [];
+  GST: GSTVenClass[] = [];
   authResponse: AuthResponse;
   personalInfoId: number = 0;
 
   constructor(
     private _fb: FormBuilder,
     private _commonService: CommonService,
-    private _registration: RegistrationService
-  ) {}
+    private _registration: RegistrationService,
+    private _master: MasterService
+  ) { }
 
   ngOnInit(): void {
     //Generate years for Plant Installation Year
@@ -42,6 +48,8 @@ export class VendorPersonalInfoComponent implements OnInit {
     this.domesticVendorForm = this._fb.group({
       Organization_Name: ["", [Validators.required]],
       Plant_Installation_Year: ["", [Validators.required]],
+      Title_Id: ["", [Validators.required]],
+      GSTVenClass_Id: [""],
       GSTIN: [
         "",
         [
@@ -51,6 +59,7 @@ export class VendorPersonalInfoComponent implements OnInit {
         ],
       ],
     });
+
 
     this.authResponse = JSON.parse(getSession("userDetails"));
     if (this.isReadOnly) {
@@ -71,6 +80,9 @@ export class VendorPersonalInfoComponent implements OnInit {
           this._commonService.openSnackbar(err, snackbarStatus.Danger);
         },
       });
+
+      this.getTitleAndGSTVenClass();
+
   }
 
   patchVendorname() {
@@ -148,5 +160,23 @@ export class VendorPersonalInfoComponent implements OnInit {
       : 0;
     domesticVendorPersonalData.Form_Id = this.form_Id;
     return domesticVendorPersonalData;
+  }
+
+  // Get Title and GSt Ven Class
+  getTitleAndGSTVenClass() {
+    forkJoin([
+      this._master.getTitle(),
+      this._master.getGSTVenClass(),
+    ]).subscribe({
+      next: (res) => {
+        if (res[0]) {
+          this.titles = res[0] as Title[];
+        }
+        if (res[1]) {
+          this.GST = res[1] as GSTVenClass[];
+        }
+      },
+      error: (err) => {},
+    });
   }
 }

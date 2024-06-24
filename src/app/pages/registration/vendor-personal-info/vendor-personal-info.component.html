@@ -6,22 +6,42 @@
 
                     <!-- OrgName & PlantInstallaitonYear -->
                     <div class="row mb-2">
-                        <div class="col-sm-7 mb-sm-0 mb-2">
+                        <div class="col-sm-4 mb-sm-0 mb-2">
                             <div>
-                                <label class="input-label-text"> Organization name <span class="asterisk-required">*</span> </label>
+                                <label class="input-label-text"> Title <span class="asterisk-required">*</span> </label>
                                 <div class="input-group">
-                                    <input [readOnly]="isReadOnly" nbInput fullWidth fieldSize="small" class="input-border"
-                                        placeholder="Enter organization name" formControlName="Organization_Name"
-                                        required />
+                                    <nb-select fullWidth size="small" status="primary" formControlName="Title_Id" required
+                                        placeholder="Select Title">
+                                        <nb-option *ngFor="let title of titles" [value]="title.Id">{{
+                                            title.Title_Name }}</nb-option>
+                                    </nb-select>
+                                    <mat-error
+                                        *ngIf="this.domesticVendorForm.get('Title_Id').hasError('required') && this.domesticVendorForm.get('Title_Id').touched"
+                                        class="error-msg">Title is
+                                        required</mat-error>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-sm-8 mb-2">
+                            <div>
+                                <label class="input-label-text"> Organization name <span
+                                        class="asterisk-required">*</span> </label>
+                                <div class="input-group">
+                                    <input [readOnly]="isReadOnly" nbInput fullWidth fieldSize="small"
+                                        class="input-border" placeholder="Enter organization name"
+                                        formControlName="Organization_Name" required />
                                     <mat-error
                                         *ngIf="this.domesticVendorForm.get('Organization_Name').hasError('required') && this.domesticVendorForm.get('Organization_Name').touched"
                                         class="error-msg">Organization Name is required</mat-error>
                                 </div>
                             </div>
+
                         </div>
-                        <div class="col-sm-5">
+                        <div class="col-sm-6">
                             <div>
-                                <label class="input-label-text"> Organization Establishment Year <span class="asterisk-required">*</span> </label>
+                                <label class="input-label-text"> Organization Establishment Year <span
+                                        class="asterisk-required">*</span> </label>
                                 <div class="input-group">
                                     <nb-select fullWidth size="small" status="primary"
                                         formControlName="Plant_Installation_Year" required
@@ -35,12 +55,24 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-sm-6">
+                            <div>
+                                <label class="input-label-text"> GST Ven Class </label>
+                                <div class="input-group">
+                                    <nb-select fullWidth size="small" status="primary" formControlName="GSTVenClass_Id"
+                                        placeholder="Select GST Ven Class">
+                                        <nb-option *ngFor="let gst of GST" [value]="gst.Id">{{ gst.Description
+                                            }}</nb-option>
+                                    </nb-select>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <!-- OrgName & PlantInstallaitonYear -->
 
                     <!-- GSTIN & Get details btn -->
                     <div class="row" *ngIf="authResponse?.Role == 'Vendor' && v_Id != 4">
-                        <div class="col-sm-7">
+                        <div class="col-sm-6">
                             <div>
                                 <label class="input-label-text"> GSTIN </label>
                                 <div class="input-group">
@@ -54,8 +86,8 @@
                         </div>
                         <div class="col-sm-5 d-flex mt-sm-0 mt-2 justify-content-sm-start justify-content-end">
                             <div class="d-flex align-items-end justify-content-center">
-                                <button *ngIf="authResponse?.Role == 'Vendor'"
-                                class="btn btn-design center-flexBox" (click)="getGstDetails()">
+                                <button *ngIf="authResponse?.Role == 'Vendor'" class="btn btn-design center-flexBox"
+                                    (click)="getGstDetails()">
                                     <!-- <img src="../../../../assets/images/pngs/plus.png" width="16" height="16"> -->
                                     Get Details</button>
                             </div>

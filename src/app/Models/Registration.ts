@@ -7,6 +7,7 @@ export class Approval {
     RmEmployeeId: string;
     RmRoleId: number;
     RmRoleName: string;
+    AdditionalFields: AdditionalFieldsDto;
 }
 
 export class Form {
@@ -39,4 +40,19 @@ export class ExpiryDetails {
     Vendor_Mail: string;
     Vendor_Mobile: string;
     Vendor_Name: string;
+}
+
+export class AdditionalFieldsDto {
+
+    Id: number;
+    Form_Id: number;
+    Industry_Id: number;
+    Incoterms_Id: number;
+    Reconciliation_Id: number;
+    Schema_Id: number;
+    Language: string;
+    Order_Currency: string;
+    GrBased: string;
+    SrvBased: string;
+    Search_Term: string;
 }

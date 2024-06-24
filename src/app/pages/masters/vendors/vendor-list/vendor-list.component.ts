@@ -10,10 +10,8 @@ import { MatPaginator } from "@angular/material/paginator";
 import { MatTableDataSource } from "@angular/material/table";
 import { VendorService } from "../../../../Services/vendor.service";
 import { CommonService } from "../../../../Services/common.service";
-import { snackbarStatus } from "../../../../Enums/snackbar-status";
 import { VendorMaster } from "../../../../Models/Dtos";
 import { Router } from "@angular/router";
-import { merge } from "rxjs";
 import { setSession } from "../../../../Utils";
 
 @Component({
@@ -36,12 +34,12 @@ export class VendorListComponent implements OnInit, OnChanges {
   dataSource = new MatTableDataSource<VendorMaster>();
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  loader: boolean = false;
 
   constructor(
     private _vendor: VendorService,
     private _common: CommonService,
-    private _router: Router
+    private _router: Router,
+    
   ) {}
 
   ngOnInit(): void {}
@@ -63,35 +61,35 @@ export class VendorListComponent implements OnInit, OnChanges {
   }
 
   getVendors(type: boolean) {
-    this.loader = true;
+    
     this._vendor.getVendorsByType(type).subscribe({
       next: (res) => {
         if (res) {
           this.dataSource.data = res as VendorMaster[];
           this.dataSource._updateChangeSubscription();
           this.dataSource.paginator = this.paginator;
-          this.loader = false;
+          
         }
       },
       error: (err) => {
-        this.loader = false;
+        
       },
     });
   }
 
   getTransportVendors() {
-    this.loader = true;
+    
     this._vendor.getAllTransportVendors().subscribe({
       next: (res) => {
         if (res) {
           this.dataSource.data = res as VendorMaster[];
           this.dataSource._updateChangeSubscription();
           this.dataSource.paginator = this.paginator;
-          this.loader = false;
+          
         }
       },
       error: (err) => {
-        this.loader = false;
+        
       },
     });
   }

@@ -5,8 +5,6 @@ import { MatTableDataSource } from "@angular/material/table";
 import { Router } from "@angular/router";
 import { DashboardService } from "../../../Services/dashboard.service";
 import { Dashboard, InitialData } from "../../../Models/Dtos";
-import { CommonService } from "../../../Services/common.service";
-import { snackbarStatus } from "../../../Enums/snackbar-status";
 import { AuthResponse } from "../../../Models/authModel";
 import { EncryptionService } from "../../../Services/encryption.service";
 import { getSession, isNullOrEmpty } from "../../../Utils";
@@ -40,9 +38,8 @@ export class DashboardComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   constructor(
     private _dashboard: DashboardService,
-    private _common: CommonService,
     private _router: Router,
-    private _encryptor: EncryptionService
+    private _encryptor: EncryptionService,
   ) {}
 
   ngOnInit(): void {
@@ -60,7 +57,7 @@ export class DashboardComponent implements OnInit {
       this.headerStatus = "Pending";
     }
   }
-  
+
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
   }
@@ -91,7 +88,7 @@ export class DashboardComponent implements OnInit {
   }
 
   getInitialData() {
-    this.loader = true;
+    
     this._dashboard.getInitialData(this.emp_id).subscribe({
       next: (res) => {
         this.dashboardAllData = res.Data as Dashboard[];
@@ -101,16 +98,14 @@ export class DashboardComponent implements OnInit {
         this.initialDashboardData.Pending = res.Pending;
         this.initialDashboardData.Approved = res.Approved;
         this.initialDashboardData.Rejected = res.Rejected;
-        this.loader = false;
       },
       error: (err) => {
-        this.loader = false;
       },
     });
   }
 
   getAllData() {
-    this.loader = true;
+    
     this._dashboard.getAllData().subscribe({
       next: (res) => {
         this.dashboardAllData = res.Data as Dashboard[];
@@ -121,21 +116,18 @@ export class DashboardComponent implements OnInit {
         this.initialDashboardData.Approved = res.Approved;
         this.initialDashboardData.Rejected = res.Rejected;
         this.initialDashboardData.SAP = res.SAP;
-        this.loader = false;
       },
       error: (err) => {
-        this.loader = false;
       },
     });
   }
 
   getAllOpenData() {
-    this.loader = true;
+    
     if (this.authResponse?.Role != "Admin") {
       this._dashboard.getInitiatedData(this.emp_id).subscribe({
         next: (res) => {
           if (res) {
-            this.loader = false;
             this.dashboardAllData = res as Dashboard[];
             this.dataSource = new MatTableDataSource(this.dashboardAllData);
             this.dataSource.paginator = this.paginator;
@@ -143,14 +135,12 @@ export class DashboardComponent implements OnInit {
           }
         },
         error: (err) => {
-          this.loader = false;
         },
       });
     } else {
       this._dashboard.getAllInitiatedData().subscribe({
         next: (res) => {
           if (res) {
-            this.loader = false;
             this.dashboardAllData = res as Dashboard[];
             this.dataSource = new MatTableDataSource(this.dashboardAllData);
             this.dataSource.paginator = this.paginator;
@@ -158,14 +148,13 @@ export class DashboardComponent implements OnInit {
           }
         },
         error: (err) => {
-          this.loader = false;
         },
       });
     }
   }
 
   getAllPendingData() {
-    this.loader = true;
+    
     if (this.authResponse?.Role != "Admin") {
       this._dashboard.getPendingData(this.emp_id).subscribe({
         next: (res) => {
@@ -174,11 +163,9 @@ export class DashboardComponent implements OnInit {
             this.dataSource = new MatTableDataSource(this.dashboardAllData);
             this.dataSource.paginator = this.paginator;
             this.headerStatus = "Pending";
-            this.loader = false;
           }
         },
         error: (err) => {
-          this.loader = false;
         },
       });
     } else {
@@ -189,18 +176,16 @@ export class DashboardComponent implements OnInit {
             this.dataSource = new MatTableDataSource(this.dashboardAllData);
             this.dataSource.paginator = this.paginator;
             this.headerStatus = "Pending";
-            this.loader = false;
           }
         },
         error: (err) => {
-          this.loader = false;
         },
       });
     }
   }
 
   getAllApprovedData() {
-    this.loader = true;
+    
     if (this.authResponse?.Role != "Admin") {
       this._dashboard.getApprovedData(this.emp_id).subscribe({
         next: (res) => {
@@ -209,11 +194,9 @@ export class DashboardComponent implements OnInit {
             this.dataSource = new MatTableDataSource(this.dashboardAllData);
             this.dataSource.paginator = this.paginator;
             this.headerStatus = "Approved";
-            this.loader = false;
           }
         },
         error: (err) => {
-          this.loader = false;
         },
       });
     } else {
@@ -224,18 +207,16 @@ export class DashboardComponent implements OnInit {
             this.dataSource = new MatTableDataSource(this.dashboardAllData);
             this.dataSource.paginator = this.paginator;
             this.headerStatus = "Approved";
-            this.loader = false;
           }
         },
         error: (err) => {
-          this.loader = false;
         },
       });
     }
   }
 
   getAllRejectedData() {
-    this.loader = true;
+    
     if (this.authResponse?.Role != "Admin") {
       this._dashboard.getRejectedData(this.emp_id).subscribe({
         next: (res) => {
@@ -244,11 +225,9 @@ export class DashboardComponent implements OnInit {
             this.dataSource = new MatTableDataSource(this.dashboardAllData);
             this.dataSource.paginator = this.paginator;
             this.headerStatus = "Rejected";
-            this.loader = false;
           }
         },
         error: (err) => {
-          this.loader = false;
         },
       });
     } else {
@@ -259,18 +238,16 @@ export class DashboardComponent implements OnInit {
             this.dataSource = new MatTableDataSource(this.dashboardAllData);
             this.dataSource.paginator = this.paginator;
             this.headerStatus = "Rejected";
-            this.loader = false;
           }
         },
         error: (err) => {
-          this.loader = false;
         },
       });
     }
   }
 
   getAllSAPData() {
-    this.loader = true;
+    
     this._dashboard.getAllSAPData().subscribe({
       next: (res) => {
         if (res) {
@@ -278,11 +255,9 @@ export class DashboardComponent implements OnInit {
           this.dataSource = new MatTableDataSource(this.dashboardAllData);
           this.dataSource.paginator = this.paginator;
           this.headerStatus = "SAP";
-          this.loader = false;
         }
       },
       error: (err) => {
-        this.loader = false;
       },
     });
   }

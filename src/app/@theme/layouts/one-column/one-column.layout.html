@@ -20,6 +20,7 @@
 
   <nb-layout-column>
     <ng-content select="router-outlet"></ng-content>
+    <ngx-global-loader></ngx-global-loader>
   </nb-layout-column>
 
   <nb-layout-footer fixed *ngIf="isLogin && isDashboardShown" class="layout-footer">

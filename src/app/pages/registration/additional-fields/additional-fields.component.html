@@ -1,0 +1,140 @@
+<section class="screenAdditionalFields">
+    <div class="container">
+        <div class="additionalFields">
+            <div class="row">
+                <form action="" [formGroup]="additionalFieldsForm" class="p-0">
+
+                    <!-- Additional Fields -->
+                    <div class="row mb-2">
+                        <div class="col-sm-6 mb-sm-0 mb-2">
+                            <div>
+                                <label class="input-label-text"> Language </label>
+                                <div class="input-group">
+                                    <input nbInput fullWidth fieldSize="small"
+                                        class="input-border" formControlName="Language" readonly />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 mb-2">
+                            <div>
+                                <label class="input-label-text"> Order Currency </label>
+                                <div class="input-group">
+                                    <input nbInput fullWidth fieldSize="small"
+                                        class="input-border" formControlName="Order_Currency" readonly />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-2">
+                        <div class="col-sm-6 mb-sm-0 mb-2">
+                            <div>
+                                <label class="input-label-text"> Industry <span class="asterisk-required">*</span>
+                                </label>
+                                <div class="input-group">
+                                    <nb-select fullWidth size="small" status="primary" formControlName="Industry_Id"
+                                        required placeholder="Select Industry">
+                                        <nb-option *ngFor="let industry of Industries" [value]="industry.Id"> {{ industry.Description
+                                            }}</nb-option>
+                                    </nb-select>
+                                    <mat-error
+                                        *ngIf="this.additionalFieldsForm.get('Industry_Id').hasError('required') && this.additionalFieldsForm.get('Industry_Id').touched"
+                                        class="error-msg">Industry is
+                                        required</mat-error>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 mb-2">
+                            <div>
+                                <label class="input-label-text"> Incoterms </label>
+                                <div class="input-group">
+                                    <nb-select fullWidth size="small" status="primary" formControlName="Incoterms_Id"
+                                        required placeholder="Select Incoterms">
+                                        <nb-option *ngFor="let incoterms of Incoterms" [value]="incoterms.Id"> {{ incoterms.Description
+                                            }}</nb-option>
+                                    </nb-select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-2">
+                        <div class="col-sm-6 mb-sm-0 mb-2">
+                            <div>
+                                <label class="input-label-text"> Reconciliation Account <span
+                                        class="asterisk-required">*</span> </label>
+                                <div class="input-group">
+                                    <nb-select fullWidth size="small" status="primary"
+                                        formControlName="Reconciliation_Id" required
+                                        placeholder="Select Reconciliation Account">
+                                        <nb-option *ngFor="let reconciliation of Reconciliation"
+                                            [value]="reconciliation.Id">{{ reconciliation.Description }}</nb-option>
+                                    </nb-select>
+                                    <mat-error
+                                        *ngIf="this.additionalFieldsForm.get('Reconciliation_Id').hasError('required') && this.additionalFieldsForm.get('Reconciliation_Id').touched"
+                                        class="error-msg">Reconciliation Account is
+                                        required</mat-error>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 mb-2">
+                            <div>
+                                <label class="input-label-text"> SchemaGroup </label>
+                                <div class="input-group">
+                                    <nb-select fullWidth size="small" status="primary" formControlName="Schema_Id"
+                                        required placeholder="Select SchemaGroup">
+                                        <nb-option *ngFor="let schemaGroup of SchemaGroup" [value]="schemaGroup.Id"> {{
+                                            schemaGroup.Description }}</nb-option>
+                                    </nb-select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-2">
+                        <div class="col-sm-6 mb-sm-0 mb-2">
+                            <div>
+                                <label class="input-label-text"> GR Based </label>
+                                <div class="input-group">
+                                    <input nbInput fullWidth fieldSize="small"
+                                        class="input-border" formControlName="GrBased" readonly />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 mb-2">
+                            <div>
+                                <label class="input-label-text"> SRV Based </label>
+                                <div class="input-group">
+                                    <input nbInput fullWidth fieldSize="small" 
+                                        class="input-border" formControlName="SrvBased" readonly />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-2">
+                        <div class="col-sm-6 mb-sm-0 mb-2">
+                            <div>
+                                <label class="input-label-text"> Search Term  <span
+                                    class="asterisk-required">*</span> </label>
+                                <div class="input-group">
+                                    <input nbInput fullWidth fieldSize="small" placeholder="Enter Search Term"
+                                        class="input-border" formControlName="Search_Term" />
+                                </div>
+                                <mat-error
+                                *ngIf="this.additionalFieldsForm.get('Search_Term').hasError('required') && this.additionalFieldsForm.get('Search_Term').touched"
+                                class="error-msg">Search Term is
+                                required</mat-error>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- Additional Fields -->
+
+                </form>
+            </div>
+        </div>
+
+    </div>
+</section>

@@ -38,6 +38,7 @@ import { DEFAULT_THEME } from './styles/theme.default';
 import { COSMIC_THEME } from './styles/theme.cosmic';
 import { CORPORATE_THEME } from './styles/theme.corporate';
 import { DARK_THEME } from './styles/theme.dark';
+import { GlobalLoaderComponent } from './components/global-loader/global-loader.component';
 
 const NB_MODULES = [
   NbLayoutModule,
@@ -58,6 +59,7 @@ const COMPONENTS = [
   FooterComponent,
   SearchInputComponent,
   TinyMCEComponent,
+  GlobalLoaderComponent,
   OneColumnLayoutComponent,
   ThreeColumnsLayoutComponent,
   TwoColumnsLayoutComponent,
@@ -73,7 +75,7 @@ const PIPES = [
 @NgModule({
   imports: [CommonModule, ...NB_MODULES],
   exports: [CommonModule, ...PIPES, ...COMPONENTS],
-  declarations: [...COMPONENTS, ...PIPES],
+  declarations: [...COMPONENTS, ...PIPES, GlobalLoaderComponent],
 })
 export class ThemeModule {
   static forRoot(): ModuleWithProviders<ThemeModule> {

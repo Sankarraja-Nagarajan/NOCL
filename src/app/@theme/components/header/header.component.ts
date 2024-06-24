@@ -24,6 +24,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   userMenu = [{ title: "Change Password" }, { title: "Log out" }];
   userData: any;
   isNotificationVisible: boolean = false;
+  isDropdownVisible: boolean = false;
   allExpiryDetails: ExpiryDetails[] = [];
 
   constructor(

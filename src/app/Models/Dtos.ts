@@ -1,8 +1,10 @@
 export class VendorPersonalData {
   Personal_Info_Id: number = 0;
+  Title_Id:string;
   Form_Id: number;
   Organization_Name: string;
   Plant_Installation_Year: number;
+  GSTVenClass_Id:string;
 }
 
 export class VendorOrganizationProfile {
@@ -54,7 +56,17 @@ export class Address {
   Address_Id: number = 0;
   Form_Id: number;
   Address_Type_Id: number;
-  AddressData: string;
+  House_No:string;
+  Street_2:string;
+  Street_3:string;
+  Street_4:string;
+  District:string;
+  Postal_Code:string;
+  City:string;
+  Country_Code:string;
+  Region_Id:number;
+  Country_Name:string;
+  Region_Name:string;
   Tel: string;
   Fax: string;
   Website: string;
@@ -100,8 +112,10 @@ export class AnnualTurnOver {
 export class TransportVendorPersonalData {
   Id: number = 0;
   Form_Id: number;
+  Title:string;
   Name_of_Transporter: string;
   Date_of_Establishment: Date;
+  GSTVenClass:string;
   No_of_Own_Vehicles: number;
   No_of_Drivers: number;
   Nicerglobe_Registration: string;
@@ -148,7 +162,7 @@ export class Dashboard {
   Email: string;
   CreatedOn: Date;
   Status: string;
-  PendingWith:string;
+  PendingWith: string;
 }
 
 export class InitialData {
@@ -218,6 +232,13 @@ export class GstDetail {
   Name: string;
   RegistrationDate: string;
   Addresses: string[];
+}
+
+export class Region {
+  Id: number;
+  Country_Code: string;
+  Code: string;
+  Name: string;
 }
 
 export class FormsToShow {

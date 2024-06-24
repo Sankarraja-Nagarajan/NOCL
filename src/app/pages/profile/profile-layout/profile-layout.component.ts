@@ -40,12 +40,12 @@ export class ProfileLayoutComponent implements OnInit {
   ];
 
   vendorInfo: any;
-  loader: boolean = false;
   vendorProfile: VendorProfile = new VendorProfile();
 
   constructor(
     private _activatedRoute: ActivatedRoute,
-    private _master: MasterService
+    private _master: MasterService,
+    
   ) {}
 
   ngOnInit(): void {
