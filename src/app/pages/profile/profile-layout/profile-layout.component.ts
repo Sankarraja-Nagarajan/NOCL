@@ -1,9 +1,11 @@
-import { Component, OnInit } from "@angular/core";
+import { AfterViewChecked, Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { NbRouteTab } from "@nebular/theme";
 import { getSession } from "../../../Utils";
 import { MasterService } from "../../../Services/master.service";
 import { VendorProfile } from "../../../Models/Master";
+import { CheckboxControlValueAccessor } from "@angular/forms";
+import { findIndex } from "rxjs/operators";
 
 @Component({
   selector: "ngx-profile-layout",
@@ -39,14 +41,18 @@ export class ProfileLayoutComponent implements OnInit {
     },
   ];
 
+  allTabs: any;
+  openTab: string = "";
+  btnEnable: any = {};
+  visibleTabs = [];
+
   vendorInfo: any;
   vendorProfile: VendorProfile = new VendorProfile();
 
   constructor(
     private _activatedRoute: ActivatedRoute,
-    private _master: MasterService,
-    
-  ) {}
+    private _master: MasterService
+  ) { }
 
   ngOnInit(): void {
     let vInfo = getSession("vendorInfo");
@@ -58,5 +64,50 @@ export class ProfileLayoutComponent implements OnInit {
           this.vendorProfile = res as VendorProfile;
         },
       });
+    this.allTabs = [
+      'Address',
+      'Contact',
+      'Technical Profile',
+      'Commercial Profile',
+      'Bank Detail',
+      'Branches',
+      'Annual Turnover',
+      'Transport Vendor Profile',
+      'Tanker Details',
+      'Organization Profile',
+      'Attachments'
+    ]
+    this.visibleTabs = [...this.allTabs];
+  }
+
+  mouseScroll(evt: any) {
+    let index = this.visibleTabs.findIndex(value => value === this.openTab);
+
+    if (evt.deltaY < 0) {
+      if (index == 0) {
+        return
+      }
+      index -= 1;
+    }
+    else {
+      if (index == this.visibleTabs.length - 1) {
+        return
+      }
+      index += 1;
+    }
+    
+    this.openTab = this.visibleTabs[index % this.visibleTabs.length];
+  }
+  changeTab(tabName: string) {
+    this.openTab = tabName;
+  }
+
+  enableBtn(evt: boolean, btnName: string) {
+    this.btnEnable[btnName] = evt;
+    if(evt==false){
+      let i = this.visibleTabs.findIndex(x=>x===btnName);
+      this.visibleTabs.splice(i, 1);
+    }
+    this.openTab = this.visibleTabs[0];
   }
 }

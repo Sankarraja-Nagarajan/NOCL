@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { Contact } from "../../../Models/Dtos";
 import { ContactType } from "../../../Models/Master";
 import { MatDialog } from "@angular/material/dialog";
@@ -16,6 +16,8 @@ import { forkJoin } from "rxjs/internal/observable/forkJoin";
 })
 export class ContactProfileComponent implements OnInit {
  // @Input() formId: number = 17;
+  @Output() hasContact: EventEmitter<boolean> = new EventEmitter();
+
   contacts: Contact[] = [];
   contactTypes: ContactType[] = [];
   vendorInfo:any;
@@ -47,15 +49,15 @@ export class ContactProfileComponent implements OnInit {
       next: (res) => {
         if (res[0]) {
           this.contactTypes = res[0] as ContactType[];
-       
         }
         if (res[1]) {
           this.contacts = res[1] as Contact[];
-        
         }
+        this.hasContact.emit(this.contacts.length != 0);
       },
       error: (err) => {
         this._commonService.openSnackbar(err, snackbarStatus.Danger);
+        this.hasContact.emit(false);
       },
     });
   }

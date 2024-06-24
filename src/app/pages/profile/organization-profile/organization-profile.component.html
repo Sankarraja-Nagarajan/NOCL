@@ -1,6 +1,6 @@
-<section class="organization-profile pt-5 ps-4">
-    <div class="detail-container p-3 mb-5 shadow rounded">
-        <div class="d-flex flex-wrap justify-content-around mb-3">
+<section class="organization-profile p-1">
+    <div class="detail-container p-3 shadow rounded">
+        <div class="d-flex flex-wrap justify-content-between px-5 mb-1">
             <div>
                 <label class="input-label-text"> Type of Organization : </label>
                 <span class="detail-type"> {{ getOrgTypeById(orgProfile.Type_of_Org_Id )}} </span>
@@ -10,89 +10,71 @@
                 <span class="detail-type"> {{ getCompanySttausById(orgProfile.Status_of_Company_Id )}} </span>
             </div>
         </div>
-        <div>
-            <nb-accordion>
-                <nb-accordion-item>
-                    <nb-accordion-item-header>
-                        Subsideries
-                    </nb-accordion-item-header>
-                    <nb-accordion-item-body>
-                        <div>
-                            <ol *ngIf="subsideriesList.length > 0">
-                                <li *ngFor="let s of subsideriesList" class="detail-type"> {{s.Subsidery_Name}} </li>
-                            </ol>
-                            <span *ngIf="subsideriesList.length == 0" class="detail-type"> No Subideries were found.
-                            </span>
-                        </div>
-                    </nb-accordion-item-body>
-                </nb-accordion-item>
-
-                <nb-accordion-item>
-                    <nb-accordion-item-header>
-                        Major Customers
-                    </nb-accordion-item-header>
-                    <nb-accordion-item-body>
-                        <span *ngIf="listOfMajorCustomerList.length == 0" class="detail-type"> No Major Customers were
-                            found. </span>
-
-                        <div class="row gap-2">
-                            <div *ngFor="let customer of listOfMajorCustomerList"
-                                class="detail-container p-4 shadow  col-sm col-md-4 col-lg-3">
-                                <div class="d-flex">
-                                    <div class="center-flexBox">
-                                        <img src="assets/images/pngs/map-pin.png" alt="" />
-                                    </div>
-                                    <div class="center-flexBox">
-                                        <span class="customer-detail ms-2">{{ customer.Customer_Name }}</span>
-                                    </div>
-                                </div>
-
-                                <div class="d-flex">
-                                    <div class="center-flexBox">
-                                        <img src="assets/images/pngs/map-pin.png" alt="" />
-                                    </div>
-                                    <div class="center-flexBox">
-                                        <span class="customer-detail ms-2">{{ customer.Location }}</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </nb-accordion-item-body>
-                </nb-accordion-item>
-
-                <nb-accordion-item>
-                    <nb-accordion-item-header>
-                        NOCIL Related Employees
-                    </nb-accordion-item-header>
-                    <nb-accordion-item-body>
-                        <span *ngIf="nocilRelatedEmployees.length == 0" class="detail-type"> No NOCIL related Employee
-                            found. </span>
-
-                        <div class="row gap-2">
-                            <div *ngFor="let emp of nocilRelatedEmployees"
-                                class="detail-container p-4 shadow  col-sm col-md-4 col-lg-3">
-                                <div class="d-flex">
-                                    <div class="center-flexBox">
-                                        <img src="assets/images/pngs/map-pin.png" alt="" />
-                                    </div>
-                                    <div class="center-flexBox">
-                                        <span class="customer-detail ms-2">{{ emp.Employee_Name }}</span>
-                                    </div>
-                                </div>
-
-                                <div class="d-flex">
-                                    <div class="center-flexBox">
-                                        <img src="assets/images/pngs/map-pin.png" alt="" />
-                                    </div>
-                                    <div class="center-flexBox">
-                                        <span class="customer-detail ms-2">{{ emp.Type_Of_Relation }}</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </nb-accordion-item-body>
-                </nb-accordion-item>
-            </nb-accordion>
+        <div class="d-flex justify-content-center w-100">
+            <div class="row w-100 gap-2">
+                <div class="table-responsive w-100 table-container registration-table p-0">
+                    <table mat-table [dataSource]="subsideriesList">
+                        <ng-container matColumnDef="Subsidery_Name">
+                            <th mat-header-cell *matHeaderCellDef class="px-4">Subsidery Name</th>
+                            <td mat-cell *matCellDef="let element" class="px-4">{{element.Subsidery_Name}}</td>
+                        </ng-container>
+    
+                        <tr mat-header-row *matHeaderRowDef="subsideriesColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: subsideriesColumns;"></tr>
+    
+                        <tr class="mat-row" *matNoDataRow>
+                            <td class="mat-cell" colspan="100%" class="no-data-row">
+                                <nb-icon icon="file-text-outline"></nb-icon>
+                                No Subideries were found.
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="table-responsive w-100 table-container registration-table p-0">
+                    <table mat-table [dataSource]="listOfMajorCustomerList">
+                        <ng-container matColumnDef="Customer_Name">
+                            <th mat-header-cell *matHeaderCellDef>Customer Name</th>
+                            <td mat-cell *matCellDef="let element">{{element.Customer_Name}}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="Location">
+                            <th mat-header-cell *matHeaderCellDef>Location</th>
+                            <td mat-cell *matCellDef="let element">{{element.Location}}</td>
+                        </ng-container>
+    
+                        <tr mat-header-row *matHeaderRowDef="majorCustomersColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: majorCustomersColumns;"></tr>
+    
+                        <tr class="mat-row" *matNoDataRow>
+                            <td class="mat-cell" colspan="100%" class="no-data-row">
+                                <nb-icon icon="file-text-outline"></nb-icon>
+                                No Major Customers were found.
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="table-responsive w-100 table-container registration-table p-0">
+                    <table mat-table [dataSource]="nocilRelatedEmployees">
+                        <ng-container matColumnDef="Employee_Name">
+                            <th mat-header-cell *matHeaderCellDef>Employee Name</th>
+                            <td mat-cell *matCellDef="let element">{{element.Employee_Name}}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="Type_Of_Relation">
+                            <th mat-header-cell *matHeaderCellDef>Type of Relation</th>
+                            <td mat-cell *matCellDef="let element">{{element.Type_Of_Relation}}</td>
+                        </ng-container>
+    
+                        <tr mat-header-row *matHeaderRowDef="nocilRelatedEmployeesColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: nocilRelatedEmployeesColumns;"></tr>
+    
+                        <tr class="mat-row" *matNoDataRow>
+                            <td class="mat-cell" colspan="100%" class="no-data-row">
+                                <nb-icon icon="file-text-outline"></nb-icon>
+                                No NOCIL related Employee found.
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 </section>

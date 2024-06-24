@@ -1,10 +1,10 @@
-import { Component } from "@angular/core";
-import { TankerDetail } from "../../../Models/Dtos";
-import { RegistrationService } from "../../../Services/registration.service";
-import { CommonService } from "../../../Services/common.service";
-import { snackbarStatus } from "../../../Enums/snackbar-status";
-import { MasterService } from "../../../Services/master.service";
-import { TankerType } from "../../../Models/Master";
+import { Component, EventEmitter, Output } from '@angular/core';
+import { TankerDetail } from '../../../Models/Dtos';
+import { RegistrationService } from '../../../Services/registration.service';
+import { CommonService } from '../../../Services/common.service';
+import { snackbarStatus } from '../../../Enums/snackbar-status';
+import { MasterService } from '../../../Services/master.service';
+import { TankerType } from '../../../Models/Master';
 
 @Component({
   selector: "ngx-tanker-details",
@@ -12,6 +12,8 @@ import { TankerType } from "../../../Models/Master";
   styleUrls: ["./tanker-details.component.scss"],
 })
 export class TankerDetailsComponent {
+  @Output() hasTankerDetail: EventEmitter<any> = new EventEmitter();
+
   tankerDetails: TankerDetail = new TankerDetail();
   vendorInfo: any;
   formId: number;
@@ -30,21 +32,28 @@ export class TankerDetailsComponent {
     this.formId = this.vendorInfo.FormId;
     this.getMasterData();
   }
-  getMasterData(): void {
+  getMasterData() {
     this._registration.getFormData(this.formId, "TankerDetails").subscribe({
       next: (res) => {
         if (res) {
+          console.log("Tanker: ",res);
+          this.hasTankerDetail.emit(res.length!=0);
           this.tankerDetails = res as TankerDetail;
           this.capacityoftank = this.tankerDetails[0].Capacity_of_Tanker;
-          if (this.tankerDetails.Tanker_Type_Id != 0) {
+          if(this.tankerDetails.Tanker_Type_Id != 0){
             this.GetTankerDetails();
           }
+        }
+        else{
+          this.hasTankerDetail.emit(false);
         }
       },
       error: (err) => {
         this._commonService.openSnackbar(err, snackbarStatus.Danger);
+        this.hasTankerDetail.emit(false);
       },
     });
+
   }
   GetTankerDetails(): void {
     this._master.getTankerTypes().subscribe({
