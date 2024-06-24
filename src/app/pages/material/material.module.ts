@@ -24,6 +24,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle'
 import { MatToolbarModule } from "@angular/material/toolbar";
+import { MatListModule } from "@angular/material/list"
 
 @NgModule({
   declarations: [],
@@ -69,7 +70,8 @@ import { MatToolbarModule } from "@angular/material/toolbar";
     MatExpansionModule,
     MatSlideToggleModule,
     MatSortModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatListModule
   ],
 
   exports: [
@@ -114,7 +116,8 @@ import { MatToolbarModule } from "@angular/material/toolbar";
     MatExpansionModule,
     MatSlideToggleModule,
     MatSortModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatListModule
   ]
 })
 export class MaterialModule { }

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '../../../Dialogs/confirmation-dialog/confirmation-dialog.component';
@@ -15,6 +15,8 @@ import { RegistrationService } from '../../../Services/registration.service';
 })
 export class TechnicalDetailComponent implements OnInit {
   //@Input() formId: number = 17;
+  @Output() hasTechDetails: EventEmitter<any> = new EventEmitter();
+
   technicalProfileForm: FormGroup;
   technicalProfile: TechnicalProfile = new TechnicalProfile();
   isEditBtn:boolean=true;
@@ -47,12 +49,17 @@ export class TechnicalDetailComponent implements OnInit {
         if(res){
           this.technicalProfile = res as TechnicalProfile;
           this.technicalProfileForm.patchValue(this.technicalProfile);
+          this.hasTechDetails.emit(true);
+        }
+        else{
+          this.hasTechDetails.emit(false);
         }
       },
       error: (err) => {
         this._commonService.openSnackbar(err, snackbarStatus.Danger);
       },
     });
+    
   }
 
   editTechProfile(){
