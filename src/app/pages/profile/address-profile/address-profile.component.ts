@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { Address } from "../../../Models/Dtos";
 import { RegistrationService } from "../../../Services/registration.service";
 import { AddressType } from "../../../Models/Master";
@@ -17,6 +17,8 @@ import { getSession } from "../../../Utils";
 })
 export class AddressProfileComponent implements OnInit {
   //@Input() formId: number = 17;
+  @Output() hasAddress: EventEmitter<boolean> = new EventEmitter();
+
   addresses: Address[] = [];
   addressTypes: AddressType[] = [];
   formId:number;
@@ -36,6 +38,7 @@ export class AddressProfileComponent implements OnInit {
     this.formId = this.vendorInfo.FormId;
 
     this.getMasterData();
+
   }
 
   getAddressTypeById(addressTypeId: number): string {
@@ -52,21 +55,23 @@ export class AddressProfileComponent implements OnInit {
       this._registration.getFormData(this.formId, "Addresses"),
     ]).subscribe({
       next: (res) => {
+        console.log(res);
         if (res[0]) {
           this.addressTypes = res[0] as AddressType[];
-
         }
         if (res[1]) {
           this.addresses = res[1] as Address[];
-
         }
+        this.hasAddress.emit(this.addresses.length!=0);
         this.loader = false;
       },
       error: (err) => {
         this.loader = false;
+        this.hasAddress.emit(false);
         this._commonService.openSnackbar(err, snackbarStatus.Danger);
       },
     });
+    
   }
 
   deleteAddress() {

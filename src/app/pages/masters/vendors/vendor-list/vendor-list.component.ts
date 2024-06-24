@@ -15,6 +15,7 @@ import { VendorMaster } from "../../../../Models/Dtos";
 import { Router } from "@angular/router";
 import { merge } from "rxjs";
 import { setSession } from "../../../../Utils";
+import { MasterService } from "../../../../Services/master.service";
 
 @Component({
   selector: "ngx-vendor-list",
@@ -41,7 +42,8 @@ export class VendorListComponent implements OnInit, OnChanges {
   constructor(
     private _vendor: VendorService,
     private _common: CommonService,
-    private _router: Router
+    private _router: Router,
+    private _master: MasterService
   ) {}
 
   ngOnInit(): void {}
@@ -103,6 +105,18 @@ export class VendorListComponent implements OnInit, OnChanges {
       Vendor_Type : this.dataSource.data[i].Vendor_Type
     };
     setSession("vendorInfo", JSON.stringify(formInfo));
+
+    //this.getVendorProfile(this.dataSource.data[i].Form_Id);
+
     this._router.navigate(["/profile/"]);
+  }
+
+  getVendorProfile(formId: number){
+    this._master.getVendorProfile(formId).subscribe({
+      next: (res)=>{
+        console.log("Vendor Profile: ",res);
+      },
+      error:(err)=> {console.log(err)}
+    });
   }
 }

@@ -1,4 +1,12 @@
-.customer-detail{
+.customer-detail {
     font-size: var(--vp-fs-12);
     font-weight: 500;
+}
+
+.detail-container {
+    table {
+        tr{
+            height: 36px !important;
+        }
+    }
 }
