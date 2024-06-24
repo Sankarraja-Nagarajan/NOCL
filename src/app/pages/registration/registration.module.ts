@@ -22,6 +22,7 @@ import { TankerDetailsComponent } from './tanker-details/tanker-details.componen
 import { AuthGuard } from '../../Guards/auth.guard';
 import { VendorPersonalInfoComponent } from './vendor-personal-info/vendor-personal-info.component';
 import { VendorOrgProfileComponent } from './vendor-org-profile/vendor-org-profile.component';
+import { AdditionalFieldsComponent } from './additional-fields/additional-fields.component';
 
 
 
@@ -53,6 +54,7 @@ const routes: Routes = [
     BankDetailsComponent,
     TransportVendorsPersonalDetailsComponent,
     TankerDetailsComponent,
+    AdditionalFieldsComponent,
   ],
   imports: [
     CommonModule,
