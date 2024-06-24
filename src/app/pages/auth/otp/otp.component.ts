@@ -4,7 +4,6 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { RequestOtp, VerifyOtp } from "../../../Models/authModel";
 import { ActivatedRoute, Router } from "@angular/router";
 import { RegistrationService } from "../../../Services/registration.service";
-import { error } from "console";
 import { Dashboard } from "../../../Models/Dtos";
 import { CommonService } from "../../../Services/common.service";
 import { snackbarStatus } from "../../../Enums/snackbar-status";
@@ -45,7 +44,8 @@ export class OtpComponent implements OnInit {
     private _activatedRoute: ActivatedRoute,
     private _registration: RegistrationService,
     private _commonService: CommonService,
-    private _encryptor: EncryptionService
+    private _encryptor: EncryptionService,
+    
   ) {}
 
   ngOnInit(): void {
@@ -69,10 +69,10 @@ export class OtpComponent implements OnInit {
   }
 
   getSingleFormData() {
-    this.loader = true;
+    
     this._registration.getSingleFormData(this.form_Id).subscribe({
       next: (res) => {
-        this.loader = false;
+        
         if (res) {
           this.singleFormData = res as Dashboard;
           this.onboardingform.get("firmname").patchValue(res.Name);
@@ -81,14 +81,14 @@ export class OtpComponent implements OnInit {
         }
       },
       error: (err) => {
-        this.loader = false;
+        
       },
     });
   }
 
   requestForOtp() {
     this.requestOtp = true;
-    this.loader = true;
+    
     let payload = new RequestOtp();
     payload.FormId = this.form_Id;
     payload.Mobile = this.onboardingform.get("mobile").value;
@@ -97,11 +97,11 @@ export class OtpComponent implements OnInit {
     }
     this._login.requestOtp(payload).subscribe({
       next: (res) => {
-        this.loader = false;
+        
         this._commonService.openSnackbar(res.Message, snackbarStatus.Success);
       },
       error: (err) => {
-        this.loader = false;
+        
       },
     });
   }

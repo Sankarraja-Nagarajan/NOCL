@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { Address } from "../../../Models/Dtos";
 import { RegistrationService } from "../../../Services/registration.service";
 import { AddressType } from "../../../Models/Master";
@@ -8,7 +8,6 @@ import { MasterService } from "../../../Services/master.service";
 import { CommonService } from "../../../Services/common.service";
 import { MatDialog } from "@angular/material/dialog";
 import { ConfirmationDialogComponent } from "../../../Dialogs/confirmation-dialog/confirmation-dialog.component";
-import { getSession } from "../../../Utils";
 
 @Component({
   selector: "ngx-address-profile",
@@ -20,14 +19,14 @@ export class AddressProfileComponent implements OnInit {
   addresses: Address[] = [];
   addressTypes: AddressType[] = [];
   formId:number;
-  loader: boolean = false;
   vendorInfo: any;
 
   constructor(
     private _registration: RegistrationService,
     private _master: MasterService,
     private _commonService: CommonService,
-    private _dialog: MatDialog
+    private _dialog: MatDialog,
+    
   ) {}
 
   ngOnInit(): void {
@@ -46,7 +45,7 @@ export class AddressProfileComponent implements OnInit {
   }
 
   getMasterData() {
-    this.loader = true;
+    
     forkJoin([
       this._master.getAddressTypes(),
       this._registration.getFormData(this.formId, "Addresses"),
@@ -60,10 +59,10 @@ export class AddressProfileComponent implements OnInit {
           this.addresses = res[1] as Address[];
 
         }
-        this.loader = false;
+        
       },
       error: (err) => {
-        this.loader = false;
+        
         this._commonService.openSnackbar(err, snackbarStatus.Danger);
       },
     });

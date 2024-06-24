@@ -35,7 +35,7 @@ export class Sample{
       },
       {
         title: 'Master',
-        icon:'list-outline',
+        icon:'options-outline',
         hidden: this.role != 'Admin',
         children: [
           {

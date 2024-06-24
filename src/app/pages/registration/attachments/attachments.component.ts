@@ -3,10 +3,8 @@ import {
   Input,
   OnChanges,
   OnInit,
-  SimpleChange,
   SimpleChanges,
 } from "@angular/core";
-import { FormGroup } from "@angular/forms";
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { MatTableDataSource } from "@angular/material/table";
 import { AttachmentDialogComponent } from "../../../Dialogs/attachment-dialog/attachment-dialog.component";
@@ -19,10 +17,7 @@ import { AttachmentService } from "../../../Services/attachment.service";
 import { FileSaverService } from "../../../Services/file-saver.service";
 import { AppConfigService } from "../../../Services/app-config.service";
 import { EmitterService } from "../../../Services/emitter.service";
-import { MatAccordion } from "@angular/material/expansion";
 import { getSession } from "../../../Utils";
-import { PreviewDialogComponent } from "../../../Dialogs/preview-dialog/preview-dialog.component";
-
 @Component({
   selector: "ngx-attachments",
   templateUrl: "./attachments.component.html",
@@ -42,7 +37,6 @@ export class AttachmentsComponent implements OnInit, OnChanges {
   ];
 
   attachments: Attachment[] = [];
-  loader: boolean;
   requiredAttachments: Attachment[] = [];
   otherAttachments: Attachment[] = [];
   reqDatasource = new MatTableDataSource(this.requiredAttachments);
@@ -61,13 +55,9 @@ export class AttachmentsComponent implements OnInit, OnChanges {
     private _docService: AttachmentService,
     private _fileSaver: FileSaverService,
     private _config: AppConfigService,
-    private emitterService: EmitterService
+    private emitterService: EmitterService,
+    
   ) {}
-
-  // ngAfterViewInit(): void {
-  //   this.reqDoctypes = this.document;
-  //   this.GetAttachment();
-  // }
 
   ngOnInit(): void {
     const userData = JSON.parse(getSession("userDetails"));
@@ -140,16 +130,16 @@ export class AttachmentsComponent implements OnInit, OnChanges {
   }
 
   removeAttachment(attachmentId: number, i: number) {
-    this.loader = true;
+    
     this._docService.DeleteAttachment(attachmentId).subscribe({
       next: (res) => {
         this.additionalDatasource.data.splice(i, 1);
         this.additionalDatasource._updateChangeSubscription();
-        this.loader = false;
+        
         this._common.openSnackbar(res.Message, snackbarStatus.Success);
       },
       error: (err) => {
-        this.loader = false;
+        
       },
     });
   }
@@ -190,14 +180,14 @@ export class AttachmentsComponent implements OnInit, OnChanges {
         dialogconfig
       );
     } else {
-      this.loader = true;
+      
       this._docService.getFileById(attachment.Attachment_Id).subscribe({
         next: async (res) => {
-          this.loader = false;
+          
           await this._fileSaver.downloadFile(res);
         },
         error: (err) => {
-          this.loader = false;
+          
         },
       });
     }

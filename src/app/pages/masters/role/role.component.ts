@@ -11,51 +11,27 @@ import { snackbarStatus } from "../../../Enums/snackbar-status";
   styleUrls: ["./role.component.scss"],
 })
 export class RoleComponent implements OnInit {
-  loader: boolean = false;
-  roles: Role[] = [
-    { Role_Id: 1, Role_Name: "Admin" },
-    { Role_Id: 2, Role_Name: "PO" },
-    { Role_Id: 1, Role_Name: "Admin" },
-    { Role_Id: 2, Role_Name: "PO" },
-    { Role_Id: 1, Role_Name: "Admin" },
-    { Role_Id: 2, Role_Name: "PO" },
-    { Role_Id: 1, Role_Name: "Admin" },
-    { Role_Id: 2, Role_Name: "PO" },
-    { Role_Id: 1, Role_Name: "Admin" },
-    { Role_Id: 2, Role_Name: "PO" },
-    { Role_Id: 1, Role_Name: "Admin" },
-    { Role_Id: 2, Role_Name: "PO" },
-    { Role_Id: 1, Role_Name: "Admin" },
-    { Role_Id: 2, Role_Name: "PO" },
-    { Role_Id: 1, Role_Name: "Admin" },
-    { Role_Id: 2, Role_Name: "PO" },
-    { Role_Id: 1, Role_Name: "Admin" },
-    { Role_Id: 2, Role_Name: "PO" },
-    { Role_Id: 1, Role_Name: "Admin" },
-    { Role_Id: 2, Role_Name: "PO" },
-    { Role_Id: 1, Role_Name: "Admin" },
-    { Role_Id: 2, Role_Name: "PO" },
-  ];
+  roles: Role[] = [];
   filteredRoles: Role[];
   action: string = "Create";
   roleControl: FormControl = new FormControl();
   role: Role = new Role();
 
-  constructor(private _master: MasterService, private _common: CommonService) {}
+  constructor(private _master: MasterService, private _common: CommonService,) {}
   ngOnInit(): void {
     this.getAllRoles();
   }
 
   getAllRoles() {
-    this.loader = true;
+    
     this._master.getRoles().subscribe({
       next: (res) => {
         this.roles = res as Role[];
         this.filteredRoles = this.roles;
-        this.loader = false;
+        
       },
       error: (err) => {
-        this.loader = false;
+        
       },
     });
   }
@@ -78,12 +54,12 @@ export class RoleComponent implements OnInit {
   }
 
   createRole() {
-    this.loader = true;
+    
     this.role.Role_Name = this.roleControl.value;
     this.role.Role_Id = 0;
     this._master.createRole(this.role).subscribe({
       next: (res) => {
-        this.loader = false;
+        
         if (res) {
           this._common.openSnackbar(
             "Role Added successfully",
@@ -93,7 +69,7 @@ export class RoleComponent implements OnInit {
         }
       },
       error: (err) => {
-        this.loader = false;
+        
       },
     });
   }

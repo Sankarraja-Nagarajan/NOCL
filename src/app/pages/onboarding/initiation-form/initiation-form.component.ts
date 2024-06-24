@@ -8,7 +8,6 @@ import { forkJoin } from "rxjs";
 import { Form } from "../../../Models/Registration";
 import { RegistrationService } from "../../../Services/registration.service";
 import { AuthResponse } from "../../../Models/authModel";
-import { Router } from "@angular/router";
 import { getSession } from "../../../Utils";
 
 @Component({
@@ -22,14 +21,13 @@ export class InitiationFormComponent implements OnInit {
   departments: Department[] = [];
   vendorTypes: VendorType[] = [];
   userData: AuthResponse;
-  loader: boolean = false;
 
   constructor(
     private _fb: FormBuilder,
     private _master: MasterService,
     private _common: CommonService,
     private _registration: RegistrationService,
-    private _router: Router
+    
   ) {}
 
   ngOnInit() {
@@ -61,14 +59,14 @@ export class InitiationFormComponent implements OnInit {
 
   // get All masters
   getAllMasters() {
-    this.loader = true;
+    
     forkJoin([
       this._master.getCompanyCodes(),
       this._master.getDepartments(),
       this._master.getVendorTypes(),
     ]).subscribe({
       next: (res) => {
-        this.loader = false;
+        
         if (res[0]) {
           this.companyCodes = res[0] as CompanyCode[];
         }
@@ -80,7 +78,7 @@ export class InitiationFormComponent implements OnInit {
         }
       },
       error: (err) => {
-        this.loader = false;
+        
         
       },
     });
@@ -98,17 +96,17 @@ export class InitiationFormComponent implements OnInit {
       form.Status_Id = 0;
       form.Vendor_Code = "";
       form.CreatedBy = this.userData.Employee_Id;
-      this.loader = true;
+      
       this._registration.formInitiate(form).subscribe({
         next: (res) => {
-          this.loader = false;
+          
           if (res.Status === 200) {
             this._common.openSnackbar(res.Message, snackbarStatus.Success);
             this.initiationForm.reset();
           }
         },
         error: (err) => {
-          this.loader = false;
+          
           
         },
       });

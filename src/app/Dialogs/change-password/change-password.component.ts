@@ -16,7 +16,6 @@ import { getSession } from "../../Utils";
 export class ChangePasswordComponent implements OnInit {
   changePasswordForm: FormGroup;
   authResponse: AuthResponse = new AuthResponse();
-  loader: boolean = false;
 
   comparePassword: boolean = false;
   verifyPassword: boolean = false;
@@ -27,7 +26,8 @@ export class ChangePasswordComponent implements OnInit {
     private _common: CommonService,
     private _config: AppConfigService,
     private _fb: FormBuilder,
-    private _login: LoginService
+    private _login: LoginService,
+    
   ) {}
 
   ngOnInit(): void {
@@ -54,7 +54,7 @@ export class ChangePasswordComponent implements OnInit {
       !this.comparePassword &&
       !this.verifyPassword
     ) {
-      this.loader = true;
+      
       let update = new UpdatePassword();
       update.CurrentPassword = this.changePasswordForm.value["OldPassword"];
       update.NewPassword = this.changePasswordForm.value["NewPassword"];
@@ -63,7 +63,7 @@ export class ChangePasswordComponent implements OnInit {
       this._login.changePassword(update).subscribe({
         next: (res) => {
           if (res) {
-            this.loader = false;
+            
             this._common.openSnackbar(
               "Password Updated Successfully",
               snackbarStatus.Success
@@ -72,7 +72,7 @@ export class ChangePasswordComponent implements OnInit {
           }
         },
         error: (err) => {
-          this.loader = false;
+          
         },
       });
     } else {
