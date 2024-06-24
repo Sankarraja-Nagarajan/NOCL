@@ -12,7 +12,6 @@ import { AttachmentService } from '../../Services/attachment.service';
 export class PreviewDialogComponent {
 
   fileName: string = "";
-  loader: boolean = false;
   fileData: any;
   attachmentData: any;
   loopingArrayData = [];

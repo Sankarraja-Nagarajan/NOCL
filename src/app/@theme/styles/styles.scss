@@ -330,6 +330,10 @@ nb-select.appearance-outline.status-primary .select-button[disabled] {
   font-weight: 400 !important;
 }
 
+nb-select{
+  background-color: var(--input-basic-background-color);
+}
+
 .error-msg {
   font-size: var(--vp-fs-10);
   font-weight: 600;

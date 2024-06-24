@@ -5,7 +5,6 @@ import {
   RouterStateSnapshot,
   UrlTree,
 } from "@angular/router";
-import { Observable } from "rxjs";
 import { LoginService } from "../Services/login.service";
 import { CommonService } from "../Services/common.service";
 import { snackbarStatus } from "../Enums/snackbar-status";

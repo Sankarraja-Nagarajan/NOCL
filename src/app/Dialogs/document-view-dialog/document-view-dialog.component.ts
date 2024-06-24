@@ -1,10 +1,8 @@
 import { Component, Inject, OnInit, ViewEncapsulation } from "@angular/core";
-import { Attachment } from "../../Models/Dtos";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { AttachmentService } from "../../Services/attachment.service";
 import { FileSaverService } from "../../Services/file-saver.service";
 import { CommonService } from "../../Services/common.service";
-import { snackbarStatus } from "../../Enums/snackbar-status";
 
 @Component({
   selector: "ngx-document-view-dialog",
@@ -14,7 +12,6 @@ import { snackbarStatus } from "../../Enums/snackbar-status";
 })
 export class DocumentViewDialogComponent implements OnInit {
   fileName: string = "";
-  loader: boolean = false;
   attachmentData: any;
   fileData: any;
 
@@ -36,16 +33,16 @@ export class DocumentViewDialogComponent implements OnInit {
   }
 
   getAttachmentById() {
-    this.loader = true;
+    
     this._docService.getFileById(this.data.attachment.Attachment_Id).subscribe({
       next: async (res) => {
         this.fileData = res;
         this.fileName = res.FileName;
         this.attachmentData = await this._fileSaver.getAttachmentData(res);
-        this.loader = false;
+        
       },
       error: (err) => {
-        this.loader = false;
+        
         this._dialogRef.close();
       },
     });
