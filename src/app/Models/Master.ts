@@ -53,3 +53,44 @@ export class VendorGrade {
   Last_Audited_By: string;
   Location: string;
 }
+
+export class Title {
+  Id: number;
+  Title_Name: string;
+}
+
+export class GSTVenClass {
+  Id: number;
+  Code: string;
+  Description: string;
+}
+
+export class Country {
+  Id: number;
+  Code: string;
+  Name: string;
+}
+
+export class Industry{
+  Id: number;
+  Code: string;
+  Description: string;
+}
+
+export class Incoterms{
+  Id: number;
+  Code: string;
+  Description: string;
+}
+
+export class ReconciliationAccount{
+  Id: number;
+  Code: string;
+  Description: string;
+}
+
+export class SchemaGroup{
+  Id: number;
+  Code: string;
+  Description: string;
+}

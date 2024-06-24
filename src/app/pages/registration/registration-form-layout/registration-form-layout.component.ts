@@ -4,6 +4,7 @@ import { DomesticAndImportForm } from "../../../Models/DomesticAndImportForm";
 import { ActivatedRoute, Router } from "@angular/router";
 import { RegistrationService } from "../../../Services/registration.service";
 import {
+  AdditionalFieldsDto,
   Approval,
   FormSubmitTemplate,
   Rejection,
@@ -34,6 +35,8 @@ import { VendorOrgProfileComponent } from "../vendor-org-profile/vendor-org-prof
 import { VendorPersonalInfoComponent } from "../vendor-personal-info/vendor-personal-info.component";
 import { PreviewDialogComponent } from "../../../Dialogs/preview-dialog/preview-dialog.component";
 import { AppConfigService } from "../../../Services/app-config.service";
+import { AdditionalFieldsComponent } from "../additional-fields/additional-fields.component";
+import { EmitterService } from "../../../Services/emitter.service";
 
 @Component({
   selector: "ngx-registration-form-layout",
@@ -63,6 +66,8 @@ export class RegistrationFormLayoutComponent implements OnInit {
   tankerDetailsComponent: TankerDetailsComponent;
   @ViewChild(AttachmentsComponent)
   attachmentsComponent: AttachmentsComponent;
+  @ViewChild(AdditionalFieldsComponent)
+  additionalFieldsComponent: AdditionalFieldsComponent;
 
   form_Id: number = 1;
   v_Id: number = 1;
@@ -88,7 +93,7 @@ export class RegistrationFormLayoutComponent implements OnInit {
     private _router: Router,
     private _encryptor: EncryptionService,
     private _appConfig: AppConfigService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
 
@@ -243,31 +248,39 @@ export class RegistrationFormLayoutComponent implements OnInit {
   }
   // Approval API call
   approveForm(event: Event) {
-    event.preventDefault();
-    let approval = new Approval();
-    approval.Form_Id = this.form_Id;
-    approval.VendorTypeId = this.v_Id;
-    approval.EmployeeId = this.authResponse.Employee_Id;
-    approval.RoleId = this.authResponse?.Role_Id;
-    approval.RoleName = this.authResponse?.Role;
-    approval.RmEmployeeId = this.authResponse.RmEmployee_Id;
-    approval.RmRoleId = this.authResponse.RmRole_Id;
-    approval.RmRoleName = this.authResponse.RmRole;
-    this.loader = true;
-    this._registration.formApproval(approval).subscribe({
-      next: (res) => {
-        this.loader = false;
-        if (res && res.Status == 200) {
-          this._commonService.openSnackbar(res.Message, snackbarStatus.Success);
-          this._router.navigate(["/onboarding/dashboard"]);
-        }
-      },
-      error: (err) => {
-        this.loader = false;
-        this._commonService.openSnackbar(err, snackbarStatus.Danger);
-      },
-    });
+    if (this.additionalFieldsComponent.checkRoleAndFormValid()) {
+      let approval = new Approval();
+      approval.Form_Id = this.form_Id;
+      approval.VendorTypeId = this.v_Id;
+      approval.EmployeeId = this.authResponse.Employee_Id;
+      approval.RoleId = this.authResponse?.Role_Id;
+      approval.RoleName = this.authResponse?.Role;
+      approval.RmEmployeeId = this.authResponse.RmEmployee_Id;
+      approval.RmRoleId = this.authResponse.RmRole_Id;
+      approval.RmRoleName = this.authResponse.RmRole;
+      approval.AdditionalFields = this.additionalFieldsComponent.getAllAdditionalData();
+
+      this.loader = true;
+      this._registration.formApproval(approval).subscribe({
+        next: (res) => {
+          this.loader = false;
+          if (res && res.Status == 200) {
+            this._commonService.openSnackbar(res.Message, snackbarStatus.Success);
+            this._router.navigate(["/onboarding/dashboard"]);
+          }
+        },
+        error: (err) => {
+          this.loader = false;
+          this._commonService.openSnackbar(err, snackbarStatus.Danger);
+        },
+      });
+    }
+    else{
+      this._commonService.openSnackbar("Please Fill out Additional Fields Information.",snackbarStatus.Danger);
+    }
   }
+
+
 
   //#region Submit function call based on Vendor Type
   domesticAndImportFormSubmit() {
@@ -458,22 +471,22 @@ export class RegistrationFormLayoutComponent implements OnInit {
         break;
       case 2:
         this.formsToShow = this._appConfig.getSubItem(
-          "FormsToShow","2"
+          "FormsToShow", "2"
         ) as FormsToShow;
         break;
       case 3:
         this.formsToShow = this._appConfig.getSubItem(
-          "FormsToShow","3"
+          "FormsToShow", "3"
         ) as FormsToShow;
         break;
       case 4:
         this.formsToShow = this._appConfig.getSubItem(
-          "FormsToShow","4"
+          "FormsToShow", "4"
         ) as FormsToShow;
         break;
       case 5:
         this.formsToShow = this._appConfig.getSubItem(
-          "FormsToShow","5"
+          "FormsToShow", "5"
         ) as FormsToShow;
         break;
     }
@@ -528,7 +541,7 @@ export class RegistrationFormLayoutComponent implements OnInit {
         this.loader = false;
         this.openDialog(formSubmitTemplate);
       },
-      error:(err)=>{
+      error: (err) => {
         this.loader = false;
       }
     });
@@ -544,7 +557,7 @@ export class RegistrationFormLayoutComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe({
-      next:()=>{
+      next: () => {
         this.loader = true;
         this._registration.formSubmit(formSubmitTemplate).subscribe({
           next: (res) => {

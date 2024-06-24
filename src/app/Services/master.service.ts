@@ -76,6 +76,54 @@ export class MasterService {
     return this._http.get(URL);
   }
 
+  // get Title
+  getTitle(): Observable<any> {
+    const URL = this.baseURL + "/Master/GetTitle";
+    return this._http.get(URL);
+  }
+
+  // get GST Ven Class
+  getGSTVenClass(): Observable<any> {
+    const URL = this.baseURL + "/Master/GetGSTVenClass";
+    return this._http.get(URL);
+  }
+
+  // get Country
+  getCountry():Observable<any>{
+    const URL = this.baseURL + "/Master/GetCountry";
+    return this._http.get(URL);
+  }
+
+  // get Region
+  getRegion():Observable<any>{
+    const URL = this.baseURL + "/Master/GetRegionByCompanyCode";
+    return this._http.get(URL);
+  }
+
+  // get Industry
+  getIndustry():Observable<any>{
+    const URL = this.baseURL + "/Master/GetIndustry";
+    return this._http.get(URL);
+  }
+
+   // get Incoterms
+   getIncoterms():Observable<any>{
+    const URL = this.baseURL + "/Master/GetIncoterms";
+    return this._http.get(URL);
+  }
+
+   // get ReconciliationAccounts
+   getReconciliationAccounts():Observable<any>{
+    const URL = this.baseURL + "/Master/GetReconciliationAccounts";
+    return this._http.get(URL);
+  }
+
+   // get SchemaGroups
+   getSchemaGroups():Observable<any>{
+    const URL = this.baseURL + "/Master/GetSchemaGroups";
+    return this._http.get(URL);
+  }
+
   //#endregion
 
   //#region Create Masters

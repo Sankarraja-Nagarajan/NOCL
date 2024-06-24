@@ -7,15 +7,15 @@ import {
 } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MatTableDataSource } from "@angular/material/table";
-import { Address } from "../../../Models/Dtos";
+import { Address, Region } from "../../../Models/Dtos";
 import { CommonService } from "../../../Services/common.service";
-import { AddressType } from "../../../Models/Master";
+import { AddressType, Country } from "../../../Models/Master";
 import { MasterService } from "../../../Services/master.service";
 import { snackbarStatus } from "../../../Enums/snackbar-status";
 import { AuthResponse } from "../../../Models/authModel";
 import { RegistrationService } from "../../../Services/registration.service";
 import { forkJoin } from "rxjs";
-import { getSession } from "../../../Utils";
+import { getSession, isArrayEmpty } from "../../../Utils";
 
 @Component({
   selector: "ngx-address",
@@ -23,14 +23,27 @@ import { getSession } from "../../../Utils";
   styleUrls: ["./address.component.scss"],
 })
 export class AddressComponent implements OnInit, OnChanges {
+
   @Input() form_Id: number;
   @Input() gstAddress: string[] = [];
   addresses: Address[] = [];
+  Countries: Country[] = [];
+  Regions: Region[] = [];
   role: string = "";
+  regionsForSelectedCountry: any;
+
   dataSource = new MatTableDataSource(this.addresses);
   displayedColumns: string[] = [
     "addressType_id",
-    "address",
+    "houseno",
+    "street_2",
+    "street_3",
+    "street_4",
+    "district",
+    "postalcode",
+    "city",
+    "country",
+    "region",
     "tel",
     "fax",
     "website",
@@ -45,13 +58,21 @@ export class AddressComponent implements OnInit, OnChanges {
     private _commonService: CommonService,
     private _master: MasterService,
     private _registration: RegistrationService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     // address form Initialization
     this.addressForm = this._fb.group({
       Address_Type_Id: ["", [Validators.required]],
-      AddressData: ["", [Validators.required]],
+      House_No: ["", [Validators.required, Validators.maxLength(60)]],
+      Street_2: ["", [Validators.required, Validators.maxLength(40)]],
+      Street_3: ["", [Validators.required, Validators.maxLength(40)]],
+      Street_4: ["", [Validators.required, Validators.maxLength(40)]],
+      District: ["", [Validators.maxLength(8)]],
+      Postal_Code: ["", [Validators.maxLength(10)]],
+      City: ["", [Validators.maxLength(40)]],
+      Country_Code: ["", [Validators.required, Validators.maxLength(3)]],
+      Region_Id: ["", [Validators.required]],
       Tel: ["", [Validators.maxLength(20)]],
       Fax: ["", [Validators.maxLength(20)]],
       Website: ["", [Validators.maxLength(100)]],
@@ -61,6 +82,8 @@ export class AddressComponent implements OnInit, OnChanges {
     this.getMasterData();
     const userData = JSON.parse(getSession("userDetails"));
     this.role = userData ? userData.Role : "";
+
+    this.getCountryAndRegion();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -70,7 +93,6 @@ export class AddressComponent implements OnInit, OnChanges {
         address.Address_Id = 0;
         address.Form_Id = this.form_Id;
         address.Address_Type_Id = 1;
-        address.AddressData = element;
         this.dataSource.data.push(address);
       });
       this.dataSource._updateChangeSubscription();
@@ -85,7 +107,13 @@ export class AddressComponent implements OnInit, OnChanges {
   // Add address to the table
   addAddress() {
     if (this.addressForm.valid) {
-      this.dataSource.data.push(this.addressForm.value);
+      let address = new Address();
+      address = this.addressForm.value;
+      const Name = this.Countries.filter(x => x.Code == address.Country_Code);
+      address.Country_Name = !isArrayEmpty(Name) ? Name[0].Name : "";
+      const Region = this.Regions.filter(x => x.Id == address.Region_Id);
+      address.Region_Name = !isArrayEmpty(Region) ? Region[0].Name : "";
+      this.dataSource.data.push(address);
       this.dataSource._updateChangeSubscription();
       this.addressForm.reset();
     } else {
@@ -170,4 +198,32 @@ export class AddressComponent implements OnInit, OnChanges {
       this.addressForm.markAllAsTouched();
     }
   }
+
+
+  getCountryAndRegion() {
+    forkJoin([
+      this._master.getCountry(),
+      this._master.getRegion(),
+    ]).subscribe({
+      next: (res) => {
+        if (res[0]) {
+          this.Countries = res[0] as Country[];
+        }
+        if (res[1]) {
+          this.Regions = res[1] as Region[];
+        }
+      },
+      error: (err) => { },
+    });
+  }
+
+  onChange(event: any) {
+    this.regionsForSelectedCountry = this.Regions.filter(region => region.Country_Code === event);
+  }
+
 }
+
+
+
+
+

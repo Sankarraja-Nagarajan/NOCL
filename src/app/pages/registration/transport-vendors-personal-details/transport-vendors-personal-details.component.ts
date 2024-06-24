@@ -7,6 +7,9 @@ import { AuthResponse } from "../../../Models/authModel";
 import { RegistrationService } from "../../../Services/registration.service";
 import { snackbarStatus } from "../../../Enums/snackbar-status";
 import { getSession } from "../../../Utils";
+import { GSTVenClass, Title } from "../../../Models/Master";
+import { forkJoin } from "rxjs";
+import { MasterService } from "../../../Services/master.service";
 
 @Component({
   selector: "ngx-transport-vendors-personal-details",
@@ -19,18 +22,23 @@ export class TransportVendorsPersonalDetailsComponent {
   transporterVendorsForm: FormGroup;
   authResponse: AuthResponse;
   personalId: number = 0;
+  titles: Title[] = [];
+  GST: GSTVenClass[] = [];
 
   constructor(
     private _fb: FormBuilder,
     private _commonService: CommonService,
     private _registration: RegistrationService,
-    private _common: CommonService
+    private _common: CommonService,
+    private _master:MasterService
   ) {}
 
   ngOnInit(): void {
     this.transporterVendorsForm = this._fb.group({
+      Title_Id: ["", [Validators.required]],
       Name_of_Transporter: ["", [Validators.required]],
       Date_of_Establishment: [""],
+      GSTVenClass_Id:[""],
       No_of_Own_Vehicles: ["", [Validators.required]],
       No_of_Drivers: ["", [Validators.required]],
       Nicerglobe_Registration: [""],
@@ -53,6 +61,8 @@ export class TransportVendorsPersonalDetailsComponent {
           this._commonService.openSnackbar(err, snackbarStatus.Danger);
         },
       });
+
+      this.getTitleAndGSTVenClass();
   }
 
   // validations
@@ -78,4 +88,22 @@ export class TransportVendorsPersonalDetailsComponent {
     transportVendorPersonalData.Form_Id = this.form_Id;
     return transportVendorPersonalData;
   }
+
+    // Get Title and GSt Ven Class
+    getTitleAndGSTVenClass() {
+      forkJoin([
+        this._master.getTitle(),
+        this._master.getGSTVenClass(),
+      ]).subscribe({
+        next: (res) => {
+          if (res[0]) {
+            this.titles = res[0] as Title[];
+          }
+          if (res[1]) {
+            this.GST = res[1] as GSTVenClass[];
+          }
+        },
+        error: (err) => {},
+      });
+    }
 }

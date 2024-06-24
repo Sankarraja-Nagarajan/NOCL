@@ -64,18 +64,12 @@ export class AttachmentsComponent implements OnInit, OnChanges {
     private emitterService: EmitterService
   ) {}
 
-  // ngAfterViewInit(): void {
-  //   this.reqDoctypes = this.document;
-  //   this.GetAttachment();
-  // }
-
   ngOnInit(): void {
     const userData = JSON.parse(getSession("userDetails"));
     this.role = userData ? userData.Role : "";
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log(changes);
     if (changes.v_Id) {
       this.v_Id = changes.v_Id.currentValue;
       this.reqDoctypes = this._config
