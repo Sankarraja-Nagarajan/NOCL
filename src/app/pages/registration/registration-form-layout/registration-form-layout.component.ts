@@ -5,7 +5,6 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { RegistrationService } from "../../../Services/registration.service";
 import {
   AdditionalFieldsDto,
-  AdditionalFieldsDto,
   Approval,
   FormSubmitTemplate,
   Rejection,
@@ -38,8 +37,6 @@ import { PreviewDialogComponent } from "../../../Dialogs/preview-dialog/preview-
 import { AppConfigService } from "../../../Services/app-config.service";
 import { AdditionalFieldsComponent } from "../additional-fields/additional-fields.component";
 import { EmitterService } from "../../../Services/emitter.service";
-import { AdditionalFieldsComponent } from "../additional-fields/additional-fields.component";
-import { EmitterService } from "../../../Services/emitter.service";
 
 @Component({
   selector: "ngx-registration-form-layout",
@@ -69,8 +66,6 @@ export class RegistrationFormLayoutComponent implements OnInit {
   tankerDetailsComponent: TankerDetailsComponent;
   @ViewChild(AttachmentsComponent)
   attachmentsComponent: AttachmentsComponent;
-  @ViewChild(AdditionalFieldsComponent)
-  additionalFieldsComponent: AdditionalFieldsComponent;
   @ViewChild(AdditionalFieldsComponent)
   additionalFieldsComponent: AdditionalFieldsComponent;
 
@@ -264,17 +259,17 @@ export class RegistrationFormLayoutComponent implements OnInit {
       approval.RmRoleName = this.authResponse.RmRole;
       approval.AdditionalFields = this.additionalFieldsComponent.getAllAdditionalData();
 
-      this.loader = true;
+      
       this._registration.formApproval(approval).subscribe({
         next: (res) => {
-          this.loader = false;
+          
           if (res && res.Status == 200) {
             this._commonService.openSnackbar(res.Message, snackbarStatus.Success);
             this._router.navigate(["/onboarding/dashboard"]);
           }
         },
         error: (err) => {
-          this.loader = false;
+          
           this._commonService.openSnackbar(err, snackbarStatus.Danger);
         },
       });
