@@ -55,4 +55,6 @@ export class AdditionalFieldsDto {
     GrBased: string;
     SrvBased: string;
     Search_Term: string;
+    PO_Code: string;
+    AccountGroup_Code:string;
 }

@@ -71,25 +71,36 @@ export class Country {
   Name: string;
 }
 
-export class Industry{
+export class Industry {
   Id: number;
   Code: string;
   Description: string;
 }
 
-export class Incoterms{
+export class Incoterms {
   Id: number;
   Code: string;
   Description: string;
 }
 
-export class ReconciliationAccount{
+export class ReconciliationAccount {
   Id: number;
   Code: string;
   Description: string;
 }
 
-export class SchemaGroup{
+export class SchemaGroup {
+  Id: number;
+  Code: string;
+  Description: string;
+}
+
+export class PurchaseOrganization {
+  PO_Code: string;
+  Description: string;
+}
+
+export class VendorAccountGroup {
   Id: number;
   Code: string;
   Description: string;

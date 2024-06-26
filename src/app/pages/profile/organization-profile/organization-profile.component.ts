@@ -84,7 +84,7 @@ export class OrganizationProfileComponent implements OnInit {
           this.subsideriesList = res[3] as Subsideries[];
         }
         if (res[4]) {
-          this.listOfMajorCustomerList = res[4] as MajorCustomer[];
+          this.listOfMajorCustomerList = res[4] as MajorCustomer[];          
         }
         if (res[5]) {
           this.nocilRelatedEmployees = res[5] as NocilRelatedEmployee[];

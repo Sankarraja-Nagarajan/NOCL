@@ -89,38 +89,50 @@ export class MasterService {
   }
 
   // get Country
-  getCountry():Observable<any>{
+  getCountry(): Observable<any> {
     const URL = this.baseURL + "/Master/GetCountry";
     return this._http.get(URL);
   }
 
   // get Region
-  getRegion():Observable<any>{
+  getRegion(): Observable<any> {
     const URL = this.baseURL + "/Master/GetRegionByCompanyCode";
     return this._http.get(URL);
   }
 
   // get Industry
-  getIndustry():Observable<any>{
+  getIndustry(): Observable<any> {
     const URL = this.baseURL + "/Master/GetIndustry";
     return this._http.get(URL);
   }
 
-   // get Incoterms
-   getIncoterms():Observable<any>{
+  // get Incoterms
+  getIncoterms(): Observable<any> {
     const URL = this.baseURL + "/Master/GetIncoterms";
     return this._http.get(URL);
   }
 
-   // get ReconciliationAccounts
-   getReconciliationAccounts():Observable<any>{
+  // get ReconciliationAccounts
+  getReconciliationAccounts(): Observable<any> {
     const URL = this.baseURL + "/Master/GetReconciliationAccounts";
     return this._http.get(URL);
   }
 
-   // get SchemaGroups
-   getSchemaGroups():Observable<any>{
+  // get SchemaGroups
+  getSchemaGroups(): Observable<any> {
     const URL = this.baseURL + "/Master/GetSchemaGroups";
+    return this._http.get(URL);
+  }
+
+  //get PurchaseOrganizations
+  getPurchaseOrganization(): Observable<any> {
+    const URL = this.baseURL + "/Master/GetPurchaseOrganization";
+    return this._http.get(URL);
+  }
+
+  //get AccountGroup
+  getAccountGroup():Observable<any>{
+    const URL = this.baseURL + "/Master/GetVendorAccountGroup";
     return this._http.get(URL);
   }
 

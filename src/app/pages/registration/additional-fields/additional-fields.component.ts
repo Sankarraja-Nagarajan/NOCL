@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MasterService } from '../../../Services/master.service';
 import { forkJoin } from 'rxjs';
-import { Incoterms, Industry, ReconciliationAccount, SchemaGroup } from '../../../Models/Master';
+import { Incoterms, Industry, PurchaseOrganization, ReconciliationAccount, SchemaGroup, VendorAccountGroup } from '../../../Models/Master';
 import { AuthResponse } from '../../../Models/authModel';
 import { AdditionalFieldsDto } from '../../../Models/Registration';
 import { getSession, isNullOrEmpty } from '../../../Utils';
@@ -21,6 +21,8 @@ export class AdditionalFieldsComponent implements OnInit {
   Incoterms: Incoterms[] = [];
   Reconciliation: ReconciliationAccount[] = [];
   SchemaGroup: SchemaGroup[] = [];
+  PurchaseOrganizations: PurchaseOrganization[] = [];
+  VendorAccountGroups:VendorAccountGroup[]=[];
   authResponse: AuthResponse;
   additionalDto: AdditionalFieldsDto;
   @Input() form_Id: number;
@@ -47,7 +49,9 @@ export class AdditionalFieldsComponent implements OnInit {
       Schema_Id: [""],
       GrBased: ["X", [Validators.required]],
       SrvBased: ["X", [Validators.required]],
-      Search_Term: ["", [Validators.required]]
+      Search_Term: ["", [Validators.required]],
+      PO_Code: [""],
+      AccountGroup_Id:["",[Validators.required]]
     });
 
     if (this.authResponse.Role.includes('PO')) {
@@ -70,6 +74,8 @@ export class AdditionalFieldsComponent implements OnInit {
       this._master.getIncoterms(),
       this._master.getReconciliationAccounts(),
       this._master.getSchemaGroups(),
+      this._master.getPurchaseOrganization(),
+      this._master.getAccountGroup(),
     ]).subscribe({
       next: (res) => {
         if (res[0]) {
@@ -83,6 +89,12 @@ export class AdditionalFieldsComponent implements OnInit {
         }
         if (res[3]) {
           this.SchemaGroup = res[3] as SchemaGroup[];
+        }
+        if (res[4]) {
+          this.PurchaseOrganizations = res[4] as PurchaseOrganization[];
+        }
+        if(res[5]){
+          this.VendorAccountGroups=res[5] as VendorAccountGroup[];
         }
       },
       error: (err) => { },

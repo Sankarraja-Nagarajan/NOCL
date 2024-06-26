@@ -3,32 +3,41 @@
         <div class="row w-100">
             <form [formGroup]="commercialProfileForm">
                 <div class="row mb-2">
-                    <div class="col-sm-4">
+                    <div class="col-sm-4 d-flex justify-content-between align-items-center">
                         <label class="input-label-text"> Financial Credit Rating </label>
+                        <span class="d-none d-md-block">:</span>
                     </div>
                     <div class="col-sm-8">
-                        <div class="input-group">
+                        <div class="input-group" *ngIf="role==='Vendor'">
                             <input nbInput fullWidth fieldSize="small" class="input-border"
                                 formControlName="Financial_Credit_Rating" placeholder="Enter Financial credit rating" />
+                        </div>
+                        <div class="col-md fw-bold" *ngIf="role!=='Vendor'">
+                            <span class="detail-type">{{ commercialProfile.Financial_Credit_Rating || '-' }} </span>
                         </div>
                     </div>
                 </div>
     
                 <div class="row mb-2">
-                    <div class="col-sm-4">
+                    <div class="col-sm-4 d-flex justify-content-between align-items-center">
                         <label class="input-label-text"> Agency Name </label>
+                        <span class="d-none d-md-block">:</span>
                     </div>
-                    <div class="col-sm-8">
+                    <div class="col-sm-8" *ngIf="role==='Vendor'">
                         <input nbInput fullWidth fieldSize="small" class="input-border" formControlName="Agency_Name"
                             placeholder="Enter Agency Name" />
+                    </div>
+                    <div class="col-md fw-bold" *ngIf="role!=='Vendor'">
+                        <span class="detail-type">{{ commercialProfile.Agency_Name || '-' }} </span>
                     </div>
                 </div>
     
                 <div class="row mb-2">
-                    <div class="col-sm-4">
+                    <div class="col-sm-4 d-flex justify-content-between align-items-center">
                         <label class="input-label-text"> PAN </label>
+                        <span class="d-none d-md-block">:</span>
                     </div>
-                    <div class="col-sm-8">
+                    <div class="col-sm-8" *ngIf="role==='Vendor'">
                         <input nbInput fullWidth fieldSize="small" class="input-border" formControlName="PAN"
                             placeholder="Enter PAN Number" maxlength="10" />
                         <mat-error
@@ -38,26 +47,44 @@
                             *ngIf="this.commercialProfileForm.get('PAN').hasError('required') && this.commercialProfileForm.get('PAN').touched"
                             class="error-msg"> PAN Number is required </mat-error>
                     </div>
+                    <div class="col-md fw-bold" *ngIf="role!=='Vendor'">
+                        <span class="detail-type">{{ commercialProfile.PAN || '-'}} </span>
+                    </div>
                 </div>
     
                 <div class="row mb-2">
-                    <div class="col-sm-4">
+                    <div class="col-sm-4 d-flex justify-content-between align-items-center">
                         <label class="input-label-text"> GSTIN </label>
+                        <span class="d-none d-md-block">:</span>
                     </div>
-                    <div class="col-sm-8">
+                    <div class="col-sm-8" *ngIf="role==='Vendor'">
                         <input nbInput fullWidth fieldSize="small" class="input-border" formControlName="GSTIN"
                             placeholder="Enter your GSTIN" maxlength="15" />
                         <mat-error
                             *ngIf="this.commercialProfileForm.get('GSTIN').hasError('pattern') && this.commercialProfileForm.get('GSTIN').touched"
                             class="error-msg"> Invalid GSTIN Number</mat-error>
                     </div>
+                    <div class="col-md fw-bold" *ngIf="role!=='Vendor'">
+                        <span class="detail-type">{{ commercialProfile.GSTIN || '-' }} </span>
+                    </div>
+                </div>
+
+                <div class="row mb-2" *ngIf="(commercialProfile.MSME_Type == '' || commercialProfile.MSME_Number == '') && role !== 'Vendor'">
+                    <div class="col-sm-4 d-flex justify-content-between align-items-center">
+                        <label class="input-label-text"> MSME </label>
+                        <span class="d-none d-md-block">:</span>
+                    </div>
+                    <div class="col-md fw-bold">
+                        <span class="detail-type"> Not Available </span>
+                    </div>
                 </div>
     
-                <div class="row mb-2">
-                    <div class="col-sm-4">
+                <div class="row mb-2" *ngIf="commercialProfile.MSME_Type != '' && commercialProfile.MSME_Number != ''">
+                    <div class="col-sm-4 d-flex justify-content-between align-items-center">
                         <label class="input-label-text"> MSME Type </label>
+                        <span class="d-none d-md-block">:</span>
                     </div>
-                    <div class="col-sm-8">
+                    <div class="col-sm-8" *ngIf="role==='Vendor'">
                         <nb-select fullWidth placeholder="Select MSME Type" size="small" status="primary"
                             formControlName="MSME_Type">
                             <nb-option *ngFor="let msme of msmeTypes" [value]="msme">{{msme}}</nb-option>
@@ -66,13 +93,17 @@
                             *ngIf="this.commercialProfileForm.get('MSME_Type').hasError('required') && this.commercialProfileForm.get('MSME_Type').touched"
                             class="error-msg"> MSME Type is required </mat-error>
                     </div>
+                    <div class="col-md fw-bold" *ngIf="role!=='Vendor'">
+                        <span class="detail-type"> {{ commercialProfile.MSME_Type }} </span>
+                    </div>
                 </div>
     
-                <div class="row mb-2">
-                    <div class="col-sm-4">
+                <div class="row mb-2" *ngIf="commercialProfile.MSME_Type != '' && commercialProfile.MSME_Number != ''">
+                    <div class="col-sm-4 d-flex justify-content-between align-items-center">
                         <label class="input-label-text"> MSME Number </label>
+                        <span class="d-none d-md-block">:</span>
                     </div>
-                    <div class="col-sm-8">
+                    <div class="col-sm-8" *ngIf="role==='Vendor'">
                         <input nbInput fullWidth fieldSize="small" class="input-border" formControlName="MSME_Number"
                             placeholder="Enter MSME Number" />
                         <mat-error
@@ -82,20 +113,27 @@
                             *ngIf="this.commercialProfileForm.get('MSME_Number').hasError('pattern') && this.commercialProfileForm.get('MSME_Number').touched"
                             class="error-msg"> Invalid MSME Number </mat-error>
                     </div>
+                    <div class="col-md fw-bold" *ngIf="role!=='Vendor'">
+                        <span class="detail-type"> {{ commercialProfile.MSME_Number }} </span>
+                    </div>
                 </div>
     
                 <div class="row mb-2">
-                    <div class="col-sm-4">
+                    <div class="col-sm-4 d-flex justify-content-between align-items-center">
                         <label class="input-label-text"> Service Category </label>
+                        <span class="d-none d-md-block">:</span>
                     </div>
-                    <div class="col-sm-8">
+                    <div class="col-sm-8" *ngIf="role==='Vendor'">
                         <input nbInput fullWidth fieldSize="small" class="input-border" formControlName="ServiceCategory"
                             placeholder="Enter Service Category" />
+                    </div>
+                    <div class="col-md fw-bold" *ngIf="role!=='Vendor'">
+                        <span class="detail-type"> {{ commercialProfile.ServiceCategory || '-' }} </span>
                     </div>
                 </div>
             </form>
 
-            <div class="d-flex justify-content-end w-100 mt-2">
+            <div class="d-flex justify-content-end w-100 mt-2" *ngIf="role==='Vendor'">
                 <button class="btn btn-design center-flexBox" *ngIf="isEditBtn" (click)="editCommProfile()">
                     Edit
                 </button>

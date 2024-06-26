@@ -8,6 +8,7 @@ import { RegistrationService } from "../../../Services/registration.service";
 import { ConfirmationDialogComponent } from "../../../Dialogs/confirmation-dialog/confirmation-dialog.component";
 import { snackbarStatus } from "../../../Enums/snackbar-status";
 import { forkJoin } from "rxjs/internal/observable/forkJoin";
+import { getSession } from "../../../Utils";
 
 @Component({
   selector: "ngx-contact-profile",
@@ -22,6 +23,7 @@ export class ContactProfileComponent implements OnInit {
   contactTypes: ContactType[] = [];
   vendorInfo:any;
   formId:number;
+  role:string;
   constructor(private _registration: RegistrationService,
     private _master: MasterService,
     private _commonService: CommonService,
@@ -31,6 +33,7 @@ export class ContactProfileComponent implements OnInit {
     let vInfo = sessionStorage.getItem("vendorInfo");
     this.vendorInfo    = JSON.parse(vInfo);
     this.formId = this.vendorInfo.FormId;
+    this.role = getSession('userDetails')['Role'];
     this.getMasterData();
   }
 

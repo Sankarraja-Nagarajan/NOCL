@@ -91,8 +91,7 @@ export class RegistrationFormLayoutComponent implements OnInit {
     private _dialog: MatDialog,
     private _router: Router,
     private _encryptor: EncryptionService,
-    private _appConfig: AppConfigService,
-    
+    private _appConfig: AppConfigService
   ) {}
 
   ngOnInit(): void {
@@ -259,14 +258,18 @@ export class RegistrationFormLayoutComponent implements OnInit {
       approval.RmRoleId = this.authResponse.RmRole_Id;
       approval.RmRoleName = this.authResponse.RmRole;
       approval.AdditionalFields = this.additionalFieldsComponent.getAllAdditionalData();
+
+      
       this._registration.formApproval(approval).subscribe({
         next: (res) => {
+          
           if (res && res.Status == 200) {
             this._commonService.openSnackbar(res.Message, snackbarStatus.Success);
             this._router.navigate(["/onboarding/dashboard"]);
           }
         },
         error: (err) => {
+          
           this._commonService.openSnackbar(err, snackbarStatus.Danger);
         },
       });
