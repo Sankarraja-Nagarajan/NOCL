@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { RegistrationService } from "../../../Services/registration.service";
 import {
   AdditionalFieldsDto,
+  AdditionalFieldsDto,
   Approval,
   FormSubmitTemplate,
   Rejection,
@@ -35,6 +36,8 @@ import { VendorOrgProfileComponent } from "../vendor-org-profile/vendor-org-prof
 import { VendorPersonalInfoComponent } from "../vendor-personal-info/vendor-personal-info.component";
 import { PreviewDialogComponent } from "../../../Dialogs/preview-dialog/preview-dialog.component";
 import { AppConfigService } from "../../../Services/app-config.service";
+import { AdditionalFieldsComponent } from "../additional-fields/additional-fields.component";
+import { EmitterService } from "../../../Services/emitter.service";
 import { AdditionalFieldsComponent } from "../additional-fields/additional-fields.component";
 import { EmitterService } from "../../../Services/emitter.service";
 
@@ -68,6 +71,8 @@ export class RegistrationFormLayoutComponent implements OnInit {
   attachmentsComponent: AttachmentsComponent;
   @ViewChild(AdditionalFieldsComponent)
   additionalFieldsComponent: AdditionalFieldsComponent;
+  @ViewChild(AdditionalFieldsComponent)
+  additionalFieldsComponent: AdditionalFieldsComponent;
 
   form_Id: number = 1;
   v_Id: number = 1;
@@ -91,8 +96,7 @@ export class RegistrationFormLayoutComponent implements OnInit {
     private _dialog: MatDialog,
     private _router: Router,
     private _encryptor: EncryptionService,
-    private _appConfig: AppConfigService,
-    
+    private _appConfig: AppConfigService
   ) {}
 
   ngOnInit(): void {
@@ -259,14 +263,18 @@ export class RegistrationFormLayoutComponent implements OnInit {
       approval.RmRoleId = this.authResponse.RmRole_Id;
       approval.RmRoleName = this.authResponse.RmRole;
       approval.AdditionalFields = this.additionalFieldsComponent.getAllAdditionalData();
+
+      this.loader = true;
       this._registration.formApproval(approval).subscribe({
         next: (res) => {
+          this.loader = false;
           if (res && res.Status == 200) {
             this._commonService.openSnackbar(res.Message, snackbarStatus.Success);
             this._router.navigate(["/onboarding/dashboard"]);
           }
         },
         error: (err) => {
+          this.loader = false;
           this._commonService.openSnackbar(err, snackbarStatus.Danger);
         },
       });
