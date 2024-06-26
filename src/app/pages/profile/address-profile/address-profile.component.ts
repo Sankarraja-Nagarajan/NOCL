@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { Address } from "../../../Models/Dtos";
 import { RegistrationService } from "../../../Services/registration.service";
 import { AddressType } from "../../../Models/Master";
@@ -8,7 +8,6 @@ import { MasterService } from "../../../Services/master.service";
 import { CommonService } from "../../../Services/common.service";
 import { MatDialog } from "@angular/material/dialog";
 import { ConfirmationDialogComponent } from "../../../Dialogs/confirmation-dialog/confirmation-dialog.component";
-import { getSession } from "../../../Utils";
 
 @Component({
   selector: "ngx-address-profile",
@@ -17,17 +16,19 @@ import { getSession } from "../../../Utils";
 })
 export class AddressProfileComponent implements OnInit {
   //@Input() formId: number = 17;
+  @Output() hasAddress: EventEmitter<boolean> = new EventEmitter();
+
   addresses: Address[] = [];
   addressTypes: AddressType[] = [];
   formId:number;
-  loader: boolean = false;
   vendorInfo: any;
 
   constructor(
     private _registration: RegistrationService,
     private _master: MasterService,
     private _commonService: CommonService,
-    private _dialog: MatDialog
+    private _dialog: MatDialog,
+    
   ) {}
 
   ngOnInit(): void {
@@ -36,6 +37,7 @@ export class AddressProfileComponent implements OnInit {
     this.formId = this.vendorInfo.FormId;
 
     this.getMasterData();
+
   }
 
   getAddressTypeById(addressTypeId: number): string {
@@ -46,7 +48,7 @@ export class AddressProfileComponent implements OnInit {
   }
 
   getMasterData() {
-    this.loader = true;
+    
     forkJoin([
       this._master.getAddressTypes(),
       this._registration.getFormData(this.formId, "Addresses"),
@@ -54,19 +56,16 @@ export class AddressProfileComponent implements OnInit {
       next: (res) => {
         if (res[0]) {
           this.addressTypes = res[0] as AddressType[];
-
         }
         if (res[1]) {
           this.addresses = res[1] as Address[];
-
         }
-        this.loader = false;
       },
       error: (err) => {
-        this.loader = false;
         this._commonService.openSnackbar(err, snackbarStatus.Danger);
       },
     });
+    
   }
 
   deleteAddress() {

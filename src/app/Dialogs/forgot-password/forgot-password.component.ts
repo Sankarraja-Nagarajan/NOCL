@@ -6,7 +6,6 @@ import { CommonService } from "../../Services/common.service";
 import { LoginService } from "../../Services/login.service";
 import { snackbarStatus } from "../../Enums/snackbar-status";
 import { AuthResponse, ForgotPassword } from "../../Models/authModel";
-import { error } from "console";
 
 @Component({
   selector: "ngx-forgot-password",
@@ -14,7 +13,6 @@ import { error } from "console";
   styleUrls: ["./forgot-password.component.scss"],
 })
 export class ForgotPasswordComponent implements OnInit {
-  loader: boolean = false;
   forgotPasswordForm: FormGroup;
   authResponse: AuthResponse = new AuthResponse();
   requestOtp: boolean = false;
@@ -26,7 +24,8 @@ export class ForgotPasswordComponent implements OnInit {
     private _common: CommonService,
     private _config: AppConfigService,
     private _fb: FormBuilder,
-    private _login: LoginService
+    private _login: LoginService,
+    
   ) {}
 
   ngOnInit(): void {
@@ -40,19 +39,19 @@ export class ForgotPasswordComponent implements OnInit {
 
   requestForOtp() {
     if (this.forgotPasswordForm.get("Employee_Id").valid) {
-      this.loader = true;
+      
       this._login
         .forgotPasswordRequestOtp(
           this.forgotPasswordForm.get("Employee_Id").value
         )
         .subscribe({
           next: (res) => {
-            this.loader = false;
+            
             this.requestOtp = true;
             this._common.openSnackbar(res.Message, snackbarStatus.Success);
           },
           error: (err) => {
-            this.loader = false;
+            
           },
         });
     } else {
@@ -69,10 +68,10 @@ export class ForgotPasswordComponent implements OnInit {
       let forgotPwd = new ForgotPassword();
       forgotPwd = this.forgotPasswordForm.value;
       forgotPwd.Password = this.forgotPasswordForm.value["NewPassword"];
-      this.loader = true;
+      
       this._login.forgotPassword(forgotPwd).subscribe({
         next: (res) => {
-          this.loader = false;
+          
           this._common.openSnackbar(
             "Password updated successfully",
             snackbarStatus.Success
@@ -80,7 +79,7 @@ export class ForgotPasswordComponent implements OnInit {
           this._dialogRef.close(true);
         },
         error: (err) => {
-          this.loader = false;
+          
         },
       });
     } else {

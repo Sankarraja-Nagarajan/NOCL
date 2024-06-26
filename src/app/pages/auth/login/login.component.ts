@@ -16,14 +16,13 @@ import { isNullOrEmpty, setSession } from "../../../Utils";
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
-  loader: boolean = false;
 
   constructor(
     private _fb: FormBuilder,
     private _login: LoginService,
     private _common: CommonService,
     private _router: Router,
-    private _dialog: MatDialog
+    private _dialog: MatDialog,
   ) {}
 
   ngOnInit(): void {
@@ -38,11 +37,11 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.valid) {
       let loginDetail = new LoginDetail();
       loginDetail = this.loginForm.value;
-      this.loader = true;
+      
       this._login.authUser(loginDetail).subscribe({
         next: (res) => {
           if (res) {
-            this.loader = false;
+            // 
             this.loginForm.reset();
             setSession("userDetails", JSON.stringify(res));
             if (res.Role != "Vendor") {
@@ -61,7 +60,7 @@ export class LoginComponent implements OnInit {
           }
         },
         error: (err) => {
-          this.loader = false;
+          // 
         },
       });
     } else {

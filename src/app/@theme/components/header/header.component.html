@@ -14,55 +14,13 @@
 <div class="header-container">
   <h2>Vendor Onboarding</h2>
 </div>
-<!-- <div class="dropdown-alt"> -->
+
 <div
   class="col-md-4 col-6 text-right px-md-3 px-0 d-flex align-items-center justify-content-end"
 >
-  <div class="control-item">
-    <div class="dropdown-content-alt p-2 bg-white">
-      <div class="drop-notify">
-        <div class="col" *ngFor="let expiryvendor of allExpiryDetails">
-          <!-- <span class="border-bottom p-2"> -->
-          <div class="row">
-            <div class="mt-2">
-              <nb-icon icon="alert-circle"></nb-icon>
-              <span class="font-align">
-                {{ expiryvendor.Vendor_Name }} : {{ expiryvendor.Doc_Type }} is
-                expired on
-                {{ expiryvendor.Valid_Till_Date | date : "dd/MM/yyyy" }}</span
-              >
-            </div>
-            <span class="border-bottom p-2"></span>
-          </div>
-          <!-- </span> -->
-
-          <!-- <div class="row">
-            <div>
-              <img style="width: 20px;" src="assets/images/person.svg">
-              <span class="font-align">{{expiryvendor.Vendor_Name}}</span>
-            </div>
-            
-            
-          </div> -->
-          <!-- <div class="row">
-            <div>
-              <img style="width: 20px;" src="assets/images/file.svg">
-              <span class="font-align">{{expiryvendor.Doc_Type}} is Expired</span>
-            </div>
-          
-           
-          </div> -->
-          <!-- <div class="col">
-          <img style="width: 20px;" src="assets/images/calendar.svg">
-          <span class="font-align">{{expiryvendor.Valid_Till_Date | date: 'dd/MM/yyyy'}}</span>
-         
-        </div> -->
-        </div>
-      </div>
-    </div>
-
+  <div class="control-item" (mouseleave)="isDropdownVisible = false">
     <div class="header-container">
-      <nb-actions size="medium">
+      <nb-actions class="notification" size="medium">
         <nb-action
           class="notify-icon"
           icon="bell-outline"
@@ -70,7 +28,9 @@
           badgePosition="top right"
           badgeStatus="info"
           *ngIf="isNotificationVisible"
-        ></nb-action>
+          (mouseenter)="isDropdownVisible = true"
+        >
+        </nb-action>
         <nb-action class="user-action" *nbIsGranted="['view', 'user']">
           <nb-user
             [nbContextMenu]="userMenu"
@@ -85,6 +45,27 @@
           </div>
         </nb-action>
       </nb-actions>
+
+      <div
+        class="dropdown-content-alt p-2 bg-white"
+        [class.show]="isDropdownVisible"
+      >
+        <div class="drop-notify">
+          <div class="col" *ngFor="let expiryvendor of allExpiryDetails">
+            <div class="row">
+              <div class="mt-2">
+                <nb-icon icon="alert-circle"></nb-icon>
+                <span class="font-align">
+                  {{ expiryvendor.Vendor_Name }} :
+                  {{ expiryvendor.Doc_Type }} is expired on
+                  {{ expiryvendor.Valid_Till_Date | date : "dd/MM/yyyy" }}
+                </span>
+              </div>
+              <span class="border-bottom p-2"></span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

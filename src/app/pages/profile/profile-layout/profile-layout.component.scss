@@ -1,12 +1,47 @@
 .profile-layout {
   height: calc(100vh - 150px);
-  background-color: white;
 
   .common-data {
-    padding: 15px;
+    height: 80px;
+    border-radius: 4px;
+    box-shadow: 0px 0px 4px #777;
+    background: linear-gradient(176deg, #efefff, #FFFFFF);
   }
 
-  .tab-title {
-    white-space: nowrap;
+  .tab-container {
+    height: calc(100% - 80px);
+    border-radius: 4px;
+    background: white !important;
+
+    .tab-list {
+      list-style-type: none;
+      overflow: hidden auto;
+
+      &::-webkit-scrollbar{
+        width: 0 !important;
+      }
+
+      button {
+        width: 100%;
+        border: none;
+        background: none;
+        padding: 8px 12px;
+        text-align: left !important;
+        font-size: 16px !important;
+        border-radius: 6px;
+      }
+
+      .highlighted {
+        color: #006;
+        border: solid #007;
+        border-width: 1px 2px;
+        background: linear-gradient(0deg, #d0d0ff, #E5E5FF);
+        scale: 1.03;
+      }
+    }
+
+    .tab-display{
+      overflow-y: auto;
+    }
   }
 }

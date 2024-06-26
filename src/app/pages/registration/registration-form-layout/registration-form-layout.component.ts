@@ -1,9 +1,10 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { AddressComponent } from "../address/address.component";
 import { DomesticAndImportForm } from "../../../Models/DomesticAndImportForm";
 import { ActivatedRoute, Router } from "@angular/router";
 import { RegistrationService } from "../../../Services/registration.service";
 import {
+  AdditionalFieldsDto,
   AdditionalFieldsDto,
   Approval,
   FormSubmitTemplate,
@@ -37,6 +38,8 @@ import { PreviewDialogComponent } from "../../../Dialogs/preview-dialog/preview-
 import { AppConfigService } from "../../../Services/app-config.service";
 import { AdditionalFieldsComponent } from "../additional-fields/additional-fields.component";
 import { EmitterService } from "../../../Services/emitter.service";
+import { AdditionalFieldsComponent } from "../additional-fields/additional-fields.component";
+import { EmitterService } from "../../../Services/emitter.service";
 
 @Component({
   selector: "ngx-registration-form-layout",
@@ -68,13 +71,14 @@ export class RegistrationFormLayoutComponent implements OnInit {
   attachmentsComponent: AttachmentsComponent;
   @ViewChild(AdditionalFieldsComponent)
   additionalFieldsComponent: AdditionalFieldsComponent;
+  @ViewChild(AdditionalFieldsComponent)
+  additionalFieldsComponent: AdditionalFieldsComponent;
 
   form_Id: number = 1;
   v_Id: number = 1;
   authResponse: AuthResponse;
   form_status: string;
   isReadOnly: boolean = true;
-  loader: boolean = false;
   rejectedReason: Reason = new Reason();
   attachmentsArray: Attachment[] = [];
   dataSource = new MatTableDataSource(this.rejectedReason.Reasons);
@@ -93,7 +97,7 @@ export class RegistrationFormLayoutComponent implements OnInit {
     private _router: Router,
     private _encryptor: EncryptionService,
     private _appConfig: AppConfigService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
 
@@ -168,17 +172,17 @@ export class RegistrationFormLayoutComponent implements OnInit {
 
   //#region Updating form API call
   updateForm(formSubmitTemplate: FormSubmitTemplate) {
-    this.loader = true;
+    
     this._registration.formUpdate(formSubmitTemplate).subscribe({
       next: (res) => {
         if (res.Status === 200) {
-          this.loader = false;
+          
           this._commonService.openSnackbar(res.Message, snackbarStatus.Success);
           this._router.navigate(["/success"]);
         }
       },
       error: (err) => {
-        this.loader = false;
+        
         this._commonService.openSnackbar(err, snackbarStatus.Danger);
       },
     });
@@ -222,10 +226,10 @@ export class RegistrationFormLayoutComponent implements OnInit {
     DIALOF_REF.afterClosed().subscribe({
       next: (res) => {
         if (res) {
-          this.loader = true;
+          
           this._registration.formRejection(res.reject as Rejection).subscribe({
             next: (res) => {
-              this.loader = false;
+              
               if (res && res.Status == 200) {
                 this._commonService.openSnackbar(
                   res.Message,
@@ -235,7 +239,7 @@ export class RegistrationFormLayoutComponent implements OnInit {
               }
             },
             error: (err) => {
-              this.loader = false;
+              
               this._commonService.openSnackbar(err, snackbarStatus.Danger);
             },
           });
@@ -534,16 +538,14 @@ export class RegistrationFormLayoutComponent implements OnInit {
   }
 
   getAttachments(formSubmitTemplate: FormSubmitTemplate) {
-    this.loader = true;
+    
     this._registration.getFormData(this.form_Id, "Attachments").subscribe({
       next: (res) => {
         this.attachmentsArray = res;
-        this.loader = false;
+        
         this.openDialog(formSubmitTemplate);
       },
-      error: (err) => {
-        this.loader = false;
-      }
+      error:(err)=>{}
     });
   }
 
@@ -557,18 +559,17 @@ export class RegistrationFormLayoutComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe({
-      next: () => {
-        this.loader = true;
+      next:()=>{
         this._registration.formSubmit(formSubmitTemplate).subscribe({
           next: (res) => {
             if (res.Status === 200) {
-              this.loader = false;
+              
               this._commonService.openSnackbar(res.Message, snackbarStatus.Success);
               this._router.navigate(["/success"]);
             }
           },
           error: (err) => {
-            this.loader = false;
+            
             this._commonService.openSnackbar(err, snackbarStatus.Danger);
           },
         });

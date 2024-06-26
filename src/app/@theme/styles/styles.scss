@@ -226,9 +226,9 @@ nb-layout .layout {
 }
 
 //overall-layout-padding
-// .layout-container {
-//   padding-top: 60px !important;
-// }
+.layout-container {
+  padding-top: 60px !important;
+}
 
 // checks height
 .checks-fields {
@@ -328,6 +328,10 @@ nb-select.appearance-outline.status-primary .select-button[disabled] {
 [nbInput].status-basic:disabled {
   color: #222b45 !important;
   font-weight: 400 !important;
+}
+
+nb-select{
+  background-color: var(--input-basic-background-color);
 }
 
 .error-msg {
@@ -462,7 +466,7 @@ nb-tabset nb-tab {
   // border: 1px solid;
   // border-radius:var(--vp-br-10);
   width: 350px;
-  background-image: linear-gradient(to bottom, #e8ebfa28, #e8ebfa);
+  background-image: linear-gradient(to bottom, #e8ebfa78, #e8ebfa);
 
   .detail {
     font-size: var(--vp-fs-12) !important;
@@ -481,7 +485,7 @@ nb-tabset nb-tab {
 }
 
 .detail-container {
-  background-image: linear-gradient(to bottom, #e8ebfa28, #e8ebfa);
+  background-image: linear-gradient(to bottom, #e8ebfa78, #e8ebfa);
 }
 
 .mdc-text-field--filled.mdc-text-field--disabled .mdc-text-field__input {

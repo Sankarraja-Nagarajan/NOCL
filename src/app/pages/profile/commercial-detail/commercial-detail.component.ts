@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CommercialProfile } from '../../../Models/Dtos';
 import { MatDialog } from '@angular/material/dialog';
 import { snackbarStatus } from '../../../Enums/snackbar-status';
@@ -15,6 +15,8 @@ import { AppConfigService } from '../../../Services/app-config.service';
 })
 export class CommercialDetailComponent implements OnInit {
  // @Input() formId: number = 17;
+ @Output() hasComercialProfile: EventEmitter<any> = new EventEmitter();
+ 
   msmeTypes: string[] = [];
   authResponse: AuthResponse;
   astheriskRequired:boolean=false;
@@ -68,14 +70,19 @@ export class CommercialDetailComponent implements OnInit {
       next:(res)=>{
         if(res){
           this.commercialProfile = res as CommercialProfile;
-          this.commercialProfileForm.patchValue(this.commercialProfile);
-         
+          this.commercialProfileForm.patchValue(this.commercialProfile);     
+          this.hasComercialProfile.emit(true);
+        }
+        else{
+          this.hasComercialProfile.emit(false);
         }
       },
       error: (err) => {
         this._commonService.openSnackbar(err, snackbarStatus.Danger);
+        this.hasComercialProfile.emit(false);
       },
     });
+    
   }
 
   editCommProfile(){

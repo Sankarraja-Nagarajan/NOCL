@@ -10,7 +10,6 @@ import { Observable } from "rxjs";
 import { map, startWith } from "rxjs/operators";
 import { Attachment } from "../../Models/Dtos";
 import { CommonService } from "../../Services/common.service";
-import { snackbarStatus } from "../../Enums/snackbar-status";
 import { AppConfigService } from "../../Services/app-config.service";
 import { AttachmentService } from "../../Services/attachment.service";
 
@@ -30,7 +29,6 @@ export class AttachmentDialogComponent implements OnInit {
   selectedFile: File = null;
   isFileUploaded: boolean = false;
   currentDate: Date = new Date();
-  loader: boolean = false;
   expDocs: string[] = [];
 
   constructor(
@@ -39,7 +37,8 @@ export class AttachmentDialogComponent implements OnInit {
     private _common: CommonService,
     private _config: AppConfigService,
     private _fb: FormBuilder,
-    private _attach: AttachmentService
+    private _attach: AttachmentService,
+    
   ) {}
 
   ngOnInit(): void {
@@ -106,17 +105,17 @@ export class AttachmentDialogComponent implements OnInit {
       formData.append("file", this.selectedFile, this.selectedFile.name);
       formData.append("AttachmentDetails", JSON.stringify(attachment));
 
-      this.loader = true;
+      
       this._attach.attachFiles(formData).subscribe({
         next: (res) => {
           if (res) {
-            this.loader = false;
+            
             this._dialogRef.close(res);
             this.attachmentForm.get("File_Type").disable();
           }
         },
         error: (err) => {
-          this.loader = false;
+          
           this.attachmentForm.get("File_Type").disable();
         },
       });

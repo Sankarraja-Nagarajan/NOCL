@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MajorCustomer, NocilRelatedEmployee, Subsideries, VendorOrganizationProfile } from '../../../Models/Dtos';
 import { MatDialog } from '@angular/material/dialog';
 import { CommonService } from '../../../Services/common.service';
@@ -14,15 +14,17 @@ import { snackbarStatus } from '../../../Enums/snackbar-status';
   styleUrls: ['./organization-profile.component.scss']
 })
 export class OrganizationProfileComponent implements OnInit {
- // @Input() formId: number = 17;
+  // @Input() formId: number = 17;
+  @Output() hasOrgProfile: EventEmitter<any> = new EventEmitter();
+
   orgProfile: VendorOrganizationProfile = new VendorOrganizationProfile();
   orgTypes: OrganizationType[] = [];
   companyStatuses: CompanyStatus[] = [];
   subsideriesList: Subsideries[] = [];
   listOfMajorCustomerList: MajorCustomer[] = [];
   nocilRelatedEmployees: NocilRelatedEmployee[] = [];
-  vendorInfo:any;
-  formId:number;
+  vendorInfo: any;
+  formId: number;
   constructor(private _dialog: MatDialog,
     private _master: MasterService,
     private _common: CommonService,
@@ -30,9 +32,13 @@ export class OrganizationProfileComponent implements OnInit {
 
   }
 
+  subsideriesColumns = ['Subsidery_Name'];
+  majorCustomersColumns = ['Customer_Name', 'Location'];
+  nocilRelatedEmployeesColumns = ['Employee_Name', 'Type_Of_Relation'];
+
   ngOnInit(): void {
     let vInfo = sessionStorage.getItem("vendorInfo");
-    this.vendorInfo    = JSON.parse(vInfo);
+    this.vendorInfo = JSON.parse(vInfo);
     this.formId = this.vendorInfo.FormId;
     this.getAllData();
   }
@@ -69,6 +75,10 @@ export class OrganizationProfileComponent implements OnInit {
         }
         if (res[2]) {
           this.orgProfile = res[2] as VendorOrganizationProfile;
+          this.hasOrgProfile.emit(true);
+        }
+        else{
+          this.hasOrgProfile.emit(false);
         }
         if (res[3]) {
           this.subsideriesList = res[3] as Subsideries[];
@@ -81,8 +91,9 @@ export class OrganizationProfileComponent implements OnInit {
         }
       },
       error: (err) => {
-        
+        this.hasOrgProfile.emit(false);
       },
     });
+
   }
 }
