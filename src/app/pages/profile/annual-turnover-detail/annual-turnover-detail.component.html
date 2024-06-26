@@ -1,7 +1,7 @@
-<section class="bank-detail p-1">
+<section class="annual-turnover p-1">
     <div class="p-3 pt-0 mb-5 rounded">
         <div class="row">
-            <div class="table-responsive w-100 table-container registration-table p-0">
+            <div class="table-responsive w-100 table-container p-0">
                 <!-- table starts here -->
                 <table mat-table [dataSource]="dataSource">
                     <!-- Year column -->
@@ -12,7 +12,7 @@
 
                     <!-- sales Turnover column -->
                     <ng-container matColumnDef="salesturnover">
-                        <th mat-header-cell *matHeaderCellDef>sales Turnover</th>
+                        <th mat-header-cell *matHeaderCellDef>Sales Turnover</th>
                         <td mat-cell *matCellDef="let element">
                             {{ element.SalesTurnOver }}
                         </td>
@@ -36,8 +36,8 @@
 
                     <!-- action column -->
                     <ng-container matColumnDef="action">
-                        <th mat-header-cell *matHeaderCellDef> Action </th>
-                        <td mat-cell *matCellDef="let element; let i = index">
+                        <th mat-header-cell *matHeaderCellDef [hidden]="role!=='Vendor'"> Action </th>
+                        <td mat-cell *matCellDef="let element; let i = index" [hidden]="role!=='Vendor'">
                             <div class="d-flex gap-2">
                                 <button mat-mini-fab color="basic" class="cancel-btn" (click)="editTurnover(i)">
                                     <img src="assets/images/pngs/pencil.png" height="18" width="18" />

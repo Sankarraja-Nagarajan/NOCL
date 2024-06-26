@@ -4,8 +4,7 @@ import { NbRouteTab } from "@nebular/theme";
 import { getSession } from "../../../Utils";
 import { MasterService } from "../../../Services/master.service";
 import { VendorProfile } from "../../../Models/Master";
-import { CheckboxControlValueAccessor } from "@angular/forms";
-import { findIndex } from "rxjs/operators";
+import { AppConfigService } from "../../../Services/app-config.service";
 
 @Component({
   selector: "ngx-profile-layout",
@@ -45,13 +44,15 @@ export class ProfileLayoutComponent implements OnInit {
   openTab: string = "";
   btnEnable: any = {};
   visibleTabs = [];
+  formToShow: any;
 
   vendorInfo: any;
   vendorProfile: VendorProfile = new VendorProfile();
 
   constructor(
     private _activatedRoute: ActivatedRoute,
-    private _master: MasterService
+    private _master: MasterService,
+    private _config: AppConfigService
   ) { }
 
   ngOnInit(): void {
@@ -64,20 +65,66 @@ export class ProfileLayoutComponent implements OnInit {
           this.vendorProfile = res as VendorProfile;
         },
       });
-    this.allTabs = [
-      'Address',
-      'Contact',
-      'Technical Profile',
-      'Commercial Profile',
-      'Bank Detail',
-      'Branches',
-      'Annual Turnover',
-      'Transport Vendor Profile',
-      'Tanker Details',
-      'Organization Profile',
-      'Attachments'
-    ]
-    this.visibleTabs = [...this.allTabs];
+
+    this.formToShow = this._config.getSubItem('FormsToShow', this.vendorInfo.VT_Id)
+
+    this.renderTabs();
+  }
+
+  renderTabs() {
+    this.btnEnable = {
+      'Transport Vendor Profile': {
+        isVisible: this.formToShow.transportPersonalData,
+        hasData: true
+      },
+      'Tanker Details': {
+        isVisible: this.formToShow.tankerDetails,
+        hasData: true
+      },
+      'Address': {
+        isVisible: this.formToShow.address,
+        hasData: true
+      },
+      'Contact': {
+        isVisible: this.formToShow.contact,
+        hasData: true
+      },
+      'Technical Profile': {
+        isVisible: this.formToShow.technicalProfile,
+        hasData: true
+      },
+      'Commercial Profile': {
+        isVisible: this.formToShow.commercialProfile,
+        hasData: true
+      },
+      'Organization Profile': {
+        isVisible: this.formToShow.organizationData,
+        hasData: true
+      },
+      'Annual Turnover': {
+        isVisible: this.formToShow.annualTurnOver,
+        hasData: true
+      },
+      'Bank Detail': {
+        isVisible: this.formToShow.bankDetails,
+        hasData: true
+      },
+      'Branches': {
+        isVisible: this.formToShow.vendorBranches,
+        hasData: true
+      },
+      'Attachments': {
+        isVisible: this.formToShow.attachments,
+        hasData: true
+      }
+    };
+
+    Object.entries(this.btnEnable).forEach(([key, value]) => {
+      if (this.btnEnable[key].isVisible) {
+        this.visibleTabs.push(key)
+      }
+    });
+    this.openTab = this.visibleTabs[0];
   }
 
   mouseScroll(evt: any) {
@@ -95,19 +142,14 @@ export class ProfileLayoutComponent implements OnInit {
       }
       index += 1;
     }
-    
+
     this.openTab = this.visibleTabs[index % this.visibleTabs.length];
   }
+
   changeTab(tabName: string) {
     this.openTab = tabName;
   }
-
-  enableBtn(evt: boolean, btnName: string) {
-    this.btnEnable[btnName] = evt;
-    if(evt==false){
-      let i = this.visibleTabs.findIndex(x=>x===btnName);
-      this.visibleTabs.splice(i, 1);
-    }
-    this.openTab = this.visibleTabs[0];
+  enableBtn(event: boolean, btnName: string) {
+    this.btnEnable[btnName].hasData = event;
   }
 }

@@ -1,8 +1,13 @@
 import { Component, EventEmitter, OnInit, Output } from "@angular/core";
-import { MatDialog } from "@angular/material/dialog";
+import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { MatTableDataSource } from "@angular/material/table";
 import { CommonService } from "../../../Services/common.service";
 import { RegistrationService } from "../../../Services/registration.service";
+import { DatePipe } from "@angular/common";
+import { Attachment } from "../../../Models/Dtos";
+import { DocumentViewDialogComponent } from "../../../Dialogs/document-view-dialog/document-view-dialog.component";
+import { AttachmentService } from "../../../Services/attachment.service";
+import { FileSaverService } from "../../../Services/file-saver.service";
 
 @Component({
   selector: "ngx-attachment-profile",
@@ -15,11 +20,20 @@ export class AttachmentProfileComponent implements OnInit {
   attachmentsDetails = new MatTableDataSource();
   vendorInfo: any;
   formId: any;
+  displayedColumns = [
+    'Index', 
+    'File Name',
+    'File Type',
+    'Expiry Date'
+  ]
 
   constructor(
     private _commonService: CommonService,
     private _registration: RegistrationService,
-    private _dialog: MatDialog
+    private _dialog: MatDialog,
+    private datePipe: DatePipe,
+    private _docService: AttachmentService,
+    private _fileSaver: FileSaverService
   ) {}
 
   ngOnInit(): void {
@@ -40,6 +54,57 @@ export class AttachmentProfileComponent implements OnInit {
         this.hasAttachment.emit(false)
       }
     });
+  }
 
+  openAttachmentDialog(attachment: Attachment){
+    console.log(attachment);
+    const dialogConfig: MatDialogConfig = {
+      data: {
+        attachment: attachment
+      },
+      height: "calc(100vh - 100px)",
+      minWidth: "600px",
+      panelClass: "dialog-box-document",
+      autoFocus: false,
+    };
+
+    if (
+      this.isImage(attachment.File_Name) ||
+      this.isPdf(attachment.File_Name)
+    ) {
+      const dialogRef = this._dialog.open(
+        DocumentViewDialogComponent,
+        dialogConfig
+      );
+    } else {
+      
+      this._docService.getFileById(attachment.Attachment_Id).subscribe({
+        next: async (res) => {
+          
+          await this._fileSaver.downloadFile(res);
+        },
+        error: (err) => {
+          
+        },
+      });
+    }
+  }
+
+  isImage(fileName) {
+    let arr = fileName.split(".");
+    let ext = arr[arr.length - 1].toLowerCase();
+    return (
+      ext == "png" ||
+      ext == "jpg" ||
+      ext == "jpeg" ||
+      ext == "tiff" ||
+      ext == "svg"
+    );
+  }
+
+  isPdf(fileName) {
+    let arr = fileName.split(".");
+    let ext = arr[arr.length - 1].toLowerCase();
+    return ext == "pdf";
   }
 }
