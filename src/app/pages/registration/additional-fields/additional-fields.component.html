@@ -5,13 +5,14 @@
                 <form action="" [formGroup]="additionalFieldsForm" class="p-0">
 
                     <!-- Additional Fields -->
+                    <!-- Language & Order Currency -->
                     <div class="row mb-2">
                         <div class="col-sm-6 mb-sm-0 mb-2">
                             <div>
                                 <label class="input-label-text"> Language </label>
                                 <div class="input-group">
-                                    <input nbInput fullWidth fieldSize="small"
-                                        class="input-border" formControlName="Language" readonly />
+                                    <input nbInput fullWidth fieldSize="small" class="input-border"
+                                        formControlName="Language" readonly />
                                 </div>
                             </div>
                         </div>
@@ -19,13 +20,15 @@
                             <div>
                                 <label class="input-label-text"> Order Currency </label>
                                 <div class="input-group">
-                                    <input nbInput fullWidth fieldSize="small"
-                                        class="input-border" formControlName="Order_Currency" readonly />
+                                    <input nbInput fullWidth fieldSize="small" class="input-border"
+                                        formControlName="Order_Currency" readonly />
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <!-- Language & Order Currency -->
 
+                    <!-- Industry & Incoterms -->
                     <div class="row mb-2">
                         <div class="col-sm-6 mb-sm-0 mb-2">
                             <div>
@@ -34,7 +37,8 @@
                                 <div class="input-group">
                                     <nb-select fullWidth size="small" status="primary" formControlName="Industry_Id"
                                         required placeholder="Select Industry">
-                                        <nb-option *ngFor="let industry of Industries" [value]="industry.Id"> {{ industry.Description
+                                        <nb-option *ngFor="let industry of Industries" [value]="industry.Id"> {{
+                                            industry.Description
                                             }}</nb-option>
                                     </nb-select>
                                     <mat-error
@@ -50,14 +54,17 @@
                                 <div class="input-group">
                                     <nb-select fullWidth size="small" status="primary" formControlName="Incoterms_Id"
                                         required placeholder="Select Incoterms">
-                                        <nb-option *ngFor="let incoterms of Incoterms" [value]="incoterms.Id"> {{ incoterms.Description
+                                        <nb-option *ngFor="let incoterms of Incoterms" [value]="incoterms.Id"> {{
+                                            incoterms.Description
                                             }}</nb-option>
                                     </nb-select>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <!-- Industry & Incoterms -->
 
+                    <!-- Reconciliation Account & SchemaGroup -->
                     <div class="row mb-2">
                         <div class="col-sm-6 mb-sm-0 mb-2">
                             <div>
@@ -79,7 +86,7 @@
                         </div>
                         <div class="col-sm-6 mb-2">
                             <div>
-                                <label class="input-label-text"> SchemaGroup </label>
+                                <label class="input-label-text"> Schema Group </label>
                                 <div class="input-group">
                                     <nb-select fullWidth size="small" status="primary" formControlName="Schema_Id"
                                         required placeholder="Select SchemaGroup">
@@ -90,14 +97,17 @@
                             </div>
                         </div>
                     </div>
+                    <!-- Reconciliation Account & SchemaGroup -->
 
+
+                    <!-- GR Based & SRV Based -->
                     <div class="row mb-2">
                         <div class="col-sm-6 mb-sm-0 mb-2">
                             <div>
                                 <label class="input-label-text"> GR Based </label>
                                 <div class="input-group">
-                                    <input nbInput fullWidth fieldSize="small"
-                                        class="input-border" formControlName="GrBased" readonly />
+                                    <input nbInput fullWidth fieldSize="small" class="input-border"
+                                        formControlName="GrBased" readonly />
                                 </div>
                             </div>
                         </div>
@@ -105,29 +115,74 @@
                             <div>
                                 <label class="input-label-text"> SRV Based </label>
                                 <div class="input-group">
-                                    <input nbInput fullWidth fieldSize="small" 
-                                        class="input-border" formControlName="SrvBased" readonly />
+                                    <input nbInput fullWidth fieldSize="small" class="input-border"
+                                        formControlName="SrvBased" readonly />
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <!-- GR Based & SRV Based -->
 
+
+                    <!-- Search Term  & Purchase Organization -->
                     <div class="row mb-2">
                         <div class="col-sm-6 mb-sm-0 mb-2">
                             <div>
-                                <label class="input-label-text"> Search Term  <span
-                                    class="asterisk-required">*</span> </label>
+                                <label class="input-label-text"> Search Term <span class="asterisk-required">*</span>
+                                </label>
                                 <div class="input-group">
                                     <input nbInput fullWidth fieldSize="small" placeholder="Enter Search Term"
                                         class="input-border" formControlName="Search_Term" />
                                 </div>
                                 <mat-error
-                                *ngIf="this.additionalFieldsForm.get('Search_Term').hasError('required') && this.additionalFieldsForm.get('Search_Term').touched"
-                                class="error-msg">Search Term is
-                                required</mat-error>
+                                    *ngIf="this.additionalFieldsForm.get('Search_Term').hasError('required') && this.additionalFieldsForm.get('Search_Term').touched"
+                                    class="error-msg">Search Term is
+                                    required</mat-error>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 mb-sm-0 mb-2">
+                            <div>
+                                <label class="input-label-text"> Purchase Organization </label>
+                                <div class="input-group">
+                                    <nb-select fullWidth size="small" status="primary" formControlName="PO_Code"
+                                        required placeholder="Select Purchase Organization">
+                                        <nb-option *ngFor="let purchase of PurchaseOrganizations"
+                                            [value]="purchase.PO_Code"> {{
+                                            purchase.Description }}</nb-option>
+                                    </nb-select>
+                                </div>
                             </div>
                         </div>
                     </div>
+                    <!-- Search Term  & Purchase Organization -->
+
+
+                    <!-- Account Group -->
+                    <div class="row mb-2">
+                        <div class="col-sm-6 mb-sm-0 mb-2">
+                            <div>
+                                <label class="input-label-text"> Account Group <span
+                                        class="asterisk-required">*</span> </label>
+                                <div class="input-group">
+                                    <nb-select fullWidth size="small" status="primary"
+                                        formControlName="AccountGroup_Id" required
+                                        placeholder="Select Account Group">
+                                        <nb-option *ngFor="let account of VendorAccountGroups"
+                                            [value]="account.Id">{{ account.Description }}</nb-option>
+                                    </nb-select>
+                                    <mat-error
+                                        *ngIf="this.additionalFieldsForm.get('AccountGroup_Id').hasError('required') && this.additionalFieldsForm.get('AccountGroup_Id').touched"
+                                        class="error-msg">Account Group is
+                                        required</mat-error>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 mb-sm-0 mb-2">
+
+                        </div>
+                    </div>
+                    <!-- Account Group -->
+
 
 
                     <!-- Additional Fields -->
