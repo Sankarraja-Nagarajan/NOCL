@@ -7,6 +7,7 @@ import { TechnicalProfile } from '../../../Models/Dtos';
 import { CommonService } from '../../../Services/common.service';
 import { MasterService } from '../../../Services/master.service';
 import { RegistrationService } from '../../../Services/registration.service';
+import { getSession } from '../../../Utils';
 
 @Component({
   selector: 'ngx-technical-detail',
@@ -22,6 +23,7 @@ export class TechnicalDetailComponent implements OnInit {
   isEditBtn:boolean=true;
   vendorInfo:any;
   formId:number;
+  role: string;
   constructor(private _registration: RegistrationService,
     private _commonService: CommonService,
     private _dialog:MatDialog,
@@ -41,6 +43,7 @@ export class TechnicalDetailComponent implements OnInit {
 
     this.getTechnicalProfile();
     this.technicalProfileForm.disable();
+    this.role = getSession("userDetails")['Role'];
   }
 
   getTechnicalProfile(){

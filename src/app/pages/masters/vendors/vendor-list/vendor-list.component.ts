@@ -96,6 +96,9 @@ export class VendorListComponent implements OnInit, OnChanges {
   }
 
   preview(i: number) {
+    const x = this.paginator.pageIndex;
+    const y = this.paginator.pageSize;
+    i = i + x*y;
     let formInfo = {
       FormId: this.dataSource.data[i].Form_Id,
       VT_Id: this.dataSource.data[i].VT_Id,

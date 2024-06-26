@@ -7,7 +7,7 @@
             </div>
             <div class="d-flex gap-2">
                 <div class="center-flexBox">
-                    <img src="assets/images/pngs/map-pin.png" alt="" />
+                    <img src="assets/images/pngs/person.png" alt="" />
                 </div>
                 <div>
                     <span class="detail">{{ contact.Name }}</span>
@@ -15,7 +15,7 @@
             </div>
             <div class="d-flex gap-2">
                 <div class="center-flexBox">
-                    <img src="assets/images/pngs/phone-office.png" alt="" />
+                    <img src="assets/images/pngs/role.png" alt="" />
                 </div>
                 <div>
                     <span class="detail">{{ contact.Designation }}</span>
@@ -23,7 +23,7 @@
             </div>
             <div class="d-flex gap-2">
                 <div class="center-flexBox">
-                    <img src="assets/images/pngs/fax.png" alt="" />
+                    <img src="assets/images/pngs/email.png" alt="" />
                 </div>
                 <div>
                     <span class="detail">{{ contact.Email_Id }}</span>
@@ -31,7 +31,7 @@
             </div>
             <div class="d-flex gap-2">
                 <div class="center-flexBox">
-                    <img src="assets/images/pngs/globe.png" alt="" />
+                    <img src="assets/images/pngs/phone-office.png" alt="" />
                 </div>
                 <div>
                     <span class="detail">{{ contact.Phone_Number }}</span>
@@ -39,14 +39,14 @@
             </div>
             <div class="d-flex gap-2">
                 <div class="center-flexBox">
-                    <img src="assets/images/pngs/globe.png" alt="" />
+                    <img src="assets/images/pngs/fax.png" alt="" />
                 </div>
                 <div>
                     <span class="detail">{{ contact.Mobile_Number }}</span>
                 </div>
             </div>
         </div>
-        <div>
+        <div *ngIf="role==='Vendor'">
             <div class="d-flex justify-content-end align-items-center">
                 <div>
                     <img src="/../assets/images/pngs/pencil.png" alt="" class="edit">

@@ -7,6 +7,7 @@ import { RegistrationService } from '../../../Services/registration.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthResponse } from '../../../Models/authModel';
 import { AppConfigService } from '../../../Services/app-config.service';
+import { getSession } from '../../../Utils';
 
 @Component({
   selector: 'ngx-commercial-detail',
@@ -25,6 +26,8 @@ export class CommercialDetailComponent implements OnInit {
   isEditBtn:boolean=true;
   vendorInfo:any;
   formId:number;
+  role: string;
+
   constructor(private _registration: RegistrationService,
     private _commonService: CommonService,
     private _dialog:MatDialog,
@@ -63,6 +66,7 @@ export class CommercialDetailComponent implements OnInit {
     this.getCommercialProfile();
     this.msmeTypes = this._config.get("MSME_Types").split(",");
     this.commercialProfileForm.disable();
+    this.role = getSession("userDetails")['Role'];
   }
 
   getCommercialProfile(){

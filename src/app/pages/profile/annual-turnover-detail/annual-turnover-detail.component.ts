@@ -19,6 +19,7 @@ export class AnnualTurnoverDetailComponent implements OnInit {
   dataSource = new MatTableDataSource();
   vendorInfo: any;
   formId: number;
+  role: string;
   displayedColumns: string[] = [
     "year",
     "salesturnover",

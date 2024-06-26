@@ -7,20 +7,22 @@
           <div class="check d-flex justify-content-between align-items-center">
             <label class="input-label-text ps-2" style="cursor: pointer" for="isoChecked">Are You Certified For ISO
               Quality Systems?</label>
-            <nb-select size="small" status="primary" formControlName="Is_ISO_Certified">
+            <nb-select size="small" status="primary" formControlName="Is_ISO_Certified" *ngIf="role==='Vendor'">
               <nb-option [value]="true">Yes</nb-option>
               <nb-option [value]="false">No</nb-option>
             </nb-select>
+            <span *ngIf="role!=='Vendor'" class="detail-type">{{ (technicalProfile.Is_ISO_Certified)? 'Yes': 'No'}}</span>
           </div>
         </div>
         <div class="checks-fields">
           <div class="check d-flex justify-content-between align-items-center">
             <label class="input-label-text ps-2" for="QmsChecked">Are you certified in any other Quality Management
               Systems (QMS)?</label>
-            <nb-select size="small" status="primary" formControlName="Other_Qms_Certified">
+            <nb-select size="small" status="primary" formControlName="Other_Qms_Certified" *ngIf="role==='Vendor'">
               <nb-option [value]="true">Yes</nb-option>
               <nb-option [value]="false">No</nb-option>
             </nb-select>
+            <span *ngIf="role!=='Vendor'" class="detail-type">{{ (technicalProfile.Other_Qms_Certified)? 'Yes': 'No'}}</span>
           </div>
         </div>
         <!-- Is_ISO_Certified & Other_Qms_Certified  -->
@@ -29,34 +31,43 @@
         <div class="checks-fields">
           <div class="check d-flex justify-content-between align-items-center">
             <label class="input-label-text ps-2" for="planQmsChecked">If not certified, Are you planning for it?</label>
-            <nb-select size="small" status="primary" formControlName="Planning_for_Qms">
+            <nb-select size="small" status="primary" formControlName="Planning_for_Qms" *ngIf="role==='Vendor'">
               <nb-option [value]="true">Yes</nb-option>
               <nb-option [value]="false">No</nb-option>
             </nb-select>
+            <span *ngIf="role!=='Vendor'" class="detail-type">{{ (technicalProfile.Planning_for_Qms)? 'Yes': 'No'}}</span>
           </div>
         </div>
         <div class="checks-fields">
           <div class="check d-flex justify-content-between align-items-center">
             <label class="input-label-text ps-2" for="statusProvisions">Are you adheard to statutory Provisions?</label>
-            <nb-select size="small" status="primary" formControlName="Is_Statutory_Provisions_Adheard">
+            <nb-select size="small" status="primary" formControlName="Is_Statutory_Provisions_Adheard" *ngIf="role==='Vendor'">
               <nb-option [value]="true">Yes</nb-option>
               <nb-option [value]="false">No</nb-option>
             </nb-select>
+            <span *ngIf="role!=='Vendor'" class="detail-type">{{ (technicalProfile.Is_Statutory_Provisions_Adheard)? 'Yes': 'No'}}</span>
           </div>
         </div>
         <!-- Planning_for_Qms & Is_Statutory_Provisions_Adheard -->
 
         <!--Initiatives_for_Development-->
-        <div class="input-group">
+        <div class="input-group" *ngIf="role==='Vendor'">
           <label class="input-label-text">Initiatives for sustainable Development</label>
-          <div class="input-group">
+          <div class="input-group" *ngIf="role==='Vendor'">
             <textarea nbInput fullWidth fieldSize="tiny" class="input-border"
-              formControlName="Initiatives_for_Development" placeholder="Initiatives..."></textarea>
+            formControlName="Initiatives_for_Development" placeholder="Initiatives..."></textarea>
+          </div>
+        </div>
+        <div class="checks-fields">
+          <div class="checks d-flex justify-content-between align-items-center" *ngIf="role!=='Vendor' && technicalProfile.Initiatives_for_Development!==null">
+            <label class="input-label-text ps-2">Initiatives for sustainable Development</label>
+            <span class="detail-type">{{ technicalProfile.Initiatives_for_Development }}</span>
           </div>
         </div>
         <!--Initiatives_for_Development-->
+        
       </form>
-      <div class="d-flex justify-content-end w-100 mt-2">
+      <div class="d-flex justify-content-end w-100 mt-2" *ngIf="role==='Vendor'">
         <button class="btn btn-design center-flexBox" *ngIf="isEditBtn" (click)="editTechProfile()">
           Edit
         </button>

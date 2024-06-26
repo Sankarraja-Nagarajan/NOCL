@@ -36,13 +36,14 @@ export class TankerDetailsComponent {
     this._registration.getFormData(this.formId, "TankerDetails").subscribe({
       next: (res) => {
         if (res) {
-          console.log("Tanker: ",res);
-          this.hasTankerDetail.emit(res.length!=0);
-          this.tankerDetails = res as TankerDetail;
-          this.capacityoftank = this.tankerDetails[0].Capacity_of_Tanker;
-          if(this.tankerDetails.Tanker_Type_Id != 0){
-            this.GetTankerDetails();
+          if(res.length>0){
+            this.tankerDetails = res as TankerDetail;
+            this.capacityoftank = this.tankerDetails[0].Capacity_of_Tanker;
+            if(this.tankerDetails.Tanker_Type_Id != 0){
+              this.GetTankerDetails();
+            }
           }
+          this.hasTankerDetail.emit(res.length!=0);
         }
         else{
           this.hasTankerDetail.emit(false);

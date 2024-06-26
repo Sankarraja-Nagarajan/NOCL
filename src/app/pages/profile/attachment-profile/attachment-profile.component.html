@@ -1,9 +1,40 @@
 <section id="attachment-profile" class="p-1">
 
-    <div class="detail-container">
-        <table mat-table [dataSource]="attachmentsDetails">
-
-        </table>
+    <div class="detail-container rounded">
+        <div class="row">
+            <div class="table-responsive w-100 table-container p-0">
+                <table mat-table [dataSource]="attachmentsDetails">
+                    <ng-container matColumnDef="Index">
+                        <th mat-header-cell *matHeaderCellDef style="width: 15%;">S. No</th>
+                        <td mat-cell *matCellDef="let element; let i = index" style="width: 15%;">{{i+1}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="File Name">
+                        <th mat-header-cell *matHeaderCellDef>File Name</th>
+                        <td mat-cell *matCellDef="let element">
+                            <button type="button" class="btn btn-link linkBtn" (click)="openAttachmentDialog(element)">
+                                <span>{{ element.File_Name }}</span>
+                            </button>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="File Type">
+                        <th mat-header-cell *matHeaderCellDef>File Type</th>
+                        <td mat-cell *matCellDef="let element">{{element.File_Type}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="Expiry Date">
+                        <th mat-header-cell *matHeaderCellDef>Expiry</th>
+                        <td mat-cell *matCellDef="let element">
+                            <div>
+                                <span *ngIf="!element.Is_Expiry_Available" class="px-3 fw-bold">{{'-'}}</span>
+                                <span *ngIf="element.Is_Expiry_Available">{{datePipe.transform(element.Expiry_Date, "dd/MM/yyyy")}}</span>
+                            </div>
+                        </td>
+                    </ng-container>
+                    
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns" class="row-header"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+                </table>
+            </div>
+        </div>
     </div>
-
+    
 </section>
