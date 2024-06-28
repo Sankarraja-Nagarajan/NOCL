@@ -44,4 +44,19 @@
       overflow-y: auto;
     }
   }
+
+  .popup-grade{
+    width: 200px;
+    position: absolute;
+    top: 150px;
+    right: 175px;
+    z-index: 10000 !important;  
+  }
+
+  .drop-notify {
+    z-index: 100 !important;
+    min-width: 300px;
+    word-wrap: break-word;
+  }
+
 }

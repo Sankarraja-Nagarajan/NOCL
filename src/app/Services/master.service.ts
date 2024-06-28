@@ -4,6 +4,7 @@ import { Observable } from "rxjs";
 import { environment } from "../../environments/environment";
 import { Role } from "../Models/Dtos";
 import { AppConfigService } from "./app-config.service";
+import { VendorGrade } from "../Models/Master";
 
 @Injectable({
   providedIn: "root",
@@ -155,4 +156,14 @@ export class MasterService {
   }
 
   //#endregion
+
+  addVendorGrade(grade: VendorGrade){
+    const URL = this.baseURL + "/VendorGrade/AddVendorGrade";
+    return this._http.post(URL, grade);
+  }
+
+  updateVendorGrade(grade: VendorGrade){
+    const URL = this.baseURL + "/VendorGrade/UpdateVendorGrade";
+    return this._http.post(URL, grade);
+  }
 }
