@@ -25,7 +25,7 @@
             </div>
             <div class="col-sm">
               <div>
-                <label class="input-label-text"> Status of Company <span class="asterisk-required">*</span></label>
+                <label class="input-label-text"> Status of Organization <span class="asterisk-required">*</span></label>
                 <div class="input-group">
                   <nb-select fullWidth size="small" status="primary" formControlName="Status_of_Company_Id"
                     placeholder="Select Status of Company Id">
@@ -38,7 +38,7 @@
                         .hasError('required') &&
                       this.vendorOrgForm.get('Status_of_Company_Id').touched
                     " class="error-msg">
-                    Status of Company is required</mat-error>
+                    Status of Organization is required</mat-error>
                 </div>
               </div>
             </div>
@@ -126,7 +126,7 @@
             <div class="col-12 col-md">
               <div class="d-flex mb-2" *ngIf="authResponse?.Role == 'Vendor'">
                 <div class="col-lg-10 col-md-9 col-10 me-4" *ngIf="authResponse?.Role == 'Vendor'">
-                  <label class="input-label-text">Subsideries</label>
+                  <label class="input-label-text">Subsidiaries</label>
                   <div class="input-group">
                     <input nbInput fullWidth fieldSize="small" class="input-border" placeholder="Enter Subsideries"
                       formControlName="Subsideries" />
@@ -146,12 +146,12 @@
                   </button>
                 </div>
               </div>
-              <label class="input-label-text" *ngIf="authResponse?.Role != 'Vendor'">Subsideries</label>
+              <label class="input-label-text" *ngIf="authResponse?.Role != 'Vendor'">Subsidiaries</label>
               <div class="multiple-input bg-white border">
                 <div *ngIf="subsideriesList.length == 0"
                   class="d-flex justify-content-center align-items-center empty-msg">
                   <nb-icon icon="file-text-outline"></nb-icon>
-                  No Subsideries to show.
+                  No Subsidiaries to show.
                 </div>
                 <div class="display-inputs border-bottom" *ngFor="let subsidery of subsideriesList; index as i">
                   <span>{{ subsidery.Subsidery_Name }}</span>

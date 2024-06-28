@@ -37,7 +37,7 @@
                                 <div class="input-group">
                                     <nb-select fullWidth size="small" status="primary" formControlName="Industry_Id"
                                         required placeholder="Select Industry">
-                                        <nb-option *ngFor="let industry of Industries" [value]="industry.Id"> {{
+                                        <nb-option *ngFor="let industry of Industries" [value]="industry.Id"> {{ industry.Code}} - {{
                                             industry.Description
                                             }}</nb-option>
                                     </nb-select>
@@ -54,7 +54,7 @@
                                 <div class="input-group">
                                     <nb-select fullWidth size="small" status="primary" formControlName="Incoterms_Id"
                                         required placeholder="Select Incoterms">
-                                        <nb-option *ngFor="let incoterms of Incoterms" [value]="incoterms.Id"> {{
+                                        <nb-option *ngFor="let incoterms of Incoterms" [value]="incoterms.Id"> {{incoterms.Code}} - {{
                                             incoterms.Description
                                             }}</nb-option>
                                     </nb-select>
@@ -75,7 +75,7 @@
                                         formControlName="Reconciliation_Id" required
                                         placeholder="Select Reconciliation Account">
                                         <nb-option *ngFor="let reconciliation of Reconciliation"
-                                            [value]="reconciliation.Id">{{ reconciliation.Description }}</nb-option>
+                                            [value]="reconciliation.Id"> {{ reconciliation.Code }} - {{ reconciliation.Description }}</nb-option>
                                     </nb-select>
                                     <mat-error
                                         *ngIf="this.additionalFieldsForm.get('Reconciliation_Id').hasError('required') && this.additionalFieldsForm.get('Reconciliation_Id').touched"
@@ -90,8 +90,8 @@
                                 <div class="input-group">
                                     <nb-select fullWidth size="small" status="primary" formControlName="Schema_Id"
                                         required placeholder="Select SchemaGroup">
-                                        <nb-option *ngFor="let schemaGroup of SchemaGroup" [value]="schemaGroup.Id"> {{
-                                            schemaGroup.Description }}</nb-option>
+                                        <nb-option *ngFor="let schemaGroup of SchemaGroup" [value]="schemaGroup.Id"> 
+                                            {{ schemaGroup.Code ? schemaGroup.Code + ' - ' + schemaGroup.Description : '#' + ' - ' +  schemaGroup.Description}}</nb-option>
                                     </nb-select>
                                 </div>
                             </div>
@@ -147,7 +147,7 @@
                                     <nb-select fullWidth size="small" status="primary" formControlName="PO_Code"
                                         required placeholder="Select Purchase Organization">
                                         <nb-option *ngFor="let purchase of PurchaseOrganizations"
-                                            [value]="purchase.PO_Code"> {{
+                                            [value]="purchase.PO_Code"> {{ purchase.PO_Code}} - {{
                                             purchase.Description }}</nb-option>
                                     </nb-select>
                                 </div>
@@ -168,7 +168,7 @@
                                         formControlName="AccountGroup_Id" required
                                         placeholder="Select Account Group">
                                         <nb-option *ngFor="let account of VendorAccountGroups"
-                                            [value]="account.Id">{{ account.Description }}</nb-option>
+                                            [value]="account.Id"> {{ account.Code}} - {{ account.Description }}</nb-option>
                                     </nb-select>
                                     <mat-error
                                         *ngIf="this.additionalFieldsForm.get('AccountGroup_Id').hasError('required') && this.additionalFieldsForm.get('AccountGroup_Id').touched"
