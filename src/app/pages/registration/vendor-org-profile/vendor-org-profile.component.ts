@@ -23,6 +23,8 @@ import { AuthResponse } from "../../../Models/authModel";
 import { RegistrationService } from "../../../Services/registration.service";
 import { CommonAddDataDialogComponent } from "../../../Dialogs/common-add-data-dialog/common-add-data-dialog.component";
 import { getSession } from "../../../Utils";
+import { AppConfigService } from "../../../Services/app-config.service";
+import { EmitterService } from "../../../Services/emitter.service";
 
 @Component({
   selector: "ngx-vendor-org-profile",
@@ -33,6 +35,8 @@ export class VendorOrgProfileComponent implements OnInit, AfterViewInit {
   @Input() form_Id: number;
   @Input() isReadOnly: boolean;
   @Output() havePartner = new EventEmitter<boolean>();
+  @Input() v_Id: number;
+
 
   vendorOrgForm: FormGroup;
   subsideriesList: Subsideries[] = [];
@@ -44,16 +48,19 @@ export class VendorOrgProfileComponent implements OnInit, AfterViewInit {
   isAnnualProdShown: boolean = false;
   nocilRelatedEmployees: NocilRelatedEmployee[] = [];
   isNocilEmployeeRelated: boolean = false;
+  impOrgTypes: string[] = [];
 
   constructor(
     private _fb: FormBuilder,
     private _dialog: MatDialog,
     private _master: MasterService,
     private _common: CommonService,
-    private _registration: RegistrationService
-  ) {}
+    private _registration: RegistrationService,
+    private _config: AppConfigService,
+    private emitterService: EmitterService
+  ) { }
 
-  
+
   ngOnInit(): void {
     this.vendorOrgForm = this._fb.group({
       Type_of_Org_Id: ["", Validators.required],
@@ -61,7 +68,7 @@ export class VendorOrgProfileComponent implements OnInit, AfterViewInit {
       RelationToNocil: [false],
       Subsideries: [null],
       Annual_Prod_Capacity: [0],
-      Unit:[""],
+      Unit: [""],
     });
 
     this.authResponse = JSON.parse(getSession("userDetails"));
@@ -79,6 +86,12 @@ export class VendorOrgProfileComponent implements OnInit, AfterViewInit {
   valueChangeEvents() {
     this.vendorOrgForm.get("Type_of_Org_Id").valueChanges.subscribe({
       next: (res) => {
+        if (res == 1 && this.v_Id == 5) {
+          this.emitterService.emitIsManufacturer(true);
+        }
+        else {
+          this.emitterService.emitIsManufacturer(false);
+        }
         if (res == 1) {
           this.vendorOrgForm
             .get("Annual_Prod_Capacity")
@@ -86,16 +99,16 @@ export class VendorOrgProfileComponent implements OnInit, AfterViewInit {
           this.vendorOrgForm
             .get("Annual_Prod_Capacity")
             .updateValueAndValidity();
-            this.vendorOrgForm.get("Unit").addValidators([Validators.required]);
-            this.vendorOrgForm.get("Unit").updateValueAndValidity();
+          this.vendorOrgForm.get("Unit").addValidators([Validators.required]);
+          this.vendorOrgForm.get("Unit").updateValueAndValidity();
           this.isAnnualProdShown = true;
         } else {
           this.vendorOrgForm.get("Annual_Prod_Capacity").clearValidators();
           this.vendorOrgForm
             .get("Annual_Prod_Capacity")
             .updateValueAndValidity();
-            this.vendorOrgForm.get("Unit").clearValidators();
-            this.vendorOrgForm.get("Unit").updateValueAndValidity();
+          this.vendorOrgForm.get("Unit").clearValidators();
+          this.vendorOrgForm.get("Unit").updateValueAndValidity();
           this.isAnnualProdShown = false;
         }
       },
@@ -125,9 +138,9 @@ export class VendorOrgProfileComponent implements OnInit, AfterViewInit {
     });
   }
 
-emitPartnerStatus(bool){
-  this.havePartner.emit(bool);
-}
+  emitPartnerStatus(bool) {
+    this.havePartner.emit(bool);
+  }
 
   // Make sure the Vendor Organization Profile Form is valid
   isValid() {
@@ -276,6 +289,18 @@ emitPartnerStatus(bool){
       next: (res) => {
         if (res[0]) {
           this.orgTypes = res[0] as OrganizationType[];
+          this.impOrgTypes = this._config.get("Import_Organization_Types").split(",");
+          if (this.v_Id == 5) {
+            this.orgTypes = this.orgTypes.filter(org => this.impOrgTypes.includes(org.Type_of_Organization));
+            // this.orgTypes.forEach(element => {
+            //   if (element.Type_of_Organization == "Manufacturer") {
+            //     this.emitterService.emitIsManufacturer("Manufacturer");
+            //   }
+            //   else {
+            //     this.emitterService.emitIsManufacturer(" ");
+            //   }
+            // })
+          }
         }
         if (res[1]) {
           this.companyStatuses = res[1] as CompanyStatus[];
@@ -294,7 +319,10 @@ emitPartnerStatus(bool){
           this.nocilRelatedEmployees = res[5] as NocilRelatedEmployee[];
         }
       },
-      error: (err) => {},
+      error: (err) => { },
     });
   }
+
+
+
 }

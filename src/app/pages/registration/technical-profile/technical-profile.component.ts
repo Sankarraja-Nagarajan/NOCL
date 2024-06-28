@@ -41,6 +41,7 @@ export class TechnicalProfileComponent implements OnInit {
     private _fileSaver: FileSaverService,
     private emitterService: EmitterService,
     public _dialog: MatDialog) {
+      console.log(this.isoAttachment)
 
   }
 
@@ -134,7 +135,6 @@ export class TechnicalProfileComponent implements OnInit {
 
   //upload-Attachment
   uploadAttachment(fileType: string) {
-
     const DIALOGREF = this._dialog.open(AttachmentDialogComponent, {
       autoFocus: false,
       data: {
@@ -150,6 +150,7 @@ export class TechnicalProfileComponent implements OnInit {
       next: (response) => {
         if (response) {
             this.isoAttachment = response as Attachment;
+            console.log(this.isoAttachment)
         }
       },
     });
@@ -157,7 +158,6 @@ export class TechnicalProfileComponent implements OnInit {
 
   //Reupload Attachment
   reUploadAttachment(attachment: any) {
-    
     const DIALOGREF = this._dialog.open(AttachmentDialogComponent, {
       autoFocus: false,
       data: {
@@ -172,6 +172,8 @@ export class TechnicalProfileComponent implements OnInit {
       next: (response) => {
         if (response) {
           this.isoAttachment = response as Attachment;
+          console.log(this.isoAttachment)
+
         }
       },
     });

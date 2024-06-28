@@ -38,8 +38,8 @@ export class AttachmentDialogComponent implements OnInit {
     private _config: AppConfigService,
     private _fb: FormBuilder,
     private _attach: AttachmentService,
-    
-  ) {}
+
+  ) { }
 
   ngOnInit(): void {
     this.attachmentForm = this._fb.group({
@@ -91,13 +91,13 @@ export class AttachmentDialogComponent implements OnInit {
     }
   }
 
-  submit(key:string) {
+  submit(key: string) {
     this.isFileUploaded = this.selectedFile ? false : true;
     if (this.attachmentForm.valid && !this.isFileUploaded) {
       this.attachmentForm.get("File_Type").enable();
       let attachment = new Attachment();
       attachment = this.attachmentForm.value;
-      key=="Add" ? attachment.Attachment_Id = 0 : attachment.Attachment_Id = this.data.attachment.Attachment_Id;
+      key == "Add" ? attachment.Attachment_Id = 0 : attachment.Attachment_Id = this.data.attachment.Attachment_Id;
       attachment.Form_Id = this.form_Id;
       attachment.File_Name = this.fileName;
       attachment.File_Extension = this.selectedFile.type;
@@ -105,17 +105,17 @@ export class AttachmentDialogComponent implements OnInit {
       formData.append("file", this.selectedFile, this.selectedFile.name);
       formData.append("AttachmentDetails", JSON.stringify(attachment));
 
-      
+
       this._attach.attachFiles(formData).subscribe({
         next: (res) => {
           if (res) {
-            
+
             this._dialogRef.close(res);
             this.attachmentForm.get("File_Type").disable();
           }
         },
         error: (err) => {
-          
+
           this.attachmentForm.get("File_Type").disable();
         },
       });
@@ -141,5 +141,13 @@ export class AttachmentDialogComponent implements OnInit {
   reUpload() {
     this.attachmentForm.patchValue(this.data.attachment);
     this.attachmentForm.get("File_Type").disable();
+    if(this.expDocs.includes(this.data.attachment.File_Type)){
+      this.attachmentForm.get("Is_Expiry_Available").setValue(true);
+      this.attachmentForm.get("Is_Expiry_Available").disable();
+    }
+    else{
+      this.attachmentForm.get("Is_Expiry_Available").setValue(false);
+    }
+   
   }
 }

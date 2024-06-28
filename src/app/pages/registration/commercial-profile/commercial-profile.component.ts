@@ -1,4 +1,4 @@
-import { Component, Input } from "@angular/core";
+import { Component, Input, ViewChild } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { CommercialProfile } from "../../../Models/Dtos";
 import { AppConfigService } from "../../../Services/app-config.service";
@@ -24,16 +24,18 @@ export class CommercialProfileComponent {
   commercialId: number = 0;
   msmeTypes: string[] = [];
   reqDoctypes: string[] = [];
-  documents:string= "";
+  documents: string = "";
   authResponse: AuthResponse;
   astheriskRequired: boolean = false;
   msmedisabled: boolean = true;
   MSMEindex: number;
+
   constructor(
     private _fb: FormBuilder,
     private _config: AppConfigService,
     private _registration: RegistrationService,
-    private _common: CommonService,private emitterService: EmitterService
+    private _common: CommonService,
+    private emitterService: EmitterService
   ) { }
 
   ngOnInit(): void {
@@ -101,6 +103,11 @@ export class CommercialProfileComponent {
 
         },
       });
+
+    this.emitterService.GSTINData().subscribe((gstin) => {
+      this.commercialProfileForm.get("GSTIN").patchValue(gstin);
+    });
+
   }
 
   // Make sure the Commercial Profile Form is valid
@@ -133,9 +140,9 @@ export class CommercialProfileComponent {
       if (this.MSMEindex != -1) {
         this.reqDoctypes.splice(this.MSMEindex, 1);
         this.documents = this.reqDoctypes.join(",");
-          this._config.updateConfigValue('Required_Attachments', this.documents);
-          const value = this._config.get("Required_Attachments").split(",");
-          this.updateRequireDocument(value);
+        this._config.updateConfigValue('Required_Attachments', this.documents);
+        const value = this._config.get("Required_Attachments").split(",");
+        this.updateRequireDocument(value);
       }
     } else {
       this.commercialProfileForm.get('MSME_Type').enable();
@@ -147,11 +154,14 @@ export class CommercialProfileComponent {
         this.documents = this.reqDoctypes.join(",");
         this._config.updateConfigValue('Required_Attachments', this.documents);
         const value = this._config.get("Required_Attachments").split(",");
-      this.updateRequireDocument(value);
+        this.updateRequireDocument(value);
       }
     }
   }
-  updateRequireDocument(value:string) {
+  updateRequireDocument(value: string) {
     this.emitterService.emitRequiredDocument(value);
   }
+
+
+
 }

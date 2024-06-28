@@ -7,11 +7,15 @@ import { Subject } from 'rxjs';
 export class EmitterService {
   requireddocument = new Subject<any>();
   ISODocument = new Subject<any>();
+  gstinValue= new Subject<any>();
+  isManufacturer=new Subject<any>();
 
 
   constructor() { 
     this.requireddocument.asObservable();
     this.ISODocument.asObservable();
+    this.gstinValue.asObservable();
+    this.isManufacturer.asObservable();
   }
   
   emitRequiredDocument(status: string) {
@@ -28,6 +32,22 @@ export class EmitterService {
 
   ISODocumentData() {
     return this.ISODocument.asObservable();
+  }
+
+  emitGSTIN(status: string) {
+    this.gstinValue.next(status);
+  }
+
+  GSTINData() {
+    return this.gstinValue.asObservable();
+  }
+
+  emitIsManufacturer(status: boolean) {
+    this.isManufacturer.next(status);
+  }
+
+  IsManufacturerValue() {
+    return this.isManufacturer.asObservable();
   }
 
 }

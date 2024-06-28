@@ -66,6 +66,10 @@ export class AnnualTurnoverComponent implements OnInit {
       this.dataSource.data.push(this.turnoverForm.value);
       this.dataSource._updateChangeSubscription();
       this.turnoverForm.reset();
+      this.turnoverForm.get("SalesTurnOver").setValue(0);
+      this.turnoverForm.get("OperatingProfit").setValue(0);
+      this.turnoverForm.get("NetProfit").setValue(0);
+
     } else {
       this.turnoverForm.markAllAsTouched();
     }
