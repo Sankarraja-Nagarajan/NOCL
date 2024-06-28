@@ -29,6 +29,20 @@
                             </div>
                         </td>
                     </ng-container>
+                    <ng-container matColumnDef="Action">
+                        <th mat-header-cell *matHeaderCellDef [hidden]="role != 'Vendor'">
+                          Action
+                        </th>
+                        <td mat-cell *matCellDef="let element; let i = index" [hidden]="role != 'Vendor'">
+                          <div>
+                            <button mat-mini-fab color="basic" [nbTooltip]="getToolTip(element.File_Name)" nbTooltipStatus="primary"
+                              class="cancel-btn"
+                              (click)="reUploadAttachment(element,'req',i)">
+                              <img src="../../../../assets/images/svgs/file-upload.svg" height="20" width="20" />
+                            </button>
+                          </div>
+                        </td>
+                      </ng-container>
                     
                     <tr mat-header-row *matHeaderRowDef="displayedColumns" class="row-header"></tr>
                     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>

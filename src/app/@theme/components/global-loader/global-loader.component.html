@@ -1,8 +1,13 @@
 <div class="loader-point" id="nb-global-spinner" *ngIf="loading$ | async">
   <div
-    class="spinner-grow text-primary"
-    style="width: 4rem; height: 4rem"
+    class="spinner-grow p-4"
+    style="width: 15rem; height: 15rem; background: none;"
     role="status"
-  ></div>
+    >
+    <img 
+      src="../../../../assets/logos/nocil-limited-logoo-loader.png"
+      class="w-100"  
+    >
+  </div>
   <span class="sr-only">Submitting...</span>
 </div>

@@ -10,6 +10,7 @@ import { RegistrationService } from "../../../Services/registration.service";
 import { ExpiryDetails } from "../../../Models/Registration";
 import { getSession, isNullOrWhiteSpace } from "../../../Utils";
 import { LayoutService } from "../../../@core/utils";
+import { get } from "http";
 
 @Component({
   selector: "ngx-header",
@@ -26,6 +27,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   isNotificationVisible: boolean = false;
   isDropdownVisible: boolean = false;
   allExpiryDetails: ExpiryDetails[] = [];
+  orgName: string = "";
 
   constructor(
     private sidebarService: NbSidebarService,
@@ -50,6 +52,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.userData.Role.toLowerCase() == "vendor" &&
         !isNullOrWhiteSpace(this.userData.Employee_Id)
       ) {
+        this.orgName = JSON.parse(getSession("vendorInfo")).Vendor_Name;
         this.getAllNotificationByVendorCode(this.userData.Employee_Id);
       } else {
         this.isNotificationVisible = false;

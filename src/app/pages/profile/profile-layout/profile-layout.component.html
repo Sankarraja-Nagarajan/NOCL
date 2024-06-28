@@ -1,70 +1,100 @@
 <section class="row gap-2 ms-2 profile-layout">
   <div class="row w-100 text-nowrap common-data">
     <div
-      class="vendor-name col-lg-4 d-flex flex-column justify-content-center h-100 text-center align-items-start px-4">
+      class="vendor-name col-6 col-lg-3 d-flex flex-column justify-content-center h-100 text-center align-items-start ps-4">
       <h2 class="display-3 fw-bold">{{ vendorProfile.Vendor_Name }}</h2>
       <h5>Since {{ vendorProfile.Year || '-'}}</h5>
     </div>
-    <div class="col-8 row">
-      <div class="col d-none d-lg-flex flex-column text-center justify-content-center gap-0">
-        <h4 class="fw-bold">Overall Grade</h4>
-        <h4>{{ vendorProfile.Grade?.Grade || '-'}}{{(vendorProfile.Grade?.Grade)?'%':''}}</h4>
+    <div class="col-5 col-lg-8 row gap-0">
+      <div class="col-12 col-lg-3 d-flex align-items-center justify-content-center">
+        <div class="d-flex flex-column text-center justify-content-center gap-0">
+          <h4 class="fw-bold">Overall Grade</h4>
+          <h4>{{ vendorProfile.Grade?.Grade || '-'}}{{(vendorProfile.Grade?.Grade)?'%':''}}</h4>
+        </div>
+        <div class="d-flex d-lg-none h-100 px-1 align-items-center" (mouseenter)="isPopupVisible = true" (mouseleave)="isPopupVisible = false">
+          <img src="../../../../assets/images/pngs/info-icon.png" height="20">
+        </div>
+        <div class="popup-grade" *ngIf="isPopupVisible">
+          <div class="row gap-3 bg-light rounded-4 shadow-lg p-3">
+            <div class="col-12 d-flex flex-column text-center justify-content-center gap-0">
+              <h4 class="fw-bold">Last Audit Date</h4>
+              <h4>{{ (vendorProfile.Grade?.Last_Audit_Date | date) || '-' }}</h4>
+            </div>
+            <div class="col-12 d-flex flex-column text-center justify-content-center gap-0">
+              <h4 class="fw-bold">Audited By</h4>
+              <h4>{{vendorProfile.Grade?.Last_Audited_By || '-'}}</h4>
+            </div>
+            <div class="col-12 d-flex flex-column text-center justify-content-center gap-0">
+              <h4 class="fw-bold">Audit Location</h4>
+              <h4>{{vendorProfile.Grade?.Location || '-'}}</h4>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="col d-none d-lg-flex flex-column text-center justify-content-center gap-0">
-        <h4 class="fw-bold">Last Audit Date</h4>
-        <h4>{{ (vendorProfile.Grade?.Last_Audit_Date | date) || '-' }}</h4>
+      <div class="col-12 col-lg-9 d-none d-lg-flex row">
+        <div class="col-12 col-lg-4 d-flex flex-column text-center justify-content-center gap-0">
+          <h4 class="fw-bold">Last Audit Date</h4>
+          <h4>{{ (vendorProfile.Grade?.Last_Audit_Date | date) || '-' }}</h4>
+        </div>
+        <div class="col-12 col-lg-4 d-flex flex-column text-center justify-content-center gap-0">
+          <h4 class="fw-bold">Audited By</h4>
+          <h4>{{vendorProfile.Grade?.Last_Audited_By || '-'}}</h4>
+        </div>
+        <div class="col-12 col-lg-4 d-flex flex-column text-center justify-content-center gap-0">
+          <h4 class="fw-bold">Audit Location</h4>
+          <h4>{{vendorProfile.Grade?.Location || '-'}}</h4>
+        </div>
       </div>
-      <div class="col d-none d-lg-flex flex-column text-center justify-content-center gap-0">
-        <h4 class="fw-bold">Audited By</h4>
-        <h4>{{vendorProfile.Grade?.Last_Audited_By || '-'}}</h4>
-      </div>
+    </div>
+    <div class="col-1 d-flex align-items-center">
+      <button class="btn btn-primary" (click)="openGradeDialog()">Grade</button>
     </div>
   </div>
   <div class="row w-100 tab-container px-4 py-4">
     <div class="col-3 d-flex flex-column h-100 p-1 tab-list" (wheel)="mouseScroll($event)">
       <div *ngFor="let tab of visibleTabs" class="p-0">
-        <button class="mb-2 me-4 pe-0" [ngClass]="(openTab==tab) ? 'highlighted':''"
-          (click)="openTab=tab">
+        <button class="mb-2 me-4 pe-0" [ngClass]="(openTab==tab) ? 'highlighted':''" (click)="openTab=tab">
           {{tab}}
         </button>
       </div>
 
     </div>
     <div class="col-9 tab-display h-100 ps-5" [ngClass]="(btnEnable[openTab].hasData)? '': 'd-none'">
-        <ngx-address-profile [ngClass]="(openTab!='Address')? 'd-none': ''" (hasAddress)="enableBtn($event, 'Address')">
-        </ngx-address-profile>
-        <ngx-contact-profile [ngClass]="(openTab!='Contact')? 'd-none': ''" (hasContact)="enableBtn($event, 'Contact')">
-        </ngx-contact-profile>
-        <ngx-technical-detail [ngClass]="(openTab!='Technical Profile')? 'd-none': ''"
-          (hasTechDetails)="enableBtn($event, 'Technical Profile')">
-        </ngx-technical-detail>
-        <ngx-commercial-detail [ngClass]="(openTab!='Commercial Profile')? 'd-none': ''"
-          (hasComercialProfile)="enableBtn($event, 'Commercial Profile')">
-        </ngx-commercial-detail>
-        <ngx-bank-info [ngClass]="(openTab!='Bank Detail')? 'd-none': ''"
-          (hasBankDetail)="enableBtn($event, 'Bank Detail')">
-        </ngx-bank-info>
-        <ngx-branch-info [ngClass]="(openTab!='Branches')? 'd-none': ''" (hasBranches)="enableBtn($event, 'Branches')">
-        </ngx-branch-info>
-        <ngx-annual-turnover-detail [ngClass]="(openTab!='Annual Turnover')? 'd-none': ''"
-          (hasAnnualTurnover)="enableBtn($event, 'Annual Turnover')">
-        </ngx-annual-turnover-detail>
-        <ngx-transport-vendor-profile [ngClass]="(openTab!='Transport Vendor Profile')? 'd-none': ''"
-          (hasTransportVendorDetails)="enableBtn($event, 'Transport Vendor Profile')">
-        </ngx-transport-vendor-profile>
-        <ngx-tanker-details [ngClass]="(openTab!='Tanker Details')? 'd-none': ''"
-          (hasTankerDetail)="enableBtn($event, 'Tanker Details')">
-        </ngx-tanker-details>
-        <ngx-organization-profile [ngClass]="(openTab!='Organization Profile')? 'd-none': ''"
-          (hasOrgProfile)="enableBtn($event, 'Organization Profile')">
-        </ngx-organization-profile>
-        <ngx-attachment-profile [ngClass]="(openTab!='Attachments')? 'd-none': ''"
-          (hasAttachment)="enableBtn($event, 'Attachments')">
-        </ngx-attachment-profile>
+      <ngx-transport-vendor-profile [ngClass]="(openTab!='Transport Vendor Profile')? 'd-none': ''"
+        (hasTransportVendorDetails)="enableBtn($event, 'Transport Vendor Profile')">
+      </ngx-transport-vendor-profile>
+      <ngx-tanker-details [ngClass]="(openTab!='Tanker Details')? 'd-none': ''"
+        (hasTankerDetail)="enableBtn($event, 'Tanker Details')">
+      </ngx-tanker-details>
+      <ngx-address-profile [ngClass]="(openTab!='Address')? 'd-none': ''" (hasAddress)="enableBtn($event, 'Address')">
+      </ngx-address-profile>
+      <ngx-contact-profile [ngClass]="(openTab!='Contact')? 'd-none': ''" (hasContact)="enableBtn($event, 'Contact')">
+      </ngx-contact-profile>
+      <ngx-technical-detail [ngClass]="(openTab!='Technical Profile')? 'd-none': ''"
+        (hasTechDetails)="enableBtn($event, 'Technical Profile')">
+      </ngx-technical-detail>
+      <ngx-commercial-detail [ngClass]="(openTab!='Commercial Profile')? 'd-none': ''"
+        (hasComercialProfile)="enableBtn($event, 'Commercial Profile')">
+      </ngx-commercial-detail>
+      <ngx-organization-profile [ngClass]="(openTab!='Organization Profile')? 'd-none': ''"
+        (hasOrgProfile)="enableBtn($event, 'Organization Profile')">
+      </ngx-organization-profile>
+      <ngx-bank-info [ngClass]="(openTab!='Bank Detail')? 'd-none': ''"
+        (hasBankDetail)="enableBtn($event, 'Bank Detail')">
+      </ngx-bank-info>
+      <ngx-branch-info [ngClass]="(openTab!='Vendor Branches')? 'd-none': ''"
+        (hasBranches)="enableBtn($event, 'Vendor Branches')">
+      </ngx-branch-info>
+      <ngx-annual-turnover-detail [ngClass]="(openTab!='Annual Turnover')? 'd-none': ''"
+        (hasAnnualTurnover)="enableBtn($event, 'Annual Turnover')">
+      </ngx-annual-turnover-detail>
+      <ngx-attachment-profile [ngClass]="(openTab!='Documents')? 'd-none': ''"
+        (hasAttachment)="enableBtn($event, 'Documents')">
+      </ngx-attachment-profile>
     </div>
-      <div class="col-9 h-100 d-flex justify-content-center align-items-center ps-5"
-        [ngClass]="(!btnEnable[openTab].hasData)? '': 'd-none'">
-        <img src="/assets/images/pngs/no-data-found.png" class="h-100" />
-      </div>
+    <div class="col-9 h-100 d-flex justify-content-center align-items-center ps-5"
+      [ngClass]="(!btnEnable[openTab].hasData)? '': 'd-none'">
+      <img src="/assets/images/pngs/no-data-found.png" class="h-100" />
+    </div>
   </div>
 </section>

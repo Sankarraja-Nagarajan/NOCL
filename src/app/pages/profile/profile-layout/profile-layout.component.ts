@@ -1,10 +1,13 @@
 import { AfterViewChecked, Component, OnInit } from "@angular/core";
+import { NbMenuService, NbSidebarService } from "@nebular/theme";
 import { ActivatedRoute } from "@angular/router";
 import { NbRouteTab } from "@nebular/theme";
 import { getSession } from "../../../Utils";
 import { MasterService } from "../../../Services/master.service";
 import { VendorProfile } from "../../../Models/Master";
 import { AppConfigService } from "../../../Services/app-config.service";
+import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
+import { GradeDialogComponent } from "../../../Dialogs/grade-dialog/grade-dialog.component";
 
 @Component({
   selector: "ngx-profile-layout",
@@ -45,6 +48,7 @@ export class ProfileLayoutComponent implements OnInit {
   btnEnable: any = {};
   visibleTabs = [];
   formToShow: any;
+  isPopupVisible: boolean = false;
 
   vendorInfo: any;
   vendorProfile: VendorProfile = new VendorProfile();
@@ -52,7 +56,8 @@ export class ProfileLayoutComponent implements OnInit {
   constructor(
     private _activatedRoute: ActivatedRoute,
     private _master: MasterService,
-    private _config: AppConfigService
+    private _config: AppConfigService,
+    private _dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -66,8 +71,8 @@ export class ProfileLayoutComponent implements OnInit {
         },
       });
 
-    this.formToShow = this._config.getSubItem('FormsToShow', this.vendorInfo.VT_Id)
-
+    this.formToShow = this._config.getSubItem('FormsToShow', this.vendorInfo.VT_Id);
+    
     this.renderTabs();
   }
 
@@ -109,11 +114,11 @@ export class ProfileLayoutComponent implements OnInit {
         isVisible: this.formToShow.bankDetails,
         hasData: true
       },
-      'Branches': {
+      'Vendor Branches': {
         isVisible: this.formToShow.vendorBranches,
         hasData: true
       },
-      'Attachments': {
+      'Documents': {
         isVisible: this.formToShow.attachments,
         hasData: true
       }
@@ -151,5 +156,17 @@ export class ProfileLayoutComponent implements OnInit {
   }
   enableBtn(event: boolean, btnName: string) {
     this.btnEnable[btnName].hasData = event;
+  }
+
+  openGradeDialog(){
+    const dialogConfig: MatDialogConfig = {
+      data: {
+        vendorProfile: this.vendorProfile
+      },
+      minWidth: 400,
+      panelClass: "dialog-box-document",
+      autoFocus: false,
+    };
+    this._dialog.open(GradeDialogComponent, dialogConfig);
   }
 }
