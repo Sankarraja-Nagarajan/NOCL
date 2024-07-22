@@ -135,7 +135,7 @@
       </ng-container>
 
       <!-- Action column -->
-      <ng-container matColumnDef="Action" stickyEnd>
+      <ng-container matColumnDef="Action">
         <th mat-header-cell *matHeaderCellDef [hidden]="authResponse?.Role=='Admin'">Action</th>
         <td mat-cell *matCellDef="let element" [hidden]="authResponse?.Role=='Admin'">
           <button

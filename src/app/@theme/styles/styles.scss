@@ -138,12 +138,8 @@ nb-layout {
 // header-layout-height
 nb-layout-header nav {
   padding: 0px 20px !important;
-  height: 60px !important;
   // background-color:var(--vp-bluish-violet);
-  background-image: linear-gradient(to left,
-      var(--vp-header-bg),
-      white,
-      var(--vp-header-bg));
+  background-image: var(--vp-header-gradient);
 }
 
 // footer-layout-height
@@ -179,8 +175,9 @@ nb-sidebar.compacted nb-menu .menu-item a.active::before {
 }
 
 nb-sidebar .scrollable {
+  margin-top: 20px !important;
   padding: 0px !important;
-  background-image: linear-gradient(to bottom, #ffff, #e8ebfa);
+  background-image: var(--vp-sidebar-gradient);
 }
 
 .compacted nb-menu .menu-item .menu-icon {
@@ -238,9 +235,9 @@ nb-layout .layout {
 // Text based classes
 
 .tiny-text {
-  color: #acacac;
+  color: #000000;
   opacity: 1;
-  font-size: var(--vp-fs-12);
+  font-size: var(--vp-fs-16);
   letter-spacing: 0.3px;
 }
 
@@ -465,8 +462,9 @@ nb-tabset nb-tab {
   // padding: 15px;
   // border: 1px solid;
   // border-radius:var(--vp-br-10);
-  width: 350px;
-  background-image: linear-gradient(to bottom, #e8ebfa78, #e8ebfa);
+  width: 45%;
+  min-width: 350px;
+  background-image: var(--vp-profile-gradient);
 
   .detail {
     font-size: var(--vp-fs-12) !important;
@@ -485,7 +483,7 @@ nb-tabset nb-tab {
 }
 
 .detail-container {
-  background-image: linear-gradient(to bottom, #e8ebfa78, #e8ebfa);
+  background-image: var(--vp-profile-gradient)
 }
 
 .mdc-text-field--filled.mdc-text-field--disabled .mdc-text-field__input {

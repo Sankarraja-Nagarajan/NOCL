@@ -8,6 +8,7 @@ import { Router } from "@angular/router";
 import { ForgotPasswordComponent } from "../../../Dialogs/forgot-password/forgot-password.component";
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { isNullOrEmpty, setSession } from "../../../Utils";
+import { VendorService } from "../../../Services/vendor.service";
 
 @Component({
   selector: "ngx-login",
@@ -23,7 +24,8 @@ export class LoginComponent implements OnInit {
     private _common: CommonService,
     private _router: Router,
     private _dialog: MatDialog,
-  ) {}
+    private _vendor: VendorService
+  ) { }
 
   ngOnInit(): void {
     //login form initialization
@@ -37,7 +39,7 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.valid) {
       let loginDetail = new LoginDetail();
       loginDetail = this.loginForm.value;
-      
+
       this._login.authUser(loginDetail).subscribe({
         next: (res) => {
           if (res) {
@@ -51,13 +53,15 @@ export class LoginComponent implements OnInit {
                 snackbarStatus.Success
               );
             } else {
-              this._router.navigate(["auth/login"]);
-              this._common.openSnackbar(
-                "You don't have permission to access this portal",
-                snackbarStatus.Danger
-              );
+              this._vendor.getFormByVendorCode(res.Employee_Id).subscribe({
+                next: (res1)=>{
+                  setSession("vendorInfo", JSON.stringify(res1));
+                  this._router.navigate(["profile"]);
+                }
+              })
             }
           }
+
         },
         error: (err) => {
           // 
@@ -83,7 +87,7 @@ export class LoginComponent implements OnInit {
           );
         }
       },
-      error: (err) => {},
+      error: (err) => { },
     });
   }
 }

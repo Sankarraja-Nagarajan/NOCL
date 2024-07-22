@@ -7,7 +7,7 @@ import {
 } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MatTableDataSource } from "@angular/material/table";
-import { Address, Region } from "../../../Models/Dtos";
+import { Address, Region, TaxPayerAddress } from "../../../Models/Dtos";
 import { CommonService } from "../../../Services/common.service";
 import { AddressType, Country } from "../../../Models/Master";
 import { MasterService } from "../../../Services/master.service";
@@ -15,7 +15,7 @@ import { snackbarStatus } from "../../../Enums/snackbar-status";
 import { AuthResponse } from "../../../Models/authModel";
 import { RegistrationService } from "../../../Services/registration.service";
 import { forkJoin } from "rxjs";
-import { getSession, isArrayEmpty } from "../../../Utils";
+import { getSession, isArrayEmpty, isNullOrEmpty } from "../../../Utils";
 
 @Component({
   selector: "ngx-address",
@@ -23,9 +23,8 @@ import { getSession, isArrayEmpty } from "../../../Utils";
   styleUrls: ["./address.component.scss"],
 })
 export class AddressComponent implements OnInit, OnChanges {
-
   @Input() form_Id: number;
-  @Input() gstAddress: string[] = [];
+  @Input() gstAddress: TaxPayerAddress[] = [];
   addresses: Address[] = [];
   Countries: Country[] = [];
   Regions: Region[] = [];
@@ -58,7 +57,7 @@ export class AddressComponent implements OnInit, OnChanges {
     private _commonService: CommonService,
     private _master: MasterService,
     private _registration: RegistrationService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     // address form Initialization
@@ -68,9 +67,9 @@ export class AddressComponent implements OnInit, OnChanges {
       Street_2: ["", [Validators.required, Validators.maxLength(40)]],
       Street_3: ["", [Validators.required, Validators.maxLength(40)]],
       Street_4: ["", [Validators.required, Validators.maxLength(40)]],
-      District: ["", [Validators.maxLength(8)]],
+      District: ["", [Validators.maxLength(35)]],
       Postal_Code: ["", [Validators.maxLength(10)]],
-      City: ["", [Validators.maxLength(40)]],
+      City: ["", [Validators.maxLength(35)]],
       Country_Code: ["", [Validators.required, Validators.maxLength(3)]],
       Region_Id: ["", [Validators.required]],
       Tel: ["", [Validators.maxLength(20)]],
@@ -87,15 +86,24 @@ export class AddressComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    console.log(changes);
     if (changes.gstAddress && this.gstAddress && this.gstAddress.length > 0) {
       this.gstAddress.forEach((element) => {
         let address = new Address();
         address.Address_Id = 0;
         address.Form_Id = this.form_Id;
         address.Address_Type_Id = 1;
+        address.House_No = element.House_No;
+        address.Street_2 = element.Street_2;
+        address.Street_3 = element.Street_3;
+        address.Street_4 = element.Street_4;
+        address.City = element.City;
+        address.District = element.District;
+        address.Postal_Code = element.Postal_Code;
         this.dataSource.data.push(address);
       });
       this.dataSource._updateChangeSubscription();
+      console.log(this.dataSource);
     }
   }
 
@@ -109,9 +117,9 @@ export class AddressComponent implements OnInit, OnChanges {
     if (this.addressForm.valid) {
       let address = new Address();
       address = this.addressForm.value;
-      const Name = this.Countries.filter(x => x.Code == address.Country_Code);
+      const Name = this.Countries.filter((x) => x.Code == address.Country_Code);
       address.Country_Name = !isArrayEmpty(Name) ? Name[0].Name : "";
-      const Region = this.Regions.filter(x => x.Id == address.Region_Id);
+      const Region = this.Regions.filter((x) => x.Id == address.Region_Id);
       address.Region_Name = !isArrayEmpty(Region) ? Region[0].Name : "";
       this.dataSource.data.push(address);
       this.dataSource._updateChangeSubscription();
@@ -129,13 +137,23 @@ export class AddressComponent implements OnInit, OnChanges {
 
   // Update address to the table
   updateAddress() {
+    console.log(this.editIndex, this.addressForm);
     if (this.editIndex >= 0) {
-      let id = this.dataSource.data[this.editIndex].Address_Id;
-      this.dataSource.data[this.editIndex] = this.addressForm.value;
-      this.dataSource.data[this.editIndex].Address_Id = id;
-      this.dataSource._updateChangeSubscription();
-      this.addressForm.reset();
-      this.editIndex = -1;
+      if(this.addressForm.valid){
+        let id = this.dataSource.data[this.editIndex].Address_Id;
+        this.dataSource.data[this.editIndex] = this.addressForm.value;
+        this.dataSource.data[this.editIndex].Address_Id = id;
+        const Name = this.Countries.filter((x) => x.Code == this.addressForm.value.Country_Code);
+        this.dataSource.data[this.editIndex].Country_Name = !isArrayEmpty(Name) ? Name[0].Name : "";
+        const Region = this.Regions.filter((x) => x.Id == this.addressForm.value.Region_Id);
+        this.dataSource.data[this.editIndex].Region_Name = !isArrayEmpty(Region) ? Region[0].Name : "";
+        this.dataSource._updateChangeSubscription();
+        this.addressForm.reset();
+        this.editIndex = -1;
+      }
+      else {
+        this.addressForm.markAllAsTouched();
+      }
     }
   }
 
@@ -148,6 +166,19 @@ export class AddressComponent implements OnInit, OnChanges {
   // Make sure the addresses array has at least one value
   isValid() {
     if (this.dataSource.data.length > 0) {
+      let isCountryRegion = false;
+      this.dataSource.data.forEach((ele) => {
+        if (isNullOrEmpty(ele.Country_Code) || isNullOrEmpty(ele.Region_Id)) {
+          isCountryRegion = true;
+        }
+      });
+      if (isCountryRegion) {
+        this._commonService.openSnackbar(
+          "Please update Country and Region in the address",
+          snackbarStatus.Danger
+        );
+        return false;
+      }
       return true;
     } else {
       this.addressForm.markAllAsTouched();
@@ -199,12 +230,8 @@ export class AddressComponent implements OnInit, OnChanges {
     }
   }
 
-
   getCountryAndRegion() {
-    forkJoin([
-      this._master.getCountry(),
-      this._master.getRegion(),
-    ]).subscribe({
+    forkJoin([this._master.getCountry(), this._master.getRegion()]).subscribe({
       next: (res) => {
         if (res[0]) {
           this.Countries = res[0] as Country[];
@@ -213,17 +240,13 @@ export class AddressComponent implements OnInit, OnChanges {
           this.Regions = res[1] as Region[];
         }
       },
-      error: (err) => { },
+      error: (err) => {},
     });
   }
 
   onChange(event: any) {
-    this.regionsForSelectedCountry = this.Regions.filter(region => region.Country_Code === event);
+    this.regionsForSelectedCountry = this.Regions.filter(
+      (region) => region.Country_Code === event
+    );
   }
-
 }
-
-
-
-
-

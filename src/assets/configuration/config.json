@@ -12,7 +12,6 @@
       "File_Path": "assets/data/NOCIL Supplier code of conduct 2022.pdf"
     }
   ],
-
   "Required_Attachments": "GST,MSME,PAN,Blank Cheque",
   "Import_Required_Attachments": "ISO 9001,ISO 14001,ISO 45001,MSME,Blank Cheque,Certificate of Analysis,MSDS,No PE certificate",
   "Expiry_Attachments": "ISO 9001,ISO 14001,ISO 45001,MSME,Certificate of Analysis,MSDS",
@@ -99,5 +98,6 @@
       "commercialProfile": true,
       "vendorBranches": true
     }
-  }
+  },
+  "Import_Organization_Types": "Manufacturer,Agent,Authorized Dealer"
 }

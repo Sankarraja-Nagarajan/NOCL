@@ -102,7 +102,8 @@ export class VendorListComponent implements OnInit, OnChanges {
     let formInfo = {
       FormId: this.dataSource.data[i].Form_Id,
       VT_Id: this.dataSource.data[i].VT_Id,
-      Vendor_Type : this.dataSource.data[i].Vendor_Type
+      Vendor_Type : this.dataSource.data[i].Vendor_Type,
+      Vendor_Code: this.dataSource.data[i].Vendor_Code
     };
     setSession("vendorInfo", JSON.stringify(formInfo));
 

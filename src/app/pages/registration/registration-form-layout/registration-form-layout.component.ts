@@ -81,6 +81,8 @@ export class RegistrationFormLayoutComponent implements OnInit {
 
   gstDetail: GstDetail = new GstDetail();
   formsToShow: FormsToShow = new FormsToShow();
+  isOrgTypeManufacturer: boolean = false;
+
 
   json_data: any;
 
@@ -91,8 +93,9 @@ export class RegistrationFormLayoutComponent implements OnInit {
     private _dialog: MatDialog,
     private _router: Router,
     private _encryptor: EncryptionService,
-    private _appConfig: AppConfigService
-  ) {}
+    private _appConfig: AppConfigService,
+    private emitterService:EmitterService
+  ) { }
 
   ngOnInit(): void {
 
@@ -117,6 +120,11 @@ export class RegistrationFormLayoutComponent implements OnInit {
       },
     });
     //this.ExpiryNotifications();
+
+    
+    this.emitterService.IsManufacturerValue().subscribe((value) => {
+      this.isOrgTypeManufacturer = value;
+  });
   }
 
   paramSubscription() {
@@ -167,17 +175,17 @@ export class RegistrationFormLayoutComponent implements OnInit {
 
   //#region Updating form API call
   updateForm(formSubmitTemplate: FormSubmitTemplate) {
-    
+
     this._registration.formUpdate(formSubmitTemplate).subscribe({
       next: (res) => {
         if (res.Status === 200) {
-          
+
           this._commonService.openSnackbar(res.Message, snackbarStatus.Success);
           this._router.navigate(["/success"]);
         }
       },
       error: (err) => {
-        
+
         this._commonService.openSnackbar(err, snackbarStatus.Danger);
       },
     });
@@ -190,10 +198,12 @@ export class RegistrationFormLayoutComponent implements OnInit {
     if (this.v_Id === 1) {
       this.domesticAndImportFormSubmit();
     } else if (this.v_Id == 2) {
-      this.serviceFormSubmit();
+      this.domesticAndImportFormSubmit();
     } else if (this.v_Id === 3) {
+      this.serviceFormSubmit();
+    } else if (this.v_Id === 4) {
       this.transportFormSubmit();
-    } else if (this.v_Id == 4) {
+    } else if (this.v_Id == 5) {
       this.domesticAndImportFormSubmit();
     }
   }
@@ -202,7 +212,14 @@ export class RegistrationFormLayoutComponent implements OnInit {
     if (this.v_Id === 1) {
       this.domesticAndImportFormSubmit();
     } else if (this.v_Id === 2) {
+      this.domesticAndImportFormSubmit();
+    } else if (this.v_Id === 3){
+      this.serviceFormSubmit();
+    }
+    else if (this.v_Id === 4) {
       this.transportFormSubmit();
+    } else if (this.v_Id == 5) {
+      this.domesticAndImportFormSubmit();
     }
     // else if (this.v_Id == 4) {
     //   this.domesticAndImportFormPayload();
@@ -221,10 +238,10 @@ export class RegistrationFormLayoutComponent implements OnInit {
     DIALOF_REF.afterClosed().subscribe({
       next: (res) => {
         if (res) {
-          
+
           this._registration.formRejection(res.reject as Rejection).subscribe({
             next: (res) => {
-              
+
               if (res && res.Status == 200) {
                 this._commonService.openSnackbar(
                   res.Message,
@@ -234,7 +251,7 @@ export class RegistrationFormLayoutComponent implements OnInit {
               }
             },
             error: (err) => {
-              
+
               this._commonService.openSnackbar(err, snackbarStatus.Danger);
             },
           });
@@ -259,23 +276,23 @@ export class RegistrationFormLayoutComponent implements OnInit {
       approval.RmRoleName = this.authResponse.RmRole;
       approval.AdditionalFields = this.additionalFieldsComponent.getAllAdditionalData();
 
-      
+
       this._registration.formApproval(approval).subscribe({
         next: (res) => {
-          
+
           if (res && res.Status == 200) {
             this._commonService.openSnackbar(res.Message, snackbarStatus.Success);
             this._router.navigate(["/onboarding/dashboard"]);
           }
         },
         error: (err) => {
-          
+
           this._commonService.openSnackbar(err, snackbarStatus.Danger);
         },
       });
     }
-    else{
-      this._commonService.openSnackbar("Please Fill out Additional Fields Information.",snackbarStatus.Danger);
+    else {
+      this._commonService.openSnackbar("Please Fill out Additional Fields Information.", snackbarStatus.Danger);
     }
   }
 
@@ -532,15 +549,16 @@ export class RegistrationFormLayoutComponent implements OnInit {
     this.gstDetail = event;
   }
 
+
+
   getAttachments(formSubmitTemplate: FormSubmitTemplate) {
-    
+
     this._registration.getFormData(this.form_Id, "Attachments").subscribe({
       next: (res) => {
         this.attachmentsArray = res;
-        
         this.openDialog(formSubmitTemplate);
       },
-      error:(err)=>{}
+      error: (err) => { }
     });
   }
 
@@ -554,17 +572,15 @@ export class RegistrationFormLayoutComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe({
-      next:()=>{
+      next: () => {
         this._registration.formSubmit(formSubmitTemplate).subscribe({
           next: (res) => {
             if (res.Status === 200) {
-              
               this._commonService.openSnackbar(res.Message, snackbarStatus.Success);
               this._router.navigate(["/success"]);
             }
           },
           error: (err) => {
-            
             this._commonService.openSnackbar(err, snackbarStatus.Danger);
           },
         });

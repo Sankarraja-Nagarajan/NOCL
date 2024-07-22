@@ -14,6 +14,7 @@ import { getSession, isNullOrEmpty } from "../../../Utils";
 import { MasterService } from "../../../Services/master.service";
 import { forkJoin } from "rxjs";
 import { GSTVenClass, Title } from "../../../Models/Master";
+import { EmitterService } from "../../../Services/emitter.service";
 
 @Component({
   selector: "ngx-vendor-personal-info",
@@ -25,6 +26,7 @@ export class VendorPersonalInfoComponent implements OnInit {
   @Input() isReadOnly: boolean;
   @Input() v_Id: number;
   @Output() gstDetail: EventEmitter<GstDetail> = new EventEmitter<GstDetail>();
+  
 
   domesticVendorForm: FormGroup;
   years: number[] = [];
@@ -37,7 +39,8 @@ export class VendorPersonalInfoComponent implements OnInit {
     private _fb: FormBuilder,
     private _commonService: CommonService,
     private _registration: RegistrationService,
-    private _master: MasterService
+    private _master: MasterService,
+    private emitterService:EmitterService
   ) { }
 
   ngOnInit(): void {
@@ -101,6 +104,7 @@ export class VendorPersonalInfoComponent implements OnInit {
       this.domesticVendorForm.value.GSTIN &&
       this.domesticVendorForm.get("GSTIN").valid
     ) {
+      this.emitterService.emitGSTIN(this.domesticVendorForm.value.GSTIN);
       this._registration
         .getGstDetails(this.domesticVendorForm.value.GSTIN)
         .subscribe({
@@ -178,5 +182,11 @@ export class VendorPersonalInfoComponent implements OnInit {
       },
       error: (err) => {},
     });
+  }
+
+
+  isNotRegistered(): boolean {
+    const selectedGSTVenClass = this.GST.find(gst => gst.Id === this.domesticVendorForm.value.GSTVenClass_Id);
+    return selectedGSTVenClass && selectedGSTVenClass.Code === '0'; 
   }
 }

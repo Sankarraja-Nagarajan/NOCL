@@ -23,4 +23,9 @@ export class VendorService {
     const URL = `${this.baseURL}/Vendors/GetAllTransportVendors`;
     return this._http.get(URL);
   }
+
+  getFormByVendorCode(vendorCode: string){
+    const URL = `${this.baseURL}/GetFormData/GetVendorByCode?VendorCode=${vendorCode}`;
+    return this._http.get(URL);
+  }
 }

@@ -1,7 +1,7 @@
 .main {
   height: 100vh;
   width: 100%;
-  background-color: var(--vp-white);
+  background-image: url("../../../../assets/images/Nocil-industry.jpg");
   position: absolute;
   left: 0;
   top: 0;
@@ -46,7 +46,8 @@
       width: 400px;
       padding: 20px;
       border-radius: 10px;
-      background-color: var(--vp-white);
+      background: var(--vp-login-card-gradient);
+      
 
       .welcome-title {
         height: fit-content;

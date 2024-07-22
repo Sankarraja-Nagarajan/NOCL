@@ -231,7 +231,21 @@ export class VendorMaster {
 export class GstDetail {
   Name: string;
   RegistrationDate: string;
-  Addresses: string[];
+  Addresses: TaxPayerAddress[];
+}
+
+export class TaxPayerAddress
+{
+   House_No:string;
+   Street_2:string;
+   Street_3:string;
+   Street_4:string;
+   Street_5:string;
+   City:string;
+   Postal_Code:string;
+   District:string;
+   Country_Code:string;
+   Region_Id:string;
 }
 
 export class Region {

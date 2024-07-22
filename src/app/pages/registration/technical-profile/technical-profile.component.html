@@ -23,9 +23,18 @@
             </div>
 
 
-            <div *ngIf="technicalProfileForm.value.Is_ISO_Certified === true"
-              class="d-flex justify-content-center align-items-center">
-              <div class="isoDialog border p-1 m-2 w-75 d-flex justify-content-between align-items-center input-border"
+            <div *ngIf="technicalProfileForm.value.Is_ISO_Certified === true" class="d-flex justify-content-center align-items-center">
+              <ng-container *ngIf="isoAttachment.Attachment_Id==0">
+                <div class="isoDialog border p-1 m-2 w-75 row input-border" fieldSize="tiny">
+                  <span class="col-11 text-center  mt-2"><b>Upload ISO File</b></span>
+                  <button class="col" mat-mini-fab color="basic" nbTooltipStatus="primary" class="cancel-btn" (click)="uploadAttachment('ISO 9001')">
+                    <img src="../../../../assets/images/svgs/file-upload.svg" height="20" width="20" />
+                  </button>
+                </div>
+              </ng-container>
+              
+              <ng-container *ngIf="isoAttachment.Attachment_Id!=0">
+                <div class="isoDialog border p-1 m-2 w-75 d-flex justify-content-between align-items-center input-border"
                 fieldSize="tiny">
                 <span>{{ isoAttachment?.File_Type }}</span>
                 <span><b>Expires on </b>
@@ -35,12 +44,14 @@
                   <span> {{ isoAttachment?.File_Name }} </span>
                 </button>
                 <button mat-mini-fab color="basic" nbTooltipStatus="primary" class="cancel-btn"
-                  [nbTooltip]="getToolTip(isoAttachment?.File_Name)"
+                  [nbTooltip]="getToolTip(isoAttachment?.File_Name)" [hidden]="this.authResponse.Role != 'Vendor'"
                   (click)="isoAttachment?.Attachment_Id!=0 ? reUploadAttachment(isoAttachment) : uploadAttachment('ISO 9001')">
                   <img src="../../../../assets/images/svgs/file-upload.svg" height="20" width="20" />
                 </button>
               </div>
+              </ng-container>
             </div>
+            
           </div>
 
 

@@ -134,7 +134,6 @@ export class AttachmentsComponent implements OnInit, OnChanges {
       next: (res) => {
         this.additionalDatasource.data.splice(i, 1);
         this.additionalDatasource._updateChangeSubscription();
-        
         this._common.openSnackbar(res.Message, snackbarStatus.Success);
       },
       error: (err) => {

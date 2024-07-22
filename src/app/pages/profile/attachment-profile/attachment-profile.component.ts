@@ -8,6 +8,7 @@ import { Attachment } from "../../../Models/Dtos";
 import { DocumentViewDialogComponent } from "../../../Dialogs/document-view-dialog/document-view-dialog.component";
 import { AttachmentService } from "../../../Services/attachment.service";
 import { FileSaverService } from "../../../Services/file-saver.service";
+import { AttachmentDialogComponent } from "../../../Dialogs/attachment-dialog/attachment-dialog.component";
 
 @Component({
   selector: "ngx-attachment-profile",
@@ -20,11 +21,14 @@ export class AttachmentProfileComponent implements OnInit {
   attachmentsDetails = new MatTableDataSource();
   vendorInfo: any;
   formId: any;
+  role: string;
+  reqDocIndex: number = -1;
   displayedColumns = [
     'Index', 
     'File Name',
     'File Type',
-    'Expiry Date'
+    'Expiry Date',
+    'Action'
   ]
 
   constructor(
@@ -40,6 +44,8 @@ export class AttachmentProfileComponent implements OnInit {
     let vInfo = sessionStorage.getItem("vendorInfo");
     this.vendorInfo = JSON.parse(vInfo);
     this.formId = this.vendorInfo.FormId;
+
+    this.role = JSON.parse(sessionStorage.getItem("userDetails")).Role;
 
     this.getAttachments();
   }
@@ -106,5 +112,50 @@ export class AttachmentProfileComponent implements OnInit {
     let arr = fileName.split(".");
     let ext = arr[arr.length - 1].toLowerCase();
     return ext == "pdf";
+  }
+
+  reUploadAttachment(element: Attachment, type: string, i) {
+    this.getDocIndex(type, i);
+
+    const DIALOGREF = this._dialog.open(AttachmentDialogComponent, {
+      autoFocus: false,
+      data: {
+        upload: false,
+        reUpload: true,
+        formId: this.formId,
+        attachment: element,
+      },
+    });
+
+    // const DIALOGREF = this._common.reuploadAttachment(this.form_Id, element);
+
+    DIALOGREF.afterClosed().subscribe({
+      next: (response) => {
+        if (response) {
+          if (this.reqDocIndex >= 0) {
+            this.attachmentsDetails.data[this.reqDocIndex] = response as Attachment;
+            this.attachmentsDetails._updateChangeSubscription();
+          }
+        }
+        this.resetIndexes();
+      },
+    });
+  }
+
+  getDocIndex(type: string, i: number) {
+    if (type == "req") {
+      this.reqDocIndex = i;
+    }
+    if (type == "not-req") {
+      this.reqDocIndex = -1;
+    }
+  }
+
+  getToolTip(fileName: string): string {
+    return fileName ? "Re-upload" : "Upload";
+  }
+
+  resetIndexes() {
+    this.reqDocIndex = -1;
   }
 }

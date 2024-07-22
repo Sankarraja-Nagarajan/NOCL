@@ -1,71 +1,74 @@
-<div class="header-container">
-  <div class="logo-container">
-    <a (click)="toggleSidebar()" href="#" class="sidebar-toggle">
-      <nb-icon icon="menu-2-outline"></nb-icon>
-    </a>
-    <img
-      class="nocil-logo"
-      src="assets/logos/nocil-limited-logoo.png"
-      alt="Nocil Logo"
-    />
+<div class="row w-100">
+  <div class="header-container col-md-4 col-6">
+    <div class="logo-container">
+      <a (click)="toggleSidebar()" href="#" class="sidebar-toggle">
+        <nb-icon icon="menu-2-outline"></nb-icon>
+      </a>
+      <img
+        class="nocil-logo"
+        src="assets/logos/nocil-limited-logoo.png"
+        alt="Nocil Logo"
+      />
+    </div>
   </div>
-</div>
-
-<div class="header-container">
-  <h2>Vendor Onboarding</h2>
-</div>
-
-<div
-  class="col-md-4 col-6 text-right px-md-3 px-0 d-flex align-items-center justify-content-end"
->
-  <div class="control-item" (mouseleave)="isDropdownVisible = false">
-    <div class="header-container">
-      <nb-actions class="notification" size="medium">
-        <nb-action
-          class="notify-icon"
-          icon="bell-outline"
-          [badgeText]="allExpiryDetails.length"
-          badgePosition="top right"
-          badgeStatus="info"
-          *ngIf="isNotificationVisible"
-          (mouseenter)="isDropdownVisible = true"
-        >
-        </nb-action>
-        <nb-action class="user-action" *nbIsGranted="['view', 'user']">
-          <nb-user
-            [nbContextMenu]="userMenu"
-            nbContextMenuTag="user-menu-tag"
-            [onlyPicture]="userPictureOnly"
-            [picture]="picture"
+  
+  <div class="header-container d-flex justify-content-center col-md-4 col-6">
+    <h2>{{titleToBeDisplayed()}}</h2>
+  </div>
+  
+  <div
+    class="col-md-4 col-6 text-right px-md-3 px-0 d-flex align-items-center justify-content-end"
+  >
+    <div class="control-item" (mouseleave)="isDropdownVisible = false">
+      <div class="header-container">
+        <nb-actions class="notification" size="medium">
+          <nb-action
+            class="notify-icon"
+            icon="bell-outline"
+            [badgeText]="allExpiryDetails.length"
+            badgePosition="top right"
+            badgeStatus="info"
+            *ngIf="isNotificationVisible"
+            (mouseenter)="isDropdownVisible = true"
+          > 
+          </nb-action>
+          <nb-action class="user-action" *nbIsGranted="['view', 'user']">
+            <nb-user
+              [nbContextMenu]="userMenu"
+              nbContextMenuTag="user-menu-tag"
+              [onlyPicture]="userPictureOnly"
+              [picture]="picture"
+            >
+            </nb-user>
+            <div class="d-flex flex-column">
+              <span class="header-color">{{ name }}</span>
+              <span class="header-color">{{ title }}</span>
+            </div>
+          </nb-action>
+        </nb-actions>
+  
+        <div *ngIf="allExpiryDetails.length>0"
+          class="dropdown-content-alt p-2 bg-white"
+          [class.show]="isDropdownVisible"
           >
-          </nb-user>
-          <div class="d-flex flex-column">
-            <span class="header-color">{{ name }}</span>
-            <span class="header-color">{{ title }}</span>
-          </div>
-        </nb-action>
-      </nb-actions>
-
-      <div
-        class="dropdown-content-alt p-2 bg-white"
-        [class.show]="isDropdownVisible"
-      >
-        <div class="drop-notify">
-          <div class="col" *ngFor="let expiryvendor of allExpiryDetails">
-            <div class="row">
-              <div class="mt-2">
-                <nb-icon icon="alert-circle"></nb-icon>
-                <span class="font-align">
-                  {{ expiryvendor.Vendor_Name }} :
-                  {{ expiryvendor.Doc_Type }} is expired on
-                  {{ expiryvendor.Valid_Till_Date | date : "dd/MM/yyyy" }}
-                </span>
+          <div class="drop-notify">
+            <div class="col" *ngFor="let expiryvendor of allExpiryDetails">
+              <div class="row">
+                <div class="mt-2">
+                  <nb-icon icon="alert-circle"></nb-icon>
+                  <span class="font-align">
+                    {{ expiryvendor.Vendor_Name }} :
+                    {{ expiryvendor.Doc_Type }} is expired on
+                    {{ expiryvendor.Valid_Till_Date | date : "dd/MM/yyyy" }}
+                  </span>
+                </div>
+                <span class="border-bottom p-2"></span>
               </div>
-              <span class="border-bottom p-2"></span>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
+  
 </div>

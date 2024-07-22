@@ -1,10 +1,13 @@
 import { AfterViewChecked, Component, OnInit } from "@angular/core";
+import { NbMenuService, NbSidebarService } from "@nebular/theme";
 import { ActivatedRoute } from "@angular/router";
 import { NbRouteTab } from "@nebular/theme";
 import { getSession } from "../../../Utils";
 import { MasterService } from "../../../Services/master.service";
 import { VendorProfile } from "../../../Models/Master";
 import { AppConfigService } from "../../../Services/app-config.service";
+import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
+import { GradeDialogComponent } from "../../../Dialogs/grade-dialog/grade-dialog.component";
 
 @Component({
   selector: "ngx-profile-layout",
@@ -45,19 +48,31 @@ export class ProfileLayoutComponent implements OnInit {
   btnEnable: any = {};
   visibleTabs = [];
   formToShow: any;
+  isPopupVisible: boolean = false;
 
   vendorInfo: any;
   vendorProfile: VendorProfile = new VendorProfile();
 
   constructor(
-    private _activatedRoute: ActivatedRoute,
     private _master: MasterService,
-    private _config: AppConfigService
-  ) { }
+    private _config: AppConfigService,
+    private _dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
     let vInfo = getSession("vendorInfo");
     this.vendorInfo = JSON.parse(vInfo);
+    this.getVendorPrfile();
+
+    this.formToShow = this._config.getSubItem(
+      "FormsToShow",
+      this.vendorInfo.VT_Id
+    );
+
+    this.renderTabs();
+  }
+
+  getVendorPrfile() {
     this._master
       .getVendorProfile(Number.parseInt(this.vendorInfo.FormId))
       .subscribe({
@@ -65,80 +80,75 @@ export class ProfileLayoutComponent implements OnInit {
           this.vendorProfile = res as VendorProfile;
         },
       });
-
-    this.formToShow = this._config.getSubItem('FormsToShow', this.vendorInfo.VT_Id)
-
-    this.renderTabs();
   }
 
   renderTabs() {
     this.btnEnable = {
-      'Transport Vendor Profile': {
+      "Transport Vendor Profile": {
         isVisible: this.formToShow.transportPersonalData,
-        hasData: true
+        hasData: true,
       },
-      'Tanker Details': {
+      "Tanker Details": {
         isVisible: this.formToShow.tankerDetails,
-        hasData: true
+        hasData: true,
       },
-      'Address': {
+      Address: {
         isVisible: this.formToShow.address,
-        hasData: true
+        hasData: true,
       },
-      'Contact': {
+      Contact: {
         isVisible: this.formToShow.contact,
-        hasData: true
+        hasData: true,
       },
-      'Technical Profile': {
+      "Technical Profile": {
         isVisible: this.formToShow.technicalProfile,
-        hasData: true
+        hasData: true,
       },
-      'Commercial Profile': {
+      "Commercial Profile": {
         isVisible: this.formToShow.commercialProfile,
-        hasData: true
+        hasData: true,
       },
-      'Organization Profile': {
+      "Organization Profile": {
         isVisible: this.formToShow.organizationData,
-        hasData: true
+        hasData: true,
       },
-      'Annual Turnover': {
+      "Annual Turnover": {
         isVisible: this.formToShow.annualTurnOver,
-        hasData: true
+        hasData: true,
       },
-      'Bank Detail': {
+      "Bank Detail": {
         isVisible: this.formToShow.bankDetails,
-        hasData: true
+        hasData: true,
       },
-      'Branches': {
+      "Vendor Branches": {
         isVisible: this.formToShow.vendorBranches,
-        hasData: true
+        hasData: true,
       },
-      'Attachments': {
+      Documents: {
         isVisible: this.formToShow.attachments,
-        hasData: true
-      }
+        hasData: true,
+      },
     };
 
     Object.entries(this.btnEnable).forEach(([key, value]) => {
       if (this.btnEnable[key].isVisible) {
-        this.visibleTabs.push(key)
+        this.visibleTabs.push(key);
       }
     });
     this.openTab = this.visibleTabs[0];
   }
 
   mouseScroll(evt: any) {
-    let index = this.visibleTabs.findIndex(value => value === this.openTab);
+    let index = this.visibleTabs.findIndex((value) => value === this.openTab);
 
     if (evt.deltaY < 0) {
       if (index == 0) {
-        return
+        return;
       }
       index -= 1;
-    }
-    else {
+    } else {
       if (index == this.visibleTabs.length - 1) {
-        return
+        return;
       }
       index += 1;
     }
@@ -151,5 +161,22 @@ export class ProfileLayoutComponent implements OnInit {
   }
   enableBtn(event: boolean, btnName: string) {
     this.btnEnable[btnName].hasData = event;
+  }
+
+  openGradeDialog() {
+    const dialogConfig: MatDialogConfig = {
+      data: {
+        vendorProfile: this.vendorProfile,
+      },
+      minWidth: 400,
+      panelClass: "dialog-box-document",
+      autoFocus: false,
+    };
+    this._dialog.open(GradeDialogComponent, dialogConfig);
+    this._dialog.afterAllClosed.subscribe({
+      next: () => {
+        this.getVendorPrfile();
+      },
+    });
   }
 }

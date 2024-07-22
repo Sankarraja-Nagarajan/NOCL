@@ -10,8 +10,8 @@
                             <div>
                                 <label class="input-label-text"> Title <span class="asterisk-required">*</span> </label>
                                 <div class="input-group">
-                                    <nb-select fullWidth size="small" status="primary" formControlName="Title_Id" required
-                                        placeholder="Select Title">
+                                    <nb-select fullWidth size="small" status="primary" formControlName="Title_Id"
+                                        required placeholder="Select Title">
                                         <nb-option *ngFor="let title of titles" [value]="title.Id">{{
                                             title.Title_Name }}</nb-option>
                                     </nb-select>
@@ -61,8 +61,9 @@
                                 <div class="input-group">
                                     <nb-select fullWidth size="small" status="primary" formControlName="GSTVenClass_Id"
                                         placeholder="Select GST Ven Class">
-                                        <nb-option *ngFor="let gst of GST" [value]="gst.Id">{{ gst.Description
-                                            }}</nb-option>
+                                        <nb-option *ngFor="let gst of GST" [value]="gst.Id">
+                                            {{ gst.Code ? gst.Code + ' - ' + gst.Description : '#' + ' - ' +
+                                            gst.Description}}</nb-option>
                                     </nb-select>
                                 </div>
                             </div>
@@ -71,7 +72,7 @@
                     <!-- OrgName & PlantInstallaitonYear -->
 
                     <!-- GSTIN & Get details btn -->
-                    <div class="row" *ngIf="authResponse?.Role == 'Vendor' && v_Id != 4">
+                    <div class="row" *ngIf="authResponse?.Role == 'Vendor' && v_Id != 5 &&  !isNotRegistered()">
                         <div class="col-sm-6">
                             <div>
                                 <label class="input-label-text"> GSTIN </label>
@@ -87,7 +88,7 @@
                         <div class="col-sm-5 d-flex mt-sm-0 mt-2 justify-content-sm-start justify-content-end">
                             <div class="d-flex align-items-end justify-content-center">
                                 <button *ngIf="authResponse?.Role == 'Vendor'" class="btn btn-design center-flexBox"
-                                    (click)="getGstDetails()">
+                                    (click)="getGstDetails()" >
                                     <!-- <img src="../../../../assets/images/pngs/plus.png" width="16" height="16"> -->
                                     Get Details</button>
                             </div>
