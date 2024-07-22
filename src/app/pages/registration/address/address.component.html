@@ -9,7 +9,7 @@
               <div>
                 <label class="input-label-text"> House No <span class="asterisk-required">*</span> </label>
                 <div class="input-group">
-                  <input nbInput fullWidth fieldSize="small" maxlength="60" class="input-border"
+                  <input nbInput fullWidth fieldSize="small" class="input-border"
                     placeholder="Enter house no" formControlName="House_No" />
                 </div>
                 <mat-error *ngIf="
@@ -24,7 +24,7 @@
               <div>
                 <label class="input-label-text"> Street 2 <span class="asterisk-required">*</span> </label>
                 <div class="input-group">
-                  <input nbInput fullWidth fieldSize="small" maxlength="40" class="input-border"
+                  <input nbInput fullWidth fieldSize="small" class="input-border"
                     placeholder="Enter Street 2" formControlName="Street_2" />
                   <mat-error *ngIf="
                       this.addressForm
@@ -43,7 +43,7 @@
                 <label class="input-label-text"> Street 3 <span class="asterisk-required">*</span>
                 </label>
                 <div class="input-group">
-                  <input nbInput fullWidth fieldSize="small" maxlength="40" class="input-border"
+                  <input nbInput fullWidth fieldSize="small" class="input-border"
                     placeholder="Enter Street 3" formControlName="Street_3" />
                   <mat-error *ngIf="
                       this.addressForm
@@ -59,7 +59,7 @@
                 <label class="input-label-text"> Street 4 <span class="asterisk-required">*</span>
                 </label>
                 <div class="input-group">
-                  <input nbInput fullWidth fieldSize="small" maxlength="40" class="input-border"
+                  <input nbInput fullWidth fieldSize="small" class="input-border"
                     placeholder="Enter Street 4" formControlName="Street_4" />
                   <mat-error *ngIf="
                       this.addressForm
@@ -78,7 +78,7 @@
                 <label class="input-label-text"> District
                 </label>
                 <div class="input-group">
-                  <input nbInput fullWidth fieldSize="small" maxlength="8" class="input-border"
+                  <input nbInput fullWidth fieldSize="small" class="input-border"
                     placeholder="Enter District" formControlName="District" />
                 </div>
               </div>
@@ -88,7 +88,7 @@
                 <label class="input-label-text"> Postal Code
                 </label>
                 <div class="input-group">
-                  <input nbInput fullWidth fieldSize="small" maxlength="10" class="input-border"
+                  <input nbInput fullWidth fieldSize="small" class="input-border"
                     placeholder="Enter Postal Code" formControlName="Postal_Code"
                     (keypress)="keyPressValidation($event)" />
                 </div>
@@ -102,7 +102,7 @@
                 <label class="input-label-text"> City
                 </label>
                 <div class="input-group">
-                  <input nbInput fullWidth fieldSize="small" maxlength="40" class="input-border"
+                  <input nbInput fullWidth fieldSize="small" class="input-border"
                     placeholder="Enter City" formControlName="City" />
                 </div>
               </div>
@@ -154,7 +154,7 @@
               <div>
                 <label class="input-label-text"> Website </label>
                 <div class="input-group">
-                  <input nbInput fullWidth fieldSize="small" maxlength="100" class="input-border"
+                  <input nbInput fullWidth fieldSize="small" class="input-border"
                     placeholder="Enter website" formControlName="Website" />
                 </div>
               </div>
@@ -168,7 +168,7 @@
               <div>
                 <label class="input-label-text"> Tel </label>
                 <div class="input-group">
-                  <input nbInput fullWidth fieldSize="small" maxlength="20" class="input-border"
+                  <input nbInput fullWidth fieldSize="small" class="input-border"
                     placeholder="Enter tel number" formControlName="Tel" (keypress)="keyPressValidation($event)" />
                 </div>
                 <mat-error *ngIf="addressForm.get('Tel').errors?.['pattern']" class="error-msg">
@@ -180,7 +180,7 @@
               <div>
                 <label class="input-label-text"> Fax </label>
                 <div class="input-group">
-                  <input nbInput fullWidth fieldSize="small" maxlength="20" class="input-border"
+                  <input nbInput fullWidth fieldSize="small" class="input-border"
                     placeholder="Enter fax number" formControlName="Fax" (keypress)="keyPressValidation($event)" />
                   <mat-error *ngIf="addressForm.get('Fax').errors?.['pattern']" class="error-msg">
                     Invalid fax number.
@@ -352,7 +352,7 @@
             </ng-container>
 
             <!-- action column -->
-            <ng-container matColumnDef="action">
+            <ng-container matColumnDef="action" stickyEnd>
               <th mat-header-cell *matHeaderCellDef [hidden]="role != 'Vendor'"></th>
               <td mat-cell *matCellDef="let element; let i = index" [hidden]="role != 'Vendor'">
                 <div class="d-flex gap-2">

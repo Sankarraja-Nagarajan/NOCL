@@ -13,8 +13,7 @@
   </div>
   
   <div class="header-container d-flex justify-content-center col-md-4 col-6">
-    <h2 *ngIf="title!='Vendor'">Vendor Onboarding</h2>
-    <h2 *ngIf="title=='Vendor'">{{orgName}}</h2>
+    <h2>{{titleToBeDisplayed()}}</h2>
   </div>
   
   <div

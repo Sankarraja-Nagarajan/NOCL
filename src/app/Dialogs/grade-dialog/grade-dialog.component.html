@@ -1,104 +1,168 @@
 <div class="dialog-container h-100">
-    <div class="d-flex flex-column justify-content-evenly p-5 py-3 h-100">
-        <div class="d-flex justify-content-center align-items-center mb-3">
-            <h2 class="display-3 fw-bold">{{data.vendorProfile.Vendor_Name}}</h2>
-        </div>
-        <div>
-            <form [formGroup]="gradeForm">
-                <div class="mb-3">
-                    <label class="input-label-text"> Overall Grade <span class="asterisk-required">*</span> </label>
-                    <div class="input-group">
-                        <input nbInput fullWidth placeholder="Enter grade" formControlName="Grade" fieldSize="small"
-                            class="input-border" (keypress)="keyPressValidation($event, 'number')" required />
-                        <div style="height: 10px !important; width: 100% !important;">
-                            <span>
-                                <mat-error *ngIf="
-                          gradeForm.get('Grade').hasError('required') &&
-                          gradeForm.get('Grade').touched
-                        " class="error-msg">
-                                    Grade is required
-                                </mat-error>
-                                <mat-error *ngIf="
-                          (gradeForm.get('Grade').hasError('min') || gradeForm.get('Grade').hasError('max')) &&
-                          gradeForm.get('Grade').touched
-                        " class="error-msg">
-                                    Grade must be between 1 and 100
-                                </mat-error>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-                <div class="mb-3">
-                    <label class="input-label-text"> Last Audit Date <span class="asterisk-required">*</span> </label>
-                    <div class="input-group">
-                        <input nbInput fullWidth placeholder="{{last_audit_date}}" [max]="today"
-                            [value]="last_audit_date" type="date" formControlName="Last_Audit_Date" fieldSize="small"
-                            class="input-border" required />
-                        <div style="height: 10px !important; width: 100% !important;">
-                            <span>
-                                <mat-error *ngIf="
-                              gradeForm.get('Last_Audit_Date').hasError('required') &&
-                              gradeForm.get('Last_Audit_Date').touched
-                            " class="error-msg">
-                                    Audit Date is required
-                                </mat-error>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-                <div class="mb-3">
-                    <label class="input-label-text"> Last Audited By <span class="asterisk-required">*</span> </label>
-                    <div class="input-group">
-                        <input nbInput fullWidth placeholder="Enter Auditor name" formControlName="Last_Audited_By"
-                            fieldSize="small" class="input-border" (keypress)="keyPressValidation($event, 'text')"
-                            required />
-                        <div style="height: 10px !important; width: 100% !important;">
-                            <span>
-                                <mat-error *ngIf="
-                              gradeForm.get('Last_Audited_By').hasError('required') &&
-                              gradeForm.get('Last_Audited_By').touched
-                            " class="error-msg">
-                                    Audited By is required
-                                </mat-error>
-                                <mat-error *ngIf="
-                              (gradeForm.get('Last_Audited_By').hasError('minLength') || gradeForm.get('Last_Audited_By').hasError('maxLength')) &&
-                              gradeForm.get('Last_Audited_By').touched
-                            " class="error-msg">
-                                    Name must contain between 3 and 100 characters
-                                </mat-error>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-                <div class="mb-3">
-                    <label class="input-label-text"> Location <span class="asterisk-required">*</span> </label>
-                    <div class="input-group">
-                        <input nbInput fullWidth placeholder="Enter location" formControlName="Location"
-                            fieldSize="small" class="input-border" (keypress)="keyPressValidation($event, 'text')"
-                            required />
-                        <div style="height: 10px !important; width: 100% !important;">
-                            <span>
-                                <mat-error *ngIf="
-                              gradeForm.get('Location').hasError('required') &&
-                              gradeForm.get('Location').touched
-                            " class="error-msg">
-                                    Location is required
-                                </mat-error>
-                                <mat-error *ngIf="
-                              (gradeForm.get('Location').hasError('minLength') || gradeForm.get('Location').hasError('maxLength')) &&
-                              gradeForm.get('Location').touched
-                            " class="error-msg">
-                                    Location must contain between 3 and 100 characters
-                                </mat-error>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </form>
-
-            <div class="d-flex justify-content-end px-3">
-                <button class="btn btn-primary" type="submit" (click)="updateGrade()">Submit</button>
-            </div>
-        </div>
+  <div class="d-flex flex-column justify-content-evenly p-5 py-3 h-100">
+    <div class="d-flex justify-content-center align-items-center mb-3">
+      <h2 class="display-3 fw-bold">{{ data.vendorProfile.Vendor_Name }}</h2>
     </div>
+    <div>
+      <form [formGroup]="gradeForm">
+        <div class="mb-3">
+          <label class="input-label-text">
+            Overall Grade <span class="asterisk-required">*</span>
+          </label>
+          <div class="input-group">
+            <input
+              nbInput
+              fullWidth
+              placeholder="Enter grade"
+              formControlName="Grade"
+              fieldSize="small"
+              class="input-border"
+              (keypress)="keyPressValidation($event, 'number')"
+              required
+            />
+            <div style="height: 10px !important; width: 100% !important">
+              <span>
+                <mat-error
+                  *ngIf="
+                    gradeForm.get('Grade').hasError('required') &&
+                    gradeForm.get('Grade').touched
+                  "
+                  class="error-msg"
+                >
+                  Grade is required
+                </mat-error>
+                <mat-error
+                  *ngIf="
+                    (gradeForm.get('Grade').hasError('min') ||
+                      gradeForm.get('Grade').hasError('max')) &&
+                    gradeForm.get('Grade').touched
+                  "
+                  class="error-msg"
+                >
+                  Grade must be between 1 and 100
+                </mat-error>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label class="input-label-text">
+            Last Audit Date <span class="asterisk-required">*</span>
+          </label>
+          <div class="input-group">
+            <input
+              nbInput
+              [nbDatepicker]="datepicker"
+              fullWidth
+              placeholder="{{ last_audit_date }}"
+              [max]="today"
+              formControlName="Last_Audit_Date"
+              fieldSize="small"
+              class="input-border"
+            />
+            <nb-datepicker #datepicker></nb-datepicker>
+            <div style="height: 10px !important; width: 100% !important">
+              <span>
+                <mat-error
+                  *ngIf="
+                    gradeForm.get('Last_Audit_Date').hasError('required') &&
+                    gradeForm.get('Last_Audit_Date').touched
+                  "
+                  class="error-msg"
+                >
+                  Audit Date is required
+                </mat-error>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label class="input-label-text">
+            Last Audited By <span class="asterisk-required">*</span>
+          </label>
+          <div class="input-group">
+            <input
+              nbInput
+              fullWidth
+              placeholder="Enter Auditor name"
+              formControlName="Last_Audited_By"
+              fieldSize="small"
+              class="input-border"
+              (keypress)="keyPressValidation($event, 'text')"
+              required
+            />
+            <div style="height: 10px !important; width: 100% !important">
+              <span>
+                <mat-error
+                  *ngIf="
+                    gradeForm.get('Last_Audited_By').hasError('required') &&
+                    gradeForm.get('Last_Audited_By').touched
+                  "
+                  class="error-msg"
+                >
+                  Audited By is required
+                </mat-error>
+                <mat-error
+                  *ngIf="
+                    (gradeForm.get('Last_Audited_By').hasError('minLength') ||
+                      gradeForm.get('Last_Audited_By').hasError('maxLength')) &&
+                    gradeForm.get('Last_Audited_By').touched
+                  "
+                  class="error-msg"
+                >
+                  Name must contain between 3 and 100 characters
+                </mat-error>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label class="input-label-text">
+            Location <span class="asterisk-required">*</span>
+          </label>
+          <div class="input-group">
+            <input
+              nbInput
+              fullWidth
+              placeholder="Enter location"
+              formControlName="Location"
+              fieldSize="small"
+              class="input-border"
+              (keypress)="keyPressValidation($event, 'text')"
+              required
+            />
+            <div style="height: 10px !important; width: 100% !important">
+              <span>
+                <mat-error
+                  *ngIf="
+                    gradeForm.get('Location').hasError('required') &&
+                    gradeForm.get('Location').touched
+                  "
+                  class="error-msg"
+                >
+                  Location is required
+                </mat-error>
+                <mat-error
+                  *ngIf="
+                    (gradeForm.get('Location').hasError('minLength') ||
+                      gradeForm.get('Location').hasError('maxLength')) &&
+                    gradeForm.get('Location').touched
+                  "
+                  class="error-msg"
+                >
+                  Location must contain between 3 and 100 characters
+                </mat-error>
+              </span>
+            </div>
+          </div>
+        </div>
+      </form>
+
+      <div class="d-flex justify-content-end px-3">
+        <button class="btn btn-primary" type="submit" (click)="updateGrade()">
+          Submit
+        </button>
+      </div>
+    </div>
+  </div>
 </div>

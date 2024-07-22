@@ -556,7 +556,6 @@ export class RegistrationFormLayoutComponent implements OnInit {
     this._registration.getFormData(this.form_Id, "Attachments").subscribe({
       next: (res) => {
         this.attachmentsArray = res;
-
         this.openDialog(formSubmitTemplate);
       },
       error: (err) => { }
@@ -577,13 +576,11 @@ export class RegistrationFormLayoutComponent implements OnInit {
         this._registration.formSubmit(formSubmitTemplate).subscribe({
           next: (res) => {
             if (res.Status === 200) {
-
               this._commonService.openSnackbar(res.Message, snackbarStatus.Success);
               this._router.navigate(["/success"]);
             }
           },
           error: (err) => {
-
             this._commonService.openSnackbar(err, snackbarStatus.Danger);
           },
         });

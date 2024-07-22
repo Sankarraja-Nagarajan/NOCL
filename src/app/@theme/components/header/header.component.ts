@@ -8,7 +8,7 @@ import { ChangePasswordComponent } from "../../../Dialogs/change-password/change
 import { snackbarStatus } from "../../../Enums/snackbar-status";
 import { RegistrationService } from "../../../Services/registration.service";
 import { ExpiryDetails } from "../../../Models/Registration";
-import { getSession, isNullOrWhiteSpace } from "../../../Utils";
+import { getSession, isNullOrEmpty, isNullOrWhiteSpace } from "../../../Utils";
 import { LayoutService } from "../../../@core/utils";
 import { get } from "http";
 
@@ -77,6 +77,17 @@ export class HeaderComponent implements OnInit, OnDestroy {
         },
         error: (err) => {},
       });
+  }
+
+  titleToBeDisplayed() {
+    if (
+      !isNullOrEmpty(this.title) &&
+      this.title == "Vendor" &&
+      !isNullOrEmpty(this.orgName)
+    ) {
+      return this.orgName;
+    }
+    return "Vendor Onboarding";
   }
 
   getAllNotification() {
