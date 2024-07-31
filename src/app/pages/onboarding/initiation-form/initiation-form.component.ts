@@ -99,7 +99,7 @@ export class InitiationFormComponent implements OnInit {
       
       this._registration.formInitiate(form).subscribe({
         next: (res) => {
-          
+          console.log(res);
           if (res.Status === 200) {
             this._common.openSnackbar(res.Message, snackbarStatus.Success);
             this.initiationForm.reset();

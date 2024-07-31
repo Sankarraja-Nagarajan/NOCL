@@ -233,6 +233,10 @@ export class VendorOrgProfileComponent implements OnInit, AfterViewInit {
     dialogRef.afterClosed().subscribe({
       next: (res) => {
         if (res) {
+          if (this.listOfMajorCustomerList.length >= 2) {
+            this._common.openSnackbar("You can only add up to 2 major customers",snackbarStatus.Warning);
+            return;
+          }
           if (this.listOfMajorCustomerList.length == 0) {
             this.listOfMajorCustomerList = res;
           } else {
@@ -255,6 +259,10 @@ export class VendorOrgProfileComponent implements OnInit, AfterViewInit {
     dialogRef.afterClosed().subscribe({
       next: (res) => {
         if (res) {
+          if (this.nocilRelatedEmployees.length >= 2) {
+            this._common.openSnackbar("You can only add up to 2 Nocil Related Employees",snackbarStatus.Warning);
+            return;
+          }
           if (this.nocilRelatedEmployees.length == 0) {
             this.nocilRelatedEmployees = res;
           } else {

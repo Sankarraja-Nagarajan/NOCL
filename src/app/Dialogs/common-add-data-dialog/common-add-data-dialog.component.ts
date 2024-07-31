@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MajorCustomer, NocilRelatedEmployee } from '../../Models/Dtos';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CommonService } from '../../Services/common.service';
+import { snackbarStatus } from '../../Enums/snackbar-status';
 
 @Component({
   selector: 'ngx-common-add-data-dialog',
@@ -50,6 +51,11 @@ export class CommonAddDataDialogComponent implements OnInit{
   //add item into majorCustomers array
   addMajorCustomer() {
     if (this.majorCustomerForm.valid) {
+      if (this.majorCustomers.length >= 2) {
+        this._common.openSnackbar("You can only add up to 2 major customers",snackbarStatus.Warning);
+        return;
+      }
+
       let majorCustomer = new MajorCustomer();
       majorCustomer = this.majorCustomerForm.value;
       majorCustomer.Id = 0;
@@ -70,6 +76,11 @@ export class CommonAddDataDialogComponent implements OnInit{
   //add item into nocilRelatedEmployees array
   addNocilEmployee() {
     if (this.nocilRelatedEmployeeForm.valid) {
+      if (this.nocilRelatedEmployees.length >= 2) {
+        this._common.openSnackbar("You can only add up to 2 Nocil Related Employees",snackbarStatus.Warning);
+        return;
+      }
+
       let employee = new NocilRelatedEmployee();
       employee = this.nocilRelatedEmployeeForm.value as NocilRelatedEmployee;
       employee.Id = 0;
