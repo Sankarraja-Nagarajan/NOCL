@@ -552,7 +552,6 @@ export class RegistrationFormLayoutComponent implements OnInit {
 
 
   getAttachments(formSubmitTemplate: FormSubmitTemplate) {
-
     this._registration.getFormData(this.form_Id, "Attachments").subscribe({
       next: (res) => {
         this.attachmentsArray = res;

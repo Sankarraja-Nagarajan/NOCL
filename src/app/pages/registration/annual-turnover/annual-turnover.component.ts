@@ -36,7 +36,7 @@ export class AnnualTurnoverComponent implements OnInit {
   ) {
     this.turnoverForm = _fb.group({
       Year: ["", Validators.required],
-      SalesTurnOver: [0,Validators.required],
+      SalesTurnOver: [0, Validators.required],
       OperatingProfit: [0],
       NetProfit: [0],
     });
@@ -63,6 +63,13 @@ export class AnnualTurnoverComponent implements OnInit {
 
   addTurnover() {
     if (this.turnoverForm.valid) {
+      const salesTurnover = this.turnoverForm.get("SalesTurnOver").value;
+      if (salesTurnover <= 0) {
+        this.turnoverForm.get('SalesTurnOver').setErrors({ 'incorrect': true });
+        this._commonService.openSnackbar("Please fill the Sales Turnover above 0", snackbarStatus.Warning);
+        return;
+      }
+
       this.dataSource.data.push(this.turnoverForm.value);
       this.dataSource._updateChangeSubscription();
       this.turnoverForm.reset();
@@ -75,10 +82,10 @@ export class AnnualTurnoverComponent implements OnInit {
     }
   }
 
-  updateTurnOver(){
+  updateTurnOver() {
     if (this.editIndex >= 0) {
       let id = this.dataSource.data[this.editIndex].TurnOver_Id;
-      this.dataSource.data[this.editIndex]=this.turnoverForm.value;
+      this.dataSource.data[this.editIndex] = this.turnoverForm.value;
       this.dataSource.data[this.editIndex].TurnOver_Id = id;
       this.dataSource._updateChangeSubscription();
       this.turnoverForm.reset();
