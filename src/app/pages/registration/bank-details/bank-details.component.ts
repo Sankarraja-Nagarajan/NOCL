@@ -45,7 +45,7 @@ export class BankDetailsComponent {
       IBAN: ["", [Validators.maxLength(34)]],
     });
 
-    if (this.v_Id == 4) {
+    if (this.v_Id == 5) {
       this.bankDetailsForm.get("SWIFT").addValidators(Validators.required);
       this.bankDetailsForm.get("IBAN").addValidators(Validators.required);
     } else {

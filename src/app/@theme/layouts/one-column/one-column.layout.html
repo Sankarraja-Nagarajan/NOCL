@@ -6,12 +6,10 @@
   <nb-sidebar *ngIf="isLogin && role != 'Vendor'" tag="menu-sidebar">
     <ng-content select="nb-menu"></ng-content>
     <nb-sidebar-footer class="sidebar-footer">
-      <img
-        [ngClass]="{'sidebar-footer-content':footerLogoVisible,'sidebar-fc':!footerLogoVisible}"
+      <img class="sidebar-footer-content" *ngIf="footerLogoVisible"
         src="assets/logos/Exalca logo.svg"
       />
-      <img
-        [ngClass]="{'sidebar-footer-content':!footerLogoVisible,'sidebar-fc':footerLogoVisible}"
+      <img class="mini-sidebar-footer-content" *ngIf="!footerLogoVisible"
         src="assets/logos/Exalca_Logo_Mini.svg"
         alt=""
       />

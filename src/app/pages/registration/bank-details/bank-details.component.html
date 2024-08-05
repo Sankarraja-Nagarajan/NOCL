@@ -73,9 +73,9 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm">
+                        <div class="col-sm" *ngIf="v_Id != 5">
                             <div>
-                                <label class="input-label-text"> IFSC <span *ngIf="v_Id!=4" class="asterisk-required">*</span></label>
+                                <label class="input-label-text"> IFSC <span class="asterisk-required">*</span></label>
                                 <div class="input-group">
                                     <input nbInput fullWidth fieldSize="small" class="input-border" formControlName="IFSC" 
                                     placeholder="Enter IFSC Code" maxlength="11"/>
@@ -91,15 +91,16 @@
                     <!--Account_Number & IFSC-->
 
                     <!--SWIFT & IBAN-->
-                    <div class="row mb-2" *ngIf="v_Id==4">
+                    <div class="row mb-2" *ngIf="v_Id==5">
                         <div class="col-sm">
                             <div>
                                 <label class="input-label-text">SWIFT <span class="asterisk-required">*</span></label>
                                 <div class="input-group">
-                                    <input nbInput fullWidth fieldSize="small" class="input-border" formControlName="SWIFT" placeholder="Enter SWIFT"
-                                    maxlength="11"/>
+                                    <input nbInput fullWidth fieldSize="small" class="input-border" formControlName="SWIFT" placeholder="Enter SWIFT"/>
                                     <mat-error *ngIf="this.bankDetailsForm.get('SWIFT').hasError('required') && this.bankDetailsForm.get('SWIFT').touched"
                                     class="error-msg"> SWIFT is required</mat-error>
+                                    <mat-error *ngIf="this.bankDetailsForm.get('SWIFT').hasError('maxlength')"
+                                    class="error-msg"> SWIFT code can not exceed 11 charecters length</mat-error>
                                 </div>
                             </div>
                         </div>
@@ -107,10 +108,11 @@
                             <div>
                                 <label class="input-label-text">IBAN <span class="asterisk-required">*</span></label>
                                 <div class="input-group">
-                                    <input nbInput fullWidth fieldSize="small" class="input-border" formControlName="IBAN" placeholder="Enter IBAN"
-                                    maxlength="34"/>
+                                    <input nbInput fullWidth fieldSize="small" class="input-border" formControlName="IBAN" placeholder="Enter IBAN"/>
                                     <mat-error *ngIf="this.bankDetailsForm.get('IBAN').hasError('required') && this.bankDetailsForm.get('IBAN').touched"
-                                    class="error-msg"> SWIFT is required</mat-error>
+                                    class="error-msg"> IBAN is required</mat-error>
+                                    <mat-error *ngIf="this.bankDetailsForm.get('IBAN').hasError('maxlength')"
+                                    class="error-msg"> IBAN can not exceed 34 charecters length</mat-error>
                                 </div>
                             </div>
                         </div>

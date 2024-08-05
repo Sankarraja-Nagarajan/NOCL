@@ -71,7 +71,7 @@ export class CommercialProfileComponent {
       this.commercialProfileForm.disable();
     }
 
-    if (this.v_Id != 4) {
+    if (this.v_Id != 5) {
       this.commercialProfileForm
         .get("PAN")
         .addValidators([Validators.required]);

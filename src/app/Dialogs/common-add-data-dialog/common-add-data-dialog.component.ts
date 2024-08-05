@@ -51,8 +51,8 @@ export class CommonAddDataDialogComponent implements OnInit{
   //add item into majorCustomers array
   addMajorCustomer() {
     if (this.majorCustomerForm.valid) {
-      if (this.majorCustomers.length >= 2) {
-        this._common.openSnackbar("You can only add up to 2 major customers",snackbarStatus.Warning);
+      if (this.majorCustomers.length >= 5) {
+        this._common.openSnackbar("You can only add up to 5 major customers",snackbarStatus.Warning);
         return;
       }
 
@@ -76,8 +76,8 @@ export class CommonAddDataDialogComponent implements OnInit{
   //add item into nocilRelatedEmployees array
   addNocilEmployee() {
     if (this.nocilRelatedEmployeeForm.valid) {
-      if (this.nocilRelatedEmployees.length >= 2) {
-        this._common.openSnackbar("You can only add up to 2 Nocil Related Employees",snackbarStatus.Warning);
+      if (this.nocilRelatedEmployees.length >= 5) {
+        this._common.openSnackbar("You can only add up to 5 Nocil Related Employees",snackbarStatus.Warning);
         return;
       }
 
