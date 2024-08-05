@@ -4,7 +4,7 @@ export class VendorPersonalData {
   Form_Id: number;
   Organization_Name: string;
   Plant_Installation_Year: number;
-  GSTVenClass_Id:string;
+  GSTVenClass_Id:number;
 }
 
 export class VendorOrganizationProfile {

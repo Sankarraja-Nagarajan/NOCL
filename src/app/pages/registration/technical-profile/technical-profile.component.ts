@@ -41,7 +41,7 @@ export class TechnicalProfileComponent implements OnInit {
     private _fileSaver: FileSaverService,
     private emitterService: EmitterService,
     public _dialog: MatDialog) {
-      console.log(this.isoAttachment)
+    console.log(this.isoAttachment)
 
   }
 
@@ -77,10 +77,12 @@ export class TechnicalProfileComponent implements OnInit {
   }
 
   changeOptions() {
-    console.log(this.technicalProfileForm.value.Is_ISO_Certified);
     this.reqDoctypes = this._config.get("Required_Attachments").split(",");
-    if (this.technicalProfileForm.get("Is_ISO_Certified").value == true || this.technicalProfileForm.get("Other_Qms_Certified").value) {
+    if (this.technicalProfileForm.get("Is_ISO_Certified").value == true && this.technicalProfileForm.get("Other_Qms_Certified").value) {
       this.technicalProfileForm.get("Planning_for_Qms").disable();
+    }
+    else if (this.technicalProfileForm.get("Is_ISO_Certified").value == true || this.technicalProfileForm.get("Other_Qms_Certified").value) {
+      this.technicalProfileForm.get("Planning_for_Qms").enable();
     }
     else if (this.technicalProfileForm.get("Planning_for_Qms").value == true) {
       this.technicalProfileForm.get("Is_ISO_Certified").disable();
@@ -144,13 +146,13 @@ export class TechnicalProfileComponent implements OnInit {
         file_Type: fileType,
       },
     });
-    
+
 
     DIALOGREF.afterClosed().subscribe({
       next: (response) => {
         if (response) {
-            this.isoAttachment = response as Attachment;
-            console.log(this.isoAttachment)
+          this.isoAttachment = response as Attachment;
+          console.log(this.isoAttachment)
         }
       },
     });
@@ -236,8 +238,8 @@ export class TechnicalProfileComponent implements OnInit {
 
   updateISOAttachment() {
     this.emitterService.ISODocumentData().subscribe({
-      next:(data)=>{
-        if(data && !isNullOrEmpty(data)){
+      next: (data) => {
+        if (data && !isNullOrEmpty(data)) {
           this.isoAttachment = data as Attachment;
           this.technicalProfileForm.get('Is_ISO_Certified').patchValue(true);
         }

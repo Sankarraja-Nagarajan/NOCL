@@ -23,6 +23,7 @@ export class TransportVendorsPersonalDetailsComponent {
   authResponse: AuthResponse;
   personalId: number = 0;
   titles: Title[] = [];
+  years: number[] = [];
   GST: GSTVenClass[] = [];
 
   constructor(
@@ -37,13 +38,13 @@ export class TransportVendorsPersonalDetailsComponent {
     this.transporterVendorsForm = this._fb.group({
       Title_Id: ["", [Validators.required]],
       Name_of_Transporter: ["", [Validators.required]],
-      Date_of_Establishment: [""],
+      Year_of_Establishment: [""],
       GSTVenClass_Id:[""],
       No_of_Own_Vehicles: ["", [Validators.required]],
       No_of_Drivers: ["", [Validators.required]],
       Nicerglobe_Registration: [""],
     });
-
+    this.generateYears();
     this.authResponse = JSON.parse(getSession("userDetails"));
     if (this.authResponse && this.authResponse?.Role != "Vendor") {
       this.transporterVendorsForm.disable();
@@ -65,6 +66,12 @@ export class TransportVendorsPersonalDetailsComponent {
       this.getTitleAndGSTVenClass();
   }
 
+  generateYears() {
+    const currentYear = new Date().getFullYear();
+    for (let year = currentYear; year >= 1900; year--) {
+      this.years.push(year);
+    }
+  }
   // validations
   keyPressValidation(event: Event, type) {
     return this._commonService.KeyPressValidation(event, type);

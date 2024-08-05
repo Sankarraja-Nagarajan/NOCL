@@ -71,12 +71,12 @@ export class CommercialProfileComponent {
       this.commercialProfileForm.disable();
     }
 
-    if (this.v_Id != 4) {
+    if (this.v_Id != 5) {
       this.commercialProfileForm
         .get("PAN")
         .addValidators([Validators.required]);
     }
-    if (this.v_Id == 1 || this.v_Id == 4) {
+    if (this.v_Id == 1) {
       this.commercialProfileForm
         .get("MSME_Type")
         .addValidators(Validators.required);

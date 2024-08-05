@@ -12,14 +12,17 @@
   background-color: #e8ebfa;
   height: 100px;
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
 
   .sidebar-footer-content {
-    width: 100px;
+    width: 70px;
     height: 40px;
   }
-
+  .mini-sidebar-footer-content {
+    width: 40px;
+    height: 26px;
+  }
   .sidebar-fc {
     display: none;
   }
@@ -29,7 +32,7 @@
   .meadia-max {
     display: none;
   }
-  .meadia-min{
+  .meadia-min {
     display: block;
   }
 }
@@ -38,12 +41,12 @@
   .meadia-max {
     display: block;
   }
-  .meadia-min{
+  .meadia-min {
     display: none;
   }
 }
 
-.layout-footer{
+.layout-footer {
   position: sticky !important;
   bottom: 0 !important;
   right: 0 !important;
