@@ -40,6 +40,7 @@ import { CORPORATE_THEME } from './styles/theme.corporate';
 import { DARK_THEME } from './styles/theme.dark';
 import { GlobalLoaderComponent } from './components/global-loader/global-loader.component';
 
+
 const NB_MODULES = [
   NbLayoutModule,
   NbMenuModule,
@@ -69,7 +70,7 @@ const PIPES = [
   PluralPipe,
   RoundPipe,
   TimingPipe,
-  NumberWithCommasPipe,
+  NumberWithCommasPipe
 ];
 
 @NgModule({
