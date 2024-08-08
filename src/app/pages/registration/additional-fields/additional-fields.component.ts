@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MasterService } from '../../../Services/master.service';
 import { forkJoin } from 'rxjs';
@@ -7,6 +7,8 @@ import { AuthResponse } from '../../../Models/authModel';
 import { AdditionalFieldsDto } from '../../../Models/Registration';
 import { getSession, isNullOrEmpty } from '../../../Utils';
 import { RegistrationService } from '../../../Services/registration.service';
+import { EmitterService } from '../../../Services/emitter.service';
+import { CommercialProfileComponent } from '../commercial-profile/commercial-profile.component';
 
 @Component({
   selector: 'ngx-additional-fields',
@@ -22,18 +24,20 @@ export class AdditionalFieldsComponent implements OnInit {
   Reconciliation: ReconciliationAccount[] = [];
   SchemaGroup: SchemaGroup[] = [];
   PurchaseOrganizations: PurchaseOrganization[] = [];
-  VendorAccountGroups:VendorAccountGroup[]=[];
+  VendorAccountGroups: VendorAccountGroup[] = [];
   authResponse: AuthResponse;
   additionalDto: AdditionalFieldsDto;
   @Input() form_Id: number;
-
-
-
+  MSMEvalue;
+  industryUpdate;
+  @ViewChild(CommercialProfileComponent)
+  commercialProfileComponent: CommercialProfileComponent;
 
   constructor(
     private _fb: FormBuilder,
     private _master: MasterService,
-    private _registration: RegistrationService
+    private _registration: RegistrationService,
+    private emitterService: EmitterService
   ) { }
 
 
@@ -51,7 +55,7 @@ export class AdditionalFieldsComponent implements OnInit {
       SrvBased: ["X", [Validators.required]],
       Search_Term: ["", [Validators.required]],
       PO_Code: [""],
-      AccountGroup_Id:["",[Validators.required]]
+      AccountGroup_Id: ["", [Validators.required]]
     });
 
     if (this.authResponse.Role.includes('PO')) {
@@ -63,9 +67,12 @@ export class AdditionalFieldsComponent implements OnInit {
 
     this.getMasterData();
     this.getAdditionalFields();
-
   }
 
+
+  ngAfterViewInit() {
+    this.getMasterData();
+  }
 
 
   getMasterData() {
@@ -80,6 +87,7 @@ export class AdditionalFieldsComponent implements OnInit {
       next: (res) => {
         if (res[0]) {
           this.Industries = res[0] as Industry[];
+          this.loadData();
         }
         if (res[1]) {
           this.Incoterms = res[1] as Incoterms[];
@@ -93,8 +101,8 @@ export class AdditionalFieldsComponent implements OnInit {
         if (res[4]) {
           this.PurchaseOrganizations = res[4] as PurchaseOrganization[];
         }
-        if(res[5]){
-          this.VendorAccountGroups=res[5] as VendorAccountGroup[];
+        if (res[5]) {
+          this.VendorAccountGroups = res[5] as VendorAccountGroup[];
         }
       },
       error: (err) => { },
@@ -123,6 +131,7 @@ export class AdditionalFieldsComponent implements OnInit {
 
   checkRoleAndFormValid() {
     if (this.authResponse?.Role.includes('PO')) {
+      console.log(this.additionalFieldsForm.value)
       if (this.additionalFieldsForm.valid) {
         return true;
       }
@@ -143,6 +152,35 @@ export class AdditionalFieldsComponent implements OnInit {
         this.additionalFieldsForm.patchValue(res);
       }
     });
+  }
+
+
+
+  loadData() {
+    this.emitterService.isMSME.subscribe((value: boolean) => {
+      this.MSMEvalue = value;
+      console.log(this.MSMEvalue)
+    })
+    console.log(this.MSMEvalue)
+    this.checkAndPatchIndustry(this.MSMEvalue);
+  }
+
+
+
+  checkAndPatchIndustry(isMSME: boolean) {
+    let industryCode = isMSME ? 'SSI' : 'OTHR';
+    console.log(industryCode);
+
+    this.industryUpdate = this.Industries.find(industry => industry.Code === industryCode);
+    console.log(this.industryUpdate);
+
+    if (this.industryUpdate) {
+      this.additionalFieldsForm.patchValue({
+        Industry_Id: this.industryUpdate.Id
+      });
+    }
+    console.log("Updated Industry_Id:", this.additionalFieldsForm.value.Industry_Id);
+    console.log(this.Industries);
   }
 
 }

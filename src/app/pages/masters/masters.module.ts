@@ -15,6 +15,7 @@ import { MaterialModule } from '../material/material.module';
 import { VendorListComponent } from './vendors/vendor-list/vendor-list.component';
 import { RoleComponent } from './role/role.component';
 import { VendorGradeComponent } from './vendors/vendor-grade/vendor-grade.component';
+import { ReportsComponent } from './reports/reports.component';
 
 const routes: Routes = [
   {
@@ -43,6 +44,15 @@ const routes: Routes = [
       allowed: ["Admin"],
       notAllowed: ["PO","RM","Manager","Vendor"],
     },
+  },
+  {
+    path: "reports",
+    component: ReportsComponent,
+    canActivate:[AuthGuard],
+    data: {
+      allowed: ["Admin"],
+      notAllowed: ["PO","RM","Manager","Vendor"],
+    },
   }
 ]
 
@@ -52,7 +62,8 @@ const routes: Routes = [
     VendorsComponent,
     VendorListComponent,
     RoleComponent,
-    VendorGradeComponent
+    VendorGradeComponent,
+    ReportsComponent
   ],
   imports: [
     CommonModule,

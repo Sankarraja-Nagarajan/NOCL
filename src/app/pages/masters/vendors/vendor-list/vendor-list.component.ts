@@ -23,6 +23,7 @@ import { MasterService } from "../../../../Services/master.service";
 export class VendorListComponent implements OnInit, OnChanges {
   @Input() vendorType: string;
   @Input() searchText: string;
+  @Input() vendors: any[] = []; 
 
   displayedColumns: string[] = [
     "Vendor_Name",

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -7,21 +7,25 @@ import { Subject } from 'rxjs';
 export class EmitterService {
   requireddocument = new Subject<any>();
   ISODocument = new Subject<any>();
-  gstinValue= new Subject<any>();
-  isManufacturer=new Subject<any>();
+  gstinValue = new Subject<any>();
+  isManufacturer = new Subject<any>();
+  isMSME =new Subject<any>(); 
+  gstVenClass = new Subject<any>();
 
 
-  constructor() { 
+  constructor() {
     this.requireddocument.asObservable();
     this.ISODocument.asObservable();
     this.gstinValue.asObservable();
     this.isManufacturer.asObservable();
+    this.isMSME.asObservable();
+    this.gstVenClass.asObservable();
   }
-  
+
   emitRequiredDocument(status: string) {
     this.requireddocument.next(status);
   }
-  
+
   DocumentData() {
     return this.requireddocument.asObservable();
   }
@@ -48,6 +52,24 @@ export class EmitterService {
 
   IsManufacturerValue() {
     return this.isManufacturer.asObservable();
+  }
+
+  emitIsMSMEValue(status: boolean) {
+    console.log(status);
+    this.isMSME.next(status);
+  }
+
+  IsMSMEIndustry() {
+    console.log(this.isMSME)
+    return this.isMSME.asObservable();
+  }
+
+  emitGSTVenClass(status: boolean) {
+    this.gstVenClass.next(status);
+  }
+
+  hideGSTIN() {
+    return this.gstVenClass.asObservable();
   }
 
 }

@@ -23,6 +23,7 @@ import { AuthGuard } from '../../Guards/auth.guard';
 import { VendorPersonalInfoComponent } from './vendor-personal-info/vendor-personal-info.component';
 import { VendorOrgProfileComponent } from './vendor-org-profile/vendor-org-profile.component';
 import { AdditionalFieldsComponent } from './additional-fields/additional-fields.component';
+import { VehicleDetailsComponent } from './vehicle-details/vehicle-details.component';
 
 
 
@@ -55,6 +56,7 @@ const routes: Routes = [
     TransportVendorsPersonalDetailsComponent,
     TankerDetailsComponent,
     AdditionalFieldsComponent,
+    VehicleDetailsComponent,
   ],
   imports: [
     CommonModule,

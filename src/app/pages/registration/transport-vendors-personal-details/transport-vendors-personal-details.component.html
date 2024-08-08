@@ -11,30 +11,16 @@
                   Title <span class="asterisk-required">*</span>
                 </label>
                 <div class="input-group">
-                  <nb-select
-                    fullWidth
-                    size="small"
-                    status="primary"
-                    formControlName="Title_Id"
-                    required
-                    placeholder="Select Title"
-                  >
-                    <nb-option
-                      *ngFor="let title of titles"
-                      [value]="title.Id"
-                      >{{ title.Title_Name }}</nb-option
-                    >
+                  <nb-select fullWidth size="small" status="primary" formControlName="Title_Id" required
+                    placeholder="Select Title">
+                    <nb-option *ngFor="let title of titles" [value]="title.Id">{{ title.Title_Name }}</nb-option>
                   </nb-select>
-                  <mat-error
-                    *ngIf="
+                  <mat-error *ngIf="
                       this.transporterVendorsForm
                         .get('Title_Id')
                         .hasError('required') &&
                       this.transporterVendorsForm.get('Title_Id').touched
-                    "
-                    class="error-msg"
-                    >Title is required</mat-error
-                  >
+                    " class="error-msg">Title is required</mat-error>
                 </div>
               </div>
             </div>
@@ -44,26 +30,15 @@
                   Name of Transporter <span class="asterisk-required">*</span>
                 </label>
                 <div class="input-group">
-                  <input
-                    nbInput
-                    fullWidth
-                    fieldSize="small"
-                    class="input-border"
-                    formControlName="Name_of_Transporter"
-                    placeholder="Enter Name of Transporter"
-                    (keypress)="keyPressValidation($event, 'alphanumeric')"
-                  />
-                  <mat-error
-                    *ngIf="
+                  <input nbInput fullWidth fieldSize="small" class="input-border" formControlName="Name_of_Transporter"
+                    placeholder="Enter Name of Transporter" (keypress)="keyPressValidation($event, 'alphanumeric')" />
+                  <mat-error *ngIf="
                       this.transporterVendorsForm
                         .get('Name_of_Transporter')
                         .hasError('required') &&
                       this.transporterVendorsForm.get('Name_of_Transporter')
                         .touched
-                    "
-                    class="error-msg"
-                    >Transporter Name is required</mat-error
-                  >
+                    " class="error-msg">Transporter Name is required</mat-error>
                 </div>
               </div>
             </div>
@@ -74,10 +49,8 @@
           <div class="row mb-2">
             <div class="col-md-6">
               <div>
-                <label class="input-label-text"
-                  ><span class="asterisk-required">*</span>Year of
-                  Establishment</label
-                >
+                <label class="input-label-text"><span class="asterisk-required">*</span>Year of
+                  Establishment</label>
                 <!-- <div class="input-group">
                                     <input nbInput fullWidth fieldSize="small" class="input-border"
                                         placeholder="Select Date of Establishment" [nbDatepicker]="dateTimePicker"
@@ -85,29 +58,19 @@
                                     <nb-datepicker #dateTimePicker></nb-datepicker>
                                 </div> -->
                 <div class="input-group">
-                  <nb-select
-                    fullWidth
-                    size="small"
-                    status="primary"
-                    formControlName="Year_of_Establishment"
-                    required
-                    placeholder="Select Year of Establishment"
-                  >
+                  <nb-select fullWidth size="small" status="primary" formControlName="Year_of_Establishment" required
+                    placeholder="Select Year of Establishment">
                     <nb-option *ngFor="let year of years" [value]="year">{{
                       year
-                    }}</nb-option>
+                      }}</nb-option>
                   </nb-select>
-                  <mat-error
-                    *ngIf="
+                  <mat-error *ngIf="
                       this.transporterVendorsForm
                         .get('Year_of_Establishment')
                         .hasError('required') &&
                       this.transporterVendorsForm.get('Year_of_Establishment')
                         .touched
-                    "
-                    class="error-msg"
-                    >Year of Establishment is required</mat-error
-                  >
+                    " class="error-msg">Year of Establishment is required</mat-error>
                 </div>
               </div>
             </div>
@@ -115,16 +78,11 @@
               <div>
                 <label class="input-label-text"> GST Ven Class </label>
                 <div class="input-group">
-                  <nb-select
-                    fullWidth
-                    size="small"
-                    status="primary"
-                    formControlName="GSTVenClass_Id"
-                    placeholder="Select GST Ven Class"
-                  >
-                    <nb-option *ngFor="let gst of GST" [value]="gst.Id">{{
-                      gst.Description
-                    }}</nb-option>
+                  <nb-select fullWidth size="small" status="primary" formControlName="GSTVenClass_Id"
+                    placeholder="Select GST Ven Class" (selectedChange)="onGSTVenClassChange()">
+                    <nb-option *ngFor="let gst of GST" [value]="gst.Id">
+                      {{ gst.Code ? gst.Code + ' - ' + gst.Description : '#' + ' - ' +
+                      gst.Description}}</nb-option>
                   </nb-select>
                 </div>
               </div>
@@ -135,56 +93,32 @@
           <!--  No_of_Own_Vehicles & No_of_Drivers  -->
           <div class="row mb-2">
             <div class="col-md-6">
-              <label class="input-label-text"
-                >No of Own Vehicles <span class="asterisk-required">*</span>
+              <label class="input-label-text">No of Own Vehicles <span class="asterisk-required">*</span>
               </label>
               <div class="input-group">
-                <input
-                  nbInput
-                  fullWidth
-                  fieldSize="small"
-                  class="input-border"
-                  formControlName="No_of_Own_Vehicles"
-                  placeholder="Enter No of Own Vehicles"
-                  (keypress)="keyPressValidation($event, 'number')"
-                />
-                <mat-error
-                  *ngIf="
+                <input nbInput fullWidth fieldSize="small" class="input-border" formControlName="No_of_Own_Vehicles"
+                  placeholder="Enter No of Own Vehicles" (keypress)="keyPressValidation($event, 'number')" />
+                <mat-error *ngIf="
                     this.transporterVendorsForm
                       .get('No_of_Own_Vehicles')
                       .hasError('required') &&
                     this.transporterVendorsForm.get('No_of_Own_Vehicles')
                       .touched
-                  "
-                  class="error-msg"
-                  >No of Own Vehicles is required</mat-error
-                >
+                  " class="error-msg">No of Own Vehicles is required</mat-error>
               </div>
             </div>
             <div class="col-md-6">
-              <label class="input-label-text"
-                >No of Drivers <span class="asterisk-required">*</span>
+              <label class="input-label-text">No of Drivers <span class="asterisk-required">*</span>
               </label>
               <div class="input-group">
-                <input
-                  nbInput
-                  fullWidth
-                  fieldSize="small"
-                  class="input-border"
-                  formControlName="No_of_Drivers"
-                  placeholder="Enter No of Drivers"
-                  (keypress)="keyPressValidation($event, 'number')"
-                />
-                <mat-error
-                  *ngIf="
+                <input nbInput fullWidth fieldSize="small" class="input-border" formControlName="No_of_Drivers"
+                  placeholder="Enter No of Drivers" (keypress)="keyPressValidation($event, 'number')" />
+                <mat-error *ngIf="
                     this.transporterVendorsForm
                       .get('No_of_Drivers')
                       .hasError('required') &&
                     this.transporterVendorsForm.get('No_of_Drivers').touched
-                  "
-                  class="error-msg"
-                  >No of Drivers is required</mat-error
-                >
+                  " class="error-msg">No of Drivers is required</mat-error>
               </div>
             </div>
           </div>
@@ -198,14 +132,8 @@
                   Nicerglobe Registration
                 </label>
                 <div class="input-group">
-                  <textarea
-                    nbInput
-                    fullWidth
-                    fieldSize="tiny"
-                    class="input-border"
-                    formControlName="Nicerglobe_Registration"
-                    placeholder="Enter Nicerglobe Registration"
-                  ></textarea>
+                  <textarea nbInput fullWidth fieldSize="tiny" class="input-border"
+                    formControlName="Nicerglobe_Registration" placeholder="Enter Nicerglobe Registration"></textarea>
                 </div>
                 <!-- <label class="input-label-text">Nicerglobe Registration</label>
                                 <nb-radio-group formControlName="Nicerglobe_Registration" class="d-flex">
