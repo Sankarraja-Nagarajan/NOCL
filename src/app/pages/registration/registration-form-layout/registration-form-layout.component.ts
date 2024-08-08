@@ -37,6 +37,7 @@ import { PreviewDialogComponent } from "../../../Dialogs/preview-dialog/preview-
 import { AppConfigService } from "../../../Services/app-config.service";
 import { AdditionalFieldsComponent } from "../additional-fields/additional-fields.component";
 import { EmitterService } from "../../../Services/emitter.service";
+import { VehicleDetailsComponent } from "../vehicle-details/vehicle-details.component";
 
 @Component({
   selector: "ngx-registration-form-layout",
@@ -69,6 +70,7 @@ export class RegistrationFormLayoutComponent implements OnInit {
   @ViewChild(AdditionalFieldsComponent)
   additionalFieldsComponent: AdditionalFieldsComponent;
 
+
   form_Id: number = 1;
   v_Id: number = 1;
   authResponse: AuthResponse;
@@ -94,7 +96,7 @@ export class RegistrationFormLayoutComponent implements OnInit {
     private _router: Router,
     private _encryptor: EncryptionService,
     private _appConfig: AppConfigService,
-    private emitterService:EmitterService
+    private emitterService: EmitterService
   ) { }
 
   ngOnInit(): void {
@@ -121,10 +123,10 @@ export class RegistrationFormLayoutComponent implements OnInit {
     });
     //this.ExpiryNotifications();
 
-    
+
     this.emitterService.IsManufacturerValue().subscribe((value) => {
       this.isOrgTypeManufacturer = value;
-  });
+    });
   }
 
   paramSubscription() {
@@ -213,7 +215,7 @@ export class RegistrationFormLayoutComponent implements OnInit {
       this.domesticAndImportFormSubmit();
     } else if (this.v_Id === 2) {
       this.domesticAndImportFormSubmit();
-    } else if (this.v_Id === 3){
+    } else if (this.v_Id === 3) {
       this.serviceFormSubmit();
     }
     else if (this.v_Id === 4) {
@@ -318,6 +320,7 @@ export class RegistrationFormLayoutComponent implements OnInit {
   }
 
   transportFormSubmit() {
+    console.log("transportFormSubmit")
     if (this.checkValidationForTransport()) {
       var payload = this.createTransportPayload();
       if (this.form_status == "Initiated") {
@@ -356,6 +359,7 @@ export class RegistrationFormLayoutComponent implements OnInit {
 
   //#region Validation based on form
   checkValidationForDomestic() {
+    console.log("c", this.commercialProfileComponent.isValid())
     return (
       this.vendorPersonalInfoComponent.isValid() &&
       this.vendorOrgProfileComponent.isValid() &&
@@ -371,6 +375,11 @@ export class RegistrationFormLayoutComponent implements OnInit {
   }
 
   checkValidationForTransport() {
+    console.log(this.transportVendorsPersonalDetailsComponent.isValid())
+    console.log(this.tankerDetailsComponent.isValid())
+    console.log(this.bankDetailsComponent.isValid())
+    console.log(this.commercialProfileComponent.isValid())
+    console.log(this.vendorBranchesComponent.isValid())
     return (
       this.transportVendorsPersonalDetailsComponent.isValid() &&
       this.tankerDetailsComponent.isValid() &&
@@ -381,6 +390,15 @@ export class RegistrationFormLayoutComponent implements OnInit {
   }
 
   checkValidationForService() {
+    console.log(this.vendorPersonalInfoComponent.isValid())
+    console.log(this.vendorOrgProfileComponent.isValid())
+    console.log(this.commercialProfileComponent.isValid())
+    console.log(this.bankDetailsComponent.isValid())
+    console.log(this.addressComponent.isValid())
+    console.log(this.vendorBranchesComponent.isValid())
+    console.log(!this.formsToShow.proprietorOrPartner || this.partnersComponent?.isValid())
+    console.log(this.attachmentsComponent.isValid())
+
     return (
       this.vendorPersonalInfoComponent.isValid() &&
       this.vendorOrgProfileComponent.isValid() &&
@@ -432,6 +450,7 @@ export class RegistrationFormLayoutComponent implements OnInit {
       this.transportVendorsPersonalDetailsComponent.getTransportVendorPersonalData();
     transportForm.TankerDetails =
       this.tankerDetailsComponent.getTankerDetails();
+      transportForm.VehicleDetails=this.tankerDetailsComponent.vehicleDetailsComponent.getVehicleDetails();
     transportForm.BankDetail = this.bankDetailsComponent.getBankDetail();
     transportForm.CommercialProfile =
       this.commercialProfileComponent.getCommercialProfile();
@@ -463,6 +482,8 @@ export class RegistrationFormLayoutComponent implements OnInit {
       : [];
     serviceForm.NocilRelatedEmployees =
       this.vendorOrgProfileComponent.getNocilRelatedEmployees();
+    console.log(serviceForm.CommercialProfile)
+    console.log(serviceForm)
     return this.createFormSubmitTemplate(serviceForm);
   }
   //#endregion

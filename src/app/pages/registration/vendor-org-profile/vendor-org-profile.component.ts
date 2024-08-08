@@ -233,8 +233,8 @@ export class VendorOrgProfileComponent implements OnInit, AfterViewInit {
     dialogRef.afterClosed().subscribe({
       next: (res) => {
         if (res) {
-          if (this.listOfMajorCustomerList.length >= 2) {
-            this._common.openSnackbar("You can only add up to 2 major customers",snackbarStatus.Warning);
+          if (this.listOfMajorCustomerList.length >= 5) {
+            this._common.openSnackbar("You can only add up to 5 major customers",snackbarStatus.Warning);
             return;
           }
           if (this.listOfMajorCustomerList.length == 0) {

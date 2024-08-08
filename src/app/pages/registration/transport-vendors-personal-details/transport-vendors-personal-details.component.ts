@@ -10,6 +10,7 @@ import { getSession } from "../../../Utils";
 import { GSTVenClass, Title } from "../../../Models/Master";
 import { forkJoin } from "rxjs";
 import { MasterService } from "../../../Services/master.service";
+import { EmitterService } from "../../../Services/emitter.service";
 
 @Component({
   selector: "ngx-transport-vendors-personal-details",
@@ -31,15 +32,16 @@ export class TransportVendorsPersonalDetailsComponent {
     private _commonService: CommonService,
     private _registration: RegistrationService,
     private _common: CommonService,
-    private _master:MasterService
-  ) {}
+    private _master: MasterService,
+    private emitterService: EmitterService
+  ) { }
 
   ngOnInit(): void {
     this.transporterVendorsForm = this._fb.group({
       Title_Id: ["", [Validators.required]],
       Name_of_Transporter: ["", [Validators.required]],
       Year_of_Establishment: [""],
-      GSTVenClass_Id:[""],
+      GSTVenClass_Id: [""],
       No_of_Own_Vehicles: ["", [Validators.required]],
       No_of_Drivers: ["", [Validators.required]],
       Nicerglobe_Registration: [""],
@@ -63,7 +65,7 @@ export class TransportVendorsPersonalDetailsComponent {
         },
       });
 
-      this.getTitleAndGSTVenClass();
+    this.getTitleAndGSTVenClass();
   }
 
   generateYears() {
@@ -96,21 +98,34 @@ export class TransportVendorsPersonalDetailsComponent {
     return transportVendorPersonalData;
   }
 
-    // Get Title and GSt Ven Class
-    getTitleAndGSTVenClass() {
-      forkJoin([
-        this._master.getTitle(),
-        this._master.getGSTVenClass(),
-      ]).subscribe({
-        next: (res) => {
-          if (res[0]) {
-            this.titles = res[0] as Title[];
-          }
-          if (res[1]) {
-            this.GST = res[1] as GSTVenClass[];
-          }
-        },
-        error: (err) => {},
-      });
+  // Get Title and GSt Ven Class
+  getTitleAndGSTVenClass() {
+    forkJoin([
+      this._master.getTitle(),
+      this._master.getGSTVenClass(),
+    ]).subscribe({
+      next: (res) => {
+        if (res[0]) {
+          this.titles = res[0] as Title[];
+        }
+        if (res[1]) {
+          this.GST = res[1] as GSTVenClass[];
+        }
+      },
+      error: (err) => { },
+    });
+  }
+
+
+  onGSTVenClassChange() {
+    const selectedGSTVenClassId = this.transporterVendorsForm.get('GSTVenClass_Id')?.value;
+    const selectedGSTVenClass = this.GST.find(gst => gst.Id === selectedGSTVenClassId);
+    const isRegistered = selectedGSTVenClass && selectedGSTVenClass.Id === 1;
+    if (isRegistered) {
+      this.emitterService.emitGSTVenClass(true);
     }
+    else {
+      this.emitterService.emitGSTVenClass(false);
+    }
+  }
 }

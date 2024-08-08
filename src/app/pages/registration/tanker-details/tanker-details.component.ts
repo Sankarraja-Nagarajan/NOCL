@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, Input, OnInit, ViewChild } from "@angular/core";
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { MatTableDataSource } from "@angular/material/table";
 import { TankerDetail } from "../../../Models/Dtos";
@@ -8,6 +8,7 @@ import { snackbarStatus } from "../../../Enums/snackbar-status";
 import { MasterService } from "../../../Services/master.service";
 import { TankerType } from "../../../Models/Master";
 import { getSession } from "../../../Utils";
+import { VehicleDetailsComponent } from "../vehicle-details/vehicle-details.component";
 
 @Component({
   selector: "ngx-tanker-details",
@@ -16,6 +17,8 @@ import { getSession } from "../../../Utils";
 })
 export class TankerDetailsComponent implements OnInit {
   @Input() form_Id: number;
+  @ViewChild(VehicleDetailsComponent)
+  vehicleDetailsComponent: VehicleDetailsComponent;
 
   tankerDetails: TankerDetail[] = [];
   dataSource = new MatTableDataSource(this.tankerDetails);
@@ -24,6 +27,7 @@ export class TankerDetailsComponent implements OnInit {
     "tankerType",
     "capacityOfTanker",
     "unit",
+    "isGPSRegistered",
     "action",
   ];
   TankerDetailsForm: FormGroup;
@@ -42,6 +46,7 @@ export class TankerDetailsComponent implements OnInit {
       Tanker_Type_Id: ["", Validators.required],
       Capacity_of_Tanker: ["", [Validators.required]],
       Unit: ["", [Validators.required]],
+      IsGPSRegistered:[true],
     });
 
     const userData = JSON.parse(getSession("userDetails"));
@@ -74,6 +79,8 @@ export class TankerDetailsComponent implements OnInit {
       this.dataSource.data.push(this.TankerDetailsForm.value);
       this.dataSource._updateChangeSubscription();
       this.TankerDetailsForm.reset();
+      this.TankerDetailsForm.get("IsGPSRegistered").setValue(true);
+
     } else {
       this.TankerDetailsForm.markAllAsTouched();
     }
@@ -109,13 +116,17 @@ export class TankerDetailsComponent implements OnInit {
 
   // Make sure the Tanker Details array has atleast 1 value
   isValid() {
-    if (this.dataSource.data.length > 0) {
+    if (this.dataSource.data.length > 0 && this.vehicleDetailsComponent.isValid()) {
       return true;
     } else {
       this.TankerDetailsForm.markAllAsTouched();
+      this.vehicleDetailsComponent.VehicleDetailsForm.markAllAsTouched();
       return false;
     }
   }
+
+
+
 
   // Get Tanker Details Data, calls by layout component
   getTankerDetails() {

@@ -184,7 +184,7 @@
   
               <!-- action column -->
               <ng-container matColumnDef="action">
-                <th mat-header-cell *matHeaderCellDef [hidden]="role != 'Vendor'"></th>
+                <th mat-header-cell *matHeaderCellDef [hidden]="role != 'Vendor'">Action</th>
                 <td mat-cell *matCellDef="let element; let i = index" [hidden]="role != 'Vendor'">
                   <div class="d-flex gap-2">
                     <button
