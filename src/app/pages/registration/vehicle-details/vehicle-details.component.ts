@@ -46,12 +46,10 @@ export class VehicleDetailsComponent {
     const userData = JSON.parse(getSession("userDetails"));
     this.role = userData ? userData.Role : "";
     this.role != 'Vendor' ? this.isOtherVehicles.disable() : this.isOtherVehicles.enable();
-    console.log(this.form_Id)
     this._registration.getFormData(this.form_Id, "VehicleDetails").subscribe({
       next: (res) => {
         if (res) {
           this.vehicleDetails = res;
-          console.log(this.vehicleDetails)
           this.dataSource = new MatTableDataSource(this.vehicleDetails);
           if (this.vehicleDetails.length == 0) {
             this.haveOtherVehicles = false;
@@ -116,7 +114,6 @@ export class VehicleDetailsComponent {
       element.VehicleTypeId = element.VehicleTypeId ? element.VehicleTypeId : 0;
       element.Form_Id = this.form_Id;
     });
-    console.log(this.vehicleDetails)
     return this.vehicleDetails;
   }
 

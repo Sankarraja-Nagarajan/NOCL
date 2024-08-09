@@ -9,6 +9,7 @@ import { snackbarStatus } from "../../../Enums/snackbar-status";
 import { Output, EventEmitter } from '@angular/core';
 import { EmitterService } from "../../../Services/emitter.service";
 import { getSession } from "../../../Utils";
+import { Observable } from "rxjs";
 
 @Component({
   selector: "ngx-commercial-profile",
@@ -29,7 +30,6 @@ export class CommercialProfileComponent {
   astheriskRequired: boolean = false;
   msmedisabled: boolean = true;
   MSMEindex: number;
-  MSMEvalue: boolean;
   hideGSTIN: boolean = false;
 
   constructor(
@@ -65,7 +65,7 @@ export class CommercialProfileComponent {
         "^(UDYAM-[A-Z]{2}-[0-9]{2}-[0-9]{7})+$"
       )],
       ServiceCategory: [""],
-      Is_MSME_Type: [true],
+      Is_MSME_Type: [false,Validators.required],
     });
 
     this.authResponse = JSON.parse(getSession("userDetails"));
@@ -91,6 +91,7 @@ export class CommercialProfileComponent {
     this.msmeTypes = this._config.get("MSME_Types").split(",");
 
 
+
     // Get Form data by form Id
     this._registration
       .getFormData(this.form_Id, "CommercialProfile")
@@ -113,18 +114,8 @@ export class CommercialProfileComponent {
     this.emitterService.hideGSTIN().subscribe((isRegistered: boolean) => {
       this.hideGSTIN = isRegistered;
     });
-
-    this.commercialProfileForm.get('Is_MSME_Type').valueChanges.subscribe(value => {
-      console.log(value)
-      this.emitterService.emitIsMSMEValue(value);
-    });
-  
-
   }
 
-  
-
-  
 
   // Make sure the Commercial Profile Form is valid
   isValid() {
