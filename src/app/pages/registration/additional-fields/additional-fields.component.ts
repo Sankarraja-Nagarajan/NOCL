@@ -9,6 +9,7 @@ import { getSession, isNullOrEmpty } from '../../../Utils';
 import { RegistrationService } from '../../../Services/registration.service';
 import { EmitterService } from '../../../Services/emitter.service';
 import { CommercialProfileComponent } from '../commercial-profile/commercial-profile.component';
+import { CommercialProfile } from '../../../Models/Dtos';
 
 @Component({
   selector: 'ngx-additional-fields',
@@ -28,16 +29,14 @@ export class AdditionalFieldsComponent implements OnInit {
   authResponse: AuthResponse;
   additionalDto: AdditionalFieldsDto;
   @Input() form_Id: number;
-  MSMEvalue;
   industryUpdate;
-  @ViewChild(CommercialProfileComponent)
-  commercialProfileComponent: CommercialProfileComponent;
+  commercialProfile: CommercialProfile[];
 
   constructor(
     private _fb: FormBuilder,
     private _master: MasterService,
     private _registration: RegistrationService,
-    private emitterService: EmitterService
+    private _emitterService: EmitterService
   ) { }
 
 
@@ -131,7 +130,6 @@ export class AdditionalFieldsComponent implements OnInit {
 
   checkRoleAndFormValid() {
     if (this.authResponse?.Role.includes('PO')) {
-      console.log(this.additionalFieldsForm.value)
       if (this.additionalFieldsForm.valid) {
         return true;
       }
@@ -157,30 +155,29 @@ export class AdditionalFieldsComponent implements OnInit {
 
 
   loadData() {
-    this.emitterService.isMSME.subscribe((value: boolean) => {
-      this.MSMEvalue = value;
-      console.log(this.MSMEvalue)
+    this._registration.getFormData(this.form_Id,"CommercialProfile").subscribe({
+      next:(res)=>{
+        this.commercialProfile=res as CommercialProfile[];
+        if(res.Is_MSME_Type == true){
+          this.checkAndPatchIndustry(true);
+        }
+        else{
+          this.checkAndPatchIndustry(false);
+        }
+      }
     })
-    console.log(this.MSMEvalue)
-    this.checkAndPatchIndustry(this.MSMEvalue);
   }
 
 
 
   checkAndPatchIndustry(isMSME: boolean) {
     let industryCode = isMSME ? 'SSI' : 'OTHR';
-    console.log(industryCode);
-
     this.industryUpdate = this.Industries.find(industry => industry.Code === industryCode);
-    console.log(this.industryUpdate);
-
     if (this.industryUpdate) {
       this.additionalFieldsForm.patchValue({
         Industry_Id: this.industryUpdate.Id
       });
     }
-    console.log("Updated Industry_Id:", this.additionalFieldsForm.value.Industry_Id);
-    console.log(this.Industries);
   }
 
 }

@@ -320,7 +320,6 @@ export class RegistrationFormLayoutComponent implements OnInit {
   }
 
   transportFormSubmit() {
-    console.log("transportFormSubmit")
     if (this.checkValidationForTransport()) {
       var payload = this.createTransportPayload();
       if (this.form_status == "Initiated") {
@@ -359,7 +358,6 @@ export class RegistrationFormLayoutComponent implements OnInit {
 
   //#region Validation based on form
   checkValidationForDomestic() {
-    console.log("c", this.commercialProfileComponent.isValid())
     return (
       this.vendorPersonalInfoComponent.isValid() &&
       this.vendorOrgProfileComponent.isValid() &&
@@ -375,14 +373,11 @@ export class RegistrationFormLayoutComponent implements OnInit {
   }
 
   checkValidationForTransport() {
-    console.log(this.transportVendorsPersonalDetailsComponent.isValid())
-    console.log(this.tankerDetailsComponent.isValid())
-    console.log(this.bankDetailsComponent.isValid())
-    console.log(this.commercialProfileComponent.isValid())
-    console.log(this.vendorBranchesComponent.isValid())
     return (
       this.transportVendorsPersonalDetailsComponent.isValid() &&
       this.tankerDetailsComponent.isValid() &&
+      this.addressComponent.isValid() &&
+      this.contactsComponent.isValid() &&
       this.bankDetailsComponent.isValid() &&
       this.commercialProfileComponent.isValid() &&
       this.vendorBranchesComponent.isValid()
@@ -390,15 +385,6 @@ export class RegistrationFormLayoutComponent implements OnInit {
   }
 
   checkValidationForService() {
-    console.log(this.vendorPersonalInfoComponent.isValid())
-    console.log(this.vendorOrgProfileComponent.isValid())
-    console.log(this.commercialProfileComponent.isValid())
-    console.log(this.bankDetailsComponent.isValid())
-    console.log(this.addressComponent.isValid())
-    console.log(this.vendorBranchesComponent.isValid())
-    console.log(!this.formsToShow.proprietorOrPartner || this.partnersComponent?.isValid())
-    console.log(this.attachmentsComponent.isValid())
-
     return (
       this.vendorPersonalInfoComponent.isValid() &&
       this.vendorOrgProfileComponent.isValid() &&
@@ -448,9 +434,11 @@ export class RegistrationFormLayoutComponent implements OnInit {
     let transportForm = new TransportForm();
     transportForm.TransportVendorPersonalData =
       this.transportVendorsPersonalDetailsComponent.getTransportVendorPersonalData();
+    transportForm.Addresses = this.addressComponent.getAddresses();
+    transportForm.Contacts = this.contactsComponent.getContacts();
     transportForm.TankerDetails =
       this.tankerDetailsComponent.getTankerDetails();
-      transportForm.VehicleDetails=this.tankerDetailsComponent.vehicleDetailsComponent.getVehicleDetails();
+    transportForm.VehicleDetails = this.tankerDetailsComponent.vehicleDetailsComponent.getVehicleDetails();
     transportForm.BankDetail = this.bankDetailsComponent.getBankDetail();
     transportForm.CommercialProfile =
       this.commercialProfileComponent.getCommercialProfile();
@@ -482,8 +470,6 @@ export class RegistrationFormLayoutComponent implements OnInit {
       : [];
     serviceForm.NocilRelatedEmployees =
       this.vendorOrgProfileComponent.getNocilRelatedEmployees();
-    console.log(serviceForm.CommercialProfile)
-    console.log(serviceForm)
     return this.createFormSubmitTemplate(serviceForm);
   }
   //#endregion
