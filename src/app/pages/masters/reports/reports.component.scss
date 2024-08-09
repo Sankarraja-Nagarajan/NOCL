@@ -1,0 +1,49 @@
+.row {
+    --bs-gutter-x: 0;
+    --bs-gutter-y: 0;
+}
+
+.main {
+    min-height: 400px;
+    width: 100%;
+    
+
+    .table-searchbar {
+        height: 40px;
+        justify-content: space-between;
+
+        .title {
+            font-weight: 600;
+            font-size: var(--vp-fs-18);
+            letter-spacing: 0.5px;
+        }
+
+        .searchbar {
+            width: 300px;
+        }
+
+    }
+
+    .vendors-table {
+        height: 310px;
+        overflow: auto;
+
+        td,
+        th {
+            text-wrap: nowrap;
+        }
+
+        .row-header {
+            height: 40px;
+        }
+
+        .no-wrap-column {
+            text-wrap: nowrap;
+        }
+    }
+
+    .btn-download{
+        border: 1px solid green;
+        color: #4aaa00;
+    }
+}

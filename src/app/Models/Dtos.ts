@@ -1,10 +1,10 @@
 export class VendorPersonalData {
   Personal_Info_Id: number = 0;
-  Title_Id:string;
+  Title_Id: string;
   Form_Id: number;
   Organization_Name: string;
   Plant_Installation_Year: number;
-  GSTVenClass_Id:number;
+  GSTVenClass_Id: number;
 }
 
 export class VendorOrganizationProfile {
@@ -56,17 +56,17 @@ export class Address {
   Address_Id: number = 0;
   Form_Id: number;
   Address_Type_Id: number;
-  House_No:string;
-  Street_2:string;
-  Street_3:string;
-  Street_4:string;
-  District:string;
-  Postal_Code:string;
-  City:string;
-  Country_Code:string;
-  Region_Id:number;
-  Country_Name:string;
-  Region_Name:string;
+  House_No: string;
+  Street_2: string;
+  Street_3: string;
+  Street_4: string;
+  District: string;
+  Postal_Code: string;
+  City: string;
+  Country_Code: string;
+  Region_Id: number;
+  Country_Name: string;
+  Region_Name: string;
   Tel: string;
   Fax: string;
   Website: string;
@@ -93,6 +93,13 @@ export class VendorBranch {
   Location: string;
 }
 
+export class VehicleDetails {
+  VehicleTypeId:number=0;
+  Vehicle_Type: string;
+  Form_Id: number;
+  Capacity: number;
+}
+
 export class ProprietorOrPartner {
   Id: number = 0;
   Form_Id: number;
@@ -112,13 +119,13 @@ export class AnnualTurnOver {
 export class TransportVendorPersonalData {
   Id: number = 0;
   Form_Id: number;
-  Title:string;
+  Title: string;
   Name_of_Transporter: string;
   Date_of_Establishment: Date;
-  GSTVenClass:string;
+  GSTVenClass: string;
   No_of_Own_Vehicles: number;
   No_of_Drivers: number;
-  Nicerglobe_Registration: string;
+  Nicerglobe_Registration: boolean;
 }
 
 export class TankerDetail {
@@ -127,6 +134,7 @@ export class TankerDetail {
   Tanker_Type_Id: number;
   Capacity_of_Tanker: number;
   Unit: string;
+  IsGPSRegistered: boolean;
 }
 
 export class Subsideries {
@@ -234,18 +242,17 @@ export class GstDetail {
   Addresses: TaxPayerAddress[];
 }
 
-export class TaxPayerAddress
-{
-   House_No:string;
-   Street_2:string;
-   Street_3:string;
-   Street_4:string;
-   Street_5:string;
-   City:string;
-   Postal_Code:string;
-   District:string;
-   Country_Code:string;
-   Region_Id:string;
+export class TaxPayerAddress {
+  House_No: string;
+  Street_2: string;
+  Street_3: string;
+  Street_4: string;
+  Street_5: string;
+  City: string;
+  Postal_Code: string;
+  District: string;
+  Country_Code: string;
+  Region_Id: string;
 }
 
 export class Region {
@@ -270,3 +277,15 @@ export class FormsToShow {
   commercialProfile: boolean = false;
   vendorBranches: boolean = false;
 }
+
+
+export class VendorReport {
+  Vendor_Category?: boolean;
+  Country_Code?: string;
+  Region_Id?: number;
+  Category_Vendor?: number[];
+  Type_of_Vendor?: number[];
+  ISO_Due_Date?: Date;
+  Nicerglobe_Registration?: boolean;
+}
+

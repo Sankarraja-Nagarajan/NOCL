@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild } from "@angular/core";
+import { Component, Input, SimpleChanges, ViewChild } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { CommercialProfile } from "../../../Models/Dtos";
 import { AppConfigService } from "../../../Services/app-config.service";
@@ -29,6 +29,8 @@ export class CommercialProfileComponent {
   astheriskRequired: boolean = false;
   msmedisabled: boolean = true;
   MSMEindex: number;
+  MSMEvalue: boolean;
+  hideGSTIN: boolean = false;
 
   constructor(
     private _fb: FormBuilder,
@@ -108,7 +110,21 @@ export class CommercialProfileComponent {
       this.commercialProfileForm.get("GSTIN").patchValue(gstin);
     });
 
+    this.emitterService.hideGSTIN().subscribe((isRegistered: boolean) => {
+      this.hideGSTIN = isRegistered;
+    });
+
+    this.commercialProfileForm.get('Is_MSME_Type').valueChanges.subscribe(value => {
+      console.log(value)
+      this.emitterService.emitIsMSMEValue(value);
+    });
+  
+
   }
+
+  
+
+  
 
   // Make sure the Commercial Profile Form is valid
   isValid() {

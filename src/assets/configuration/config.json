@@ -99,5 +99,5 @@
       "vendorBranches": true
     }
   },
-  "Import_Organization_Types": "Manufacturer,Agent,Authorized Dealer"
+  "Import_Organization_Types": "Manufacturer,Distributor,Trader,Others,Authorized Dealer"
 }

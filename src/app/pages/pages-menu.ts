@@ -52,6 +52,11 @@ export class Sample{
             title: 'Vendors',
             link: 'masters/vendors',
             icon: 'people-outline',
+          },
+          {
+            title: 'Reports',
+            link: 'masters/reports',
+            icon: 'save-outline',
           }
         ]
       }

@@ -23,6 +23,7 @@ import { MasterService } from "../../../../Services/master.service";
 export class VendorListComponent implements OnInit, OnChanges {
   @Input() vendorType: string;
   @Input() searchText: string;
+  @Input() vendors: VendorMaster[] = []; 
 
   displayedColumns: string[] = [
     "Vendor_Name",
@@ -54,6 +55,11 @@ export class VendorListComponent implements OnInit, OnChanges {
 
     if (changes.searchText) {
       this.dataSource.filter = this.searchText.trim().toLowerCase();
+    }
+
+    if(changes.vendors){
+      this.dataSource = new MatTableDataSource(changes.vendors.currentValue);
+      this.dataSource.paginator = this.paginator;
     }
   }
 

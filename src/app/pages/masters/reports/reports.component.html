@@ -1,0 +1,115 @@
+<div class="main">
+    <div class="row">
+        <div class="table-searchbar d-flex ailgn-items-center">
+            <div class="d-flex justify-content-center align-items-center">
+                <span class="title"> Vendor Reports </span>
+            </div>
+        </div>
+        <form action="" [formGroup]="reportForm">
+            <div class="row gap-4">
+                <div class="col-sm-2">
+                    <div class="mb-3">
+                        <label class="input-label-text"> Vendor Category </label>
+                        <nb-select fullWidth formControlName="Vendor_Category" multiple
+                            placeholder="Select vendor category" status="primary" size="small">
+                            <nb-option *ngFor="let vendorType of vendorTypes" [value]="vendorType.value">{{
+                                vendorType.key }}</nb-option>
+                        </nb-select>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div>
+                        <label class="input-label-text">
+                            Country
+                        </label>
+                        <div class="input-group">
+                            <nb-select fullWidth placeholder="Select Country" size="small" status="primary"
+                                formControlName="Country_Code" required (selectedChange)="onChange($event)">
+                                <nb-option *ngFor="let country of Countries" [value]="country.Code">{{
+                                    country.Name }}</nb-option>
+                            </nb-select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div>
+                        <label class="input-label-text">
+                            State
+                        </label>
+                        <div class="input-group">
+                            <nb-select fullWidth placeholder="Select Region" size="small" status="primary"
+                                formControlName="Region_Id" required>
+                                <nb-option *ngFor="let region of regionsForSelectedCountry" [value]="region.Id">{{
+                                    region.Name }}</nb-option>
+                            </nb-select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="mb-3">
+                        <label class="input-label-text"> Organization </label>
+                        <nb-select fullWidth multiple formControlName="Type_of_Organization" placeholder="Select Category"
+                            status="primary" size="small">
+                            <nb-option *ngFor="let org of orgTypes" [value]="org.Id">{{
+                                org.Type_of_Organization }}</nb-option>
+                        </nb-select>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="mb-3">
+                        <label class="input-label-text"> Type of Vendor </label>
+                        <nb-select fullWidth multiple formControlName="Type_of_Vendor" placeholder="Select vendor type"
+                            status="primary" size="small" (selectedChange)="onChangeTransport($event)">
+                            <nb-option *ngFor="let vendorType of TypeOfVendor" [value]="vendorType.Id">{{
+                                vendorType.Vendor_Type }}</nb-option>
+                        </nb-select>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row gap-4">
+                <div class="col-sm-2">
+                    <div class="mb-3">
+                        <label class="input-label-text">
+                            ISO Certificate due date
+                        </label>
+                        <div class="input-group">
+                            <input nbInput [nbDatepicker]="datepicker" fullWidth placeholder="Select Due Date"
+                                [max]="today" formControlName="ISO_Due_Date" fieldSize="small" class="input-border" />
+                            <nb-datepicker #datepicker></nb-datepicker>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-2" *ngIf="isTransporter">
+                    <div class="mb-3">
+                        <label class="input-label-text"> Nicerglobe Registration </label>
+                        <nb-select fullWidth formControlName="Nicerglobe_Registration"
+                            placeholder="Select Nicerglobe Registration" status="primary" size="small">
+                            <!-- <nb-option *ngFor="let nicer of Nicerglobe" [value]="nicer">{{
+                                nicer }}</nb-option> -->
+                                <nb-option value="true">Yes</nb-option>
+                                <nb-option value="false">No</nb-option>
+                        </nb-select>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="mb-3 mt-4">
+                        <button class="btn btn-design center-flexBox" (click)="FilterAllVendors()">
+                            Search
+                        </button>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="mb-3 mt-4 d-flex justify-content-end">
+                        <button class="btn btn-download d-flex">
+                            <img src="assets/images/svgs/Exel.svg" alt="Excel icon" />
+                            <span class="d-none d-lg-block">Download</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <ngx-vendor-list [vendors]="vendors"></ngx-vendor-list>
+    </div>
+</div>
