@@ -1,12 +1,11 @@
-import { Component, Input } from "@angular/core";
+import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
-import { LoginService } from "../../../Services/login.service";
-import { TransportVendorPersonalData } from "../../../Models/Dtos";
+import { GstDetail, TransportVendorPersonalData } from "../../../Models/Dtos";
 import { CommonService } from "../../../Services/common.service";
 import { AuthResponse } from "../../../Models/authModel";
 import { RegistrationService } from "../../../Services/registration.service";
 import { snackbarStatus } from "../../../Enums/snackbar-status";
-import { getSession } from "../../../Utils";
+import { getSession, isNullOrEmpty } from "../../../Utils";
 import { GSTVenClass, Title } from "../../../Models/Master";
 import { forkJoin } from "rxjs";
 import { MasterService } from "../../../Services/master.service";
@@ -19,7 +18,8 @@ import { EmitterService } from "../../../Services/emitter.service";
 })
 export class TransportVendorsPersonalDetailsComponent {
   @Input() form_Id: number;
-
+  @Output() gstDetail: EventEmitter<GstDetail> = new EventEmitter<GstDetail>();
+  
   transporterVendorsForm: FormGroup;
   authResponse: AuthResponse;
   personalId: number = 0;
@@ -34,7 +34,7 @@ export class TransportVendorsPersonalDetailsComponent {
     private _common: CommonService,
     private _master: MasterService,
     private emitterService: EmitterService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.transporterVendorsForm = this._fb.group({
@@ -44,7 +44,15 @@ export class TransportVendorsPersonalDetailsComponent {
       GSTVenClass_Id: [""],
       No_of_Own_Vehicles: ["", [Validators.required]],
       No_of_Drivers: ["", [Validators.required]],
-      Nicerglobe_Registration: [""],
+      Nicerglobe_Registration: ["", [Validators.required]],
+      GSTIN: [
+        "",
+        [
+          Validators.pattern(
+            "^([0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}[0-9A-Z]{2})+$"
+          ),
+        ],
+      ],
     });
     this.generateYears();
     this.authResponse = JSON.parse(getSession("userDetails"));
@@ -74,6 +82,44 @@ export class TransportVendorsPersonalDetailsComponent {
       this.years.push(year);
     }
   }
+
+  getGstDetails() {
+    if (
+      this.transporterVendorsForm.value.GSTIN &&
+      this.transporterVendorsForm.get("GSTIN").valid
+    ) {
+      this.emitterService.emitGSTIN(this.transporterVendorsForm.value.GSTIN);
+      this._registration
+        .getGstDetails(this.transporterVendorsForm.value.GSTIN)
+        .subscribe({
+          next: (res) => {
+            if (res) {
+              this.gstDetail.emit(res as GstDetail);
+              this.transporterVendorsForm
+                .get("Name_of_Transporter")
+                .setValue(res.Name);
+              this.transporterVendorsForm
+                .get("Year_of_Establishment")
+                .setValue(new Date(res.RegistrationDate).getFullYear());
+            }
+          },
+          error: (err) => {
+            this._commonService.openSnackbar(err, snackbarStatus.Danger);
+          },
+        });
+    } else {
+      this._commonService.openSnackbar(
+        "Enter Valid GSTIN Number",
+        snackbarStatus.Danger
+      );
+    }
+  }
+
+  isRegistered(): boolean {
+    const selectedGSTVenClass = this.GST.find(gst => gst.Id === this.transporterVendorsForm.value.GSTVenClass_Id);
+    return !isNullOrEmpty(selectedGSTVenClass) && isNullOrEmpty(selectedGSTVenClass.Code); 
+  }
+
   // validations
   keyPressValidation(event: Event, type) {
     return this._commonService.KeyPressValidation(event, type);
@@ -112,19 +158,20 @@ export class TransportVendorsPersonalDetailsComponent {
           this.GST = res[1] as GSTVenClass[];
         }
       },
-      error: (err) => { },
+      error: (err) => {},
     });
   }
 
-
   onGSTVenClassChange() {
-    const selectedGSTVenClassId = this.transporterVendorsForm.get('GSTVenClass_Id')?.value;
-    const selectedGSTVenClass = this.GST.find(gst => gst.Id === selectedGSTVenClassId);
+    const selectedGSTVenClassId =
+      this.transporterVendorsForm.get("GSTVenClass_Id")?.value;
+    const selectedGSTVenClass = this.GST.find(
+      (gst) => gst.Id === selectedGSTVenClassId
+    );
     const isRegistered = selectedGSTVenClass && selectedGSTVenClass.Id === 1;
     if (isRegistered) {
       this.emitterService.emitGSTVenClass(true);
-    }
-    else {
+    } else {
       this.emitterService.emitGSTVenClass(false);
     }
   }

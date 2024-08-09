@@ -107,7 +107,7 @@ export class VehicleDetailsComponent {
   }
 
   keyPressValidation(event) {
-    return this._commonService.KeyPressValidation(event, "tel");
+    return this._commonService.KeyPressValidation(event, "alphanumeric");
   }
   
   getVehicleDetails() {

@@ -125,7 +125,7 @@ export class TransportVendorPersonalData {
   GSTVenClass: string;
   No_of_Own_Vehicles: number;
   No_of_Drivers: number;
-  Nicerglobe_Registration: string;
+  Nicerglobe_Registration: boolean;
 }
 
 export class TankerDetail {

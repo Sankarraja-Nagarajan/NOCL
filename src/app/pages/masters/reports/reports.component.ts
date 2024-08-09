@@ -22,9 +22,9 @@ export class ReportsComponent implements OnInit {
   Countries: Country[] = [];
   Regions: Region[] = [];
   orgTypes: OrganizationType[] = [];
-  vendorTypes: { key: string, value: boolean }[] = [
-    { key: "ISO", value: true },
-    { key: "Non-ISO", value: false }
+  vendorTypes: { key: string, value: string }[] = [
+    { key: "ISO", value: "ISO" },
+    { key: "Non-ISO", value: "Non-ISO" }
   ];
 
   Nicerglobe = ["Yes", "No"];
@@ -44,11 +44,11 @@ export class ReportsComponent implements OnInit {
 
   ngOnInit() {
     this.reportForm = this._fb.group({
-      Vendor_Category: [""],
+      Vendor_Category: [[]],
       Country_Code: ["", [Validators.maxLength(3)]],
       Region_Id: [""],
-      Category_Vendor: [""],
-      Type_of_Vendor: [""],
+      Type_of_Organization: [[]],
+      Type_of_Vendor: [[]],
       ISO_Due_Date: [""],
       Nicerglobe_Registration: [""]
     });
@@ -102,9 +102,9 @@ export class ReportsComponent implements OnInit {
   FilterAllVendors() {
     let report = new VendorReport();
     report = this.reportForm.value;
-    if (Array.isArray(report.Vendor_Category)) {
-      report.Vendor_Category = report.Vendor_Category[0];
-    }
+    // if (Array.isArray(report.Vendor_Category)) {
+    //   report.Vendor_Category = report.Vendor_Category[0];
+    // }
    
     this._report.filterAllVendors(report).subscribe({
       next: (res) => {

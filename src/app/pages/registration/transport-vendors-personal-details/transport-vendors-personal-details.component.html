@@ -124,6 +124,30 @@
           </div>
           <!-- No_of_Own_Vehicles & No_of_Drivers -->
 
+          <!-- GSTIN & Get details btn -->
+          <div class="row" *ngIf="authResponse?.Role == 'Vendor' &&  isRegistered()">
+            <div class="col-sm-6">
+                <div>
+                    <label class="input-label-text"> GSTIN </label>
+                    <div class="input-group">
+                        <input nbInput fullWidth fieldSize="small" class="input-border"
+                            placeholder="Enter GSTIN" formControlName="GSTIN" />
+                        <mat-error
+                            *ngIf="this.transporterVendorsForm.get('GSTIN').hasError('pattern') && this.transporterVendorsForm.get('GSTIN').touched"
+                            class="error-msg"> Invalid GSTIN Number</mat-error>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-5 d-flex mt-sm-0 mt-2 justify-content-sm-start justify-content-end">
+                <div class="d-flex align-items-end justify-content-center">
+                    <button *ngIf="authResponse?.Role == 'Vendor'" class="btn btn-design center-flexBox"
+                        (click)="getGstDetails()" >
+                        <!-- <img src="../../../../assets/images/pngs/plus.png" width="16" height="16"> -->
+                        Get Details</button>
+                </div>
+            </div>
+        </div>
+
           <!-- Nicerglobe_Registration -->
           <div class="row mb-2">
             <div class="col-md-6">
@@ -132,8 +156,13 @@
                   Nicerglobe Registration
                 </label>
                 <div class="input-group">
-                  <textarea nbInput fullWidth fieldSize="tiny" class="input-border"
-                    formControlName="Nicerglobe_Registration" placeholder="Enter Nicerglobe Registration"></textarea>
+                  <nb-select fullWidth formControlName="Nicerglobe_Registration"
+                            placeholder="Select Nicerglobe Registration">
+                            <nb-option [value]="true">Yes</nb-option>
+                            <nb-option [value]="false">No</nb-option>
+                        </nb-select>
+                  <!-- <textarea nbInput fullWidth fieldSize="tiny" class="input-border"
+                    formControlName="Nicerglobe_Registration" placeholder="Enter Nicerglobe Registration"></textarea> -->
                 </div>
                 <!-- <label class="input-label-text">Nicerglobe Registration</label>
                                 <nb-radio-group formControlName="Nicerglobe_Registration" class="d-flex">
