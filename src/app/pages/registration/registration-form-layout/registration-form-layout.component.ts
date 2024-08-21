@@ -124,7 +124,7 @@ export class RegistrationFormLayoutComponent implements OnInit {
     //this.ExpiryNotifications();
 
 
-    this.emitterService.IsManufacturerValue().subscribe((value) => {
+    this.emitterService.isManufacturer.subscribe((value) => {
       this.isOrgTypeManufacturer = value;
     });
   }

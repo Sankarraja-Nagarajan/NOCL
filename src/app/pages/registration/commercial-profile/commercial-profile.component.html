@@ -1,56 +1,96 @@
 <section class="screenAddress">
-    <div class="container">
-        <div >
-            <div class="row">
-                <form action="" [formGroup]="commercialProfileForm" class="p-0">
-                    <!-- Financial_Credit_Rating & Agency_Name  -->
-                    <div class="row mb-2">
-                        <div class="col-sm">
-                            <div>
-                                <label class="input-label-text">Financial Credit Rating</label>
-                                <div class="input-group">
-                                    <input nbInput fullWidth fieldSize="small" class="input-border"
-                                        formControlName="Financial_Credit_Rating"
-                                        placeholder="Enter Financial credit rating" />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm">
-                            <div>
-                                <label class="input-label-text">Agency Name</label>
-                                <div class="input-group">
-                                    <input nbInput fullWidth fieldSize="small" class="input-border"
-                                        formControlName="Agency_Name" placeholder="Enter Agency name" />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Financial_Credit_Rating & Agency_Name  -->
+  <div class="container">
+    <div>
+      <div class="row">
+        <form action="" [formGroup]="commercialProfileForm" class="p-0">
+          <!-- Financial_Credit_Rating & Agency_Name  -->
+          <div class="row mb-2">
+            <div class="col-sm">
+              <div>
+                <label class="input-label-text">Financial Credit Rating</label>
+                <div class="input-group">
+                  <input
+                    nbInput
+                    fullWidth
+                    fieldSize="small"
+                    class="input-border"
+                    formControlName="Financial_Credit_Rating"
+                    placeholder="Enter Financial credit rating"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="col-sm">
+              <div>
+                <label class="input-label-text">Agency Name</label>
+                <div class="input-group">
+                  <input
+                    nbInput
+                    fullWidth
+                    fieldSize="small"
+                    class="input-border"
+                    formControlName="Agency_Name"
+                    placeholder="Enter Agency name"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Financial_Credit_Rating & Agency_Name  -->
 
-                    <!-- PAN & GSTIN -->
-                    <div class="row mb-2" >
-                        <div class="col-sm-6">
-                            <div>
-                                <label class="input-label-text">PAN <span
-                                        class="asterisk-required">*</span></label>
-                                <div class="input-group">
-                                    <input nbInput fullWidth fieldSize="small" class="input-border"
-                                        formControlName="PAN" placeholder="Enter PAN Number" maxlength="10" />
-                                    <mat-error
-                                        *ngIf="this.commercialProfileForm.get('PAN').hasError('pattern') && this.commercialProfileForm.get('PAN').touched"
-                                        class="error-msg"> Invalid PAN Number</mat-error>
-                                    <mat-error
-                                        *ngIf="this.commercialProfileForm.get('PAN').hasError('required') && this.commercialProfileForm.get('PAN').touched"
-                                        class="error-msg"> PAN Number is required </mat-error>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-4" *ngIf="v_Id != 4">
-                           <label class="input-label-text mt-4">Do you have MSME? <span
-                                class="asterisk-required">*</span></label>
-                            <!-- <div> -->
-                              
-                                <!-- <div >
+          <!-- PAN & GSTIN -->
+          <div class="row mb-2">
+            <div class="col-sm-6" *ngIf="v_Id != 5">
+              <div>
+                <label class="input-label-text"
+                  >PAN
+                  <span class="asterisk-required"
+                    >*</span
+                  ></label
+                >
+                <div class="input-group">
+                  <input
+                    nbInput
+                    fullWidth
+                    fieldSize="small"
+                    class="input-border"
+                    formControlName="PAN"
+                    placeholder="Enter PAN Number"
+                    maxlength="10"
+                  />
+                  <mat-error
+                    *ngIf="
+                      this.commercialProfileForm
+                        .get('PAN')
+                        .hasError('pattern') &&
+                      this.commercialProfileForm.get('PAN').touched
+                    "
+                    class="error-msg"
+                  >
+                    Invalid PAN Number</mat-error
+                  >
+                  <mat-error
+                    *ngIf="
+                      this.commercialProfileForm
+                        .get('PAN')
+                        .hasError('required') &&
+                      this.commercialProfileForm.get('PAN').touched
+                    "
+                    class="error-msg"
+                  >
+                    PAN Number is required
+                  </mat-error>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-4" *ngIf="v_Id != 4">
+              <label class="input-label-text mt-4"
+                >Do you have MSME?
+                <span class="asterisk-required">*</span></label
+              >
+              <!-- <div> -->
+
+              <!-- <div >
 
                                     <nb-select size="small" status="primary" formControlName="Is_MSME_Type"
                                         (selectedChange)="changeOptions()">
@@ -62,126 +102,165 @@
                                         *ngIf="this.commercialProfileForm.get('Is_MSME_Type').hasError('required') && this.commercialProfileForm.get('Is_MSME_Type').touched"
                                         class="error-msg"> Is_MSME_Type is required </mat-error>
                                 </div> -->
-                            <!-- </div>-->
-                        </div> 
-                        <div  class="col-sm-2 mt-4 justify-content-end" *ngIf="v_Id != 4">
-                            <nb-select size="small" status="primary" formControlName="Is_MSME_Type" class="input-group"
-                                        (selectedChange)="changeOptions()">
-                                        <nb-option [value]="true">Yes</nb-option>
-                                        <nb-option [value]="false" selected>No</nb-option>
-                                    </nb-select>
-
-                                    <mat-error
-                                        *ngIf="this.commercialProfileForm.get('Is_MSME_Type').hasError('required') && this.commercialProfileForm.get('Is_MSME_Type').touched"
-                                        class="error-msg"> Is_MSME_Type is required </mat-error>
-                        </div>
-                        <!-- <div class="col-sm">
-                            <div>
-                                <label class="input-label-text">GSTIN</label>
-                                <div class="input-group">
-                                    <input nbInput fullWidth fieldSize="small" class="input-border"
-                                        formControlName="GSTIN" placeholder="Enter your GSTIN" maxlength="15" />
-                                    <mat-error
-                                        *ngIf="this.commercialProfileForm.get('GSTIN').hasError('pattern') && this.commercialProfileForm.get('GSTIN').touched"
-                                        class="error-msg"> Invalid GSTIN Number</mat-error>
-                                </div>
-                            </div>
-                        </div> -->
-                    </div>
-                    <!-- PAN & GSTIN -->
-
-
-                    <!--                  <nb-select size="small" status="primary" formControlName="Is_MSME_Type" (selectedChange)="changeOptions()">-->
-                    <!--                    <nb-option [value]="true">Yes</nb-option>-->
-                    <!--                    <nb-option [value]="false">No</nb-option>-->
-                    <!--                  </nb-select>-->
-
-                    <!--MSME_Type & MSME_Number-->
-                    <div class="row mb-2">
-
-                        <!-- <div class="col-sm">
-                            <div>
-                                <label class="input-label-text">MSME Type <span
-                                        class="asterisk-required">*</span></label>
-                                <div class="input-group">
-
-                                    <nb-select size="small" status="primary" formControlName="Is_MSME_Type"
-                                        (selectedChange)="changeOptions()">
-                                        <nb-option [value]="true">Yes</nb-option>
-                                        <nb-option [value]="false">No</nb-option>
-                                    </nb-select>
-
-                                    <mat-error
-                                        *ngIf="this.commercialProfileForm.get('Is_MSME_Type').hasError('required') && this.commercialProfileForm.get('Is_MSME_Type').touched"
-                                        class="error-msg"> Is_MSME_Type is required </mat-error>
-                                </div>
-                            </div>
-                        </div> -->
-
-                        <div class="col-sm" [hidden]="!msmedisabled" *ngIf="v_Id != 4">
-                            <div>
-                                <label class="input-label-text">MSME Type <span *ngIf="astheriskRequired"
-                                        class="asterisk-required">*</span></label>
-                                <div class="input-group">
-                                    <!-- <input nbInput fullWidth fieldSize="small" class="input-border"
-                                     formControlName="MSME_Type" placeholder="Enter MSME Type"/> -->
-                                    <nb-select fullWidth placeholder="Select MSME Type" size="small" status="primary"
-                                        formControlName="MSME_Type">
-                                        <nb-option *ngFor="let msme of msmeTypes" [value]="msme">{{msme}}</nb-option>
-                                    </nb-select>
-                                    <mat-error
-                                        *ngIf="this.commercialProfileForm.get('MSME_Type').hasError('required') && this.commercialProfileForm.get('MSME_Type').touched"
-                                        class="error-msg"> MSME Type is required </mat-error>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-sm">
-                            <div [hidden]="!msmedisabled" *ngIf="v_Id != 4">
-                                <label class="input-label-text">MSME Number <span *ngIf="astheriskRequired"
-                                        class="asterisk-required">*</span></label>
-                                <div class="input-group">
-                                    <input nbInput fullWidth fieldSize="small" class="input-border"
-                                        formControlName="MSME_Number" placeholder="Enter MSME Number" />
-                                    <mat-error
-                                        *ngIf="this.commercialProfileForm.get('MSME_Number').hasError('required') && this.commercialProfileForm.get('MSME_Number').touched"
-                                        class="error-msg"> MSME Number is required </mat-error>
-                                    <mat-error
-                                        *ngIf="this.commercialProfileForm.get('MSME_Number').hasError('pattern') && this.commercialProfileForm.get('MSME_Number').touched"
-                                        class="error-msg"> Invalid MSME Number </mat-error>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!--MSME_Type & MSME_Number-->
-
-                    <!-- ServiceCategory -->
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <div>
-                                <label class="input-label-text">Service Category</label>
-                                <div class="input-group">
-                                    <input nbInput fullWidth fieldSize="small" class="input-border"
-                                        formControlName="ServiceCategory" placeholder="Enter Service Category" />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm" *ngIf="hideGSTIN">
-                            <div>
-                                <label class="input-label-text">GSTIN</label>
-                                <div class="input-group">
-                                    <input nbInput fullWidth fieldSize="small" class="input-border"
-                                        formControlName="GSTIN" placeholder="Enter your GSTIN" maxlength="15" />
-                                    <mat-error
-                                        *ngIf="this.commercialProfileForm.get('GSTIN').hasError('pattern') && this.commercialProfileForm.get('GSTIN').touched"
-                                        class="error-msg"> Invalid GSTIN Number</mat-error>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- ServiceCategory -->
-                </form>
+              <!-- </div>-->
             </div>
-        </div>
+            <div class="col-sm-2 mt-4 justify-content-end" *ngIf="v_Id != 4">
+              <nb-select
+                size="small"
+                status="primary"
+                formControlName="Is_MSME_Type"
+                class="input-group"
+                (selectedChange)="changeOptions()"
+              >
+                <nb-option [value]="true">Yes</nb-option>
+                <nb-option [value]="false" selected>No</nb-option>
+              </nb-select>
+
+              <mat-error
+                *ngIf="
+                  this.commercialProfileForm
+                    .get('Is_MSME_Type')
+                    .hasError('required') &&
+                  this.commercialProfileForm.get('Is_MSME_Type').touched
+                "
+                class="error-msg"
+              >
+                this field is required
+              </mat-error>
+            </div>
+          </div>
+          <!--MSME_Type & MSME_Number-->
+          <div class="row mb-2">
+            <div class="col-sm" [hidden]="!msmedisabled" *ngIf="v_Id != 4">
+              <div>
+                <label class="input-label-text"
+                  >MSME Type
+                  <span *ngIf="astheriskRequired" class="asterisk-required"
+                    >*</span
+                  ></label
+                >
+                <div class="input-group">
+                  <!-- <input nbInput fullWidth fieldSize="small" class="input-border"
+                                     formControlName="MSME_Type" placeholder="Enter MSME Type"/> -->
+                  <nb-select
+                    fullWidth
+                    placeholder="Select MSME Type"
+                    size="small"
+                    status="primary"
+                    formControlName="MSME_Type"
+                  >
+                    <nb-option *ngFor="let msme of msmeTypes" [value]="msme">{{
+                      msme
+                    }}</nb-option>
+                  </nb-select>
+                  <mat-error
+                    *ngIf="
+                      this.commercialProfileForm
+                        .get('MSME_Type')
+                        .hasError('required') &&
+                      this.commercialProfileForm.get('MSME_Type').touched
+                    "
+                    class="error-msg"
+                  >
+                    MSME Type is required
+                  </mat-error>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-sm">
+              <div [hidden]="!msmedisabled" *ngIf="v_Id != 4">
+                <label class="input-label-text"
+                  >MSME Number
+                  <span *ngIf="astheriskRequired" class="asterisk-required"
+                    >*</span
+                  ></label
+                >
+                <div class="input-group">
+                  <input
+                    nbInput
+                    fullWidth
+                    fieldSize="small"
+                    class="input-border"
+                    formControlName="MSME_Number"
+                    placeholder="Enter MSME Number"
+                  />
+                  <mat-error
+                    *ngIf="
+                      this.commercialProfileForm
+                        .get('MSME_Number')
+                        .hasError('required') &&
+                      this.commercialProfileForm.get('MSME_Number').touched
+                    "
+                    class="error-msg"
+                  >
+                    MSME Number is required
+                  </mat-error>
+                  <mat-error
+                    *ngIf="
+                      this.commercialProfileForm
+                        .get('MSME_Number')
+                        .hasError('pattern') &&
+                      this.commercialProfileForm.get('MSME_Number').touched
+                    "
+                    class="error-msg"
+                  >
+                    Invalid MSME Number
+                  </mat-error>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--MSME_Type & MSME_Number-->
+
+          <!-- ServiceCategory -->
+          <div class="row">
+            <div class="col-sm-6">
+              <div>
+                <label class="input-label-text">Service Category</label>
+                <div class="input-group">
+                  <input
+                    nbInput
+                    fullWidth
+                    fieldSize="small"
+                    class="input-border"
+                    formControlName="ServiceCategory"
+                    placeholder="Enter Service Category"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="col-sm" *ngIf="v_Id!=5">
+              <div *ngIf="hideGSTIN">
+                <label class="input-label-text">GSTIN</label>
+                <div class="input-group">
+                  <input
+                    nbInput
+                    fullWidth
+                    fieldSize="small"
+                    class="input-border"
+                    formControlName="GSTIN"
+                    placeholder="Enter your GSTIN"
+                    maxlength="15"
+                  />
+                  <mat-error
+                    *ngIf="
+                      this.commercialProfileForm
+                        .get('GSTIN')
+                        .hasError('pattern') &&
+                      this.commercialProfileForm.get('GSTIN').touched
+                    "
+                    class="error-msg"
+                  >
+                    Invalid GSTIN Number</mat-error
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- ServiceCategory -->
+        </form>
+      </div>
     </div>
+  </div>
 </section>

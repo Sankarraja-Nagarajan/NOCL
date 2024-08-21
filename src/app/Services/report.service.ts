@@ -22,7 +22,16 @@ export class ReportService {
 
   filterAllVendors(report: VendorReport): Observable<any> {
     const URL = this.baseURL + "/Reports/SearchAllVendors";
-    return this._http.post(URL, report)
+    return this._http.post(URL, report);
   }
 
+  downloadFilteredVendors(report: VendorReport): Observable<any> {
+    const URL = `${this.baseURL}/Reports/DownloadFilteredVendors`;
+    return this._http.getFileByPost(URL, report);
+  }
+
+  downloadVendorByExpiry(): Observable<any> {
+    const URL = `${this.baseURL}/Reports/DownloadVendorByExpiry`;
+    return this._http.getFile(URL);
+  }
 }

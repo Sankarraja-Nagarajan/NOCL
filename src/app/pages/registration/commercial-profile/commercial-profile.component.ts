@@ -6,7 +6,7 @@ import { AuthResponse } from "../../../Models/authModel";
 import { RegistrationService } from "../../../Services/registration.service";
 import { CommonService } from "../../../Services/common.service";
 import { snackbarStatus } from "../../../Enums/snackbar-status";
-import { Output, EventEmitter } from '@angular/core';
+import { Output, EventEmitter } from "@angular/core";
 import { EmitterService } from "../../../Services/emitter.service";
 import { getSession } from "../../../Utils";
 import { Observable } from "rxjs";
@@ -30,7 +30,7 @@ export class CommercialProfileComponent {
   astheriskRequired: boolean = false;
   msmedisabled: boolean = true;
   MSMEindex: number;
-  hideGSTIN: boolean = false;
+  hideGSTIN: boolean = true;
 
   constructor(
     private _fb: FormBuilder,
@@ -38,7 +38,7 @@ export class CommercialProfileComponent {
     private _registration: RegistrationService,
     private _common: CommonService,
     private emitterService: EmitterService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.commercialProfileForm = this._fb.group({
@@ -61,11 +61,12 @@ export class CommercialProfileComponent {
         ],
       ],
       MSME_Type: [""],
-      MSME_Number: ["", Validators.pattern(
-        "^(UDYAM-[A-Z]{2}-[0-9]{2}-[0-9]{7})+$"
-      )],
+      MSME_Number: [
+        "",
+        Validators.pattern("^(UDYAM-[A-Z]{2}-[0-9]{2}-[0-9]{7})+$"),
+      ],
       ServiceCategory: [""],
-      Is_MSME_Type: [false,Validators.required],
+      Is_MSME_Type: ["", Validators.required],
     });
 
     this.authResponse = JSON.parse(getSession("userDetails"));
@@ -78,7 +79,7 @@ export class CommercialProfileComponent {
         .get("PAN")
         .addValidators([Validators.required]);
     }
-    if (this.v_Id == 1) {
+    if (this.v_Id == 1 || this.v_Id == 2) {
       this.commercialProfileForm
         .get("MSME_Type")
         .addValidators(Validators.required);
@@ -86,11 +87,37 @@ export class CommercialProfileComponent {
         .get("MSME_Number")
         .addValidators(Validators.required);
       this.astheriskRequired = true;
+
+      this.commercialProfileForm.get("Is_MSME_Type").patchValue(true);
+      this.commercialProfileForm.get("Is_MSME_Type").disable();
     }
 
+    this.commercialProfileForm.get("Is_MSME_Type").valueChanges.subscribe({
+      next: (res) => {
+        if (res) {
+          this.commercialProfileForm
+            .get("MSME_Type")
+            .addValidators(Validators.required);
+          this.commercialProfileForm
+            .get("MSME_Number")
+            .addValidators(Validators.required);
+            this.commercialProfileForm.updateValueAndValidity();
+          this.astheriskRequired = true;
+        }
+        else{
+          this.commercialProfileForm
+            .get("MSME_Type")
+            .removeValidators(Validators.required);
+          this.commercialProfileForm
+            .get("MSME_Number")
+            .removeValidators(Validators.required);
+            this.commercialProfileForm.updateValueAndValidity();
+          this.astheriskRequired = false;
+        }
+      },
+    });
+
     this.msmeTypes = this._config.get("MSME_Types").split(",");
-
-
 
     // Get Form data by form Id
     this._registration
@@ -102,20 +129,20 @@ export class CommercialProfileComponent {
             this.commercialProfileForm.patchValue(res);
           }
         },
-        error: (err) => {
-
-        },
+        error: (err) => {},
       });
 
-    this.emitterService.GSTINData().subscribe((gstin) => {
+    this.emitterService.gstinValue.subscribe((gstin) => {
       this.commercialProfileForm.get("GSTIN").patchValue(gstin);
     });
-
-    this.emitterService.hideGSTIN().subscribe((isRegistered: boolean) => {
-      this.hideGSTIN = isRegistered;
+    console.log("HideGSTIN1", this.hideGSTIN);
+    this.emitterService.gstVenClass.subscribe((isRegistered: boolean) => {
+      if (this.v_Id == 4) {
+        this.hideGSTIN = isRegistered;
+      }
+      console.log("HideGSTIN2", this.hideGSTIN);
     });
   }
-
 
   // Make sure the Commercial Profile Form is valid
   isValid() {
@@ -139,27 +166,27 @@ export class CommercialProfileComponent {
 
   changeOptions() {
     this.reqDoctypes = this._config.get("Required_Attachments").split(",");
-    if (!this.commercialProfileForm.get('Is_MSME_Type').value) {
-      this.commercialProfileForm.get('MSME_Type').disable();
-      this.commercialProfileForm.get('MSME_Number').disable();
+    if (!this.commercialProfileForm.get("Is_MSME_Type").value) {
+      this.commercialProfileForm.get("MSME_Type").disable();
+      this.commercialProfileForm.get("MSME_Number").disable();
       this.msmedisabled = false;
       this.MSMEindex = this.reqDoctypes.indexOf("MSME");
       if (this.MSMEindex != -1) {
         this.reqDoctypes.splice(this.MSMEindex, 1);
         this.documents = this.reqDoctypes.join(",");
-        this._config.updateConfigValue('Required_Attachments', this.documents);
+        this._config.updateConfigValue("Required_Attachments", this.documents);
         const value = this._config.get("Required_Attachments").split(",");
         this.updateRequireDocument(value);
       }
     } else {
-      this.commercialProfileForm.get('MSME_Type').enable();
-      this.commercialProfileForm.get('MSME_Number').enable();
+      this.commercialProfileForm.get("MSME_Type").enable();
+      this.commercialProfileForm.get("MSME_Number").enable();
       this.msmedisabled = true;
       this.MSMEindex = this.reqDoctypes.indexOf("MSME");
       if (this.MSMEindex == -1) {
         this.reqDoctypes.push("MSME");
         this.documents = this.reqDoctypes.join(",");
-        this._config.updateConfigValue('Required_Attachments', this.documents);
+        this._config.updateConfigValue("Required_Attachments", this.documents);
         const value = this._config.get("Required_Attachments").split(",");
         this.updateRequireDocument(value);
       }
@@ -168,7 +195,4 @@ export class CommercialProfileComponent {
   updateRequireDocument(value: string) {
     this.emitterService.emitRequiredDocument(value);
   }
-
-
-
 }

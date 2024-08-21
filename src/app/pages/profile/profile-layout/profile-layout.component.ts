@@ -50,6 +50,7 @@ export class ProfileLayoutComponent implements OnInit {
   formToShow: any;
   isPopupVisible: boolean = false;
 
+  userDetails: any;
   vendorInfo: any;
   vendorProfile: VendorProfile = new VendorProfile();
 
@@ -64,6 +65,8 @@ export class ProfileLayoutComponent implements OnInit {
     this.vendorInfo = JSON.parse(vInfo);
     this.getVendorPrfile();
 
+    let user = getSession("userDetails");
+    this.userDetails = JSON.parse(user);
     this.formToShow = this._config.getSubItem(
       "FormsToShow",
       this.vendorInfo.VT_Id
