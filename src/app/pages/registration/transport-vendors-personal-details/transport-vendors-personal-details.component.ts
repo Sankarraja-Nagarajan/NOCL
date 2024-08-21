@@ -44,7 +44,7 @@ export class TransportVendorsPersonalDetailsComponent {
       GSTVenClass_Id: [""],
       No_of_Own_Vehicles: ["", [Validators.required]],
       No_of_Drivers: ["", [Validators.required]],
-      Nicerglobe_Registration: ["", [Validators.required]],
+      Nicerglobe_Registration: [false, [Validators.required]],
       GSTIN: [
         "",
         [

@@ -34,6 +34,7 @@ export class CommercialProfile {
   Agency_Name: string;
   PAN: string;
   GSTIN: string;
+  Is_MSME_Type:boolean;
   MSME_Type: string;
   MSME_Number: string;
   ServiceCategory: string;

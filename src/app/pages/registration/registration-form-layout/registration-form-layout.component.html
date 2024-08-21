@@ -288,7 +288,7 @@
       </div>
     </div>
     <!-- Commercial Profile -->
-    <div *ngIf="formsToShow.commercialProfile && !isOrgTypeManufacturer" class="p-3 border-bottom">
+    <div *ngIf="formsToShow.commercialProfile" class="p-3 border-bottom">
       <div class="row">
         <div
           class="d-none d-sm-flex flex-column align-items-center justify-content-center col-sm-3"
@@ -305,7 +305,7 @@
           >
             Commercial Profile
           </h3>
-          <ngx-commercial-profile [form_Id]="form_Id" [v_Id]="v_Id"  [isReadOnly]="isReadOnly"></ngx-commercial-profile>
+          <ngx-commercial-profile [form_Id]="form_Id" [v_Id]="v_Id" [isReadOnly]="isReadOnly"></ngx-commercial-profile>
         </div>
       </div>
     </div>

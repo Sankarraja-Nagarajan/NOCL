@@ -83,4 +83,13 @@ export class HttpService {
       })
       .pipe(catchError(this.errorHandler));
   }
+
+  getFileByPost(URL: string, data: any) {
+    return this._httpClient
+      .post<Blob>(URL, data, {
+        observe: "response",
+        responseType: "blob" as "json",
+      })
+      .pipe(catchError(this.errorHandler));
+  }
 }
