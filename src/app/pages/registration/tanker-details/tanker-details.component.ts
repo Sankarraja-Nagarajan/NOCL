@@ -116,11 +116,11 @@ export class TankerDetailsComponent implements OnInit {
 
   // Make sure the Tanker Details array has atleast 1 value
   isValid() {
-    if (this.dataSource.data.length > 0 && this.vehicleDetailsComponent.isValid()) {
+    if (this.dataSource.data.length > 0) {
       return true;
     } else {
       this.TankerDetailsForm.markAllAsTouched();
-      this.vehicleDetailsComponent.VehicleDetailsForm.markAllAsTouched();
+      this._commonService.openRequiredFieldsSnackbar();
       return false;
     }
   }

@@ -142,7 +142,7 @@
         <div class="d-flex justify-content-center align-items-center gap-2" mat-dialog-actions>
             <div>
                 <button class="btn btn-design center-flexBox" *ngIf="data.type == 'Major Customer'"
-                 [mat-dialog-close]="majorCustomers">
+                 (click)="submitCustomers()">
                     Submit</button>
                 <button class="btn btn-design center-flexBox" *ngIf="data.type == 'Nocil Member'"
                  [mat-dialog-close]="nocilRelatedEmployees">
