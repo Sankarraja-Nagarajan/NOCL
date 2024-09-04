@@ -26,7 +26,7 @@ export class VendorPersonalInfoComponent implements OnInit {
   @Input() isReadOnly: boolean;
   @Input() v_Id: number;
   @Output() gstDetail: EventEmitter<GstDetail> = new EventEmitter<GstDetail>();
-  
+
 
   domesticVendorForm: FormGroup;
   years: number[] = [];
@@ -40,7 +40,7 @@ export class VendorPersonalInfoComponent implements OnInit {
     private _commonService: CommonService,
     private _registration: RegistrationService,
     private _master: MasterService,
-    private emitterService:EmitterService
+    private emitterService: EmitterService
   ) { }
 
   ngOnInit(): void {
@@ -84,8 +84,7 @@ export class VendorPersonalInfoComponent implements OnInit {
         },
       });
 
-      this.getTitleAndGSTVenClass();
-
+    this.getTitleAndGSTVenClass();
   }
 
   patchVendorname() {
@@ -180,13 +179,19 @@ export class VendorPersonalInfoComponent implements OnInit {
           this.GST = res[1] as GSTVenClass[];
         }
       },
-      error: (err) => {},
+      error: (err) => { },
     });
   }
 
 
   isNotRegistered(): boolean {
     const selectedGSTVenClass = this.GST.find(gst => gst.Id === this.domesticVendorForm.value.GSTVenClass_Id);
-    return selectedGSTVenClass && selectedGSTVenClass.Code === '0'; 
+    const isRegistered = selectedGSTVenClass && selectedGSTVenClass.Id !=2;
+    // console.log(isRegistered)
+    this.emitterService.emitRequiredAttachments(isRegistered);
+    return isRegistered;
   }
+
+
+
 }

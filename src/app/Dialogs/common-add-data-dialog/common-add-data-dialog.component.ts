@@ -97,4 +97,13 @@ export class CommonAddDataDialogComponent implements OnInit{
   removeNocilEmployee(index: number) {
     this.nocilRelatedEmployees.splice(index, 1);
   }
+
+  submitCustomers(){
+    if(this.majorCustomers.length <5){
+      this._common.openSnackbar("Please add atleast 5 customers!",snackbarStatus.Warning);
+    }
+    else{
+      this._dialogRef.close(this.majorCustomers);
+    }
+  }
 }

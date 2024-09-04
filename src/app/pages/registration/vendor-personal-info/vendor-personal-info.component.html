@@ -72,7 +72,7 @@
                     <!-- OrgName & PlantInstallaitonYear -->
 
                     <!-- GSTIN & Get details btn -->
-                    <div class="row" *ngIf="authResponse?.Role == 'Vendor' && v_Id != 5 &&  !isNotRegistered()">
+                    <div class="row" *ngIf="authResponse?.Role == 'Vendor' && v_Id != 5 &&  isNotRegistered()">
                         <div class="col-sm-6">
                             <div>
                                 <label class="input-label-text"> GSTIN </label>

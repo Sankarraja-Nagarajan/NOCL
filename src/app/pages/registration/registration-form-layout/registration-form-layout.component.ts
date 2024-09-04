@@ -373,6 +373,7 @@ export class RegistrationFormLayoutComponent implements OnInit {
   }
 
   checkValidationForTransport() {
+    console.log(this.tankerDetailsComponent.isValid());
     return (
       this.transportVendorsPersonalDetailsComponent.isValid() &&
       this.tankerDetailsComponent.isValid() &&
