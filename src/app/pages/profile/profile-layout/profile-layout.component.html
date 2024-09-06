@@ -32,17 +32,22 @@
         </div>
       </div>
       <div class="col-12 col-lg-9 d-none d-lg-flex row">
-        <div class="col-12 col-lg-4 d-flex flex-column text-center justify-content-center gap-0">
+        <div class="col-12 col-lg-3 d-flex flex-column text-center justify-content-center gap-0">
           <h4 class="fw-bold">Last Audit Date</h4>
           <h4>{{ (vendorProfile.Grade?.Last_Audit_Date | date) || '-' }}</h4>
         </div>
-        <div class="col-12 col-lg-4 d-flex flex-column text-center justify-content-center gap-0">
+        <div class="col-12 col-lg-3 d-flex flex-column text-center justify-content-center gap-0">
           <h4 class="fw-bold">Audited By</h4>
           <h4>{{vendorProfile.Grade?.Last_Audited_By || '-'}}</h4>
         </div>
-        <div class="col-12 col-lg-4 d-flex flex-column text-center justify-content-center gap-0">
+        <div class="col-12 col-lg-3 d-flex flex-column text-center justify-content-center gap-0">
           <h4 class="fw-bold">Audit Location</h4>
           <h4>{{vendorProfile.Grade?.Location || '-'}}</h4>
+        </div>
+        <div class="col-12 col-lg-3 d-flex flex-column text-center justify-content-center gap-0">
+          <button class="btn btn-design center-flexBox w-75"  (click)="openRequestDialog()">
+            Request for Edit
+        </button>
         </div>
       </div>
     </div>

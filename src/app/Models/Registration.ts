@@ -33,6 +33,12 @@ export class Rejection {
     Employee_Id: string;
     Reason: string;
 }
+
+export class RequestForEdit {
+    Form_Id: number;
+    Employee_Id: string;
+    Reason: string;
+}
 export class ExpiryDetails {
 
     Doc_Type: string;
