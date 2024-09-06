@@ -8,6 +8,7 @@ import { VendorProfile } from "../../../Models/Master";
 import { AppConfigService } from "../../../Services/app-config.service";
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { GradeDialogComponent } from "../../../Dialogs/grade-dialog/grade-dialog.component";
+import { RequestEditReasonDialogComponent } from "../../../Dialogs/request-edit-reason-dialog/request-edit-reason-dialog.component";
 
 @Component({
   selector: "ngx-profile-layout",
@@ -58,7 +59,7 @@ export class ProfileLayoutComponent implements OnInit {
     private _master: MasterService,
     private _config: AppConfigService,
     private _dialog: MatDialog
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     let vInfo = getSession("vendorInfo");
@@ -179,6 +180,23 @@ export class ProfileLayoutComponent implements OnInit {
     this._dialog.afterAllClosed.subscribe({
       next: () => {
         this.getVendorPrfile();
+      },
+    });
+  }
+
+  openRequestDialog() {
+    const dialogConfig: MatDialogConfig = {
+      data: {
+        vendorProfile: this.vendorProfile,
+      },
+      disableClose: true,
+      width: "400px",
+      height: "250px",
+    }
+    const DIALOF_REF = this._dialog.open(RequestEditReasonDialogComponent, dialogConfig);
+    DIALOF_REF.afterClosed().subscribe({
+      next: (res) => {
+
       },
     });
   }
