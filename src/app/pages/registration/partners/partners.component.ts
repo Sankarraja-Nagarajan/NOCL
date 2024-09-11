@@ -69,7 +69,7 @@ export class PartnersComponent implements OnInit {
   }
 
   // Update address to the table
-  updateAddress() {
+  updatePartners() {
     if (this.editIndex >= 0) {
       let id = this.dataSource.data[this.editIndex].Id;
       this.dataSource.data[this.editIndex] = this.partnersForm.value;
