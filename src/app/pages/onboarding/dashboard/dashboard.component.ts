@@ -8,6 +8,10 @@ import { Dashboard, InitialData } from "../../../Models/Dtos";
 import { AuthResponse } from "../../../Models/authModel";
 import { EncryptionService } from "../../../Services/encryption.service";
 import { getSession, isNullOrEmpty } from "../../../Utils";
+import { MatTabChangeEvent } from "@angular/material/tabs";
+import { EditRequestService } from "../../../Services/edit-request.service";
+import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
+import { RequestEditReasonDialogComponent } from "../../../Dialogs/request-edit-reason-dialog/request-edit-reason-dialog.component";
 
 @Component({
   selector: "ngx-dashboard",
@@ -32,15 +36,19 @@ export class DashboardComponent implements OnInit {
   ];
   dashboardAllData: Dashboard[] = [];
   dataSource = new MatTableDataSource(this.dashboardAllData);
+  dataSource1 = new MatTableDataSource();
   selection = new SelectionModel(true, []);
   initialDashboardData: InitialData = new InitialData();
+  CurrentDataSource = new MatTableDataSource<any>();
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   constructor(
     private _dashboard: DashboardService,
     private _router: Router,
     private _encryptor: EncryptionService,
-  ) {}
+    private _editRequest: EditRequestService,
+    private _dialog: MatDialog
+  ) { }
 
   ngOnInit(): void {
     this.authResponse = JSON.parse(getSession("userDetails")) as AuthResponse;
@@ -56,10 +64,11 @@ export class DashboardComponent implements OnInit {
       this.getInitialData();
       this.headerStatus = "Pending";
     }
+    this.getAllEditRequestData();
   }
 
   ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
+    this.CurrentDataSource.paginator = this.paginator;
   }
 
   data(status: string) {
@@ -84,16 +93,18 @@ export class DashboardComponent implements OnInit {
   }
 
   filterTableData(filterValue: string) {
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+    this.CurrentDataSource.filter = filterValue.trim().toLowerCase();
   }
 
   getInitialData() {
-    
+
     this._dashboard.getInitialData(this.emp_id).subscribe({
       next: (res) => {
         this.dashboardAllData = res.Data as Dashboard[];
+        console.log("i", this.dashboardAllData)
         this.dataSource = new MatTableDataSource(this.dashboardAllData);
-        this.dataSource.paginator = this.paginator;
+        this.CurrentDataSource = this.dataSource;
+        this.CurrentDataSource.paginator = this.paginator;
         this.initialDashboardData.Open = res.Open;
         this.initialDashboardData.Pending = res.Pending;
         this.initialDashboardData.Approved = res.Approved;
@@ -105,12 +116,14 @@ export class DashboardComponent implements OnInit {
   }
 
   getAllData() {
-    
+
     this._dashboard.getAllData().subscribe({
       next: (res) => {
         this.dashboardAllData = res.Data as Dashboard[];
+        console.log("i", this.dashboardAllData)
         this.dataSource = new MatTableDataSource(this.dashboardAllData);
-        this.dataSource.paginator = this.paginator;
+        this.CurrentDataSource = this.dataSource;
+        this.CurrentDataSource.paginator = this.paginator;
         this.initialDashboardData.Open = res.Open;
         this.initialDashboardData.Pending = res.Pending;
         this.initialDashboardData.Approved = res.Approved;
@@ -123,14 +136,15 @@ export class DashboardComponent implements OnInit {
   }
 
   getAllOpenData() {
-    
+
     if (this.authResponse?.Role != "Admin") {
       this._dashboard.getInitiatedData(this.emp_id).subscribe({
         next: (res) => {
           if (res) {
             this.dashboardAllData = res as Dashboard[];
             this.dataSource = new MatTableDataSource(this.dashboardAllData);
-            this.dataSource.paginator = this.paginator;
+            this.CurrentDataSource = this.dataSource;
+            this.CurrentDataSource.paginator = this.paginator;
             this.headerStatus = "Open";
           }
         },
@@ -143,7 +157,8 @@ export class DashboardComponent implements OnInit {
           if (res) {
             this.dashboardAllData = res as Dashboard[];
             this.dataSource = new MatTableDataSource(this.dashboardAllData);
-            this.dataSource.paginator = this.paginator;
+            this.CurrentDataSource = this.dataSource;
+            this.CurrentDataSource.paginator = this.paginator;
             this.headerStatus = "Open";
           }
         },
@@ -154,14 +169,16 @@ export class DashboardComponent implements OnInit {
   }
 
   getAllPendingData() {
-    
+
     if (this.authResponse?.Role != "Admin") {
       this._dashboard.getPendingData(this.emp_id).subscribe({
         next: (res) => {
           if (res) {
             this.dashboardAllData = res as Dashboard[];
+            console.log("P", this.dashboardAllData)
             this.dataSource = new MatTableDataSource(this.dashboardAllData);
-            this.dataSource.paginator = this.paginator;
+            this.CurrentDataSource = this.dataSource;
+            this.CurrentDataSource.paginator = this.paginator;
             this.headerStatus = "Pending";
           }
         },
@@ -173,8 +190,10 @@ export class DashboardComponent implements OnInit {
         next: (res) => {
           if (res) {
             this.dashboardAllData = res as Dashboard[];
+            console.log("Pe", this.dashboardAllData)
             this.dataSource = new MatTableDataSource(this.dashboardAllData);
-            this.dataSource.paginator = this.paginator;
+            this.CurrentDataSource = this.dataSource;
+            this.CurrentDataSource.paginator = this.paginator;
             this.headerStatus = "Pending";
           }
         },
@@ -184,15 +203,31 @@ export class DashboardComponent implements OnInit {
     }
   }
 
+  getAllEditRequestData() {
+    this._editRequest.getEditRequestData(this.emp_id).subscribe({
+      next: (res) => {
+        if (res) {
+          this.dashboardAllData = res as Dashboard[];
+          this.dataSource1 = new MatTableDataSource(this.dashboardAllData);
+          this.CurrentDataSource = this.dataSource1;
+          this.CurrentDataSource.paginator = this.paginator;
+        }
+      },
+      error: (err) => {
+      },
+    });
+  }
+
   getAllApprovedData() {
-    
+
     if (this.authResponse?.Role != "Admin") {
       this._dashboard.getApprovedData(this.emp_id).subscribe({
         next: (res) => {
           if (res) {
             this.dashboardAllData = res as Dashboard[];
             this.dataSource = new MatTableDataSource(this.dashboardAllData);
-            this.dataSource.paginator = this.paginator;
+            this.CurrentDataSource = this.dataSource;
+            this.CurrentDataSource.paginator = this.paginator;
             this.headerStatus = "Approved";
           }
         },
@@ -205,7 +240,8 @@ export class DashboardComponent implements OnInit {
           if (res) {
             this.dashboardAllData = res as Dashboard[];
             this.dataSource = new MatTableDataSource(this.dashboardAllData);
-            this.dataSource.paginator = this.paginator;
+            this.CurrentDataSource = this.dataSource;
+            this.CurrentDataSource.paginator = this.paginator;
             this.headerStatus = "Approved";
           }
         },
@@ -216,14 +252,14 @@ export class DashboardComponent implements OnInit {
   }
 
   getAllRejectedData() {
-    
     if (this.authResponse?.Role != "Admin") {
       this._dashboard.getRejectedData(this.emp_id).subscribe({
         next: (res) => {
           if (res) {
             this.dashboardAllData = res as Dashboard[];
             this.dataSource = new MatTableDataSource(this.dashboardAllData);
-            this.dataSource.paginator = this.paginator;
+            this.CurrentDataSource = this.dataSource;
+            this.CurrentDataSource.paginator = this.paginator;
             this.headerStatus = "Rejected";
           }
         },
@@ -236,7 +272,8 @@ export class DashboardComponent implements OnInit {
           if (res) {
             this.dashboardAllData = res as Dashboard[];
             this.dataSource = new MatTableDataSource(this.dashboardAllData);
-            this.dataSource.paginator = this.paginator;
+            this.CurrentDataSource = this.dataSource;
+            this.CurrentDataSource.paginator = this.paginator;
             this.headerStatus = "Rejected";
           }
         },
@@ -247,13 +284,13 @@ export class DashboardComponent implements OnInit {
   }
 
   getAllSAPData() {
-    
     this._dashboard.getAllSAPData().subscribe({
       next: (res) => {
         if (res) {
           this.dashboardAllData = res as Dashboard[];
           this.dataSource = new MatTableDataSource(this.dashboardAllData);
-          this.dataSource.paginator = this.paginator;
+          this.CurrentDataSource = this.dataSource;
+          this.CurrentDataSource.paginator = this.paginator;
           this.headerStatus = "SAP";
         }
       },
@@ -273,6 +310,52 @@ export class DashboardComponent implements OnInit {
     this._router.navigate(["registration/form"], {
       queryParams: {
         data: this._encryptor.encrypt(JSON.stringify(jsonData)),
+      },
+    });
+  }
+
+  tabChanged(event: MatTabChangeEvent): void {
+    if (event.index === 0) {
+      this.CurrentDataSource = this.dataSource;
+      this.CurrentDataSource.paginator = this.paginator;
+    } else if (event.index === 1) {
+      this.getAllEditRequestData();
+      this.CurrentDataSource = this.dataSource1;
+      this.CurrentDataSource.paginator = this.paginator;
+    }
+  }
+
+  acceptEditRequest(formId: any) {
+    this._editRequest.acceptEditRequest(formId).subscribe({
+      next: (res) => {
+        console.log(res);
+      }
+    })
+  }
+
+  rejectEditRequest(formId, reason) {
+    this._editRequest.rejectEditRequest(formId,reason).subscribe({
+      next: (res) => {
+        console.log(res);
+      }
+    })
+  }
+
+  openRequestDialog(formId) {
+    const dialogConfig: MatDialogConfig = {
+      data: {
+        FormId: formId,
+        // VendorCode: this.vendorProfile.Grade.Vendor_Code
+      },
+      disableClose: true,
+      width: "400px",
+      height: "250px",
+    }
+    const DIALOF_REF = this._dialog.open(RequestEditReasonDialogComponent, dialogConfig);
+    DIALOF_REF.afterClosed().subscribe({
+      next: (res) => {
+        console.log(res.request.Reason);
+        this.rejectEditRequest(formId, res.request.Reason)
       },
     });
   }

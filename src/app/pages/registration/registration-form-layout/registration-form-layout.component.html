@@ -415,11 +415,25 @@
         />
         Update
       </button>
+      <button
+      *ngIf="form_status == 'EditReqApproved'"
+      type="button"
+      class="btn btn-design center-flexBox submit-icon"
+      (click)="update()"
+    >
+      <img
+        src="assets/images/pngs/check.png"
+        width="16"
+        height="16"
+        class="me-1"
+      />
+      Update
+    </button>
     </div>
 
     <!-- for approver -->
     <div
-      *ngIf="authResponse?.Role != 'Vendor' && form_status == 'Pending'"
+      *ngIf="authResponse?.Role != 'Vendor' && form_status == 'Pending' || form_status=='EditApprovalPending'"
       class="d-flex"
     >
       <button

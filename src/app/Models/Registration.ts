@@ -35,8 +35,8 @@ export class Rejection {
 }
 
 export class RequestForEdit {
-    Form_Id: number;
-    Employee_Id: string;
+    FormId : number;
+    VendorCode : string;
     Reason: string;
 }
 export class ExpiryDetails {

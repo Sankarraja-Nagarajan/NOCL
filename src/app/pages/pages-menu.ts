@@ -48,11 +48,11 @@ export class Sample{
             link: 'masters/roles',
             icon: 'award-outline',
           },
-          // {
-          //   title: 'Vendors',
-          //   link: 'masters/vendors',
-          //   icon: 'people-outline',
-          // },
+          {
+            title: 'Vendors',
+            link: 'masters/vendors',
+            icon: 'people-outline',
+          },
           {
             title: 'Reports',
             link: 'masters/reports',
