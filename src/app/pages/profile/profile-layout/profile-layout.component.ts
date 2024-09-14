@@ -9,6 +9,7 @@ import { AppConfigService } from "../../../Services/app-config.service";
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { GradeDialogComponent } from "../../../Dialogs/grade-dialog/grade-dialog.component";
 import { RequestEditReasonDialogComponent } from "../../../Dialogs/request-edit-reason-dialog/request-edit-reason-dialog.component";
+import { EditRequestService } from "../../../Services/edit-request.service";
 
 @Component({
   selector: "ngx-profile-layout",
@@ -58,7 +59,8 @@ export class ProfileLayoutComponent implements OnInit {
   constructor(
     private _master: MasterService,
     private _config: AppConfigService,
-    private _dialog: MatDialog
+    private _dialog: MatDialog,
+    private _editRequest: EditRequestService
   ) { }
 
   ngOnInit(): void {
@@ -187,7 +189,8 @@ export class ProfileLayoutComponent implements OnInit {
   openRequestDialog() {
     const dialogConfig: MatDialogConfig = {
       data: {
-        vendorProfile: this.vendorProfile,
+        FormId: this.vendorProfile.Grade.FormId,
+        VendorCode: this.vendorProfile.Grade.Vendor_Code
       },
       disableClose: true,
       width: "400px",
@@ -196,7 +199,12 @@ export class ProfileLayoutComponent implements OnInit {
     const DIALOF_REF = this._dialog.open(RequestEditReasonDialogComponent, dialogConfig);
     DIALOF_REF.afterClosed().subscribe({
       next: (res) => {
-
+        console.log(res.request);
+        this._editRequest.editRequest(res.request).subscribe({
+          next: (res) => {
+            console.log(res)
+          }
+        })
       },
     });
   }

@@ -13,26 +13,26 @@ export class RequestEditReasonDialogComponent {
 
 
   reason = new FormControl('', [Validators.required]);
-  vendorProfile: VendorProfile = new VendorProfile();
+  FormId: number;
+  VendorCode: string;
 
   constructor(public _dialogRef: MatDialogRef<RequestEditReasonDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
   }
 
+
   ngOnInit(): void {
-    this.vendorProfile = this.data;
-    console.log(this.vendorProfile)
-    console.log(this.vendorProfile['Grade'])
-    console.log(this.vendorProfile.Grade)
+    this.FormId = this.data.FormId;
+    this.VendorCode = this.data.VendorCode;
   }
 
 
   Submit() {
     if (this.reason.valid) {
       const request = new RequestForEdit();
-      request.Form_Id = this.data.Grade.FormId;
-      request.Employee_Id = this.vendorProfile.Grade.Vendor_Code;
+      request.FormId = this.FormId;
       request.Reason = this.reason.value;
+      request.VendorCode = this.VendorCode;
       console.log(request)
       this._dialogRef.close({ request });
     }

@@ -38,6 +38,7 @@ import { AppConfigService } from "../../../Services/app-config.service";
 import { AdditionalFieldsComponent } from "../additional-fields/additional-fields.component";
 import { EmitterService } from "../../../Services/emitter.service";
 import { VehicleDetailsComponent } from "../vehicle-details/vehicle-details.component";
+import { EditRequestService } from "../../../Services/edit-request.service";
 
 @Component({
   selector: "ngx-registration-form-layout",
@@ -96,7 +97,8 @@ export class RegistrationFormLayoutComponent implements OnInit {
     private _router: Router,
     private _encryptor: EncryptionService,
     private _appConfig: AppConfigService,
-    private emitterService: EmitterService
+    private emitterService: EmitterService,
+    private _editRequest: EditRequestService
   ) { }
 
   ngOnInit(): void {
@@ -192,6 +194,22 @@ export class RegistrationFormLayoutComponent implements OnInit {
       },
     });
   }
+
+  updateEditForm(formSubmitTemplate: FormSubmitTemplate) {
+    this._editRequest.editFormUpdate(formSubmitTemplate).subscribe({
+      next: (res) => {
+        if (res.Status === 200) {
+
+          this._commonService.openSnackbar(res.Message, snackbarStatus.Success);
+          this._router.navigate(["/success"]);
+        }
+      },
+      error: (err) => {
+
+        this._commonService.openSnackbar(err, snackbarStatus.Danger);
+      },
+    });
+  }
   //#endregion
 
   //#region Calling corresponding submit/update functions based on vendor type
@@ -240,8 +258,8 @@ export class RegistrationFormLayoutComponent implements OnInit {
     DIALOF_REF.afterClosed().subscribe({
       next: (res) => {
         if (res) {
-
-          this._registration.formRejection(res.reject as Rejection).subscribe({
+          const API = this.form_status == 'EditApprovalPending' ? this._editRequest.formRejection(res.reject as Rejection) : this._registration.formRejection(res.reject as Rejection);
+          API.subscribe({
             next: (res) => {
 
               if (res && res.Status == 200) {
@@ -278,8 +296,8 @@ export class RegistrationFormLayoutComponent implements OnInit {
       approval.RmRoleName = this.authResponse.RmRole;
       approval.AdditionalFields = this.additionalFieldsComponent.getAllAdditionalData();
 
-
-      this._registration.formApproval(approval).subscribe({
+      const API = this.form_status == 'EditApprovalPending' ? this._editRequest.formApproval(approval) : this._registration.formApproval(approval);
+      API.subscribe({
         next: (res) => {
 
           if (res && res.Status == 200) {
@@ -308,7 +326,11 @@ export class RegistrationFormLayoutComponent implements OnInit {
         this.submitForm(payload);
       } else if (this.form_status == "Rejected") {
         this.updateForm(payload);
-      } else {
+      }
+      else if (this.form_status == "EditReqApproved") {
+        this.updateEditForm(payload);
+      }
+      else {
         this._commonService.openSnackbar(
           `You can not submit the ${this.form_status} form`,
           snackbarStatus.Danger
@@ -326,6 +348,9 @@ export class RegistrationFormLayoutComponent implements OnInit {
         this.submitForm(payload);
       } else if (this.form_status == "Rejected") {
         this.updateForm(payload);
+      }
+      else if (this.form_status == "EditReqApproved") {
+        this.updateEditForm(payload);
       } else {
         this._commonService.openSnackbar(
           `You can not submit the ${this.form_status} form`,
@@ -344,6 +369,9 @@ export class RegistrationFormLayoutComponent implements OnInit {
         this.submitForm(payload);
       } else if (this.form_status == "Rejected") {
         this.updateForm(payload);
+      }
+      else if (this.form_status == "EditReqApproved") {
+        this.updateEditForm(payload);
       } else {
         this._commonService.openSnackbar(
           `You can not submit the ${this.form_status} form`,
@@ -594,6 +622,7 @@ export class RegistrationFormLayoutComponent implements OnInit {
       }
     })
   }
+
 
 
 }
