@@ -58,7 +58,7 @@
       <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" (selectedTabChange)="tabChanged($event)">
         <mat-tab label="{{ headerStatus }} Documents">
         </mat-tab>
-        <mat-tab label="Edit Request"></mat-tab>
+        <mat-tab label="Edit Request" *ngIf="dataSource1.data.length>0"></mat-tab>
       </mat-tab-group>
     </div>
 
@@ -129,16 +129,15 @@
           <!-- <button mat-raised-button class="btn btn-design btn-review" (click)="formReview(element)">
             Review
           </button> -->
-          <button mat-raised-button class="btn btn-design btn-review" (click)="formReview(element)"
-          *ngIf="element.Status!='EditRequested'">
+          <button mat-raised-button class="btn btn-design btn-review" (click)="formReview(element)">
           Review
         </button>
-        <button *ngIf="element.Status=='EditRequested'" class="btn btn-design acceptButton" (click)="acceptEditRequest(element.FormId)">
+        <!-- <button *ngIf="element.Status=='EditRequested'" class="btn btn-design acceptButton" (click)="acceptEditRequest(element.FormId)">
           <img src="../../../../assets/images/pngs/check.png" width="16" height="16" class="me-1" />
         </button>
         <button *ngIf="element.Status=='EditRequested'" class="btn btn-design acceptButton" (click)="openRequestDialog(element.FormId)">
           <img src="../../../../assets/images/pngs/xmark1.png" width="16" height="16" class="me-1" />
-        </button>
+        </button> -->
         </td>
       </ng-container>
       <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true" class="position-sticky top-0"></tr>

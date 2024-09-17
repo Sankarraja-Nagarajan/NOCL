@@ -13,7 +13,7 @@ import { AuthResponse } from "../../../Models/authModel";
 import { MatDialog } from "@angular/material/dialog";
 import { RejectReasonDialogComponent } from "../../../Dialogs/reject-reason-dialog/reject-reason-dialog.component";
 import { ServiceForm } from "../../../Models/ServiceForm";
-import { Attachment, FormsToShow, GstDetail, Reason } from "../../../Models/Dtos";
+import { Attachment, FormsToShow, GstDetail, Reason, ReasonDetail } from "../../../Models/Dtos";
 import { MatTableDataSource } from "@angular/material/table";
 import { TermsAndConditionsDialogComponent } from "../../../Dialogs/terms-and-conditions-dialog/terms-and-conditions-dialog.component";
 import { snackbarStatus } from "../../../Enums/snackbar-status";
@@ -78,8 +78,9 @@ export class RegistrationFormLayoutComponent implements OnInit {
   form_status: string;
   isReadOnly: boolean = true;
   rejectedReason: Reason = new Reason();
+  editRejectedReason: ReasonDetail[] = [];
   attachmentsArray: Attachment[] = [];
-  dataSource = new MatTableDataSource(this.rejectedReason.Reasons);
+  dataSource = new MatTableDataSource();
   displayedColumns: string[] = ["RejectedBy", "RejectedOn", "Reason"];
 
   gstDetail: GstDetail = new GstDetail();
@@ -112,19 +113,26 @@ export class RegistrationFormLayoutComponent implements OnInit {
       this.openTermsAndConditionsDialog();
     }
 
-    this._registration.getReasons(this.form_Id).subscribe({
-      next: (res) => {
-        if (res) {
-          this.rejectedReason = res;
-          this.dataSource = new MatTableDataSource(this.rejectedReason.Reasons);
-        }
-      },
-      error: (err) => {
-        this._commonService.openSnackbar(err, snackbarStatus.Danger);
-      },
-    });
-    //this.ExpiryNotifications();
+    if (this.form_status.includes('Edit')) {
+      this.getEditRejectedReasons();
+    }
+    else {
+      this._registration.getReasons(this.form_Id).subscribe({
+        next: (res) => {
+          if (res) {
+            console.log("reject", res)
+            this.rejectedReason = res;
+            this.dataSource = new MatTableDataSource(this.rejectedReason.Reasons);
+          }
+        },
+        error: (err) => {
+          this._commonService.openSnackbar(err, snackbarStatus.Danger);
+        },
+      });
+    }
 
+
+    //this.ExpiryNotifications();
 
     this.emitterService.isManufacturer.subscribe((value) => {
       this.isOrgTypeManufacturer = value;
@@ -258,7 +266,17 @@ export class RegistrationFormLayoutComponent implements OnInit {
     DIALOF_REF.afterClosed().subscribe({
       next: (res) => {
         if (res) {
-          const API = this.form_status == 'EditApprovalPending' ? this._editRequest.formRejection(res.reject as Rejection) : this._registration.formRejection(res.reject as Rejection);
+          let API;
+          if (this.form_status == 'EditApprovalPending') {
+            API = this._editRequest.formRejection(res.reject as Rejection);
+          }
+          else if (this.form_status == 'EditRequested') {
+            API = this._editRequest.rejectEditRequest(res.reject as Rejection);
+          }
+          else {
+            API = this._registration.formRejection(res.reject as Rejection);
+          }
+          // const API = this.form_status == 'EditApprovalPending' ? this._editRequest.formRejection(res.reject as Rejection) : this._registration.formRejection(res.reject as Rejection);
           API.subscribe({
             next: (res) => {
 
@@ -327,7 +345,7 @@ export class RegistrationFormLayoutComponent implements OnInit {
       } else if (this.form_status == "Rejected") {
         this.updateForm(payload);
       }
-      else if (this.form_status == "EditReqApproved") {
+      else if (this.form_status == "EditReqApproved" || "EditReqRejected") {
         this.updateEditForm(payload);
       }
       else {
@@ -349,7 +367,7 @@ export class RegistrationFormLayoutComponent implements OnInit {
       } else if (this.form_status == "Rejected") {
         this.updateForm(payload);
       }
-      else if (this.form_status == "EditReqApproved") {
+      else if (this.form_status == "EditReqApproved" || "EditReqRejected") {
         this.updateEditForm(payload);
       } else {
         this._commonService.openSnackbar(
@@ -370,7 +388,7 @@ export class RegistrationFormLayoutComponent implements OnInit {
       } else if (this.form_status == "Rejected") {
         this.updateForm(payload);
       }
-      else if (this.form_status == "EditReqApproved") {
+      else if (this.form_status == "EditReqApproved" || "EditReqRejected") {
         this.updateEditForm(payload);
       } else {
         this._commonService.openSnackbar(
@@ -623,6 +641,38 @@ export class RegistrationFormLayoutComponent implements OnInit {
     })
   }
 
+  getEditRejectedReasons() {
+    this._editRequest.getReasons(this.form_Id).subscribe({
+      next: (res) => {
+        if (res) {
+          console.log("edit", res)
+          this.editRejectedReason = res;
+          this.dataSource = new MatTableDataSource(this.editRejectedReason);
+        }
+      },
+      error: (err) => {
+        this._commonService.openSnackbar(err, snackbarStatus.Danger);
+      },
+    });
+  }
 
 
+  acceptEditRequest() {
+    this._editRequest.acceptEditRequest(this.form_Id).subscribe({
+      next: (res) => {
+
+        if (res && res.Status == 200) {
+          this._commonService.openSnackbar(
+            res.Message,
+            snackbarStatus.Success
+          );
+          this._router.navigate(["/onboarding/dashboard"]);
+        }
+      },
+      error: (err) => {
+
+        this._commonService.openSnackbar(err, snackbarStatus.Danger);
+      },
+    })
+  }
 }

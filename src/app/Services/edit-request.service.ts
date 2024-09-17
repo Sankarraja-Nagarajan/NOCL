@@ -26,9 +26,9 @@ export class EditRequestService {
     return this._http.get(URL);
   }
 
-  rejectEditRequest(formId: number, reason: string): Observable<any> {
-    const URL = `${this.baseURL}/EditRequest/RejectEditRequest?formId=${formId}&reason=${reason}`;
-    return this._http.postUrl(URL);
+  rejectEditRequest(reject: Rejection): Observable<any> {
+    const URL = `${this.baseURL}/EditRequest/RejectEditRequest`;
+    return this._http.post(URL, reject);
   }
 
   acceptEditRequest(formId: number): Observable<any> {
@@ -51,5 +51,11 @@ export class EditRequestService {
   formRejection(rejection: Rejection): Observable<any> {
     const URL = `${this.baseURL}/EditRequest/Reject`;
     return this._http.post(URL, rejection);
+  }
+
+  //Get Edit Reasons
+  getReasons(formId: number): Observable<any> {
+    const URL = `${this.baseURL}/EditRequest/GetEditRejectedReason?form_Id=${formId}`;
+    return this._http.get(URL);
   }
 }
