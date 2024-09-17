@@ -1,16 +1,12 @@
 <section class="screenRegistration">
   <div class="container bg-white rounded-3">
     <!-- Rejected Reason -->
-    <section class="p-3 border-bottom" *ngIf="rejectedReason.IsRejected">
+    <section class="p-3 border-bottom" *ngIf="rejectedReason.IsRejected || editRejectedReason?.length>0">
       <nb-accordion>
         <nb-accordion-item>
           <nb-accordion-item-header>
             <div class="d-flex">
-              <img
-                src="../assets/images/pngs/info-icon.png"
-                height="20"
-                width="20"
-              />
+              <img src="../assets/images/pngs/info-icon.png" height="20" width="20" />
               <p class="outer-title ms-2">
                 Previously this form has been rejected due to this below reason.
               </p>
@@ -56,16 +52,12 @@
     <!-- Domestic-vendor-personal-info-->
     <div *ngIf="formsToShow.personalData" class="p-3 border-bottom">
       <div class="row">
-        <div
-          class="d-none d-sm-flex flex-column align-items-center justify-content-center col-sm-3"
-        >
+        <div class="d-none d-sm-flex flex-column align-items-center justify-content-center col-sm-3">
           <h3 class="outer-title mb-1">Vendor Personal Information</h3>
           <img src="../assets/images/pngs/open.png" class="img-fluid custom-img" />
         </div>
         <div class="col-12 col-sm-9">
-          <h3
-            class="d-flex justify-content-center align-items-center d-sm-none title-underline mb-3"
-          >
+          <h3 class="d-flex justify-content-center align-items-center d-sm-none title-underline mb-3">
             Vendor Personal Information
           </h3>
           <ngx-vendor-personal-info [form_Id]="form_Id" [isReadOnly]="isReadOnly" [v_Id]="v_Id"
@@ -76,49 +68,31 @@
     <!-- Transport vendor Personal Details-->
     <div *ngIf="formsToShow.transportPersonalData" class="p-3 border-bottom">
       <div class="row">
-        <div
-          class="d-none d-sm-flex flex-column align-items-center justify-content-center col-sm-3"
-        >
+        <div class="d-none d-sm-flex flex-column align-items-center justify-content-center col-sm-3">
           <h3 class="outer-title mb-4">Transport Vendor Details</h3>
-          <img
-            src="../assets/images/pngs/profile.png"
-            class="img-fluid custom-img"
-          />
+          <img src="../assets/images/pngs/profile.png" class="img-fluid custom-img" />
         </div>
         <div class="col-12 col-sm-9">
-          <h3
-            class="d-flex justify-content-center align-items-center d-sm-none title-underline mb-3"
-          >
+          <h3 class="d-flex justify-content-center align-items-center d-sm-none title-underline mb-3">
             Transport Vendor Details
           </h3>
-          <ngx-transport-vendors-personal-details
-            [form_Id]="form_Id" (gstDetail)="getGstDetail($event)"
-          ></ngx-transport-vendors-personal-details>
+          <ngx-transport-vendors-personal-details [form_Id]="form_Id"
+            (gstDetail)="getGstDetail($event)"></ngx-transport-vendors-personal-details>
         </div>
       </div>
     </div>
     <!-- Address -->
     <div *ngIf="formsToShow.address" class="p-3 border-bottom">
       <div class="row">
-        <div
-          class="d-none d-sm-flex flex-column align-items-center justify-content-center col-sm-3"
-        >
+        <div class="d-none d-sm-flex flex-column align-items-center justify-content-center col-sm-3">
           <h3 class="outer-title mb-4">Addresses</h3>
-          <img
-            src="../assets/images/pngs/map-flatline 1.png"
-            class="img-fluid custom-img"
-          />
+          <img src="../assets/images/pngs/map-flatline 1.png" class="img-fluid custom-img" />
         </div>
         <div class="col-12 col-sm-9">
-          <h3
-            class="d-flex justify-content-center align-items-center d-sm-none title-underline mb-3"
-          >
+          <h3 class="d-flex justify-content-center align-items-center d-sm-none title-underline mb-3">
             Address
           </h3>
-          <ngx-address
-            [form_Id]="form_Id"
-            [gstAddress]="gstDetail.Addresses"
-          ></ngx-address>
+          <ngx-address [form_Id]="form_Id" [gstAddress]="gstDetail.Addresses"></ngx-address>
           <!-- <ngx-domestic-vendor-org-profile></ngx-domestic-vendor-org-profile> -->
         </div>
       </div>
@@ -126,19 +100,12 @@
     <!-- Tanker Details -->
     <div *ngIf="formsToShow.tankerDetails" class="p-3 border-bottom">
       <div class="row">
-        <div
-          class="d-none d-sm-flex flex-column align-items-center justify-content-center col-sm-3"
-        >
+        <div class="d-none d-sm-flex flex-column align-items-center justify-content-center col-sm-3">
           <h3 class="outer-title mb-4">Tanker Details</h3>
-          <img
-            src="../assets/images/pngs/calling-flatline 1.png"
-            class="img-fluid custom-img"
-          />
+          <img src="../assets/images/pngs/calling-flatline 1.png" class="img-fluid custom-img" />
         </div>
         <div class="col-12 col-sm-9">
-          <h3
-            class="d-flex justify-content-center align-items-center d-sm-none title-underline mb-3"
-          >
+          <h3 class="d-flex justify-content-center align-items-center d-sm-none title-underline mb-3">
             Tanker Details
           </h3>
           <ngx-tanker-details [form_Id]="form_Id"></ngx-tanker-details>
@@ -148,19 +115,12 @@
     <!-- Contact -->
     <div *ngIf="formsToShow.contact" class="p-3 border-bottom">
       <div class="row">
-        <div
-          class="d-none d-sm-flex flex-column align-items-center justify-content-center col-sm-3"
-        >
+        <div class="d-none d-sm-flex flex-column align-items-center justify-content-center col-sm-3">
           <h3 class="outer-title mb-4">Contacts</h3>
-          <img
-            src="../assets/images/pngs/contacts.png"
-            class="img-fluid custom-img"
-          />
+          <img src="../assets/images/pngs/contacts.png" class="img-fluid custom-img" />
         </div>
         <div class="col-12 col-sm-9">
-          <h3
-            class="d-flex justify-content-center align-items-center d-sm-none title-underline mb-3"
-          >
+          <h3 class="d-flex justify-content-center align-items-center d-sm-none title-underline mb-3">
             Contacts
           </h3>
           <ngx-contacts [form_Id]="form_Id"></ngx-contacts>
@@ -170,46 +130,28 @@
     <!-- Domestic Vendor Organization Profile -->
     <div *ngIf="formsToShow.organizationData" class="p-3 border-bottom">
       <div class="row">
-        <div
-          class="d-none d-sm-flex flex-column align-items-center justify-content-center col-sm-3"
-        >
+        <div class="d-none d-sm-flex flex-column align-items-center justify-content-center col-sm-3">
           <h3 class="outer-title mb-4">Vendor Organization Profile</h3>
-          <img
-            src="../assets/images/svgs/Organization profile.svg"
-            class="img-fluid custom-img"
-          />
+          <img src="../assets/images/svgs/Organization profile.svg" class="img-fluid custom-img" />
         </div>
         <div class="col-12 col-sm-9">
-          <h3
-            class="d-flex justify-content-center align-items-center d-sm-none title-underline mb-3"
-          >
+          <h3 class="d-flex justify-content-center align-items-center d-sm-none title-underline mb-3">
             Vendor Organization Profile
           </h3>
-          <ngx-vendor-org-profile
-            [form_Id]="form_Id"
-            [isReadOnly]="isReadOnly"
-            (havePartner)="getCompanyStatus($event)"
-            [v_Id]="v_Id"
-          ></ngx-vendor-org-profile>
+          <ngx-vendor-org-profile [form_Id]="form_Id" [isReadOnly]="isReadOnly" (havePartner)="getCompanyStatus($event)"
+            [v_Id]="v_Id"></ngx-vendor-org-profile>
         </div>
       </div>
     </div>
     <!-- Proprietor or Partners -->
     <div *ngIf="formsToShow.proprietorOrPartner" class="p-3 border-bottom">
       <div class="row">
-        <div
-          class="d-none d-sm-flex flex-column align-items-center justify-content-center col-sm-3"
-        >
+        <div class="d-none d-sm-flex flex-column align-items-center justify-content-center col-sm-3">
           <h3 class="outer-title mb-4">Proprietor or Partners</h3>
-          <img
-            src="../assets/images/pngs/partners.png"
-            class="img-fluid custom-img"
-          />
+          <img src="../assets/images/pngs/partners.png" class="img-fluid custom-img" />
         </div>
         <div class="col-12 col-sm-9">
-          <h3
-            class="d-flex justify-content-center align-items-center d-sm-none title-underline mb-3"
-          >
+          <h3 class="d-flex justify-content-center align-items-center d-sm-none title-underline mb-3">
             Proprietor or Partners
           </h3>
           <ngx-partners [form_Id]="form_Id"></ngx-partners>
@@ -219,19 +161,12 @@
     <!-- Annual TurnOver -->
     <div *ngIf="formsToShow.annualTurnOver" class="p-3 border-bottom">
       <div class="row">
-        <div
-          class="d-none d-sm-flex flex-column align-items-center justify-content-center col-sm-3"
-        >
+        <div class="d-none d-sm-flex flex-column align-items-center justify-content-center col-sm-3">
           <h3 class="outer-title mb-4">Annual Turnover</h3>
-          <img
-            src="../assets/images/svgs/Annual turnover.svg"
-            class="img-fluid custom-img"
-          />
+          <img src="../assets/images/svgs/Annual turnover.svg" class="img-fluid custom-img" />
         </div>
         <div class="col-12 col-sm-9">
-          <h3
-            class="d-flex justify-content-center align-items-center d-sm-none title-underline mb-3"
-          >
+          <h3 class="d-flex justify-content-center align-items-center d-sm-none title-underline mb-3">
             Annual Turnover
           </h3>
           <ngx-annual-turnover [form_Id]="form_Id"></ngx-annual-turnover>
@@ -241,19 +176,12 @@
     <!-- Technical Profile -->
     <div *ngIf="formsToShow.technicalProfile" class="p-3 border-bottom">
       <div class="row">
-        <div
-          class="d-none d-sm-flex flex-column align-items-center justify-content-center col-sm-3"
-        >
+        <div class="d-none d-sm-flex flex-column align-items-center justify-content-center col-sm-3">
           <h3 class="outer-title mb-4">Technical Profile</h3>
-          <img
-            src="../assets/images/svgs/technical profile.svg"
-            class="img-fluid custom-img"
-          />
+          <img src="../assets/images/svgs/technical profile.svg" class="img-fluid custom-img" />
         </div>
         <div class="col-12 col-sm-9">
-          <h3
-            class="d-flex justify-content-center align-items-center d-sm-none title-underline mb-3"
-          >
+          <h3 class="d-flex justify-content-center align-items-center d-sm-none title-underline mb-3">
             Technical Profile
           </h3>
           <ngx-technical-profile [form_Id]="form_Id"></ngx-technical-profile>
@@ -264,45 +192,27 @@
     <!-- Bank Details -->
     <div *ngIf="formsToShow.bankDetails" class="p-3 border-bottom">
       <div class="row">
-        <div
-          class="d-none d-sm-flex flex-column align-items-center justify-content-center col-sm-3"
-        >
+        <div class="d-none d-sm-flex flex-column align-items-center justify-content-center col-sm-3">
           <h3 class="outer-title mb-4">Bank Details</h3>
-          <img
-            src="../assets/images/pngs/banking.png"
-            class="img-fluid custom-img"
-          />
+          <img src="../assets/images/pngs/banking.png" class="img-fluid custom-img" />
         </div>
         <div class="col-12 col-sm-9">
-          <h3
-            class="d-flex justify-content-center align-items-center d-sm-none title-underline mb-3"
-          >
+          <h3 class="d-flex justify-content-center align-items-center d-sm-none title-underline mb-3">
             Bank Details
           </h3>
-          <ngx-bank-details
-            [form_Id]="form_Id"
-            [v_Id]="v_Id"
-            [isReadOnly]="isReadOnly"
-          ></ngx-bank-details>
+          <ngx-bank-details [form_Id]="form_Id" [v_Id]="v_Id" [isReadOnly]="isReadOnly"></ngx-bank-details>
         </div>
       </div>
     </div>
     <!-- Commercial Profile -->
     <div *ngIf="formsToShow.commercialProfile" class="p-3 border-bottom">
       <div class="row">
-        <div
-          class="d-none d-sm-flex flex-column align-items-center justify-content-center col-sm-3"
-        >
+        <div class="d-none d-sm-flex flex-column align-items-center justify-content-center col-sm-3">
           <h3 class="outer-title mb-4">Commercial Profile</h3>
-          <img
-            src="../assets/images/svgs/commercial profile.svg"
-            class="img-fluid custom-img"
-          />
+          <img src="../assets/images/svgs/commercial profile.svg" class="img-fluid custom-img" />
         </div>
         <div class="col-12 col-sm-9">
-          <h3
-            class="d-flex justify-content-center align-items-center d-sm-none title-underline mb-3"
-          >
+          <h3 class="d-flex justify-content-center align-items-center d-sm-none title-underline mb-3">
             Commercial Profile
           </h3>
           <ngx-commercial-profile [form_Id]="form_Id" [v_Id]="v_Id" [isReadOnly]="isReadOnly"></ngx-commercial-profile>
@@ -313,19 +223,12 @@
     <!-- Attachments -->
     <div *ngIf="formsToShow.attachments" class="p-3 border-bottom">
       <div class="row">
-        <div
-          class="d-none d-sm-flex flex-column align-items-center justify-content-center col-sm-3"
-        >
+        <div class="d-none d-sm-flex flex-column align-items-center justify-content-center col-sm-3">
           <h3 class="outer-title mb-4">Attachments</h3>
-          <img
-            src="../assets/images/pngs/files-and-folder-flatline.png"
-            class="img-fluid custom-img"
-          />
+          <img src="../assets/images/pngs/files-and-folder-flatline.png" class="img-fluid custom-img" />
         </div>
         <div class="col-12 col-sm-9">
-          <h3
-            class="d-flex justify-content-center align-items-center d-sm-none title-underline mb-3"
-          >
+          <h3 class="d-flex justify-content-center align-items-center d-sm-none title-underline mb-3">
             Attachments
           </h3>
           <ngx-attachments [form_Id]="form_Id" [v_Id]="v_Id"></ngx-attachments>
@@ -336,19 +239,12 @@
     <!-- Vendor Branches -->
     <div *ngIf="formsToShow.vendorBranches" class="p-3 border-bottom mb-2">
       <div class="row">
-        <div
-          class="d-none d-sm-flex flex-column align-items-center justify-content-center col-sm-3"
-        >
+        <div class="d-none d-sm-flex flex-column align-items-center justify-content-center col-sm-3">
           <h3 class="outer-title mb-4">Vendor Branches</h3>
-          <img
-            src="../assets/images/svgs/vendor branches.svg"
-            class="img-fluid custom-img"
-          />
+          <img src="../assets/images/svgs/vendor branches.svg" class="img-fluid custom-img" />
         </div>
         <div class="col-12 col-sm-9">
-          <h3
-            class="d-flex justify-content-center align-items-center d-sm-none title-underline mb-3"
-          >
+          <h3 class="d-flex justify-content-center align-items-center d-sm-none title-underline mb-3">
             Vendor Branches
           </h3>
           <ngx-vendor-branches [form_Id]="form_Id"></ngx-vendor-branches>
@@ -357,7 +253,7 @@
     </div>
 
 
-  
+
     <!-- Additional Fields -->
     <div *ngIf="authResponse?.Role != 'Vendor'" class="p-3 border-bottom mb-2">
       <div class="row">
@@ -379,17 +275,8 @@
   <div class="submission-layout bg-white rounded-3 pe-4 border-bottom">
     <!-- for vendor -->
     <div *ngIf="authResponse?.Role == 'Vendor'" class="d-flex">
-      <button
-        type="button"
-        class="btn btn-cancel-design center-flexBox submit-icon me-2"
-        (click)="resetForm()"
-      >
-        <img
-          src="assets/images/pngs/xmark.png"
-          width="16"
-          height="16"
-          class="me-1"
-        />Cancel
+      <button type="button" class="btn btn-cancel-design center-flexBox submit-icon me-2" (click)="resetForm()">
+        <img src="assets/images/pngs/xmark.png" width="16" height="16" class="me-1" />Cancel
       </button>
 
       <!-- <button type="button" class="btn btn-design center-flexBox submit-icon me-2" (click)="getAttachments()">
@@ -401,66 +288,42 @@
         <img src="assets/images/pngs/check.png" width="16" height="16" class="me-1" />
         Submit
       </button>
-      <button
-        *ngIf="form_status == 'Rejected'"
-        type="button"
-        class="btn btn-design center-flexBox submit-icon"
-        (click)="update()"
-      >
-        <img
-          src="assets/images/pngs/check.png"
-          width="16"
-          height="16"
-          class="me-1"
-        />
+      <button *ngIf="form_status == 'Rejected'" type="button" class="btn btn-design center-flexBox submit-icon"
+        (click)="update()">
+        <img src="assets/images/pngs/check.png" width="16" height="16" class="me-1" />
         Update
       </button>
-      <button
-      *ngIf="form_status == 'EditReqApproved'"
-      type="button"
-      class="btn btn-design center-flexBox submit-icon"
-      (click)="update()"
-    >
-      <img
-        src="assets/images/pngs/check.png"
-        width="16"
-        height="16"
-        class="me-1"
-      />
-      Update
-    </button>
+      <button *ngIf="form_status == 'EditReqApproved' || form_status == 'EditReqRejected'" type="button"
+        class="btn btn-design center-flexBox submit-icon" (click)="update()">
+        <img src="assets/images/pngs/check.png" width="16" height="16" class="me-1" />
+        Update
+      </button>
     </div>
 
     <!-- for approver -->
-    <div
-      *ngIf="authResponse?.Role != 'Vendor' && form_status == 'Pending' || form_status=='EditApprovalPending'"
-      class="d-flex"
-    >
-      <button
-        type="button"
-        class="btn cancel-btn-design center-flexBox me-2"
-        (click)="openRejectDialog()"
-      >
-        <img
-          src="../../../../assets/images/pngs/xmark.png"
-          width="16"
-          height="16"
-          class="me-1"
-        />
+    <div *ngIf="authResponse?.Role != 'Vendor' && form_status == 'Pending' || form_status=='EditApprovalPending'"
+      class="d-flex">
+      <button type="button" class="btn cancel-btn-design center-flexBox me-2" (click)="openRejectDialog()">
+        <img src="../../../../assets/images/pngs/xmark.png" width="16" height="16" class="me-1" />
         Reject
       </button>
 
-      <button
-        class="btn btn-design center-flexBox"
-        type="button"
-        (click)="approveForm($event)"
-      >
-        <img
-          src="../../../../assets/images/pngs/check.png"
-          width="16"
-          height="16"
-          class="me-1"
-        />
+      <button class="btn btn-design center-flexBox" type="button" (click)="approveForm($event)">
+        <img src="../../../../assets/images/pngs/check.png" width="16" height="16" class="me-1" />
+        Approve
+      </button>
+    </div>
+
+
+    <!-- for edit approvers -->
+    <div *ngIf="authResponse?.Role != 'Vendor' && form_status == 'EditRequested'" class="d-flex">
+      <button type="button" class="btn cancel-btn-design center-flexBox me-2" (click)="openRejectDialog()">
+        <img src="../../../../assets/images/pngs/xmark.png" width="16" height="16" class="me-1" />
+        Reject
+      </button>
+
+      <button class="btn btn-design center-flexBox" type="button" (click)="acceptEditRequest()">
+        <img src="../../../../assets/images/pngs/check.png" width="16" height="16" class="me-1" />
         Approve
       </button>
     </div>

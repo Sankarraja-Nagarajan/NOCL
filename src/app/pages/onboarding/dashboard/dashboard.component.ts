@@ -53,7 +53,9 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.authResponse = JSON.parse(getSession("userDetails")) as AuthResponse;
     this.emp_id = this.authResponse.Employee_Id;
+    
     // get dashboard data
+    this.getAllEditRequestData();
     if (
       !isNullOrEmpty(this.authResponse) &&
       this.authResponse?.Role == "Admin"
@@ -64,7 +66,6 @@ export class DashboardComponent implements OnInit {
       this.getInitialData();
       this.headerStatus = "Pending";
     }
-    this.getAllEditRequestData();
   }
 
   ngAfterViewInit() {
@@ -97,7 +98,6 @@ export class DashboardComponent implements OnInit {
   }
 
   getInitialData() {
-
     this._dashboard.getInitialData(this.emp_id).subscribe({
       next: (res) => {
         this.dashboardAllData = res.Data as Dashboard[];
@@ -325,38 +325,38 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  acceptEditRequest(formId: any) {
-    this._editRequest.acceptEditRequest(formId).subscribe({
-      next: (res) => {
-        console.log(res);
-      }
-    })
-  }
+  // acceptEditRequest(formId: any) {
+  //   this._editRequest.acceptEditRequest(formId).subscribe({
+  //     next: (res) => {
+  //       console.log(res);
+  //     }
+  //   })
+  // }
 
-  rejectEditRequest(formId, reason) {
-    this._editRequest.rejectEditRequest(formId,reason).subscribe({
-      next: (res) => {
-        console.log(res);
-      }
-    })
-  }
+  // rejectEditRequest(formId, reason) {
+  //   this._editRequest.rejectEditRequest(formId,reason).subscribe({
+  //     next: (res) => {
+  //       console.log(res);
+  //     }
+  //   })
+  // }
 
-  openRequestDialog(formId) {
-    const dialogConfig: MatDialogConfig = {
-      data: {
-        FormId: formId,
-        // VendorCode: this.vendorProfile.Grade.Vendor_Code
-      },
-      disableClose: true,
-      width: "400px",
-      height: "250px",
-    }
-    const DIALOF_REF = this._dialog.open(RequestEditReasonDialogComponent, dialogConfig);
-    DIALOF_REF.afterClosed().subscribe({
-      next: (res) => {
-        console.log(res.request.Reason);
-        this.rejectEditRequest(formId, res.request.Reason)
-      },
-    });
-  }
+  // openRequestDialog(formId) {
+  //   const dialogConfig: MatDialogConfig = {
+  //     data: {
+  //       FormId: formId,
+  //       // VendorCode: this.vendorProfile.Grade.Vendor_Code
+  //     },
+  //     disableClose: true,
+  //     width: "400px",
+  //     height: "250px",
+  //   }
+  //   const DIALOF_REF = this._dialog.open(RequestEditReasonDialogComponent, dialogConfig);
+  //   DIALOF_REF.afterClosed().subscribe({
+  //     next: (res) => {
+  //       console.log(res.request.Reason);
+  //       this.rejectEditRequest(formId, res.request.Reason)
+  //     },
+  //   });
+  // }
 }
