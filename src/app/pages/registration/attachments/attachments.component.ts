@@ -47,6 +47,8 @@ export class AttachmentsComponent implements OnInit, OnChanges {
   attachmentsArray: Attachment[] = [];
   responseToTechnical;
   FileType;
+  IsGstRequired: boolean;
+  IsMsmeRequired: boolean;
 
   constructor(
     public _dialog: MatDialog,
@@ -56,12 +58,19 @@ export class AttachmentsComponent implements OnInit, OnChanges {
     private _fileSaver: FileSaverService,
     private _config: AppConfigService,
     private emitterService: EmitterService,
-    
-  ) {}
+
+  ) { }
 
   ngOnInit(): void {
     const userData = JSON.parse(getSession("userDetails"));
     this.role = userData ? userData.Role : "";
+
+    //GST
+    this.IsGSTAttach();
+
+    // MSME 
+    this.IsMSMEAttach();
+
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -90,6 +99,7 @@ export class AttachmentsComponent implements OnInit, OnChanges {
             if (this.reqDoctypes.includes(element.File_Type)) {
               this.reqDatasource.data.push(element);
               this.FileType = element.File_Type;
+
             } else {
               this.additionalDatasource.data.push(element);
             }
@@ -100,12 +110,12 @@ export class AttachmentsComponent implements OnInit, OnChanges {
               let attachment = new Attachment();
               attachment.Form_Id = this.form_Id;
               attachment.File_Type = element;
-
               this.reqDatasource.data.push(attachment);
             }
           });
 
           this.reqDatasource._updateChangeSubscription();
+          this.additionalDatasource._updateChangeSubscription();
           this.responseToTechnical = res;
           this.filterISOType();
 
@@ -119,17 +129,18 @@ export class AttachmentsComponent implements OnInit, OnChanges {
             this.reqDatasource.data.push(attachment);
           });
           this.reqDatasource._updateChangeSubscription();
+          this.additionalDatasource._updateChangeSubscription();
         }
         // else if(this.reqDoctypes.length <= 5){
 
         // }
       },
-      error: (err) => {},
+      error: (err) => { },
     });
   }
 
   removeAttachment(attachmentId: number, i: number) {
-    
+
     this._docService.DeleteAttachment(attachmentId).subscribe({
       next: (res) => {
         this.additionalDatasource.data.splice(i, 1);
@@ -137,7 +148,7 @@ export class AttachmentsComponent implements OnInit, OnChanges {
         this._common.openSnackbar(res.Message, snackbarStatus.Success);
       },
       error: (err) => {
-        
+
       },
     });
   }
@@ -178,14 +189,14 @@ export class AttachmentsComponent implements OnInit, OnChanges {
         dialogconfig
       );
     } else {
-      
+
       this._docService.getFileById(attachment.Attachment_Id).subscribe({
         next: async (res) => {
-          
+
           await this._fileSaver.downloadFile(res);
         },
         error: (err) => {
-          
+
         },
       });
     }
@@ -318,6 +329,52 @@ export class AttachmentsComponent implements OnInit, OnChanges {
     this.responseToTechnical.forEach((element) => {
       if (element.File_Type.includes("ISO 9001")) {
         this.emitterService.emitISODocument(element);
+      }
+    });
+  }
+
+  IsGSTAttach() {
+    this.emitterService.requiredAttachments.subscribe({
+      next: (data) => {
+        this.IsGstRequired = data;
+        const gstAttachment = this.reqDatasource.data.find(item => item.File_Type === 'GST');
+        if (this.IsGstRequired) {
+          if (!gstAttachment) {
+            let attachment = new Attachment();
+            attachment.Form_Id = this.form_Id;
+            attachment.File_Type = 'GST';
+            this.reqDatasource.data.push(attachment);
+          }
+        }
+        else {
+          if (gstAttachment) {
+            this.reqDatasource.data = this.reqDatasource.data.filter(item => item.File_Type !== 'GST');
+          }
+        }
+        this.reqDatasource._updateChangeSubscription();
+      }
+    });
+  }
+
+  IsMSMEAttach() {
+    this.emitterService.isMSME.subscribe({
+      next: (data) => {
+        this.IsMsmeRequired = data;
+        const msmeAttachment = this.reqDatasource.data.find(item => item.File_Type === 'MSME');
+        if (this.IsMsmeRequired) {
+          if (!msmeAttachment) {
+            let attachment = new Attachment();
+            attachment.Form_Id = this.form_Id;
+            attachment.File_Type = 'MSME';
+            this.reqDatasource.data.push(attachment);
+          }
+        }
+        else {
+          if (msmeAttachment) {
+            this.reqDatasource.data = this.reqDatasource.data.filter(item => item.File_Type !== 'MSME');
+          }
+        }
+        this.reqDatasource._updateChangeSubscription();
       }
     });
   }

@@ -34,7 +34,7 @@ export class CommercialProfile {
   Agency_Name: string;
   PAN: string;
   GSTIN: string;
-  Is_MSME_Type:boolean;
+  Is_MSME_Type: boolean;
   MSME_Type: string;
   MSME_Number: string;
   ServiceCategory: string;
@@ -95,7 +95,7 @@ export class VendorBranch {
 }
 
 export class VehicleDetails {
-  VehicleTypeId:number=0;
+  VehicleTypeId: number = 0;
   Vehicle_Type: string;
   Form_Id: number;
   Capacity: number;

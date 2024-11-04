@@ -11,6 +11,7 @@ export class EmitterService {
   isManufacturer = new Subject<any>();
   isMSME =new Subject<any>(); 
   gstVenClass = new Subject<any>();
+  requiredAttachments=new Subject<boolean>();
 
 
   constructor() {
@@ -20,6 +21,7 @@ export class EmitterService {
     this.isManufacturer.asObservable();
     this.isMSME.asObservable();
     this.gstVenClass.asObservable();
+    this.requiredAttachments.asObservable();
   }
 
   emitRequiredDocument(status: string) {
@@ -55,12 +57,10 @@ export class EmitterService {
   }
 
   emitIsMSMEValue(status: any) {
-    console.log(status);
     this.isMSME.next(status);
   }
 
   IsMSMEIndustry() {
-    console.log(this.isMSME)
     return this.isMSME.asObservable();
   }
 
@@ -70,6 +70,14 @@ export class EmitterService {
 
   hideGSTIN() {
     return this.gstVenClass.asObservable();
+  }
+
+  emitRequiredAttachments(status: boolean) {
+    this.requiredAttachments.next(status);
+  }
+
+  requiredAttachmentData() {
+    return this.requiredAttachments.asObservable();
   }
 
 }

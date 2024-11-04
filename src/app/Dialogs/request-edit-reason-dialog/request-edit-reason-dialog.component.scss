@@ -1,0 +1,8 @@
+.requestEditDialogScreen{
+    .dialog-title{
+        border-bottom: 2px solid var(--vp-bluish-violet);
+    }
+    textarea{
+        min-height: 80px !important;
+    }
+}

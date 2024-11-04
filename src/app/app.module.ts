@@ -37,6 +37,7 @@ import { GlobalErrorHandler } from "./Global/global.error.handler";
 import { SuccessMessageComponent } from './Components/success-message/success-message.component';
 import { PreviewDialogComponent } from './Dialogs/preview-dialog/preview-dialog.component';
 import { GradeDialogComponent } from './Dialogs/grade-dialog/grade-dialog.component';
+import { RequestEditReasonDialogComponent } from './Dialogs/request-edit-reason-dialog/request-edit-reason-dialog.component';
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import { GradeDialogComponent } from './Dialogs/grade-dialog/grade-dialog.compon
     SuccessMessageComponent,
     PreviewDialogComponent,
     GradeDialogComponent,
+    RequestEditReasonDialogComponent,
   ],
   imports: [
     BrowserModule,

@@ -22,13 +22,27 @@
     }
 }
 
-.dashboard-table{
+.dashboard-table {
     max-height: 322px;
-    td,th{
+
+    td,
+    th {
         text-wrap: nowrap;
     }
 }
-.tile{
+
+.tile {
     cursor: pointer;
 }
 
+.acceptButton {
+    height: 30px;
+    width: 40px;
+    border-radius: 50%;
+    margin-right: 2px !important;
+
+    img {
+        margin-bottom: 5px !important;
+        margin-left: -2px !important;
+    }
+}

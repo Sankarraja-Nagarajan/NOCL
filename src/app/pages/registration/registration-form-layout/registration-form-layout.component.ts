@@ -13,7 +13,7 @@ import { AuthResponse } from "../../../Models/authModel";
 import { MatDialog } from "@angular/material/dialog";
 import { RejectReasonDialogComponent } from "../../../Dialogs/reject-reason-dialog/reject-reason-dialog.component";
 import { ServiceForm } from "../../../Models/ServiceForm";
-import { Attachment, FormsToShow, GstDetail, Reason } from "../../../Models/Dtos";
+import { Attachment, FormsToShow, GstDetail, Reason, ReasonDetail } from "../../../Models/Dtos";
 import { MatTableDataSource } from "@angular/material/table";
 import { TermsAndConditionsDialogComponent } from "../../../Dialogs/terms-and-conditions-dialog/terms-and-conditions-dialog.component";
 import { snackbarStatus } from "../../../Enums/snackbar-status";
@@ -38,6 +38,7 @@ import { AppConfigService } from "../../../Services/app-config.service";
 import { AdditionalFieldsComponent } from "../additional-fields/additional-fields.component";
 import { EmitterService } from "../../../Services/emitter.service";
 import { VehicleDetailsComponent } from "../vehicle-details/vehicle-details.component";
+import { EditRequestService } from "../../../Services/edit-request.service";
 
 @Component({
   selector: "ngx-registration-form-layout",
@@ -77,8 +78,9 @@ export class RegistrationFormLayoutComponent implements OnInit {
   form_status: string;
   isReadOnly: boolean = true;
   rejectedReason: Reason = new Reason();
+  editRejectedReason: ReasonDetail[] = [];
   attachmentsArray: Attachment[] = [];
-  dataSource = new MatTableDataSource(this.rejectedReason.Reasons);
+  dataSource = new MatTableDataSource();
   displayedColumns: string[] = ["RejectedBy", "RejectedOn", "Reason"];
 
   gstDetail: GstDetail = new GstDetail();
@@ -96,7 +98,8 @@ export class RegistrationFormLayoutComponent implements OnInit {
     private _router: Router,
     private _encryptor: EncryptionService,
     private _appConfig: AppConfigService,
-    private emitterService: EmitterService
+    private emitterService: EmitterService,
+    private _editRequest: EditRequestService
   ) { }
 
   ngOnInit(): void {
@@ -110,19 +113,26 @@ export class RegistrationFormLayoutComponent implements OnInit {
       this.openTermsAndConditionsDialog();
     }
 
-    this._registration.getReasons(this.form_Id).subscribe({
-      next: (res) => {
-        if (res) {
-          this.rejectedReason = res;
-          this.dataSource = new MatTableDataSource(this.rejectedReason.Reasons);
-        }
-      },
-      error: (err) => {
-        this._commonService.openSnackbar(err, snackbarStatus.Danger);
-      },
-    });
-    //this.ExpiryNotifications();
+    if (this.form_status.includes('Edit')) {
+      this.getEditRejectedReasons();
+    }
+    else {
+      this._registration.getReasons(this.form_Id).subscribe({
+        next: (res) => {
+          if (res) {
+            console.log("reject", res)
+            this.rejectedReason = res;
+            this.dataSource = new MatTableDataSource(this.rejectedReason.Reasons);
+          }
+        },
+        error: (err) => {
+          this._commonService.openSnackbar(err, snackbarStatus.Danger);
+        },
+      });
+    }
 
+
+    //this.ExpiryNotifications();
 
     this.emitterService.isManufacturer.subscribe((value) => {
       this.isOrgTypeManufacturer = value;
@@ -192,6 +202,22 @@ export class RegistrationFormLayoutComponent implements OnInit {
       },
     });
   }
+
+  updateEditForm(formSubmitTemplate: FormSubmitTemplate) {
+    this._editRequest.editFormUpdate(formSubmitTemplate).subscribe({
+      next: (res) => {
+        if (res.Status === 200) {
+
+          this._commonService.openSnackbar(res.Message, snackbarStatus.Success);
+          this._router.navigate(["/success"]);
+        }
+      },
+      error: (err) => {
+
+        this._commonService.openSnackbar(err, snackbarStatus.Danger);
+      },
+    });
+  }
   //#endregion
 
   //#region Calling corresponding submit/update functions based on vendor type
@@ -240,8 +266,18 @@ export class RegistrationFormLayoutComponent implements OnInit {
     DIALOF_REF.afterClosed().subscribe({
       next: (res) => {
         if (res) {
-
-          this._registration.formRejection(res.reject as Rejection).subscribe({
+          let API;
+          if (this.form_status == 'EditApprovalPending') {
+            API = this._editRequest.formRejection(res.reject as Rejection);
+          }
+          else if (this.form_status == 'EditRequested') {
+            API = this._editRequest.rejectEditRequest(res.reject as Rejection);
+          }
+          else {
+            API = this._registration.formRejection(res.reject as Rejection);
+          }
+          // const API = this.form_status == 'EditApprovalPending' ? this._editRequest.formRejection(res.reject as Rejection) : this._registration.formRejection(res.reject as Rejection);
+          API.subscribe({
             next: (res) => {
 
               if (res && res.Status == 200) {
@@ -278,8 +314,8 @@ export class RegistrationFormLayoutComponent implements OnInit {
       approval.RmRoleName = this.authResponse.RmRole;
       approval.AdditionalFields = this.additionalFieldsComponent.getAllAdditionalData();
 
-
-      this._registration.formApproval(approval).subscribe({
+      const API = this.form_status == 'EditApprovalPending' ? this._editRequest.formApproval(approval) : this._registration.formApproval(approval);
+      API.subscribe({
         next: (res) => {
 
           if (res && res.Status == 200) {
@@ -308,7 +344,11 @@ export class RegistrationFormLayoutComponent implements OnInit {
         this.submitForm(payload);
       } else if (this.form_status == "Rejected") {
         this.updateForm(payload);
-      } else {
+      }
+      else if (this.form_status == "EditReqApproved" || "EditReqRejected") {
+        this.updateEditForm(payload);
+      }
+      else {
         this._commonService.openSnackbar(
           `You can not submit the ${this.form_status} form`,
           snackbarStatus.Danger
@@ -326,6 +366,9 @@ export class RegistrationFormLayoutComponent implements OnInit {
         this.submitForm(payload);
       } else if (this.form_status == "Rejected") {
         this.updateForm(payload);
+      }
+      else if (this.form_status == "EditReqApproved" || "EditReqRejected") {
+        this.updateEditForm(payload);
       } else {
         this._commonService.openSnackbar(
           `You can not submit the ${this.form_status} form`,
@@ -344,6 +387,9 @@ export class RegistrationFormLayoutComponent implements OnInit {
         this.submitForm(payload);
       } else if (this.form_status == "Rejected") {
         this.updateForm(payload);
+      }
+      else if (this.form_status == "EditReqApproved" || "EditReqRejected") {
+        this.updateEditForm(payload);
       } else {
         this._commonService.openSnackbar(
           `You can not submit the ${this.form_status} form`,
@@ -373,6 +419,7 @@ export class RegistrationFormLayoutComponent implements OnInit {
   }
 
   checkValidationForTransport() {
+    console.log(this.tankerDetailsComponent.isValid());
     return (
       this.transportVendorsPersonalDetailsComponent.isValid() &&
       this.tankerDetailsComponent.isValid() &&
@@ -594,5 +641,38 @@ export class RegistrationFormLayoutComponent implements OnInit {
     })
   }
 
+  getEditRejectedReasons() {
+    this._editRequest.getReasons(this.form_Id).subscribe({
+      next: (res) => {
+        if (res) {
+          console.log("edit", res)
+          this.editRejectedReason = res;
+          this.dataSource = new MatTableDataSource(this.editRejectedReason);
+        }
+      },
+      error: (err) => {
+        this._commonService.openSnackbar(err, snackbarStatus.Danger);
+      },
+    });
+  }
 
+
+  acceptEditRequest() {
+    this._editRequest.acceptEditRequest(this.form_Id).subscribe({
+      next: (res) => {
+
+        if (res && res.Status == 200) {
+          this._commonService.openSnackbar(
+            res.Message,
+            snackbarStatus.Success
+          );
+          this._router.navigate(["/onboarding/dashboard"]);
+        }
+      },
+      error: (err) => {
+
+        this._commonService.openSnackbar(err, snackbarStatus.Danger);
+      },
+    })
+  }
 }

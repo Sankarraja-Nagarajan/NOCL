@@ -5,11 +5,8 @@ import { AppConfigService } from "../../../Services/app-config.service";
 import { AuthResponse } from "../../../Models/authModel";
 import { RegistrationService } from "../../../Services/registration.service";
 import { CommonService } from "../../../Services/common.service";
-import { snackbarStatus } from "../../../Enums/snackbar-status";
-import { Output, EventEmitter } from "@angular/core";
 import { EmitterService } from "../../../Services/emitter.service";
 import { getSession } from "../../../Utils";
-import { Observable } from "rxjs";
 
 @Component({
   selector: "ngx-commercial-profile",
@@ -66,7 +63,7 @@ export class CommercialProfileComponent {
         Validators.pattern("^(UDYAM-[A-Z]{2}-[0-9]{2}-[0-9]{7})+$"),
       ],
       ServiceCategory: [""],
-      Is_MSME_Type: ["", Validators.required],
+      Is_MSME_Type: [false, Validators.required],
     });
 
     this.authResponse = JSON.parse(getSession("userDetails"));
@@ -88,8 +85,8 @@ export class CommercialProfileComponent {
         .addValidators(Validators.required);
       this.astheriskRequired = true;
 
-      this.commercialProfileForm.get("Is_MSME_Type").patchValue(true);
-      this.commercialProfileForm.get("Is_MSME_Type").disable();
+      // this.commercialProfileForm.get("Is_MSME_Type").patchValue(true);
+      // this.commercialProfileForm.get("Is_MSME_Type").disable();
     }
 
     this.commercialProfileForm.get("Is_MSME_Type").valueChanges.subscribe({
@@ -191,8 +188,15 @@ export class CommercialProfileComponent {
         this.updateRequireDocument(value);
       }
     }
+    this.isMSMERequired();
   }
+
   updateRequireDocument(value: string) {
     this.emitterService.emitRequiredDocument(value);
+  }
+
+  isMSMERequired(){
+    const selectedMSME = this.commercialProfileForm.value.Is_MSME_Type;
+    this.emitterService.emitIsMSMEValue(selectedMSME);
   }
 }

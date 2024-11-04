@@ -8,6 +8,10 @@ import { VendorProfile } from "../../../Models/Master";
 import { AppConfigService } from "../../../Services/app-config.service";
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { GradeDialogComponent } from "../../../Dialogs/grade-dialog/grade-dialog.component";
+import { RequestEditReasonDialogComponent } from "../../../Dialogs/request-edit-reason-dialog/request-edit-reason-dialog.component";
+import { EditRequestService } from "../../../Services/edit-request.service";
+import { CommonService } from "../../../Services/common.service";
+import { snackbarStatus } from "../../../Enums/snackbar-status";
 
 @Component({
   selector: "ngx-profile-layout",
@@ -57,8 +61,10 @@ export class ProfileLayoutComponent implements OnInit {
   constructor(
     private _master: MasterService,
     private _config: AppConfigService,
-    private _dialog: MatDialog
-  ) {}
+    private _dialog: MatDialog,
+    private _editRequest: EditRequestService,
+    private _commonService: CommonService
+  ) { }
 
   ngOnInit(): void {
     let vInfo = getSession("vendorInfo");
@@ -81,6 +87,7 @@ export class ProfileLayoutComponent implements OnInit {
       .subscribe({
         next: (res) => {
           this.vendorProfile = res as VendorProfile;
+          console.log(this.vendorProfile)
         },
       });
   }
@@ -179,6 +186,40 @@ export class ProfileLayoutComponent implements OnInit {
     this._dialog.afterAllClosed.subscribe({
       next: () => {
         this.getVendorPrfile();
+      },
+    });
+  }
+
+  openRequestDialog() {
+    const dialogConfig: MatDialogConfig = {
+      data: {
+        FormId: this.vendorProfile.Grade.FormId,
+        VendorCode: this.vendorProfile.Grade.Vendor_Code
+      },
+      disableClose: true,
+      width: "400px",
+      height: "250px",
+    }
+    const DIALOF_REF = this._dialog.open(RequestEditReasonDialogComponent, dialogConfig);
+    DIALOF_REF.afterClosed().subscribe({
+      next: (res) => {
+        if (res) {
+          console.log(res.request);
+          this._editRequest.editRequest(res.request).subscribe({
+            next: (res) => {
+
+              if (res && res.Status == 200) {
+                this._commonService.openSnackbar(
+                  res.Message,
+                  snackbarStatus.Success
+                );
+              }
+            },
+            error: (err) => {
+              this._commonService.openSnackbar(err, snackbarStatus.Danger);
+            },
+          })
+        }
       },
     });
   }

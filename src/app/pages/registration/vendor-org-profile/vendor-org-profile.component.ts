@@ -193,21 +193,21 @@ export class VendorOrgProfileComponent implements OnInit, AfterViewInit {
     }
   }
 
-  addMultipleMajorCustomers() {
-    if (this.vendorOrgForm.get("ListOfMajorCustomer").value == null) {
-      this.vendorOrgForm.get("ListOfMajorCustomer").markAllAsTouched();
-    } else {
-      let majorCustomer = new MajorCustomer();
-      majorCustomer.Form_Id = this.form_Id;
-      majorCustomer.Id = 0;
-      (majorCustomer.Location = ""),
-        (majorCustomer.Customer_Name = this.vendorOrgForm.get(
-          "ListOfMajorCustomer"
-        ).value);
-      this.listOfMajorCustomerList.push(majorCustomer);
-      this.vendorOrgForm.get("ListOfMajorCustomer").reset();
-    }
-  }
+  // addMultipleMajorCustomers() {
+  //   if (this.vendorOrgForm.get("ListOfMajorCustomer").value == null) {
+  //     this.vendorOrgForm.get("ListOfMajorCustomer").markAllAsTouched();
+  //   } else {
+  //     let majorCustomer = new MajorCustomer();
+  //     majorCustomer.Form_Id = this.form_Id;
+  //     majorCustomer.Id = 0;
+  //     (majorCustomer.Location = ""),
+  //       (majorCustomer.Customer_Name = this.vendorOrgForm.get(
+  //         "ListOfMajorCustomer"
+  //       ).value);
+  //     this.listOfMajorCustomerList.push(majorCustomer);
+  //     this.vendorOrgForm.get("ListOfMajorCustomer").reset();
+  //   }
+  // }
 
   removeSubsideriesItems(i: number) {
     this.subsideriesList.splice(i, 1);

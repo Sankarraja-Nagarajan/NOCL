@@ -1,0 +1,42 @@
+<section class="requestEditDialogScreen">
+    <div class="container p-3">
+        <!-- Header -->
+        <div class="d-flex justify-content-start align-items-center mb-2">
+            <h3 class="dialog-title">Request for Edit - Reason</h3>
+        </div>
+
+        <!-- Reason textarea -->
+        <div class="row">
+            <div>
+                <label class="input-label-text"> Reason <span class="asterisk-required">*</span></label>
+                <div class="input-group">
+                  <textarea
+                    nbInput
+                    fullWidth
+                    fieldSize="tiny"
+                    class="input-border"
+                    placeholder="Enter Reason"
+                    [formControl]="reason"
+                    required
+                  ></textarea>
+                  <mat-error
+                    *ngIf="reason.hasError('required') && reason.touched"
+                    class="error-msg">Reason is required</mat-error
+                  >
+                </div>
+              </div>
+        </div>
+
+        <!-- Submit-Cancel buttons -->
+        <div class="d-flex justify-content-center align-items-center gap-2 mt-3">
+            <div>
+                <button type="button" class="btn btn-design center-flexBox" (click)="Submit()">
+                    Submit</button>
+            </div>
+            <div>
+                <button type="button" class="btn btn-design cancel-btn-design center-flexBox" mat-dialog-close>
+                    Cancel</button>
+            </div>
+        </div>
+    </div>
+</section>
