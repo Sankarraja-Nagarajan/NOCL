@@ -277,6 +277,7 @@ export class FormsToShow {
   bankDetails: boolean = false;
   commercialProfile: boolean = false;
   vendorBranches: boolean = false;
+  gstFilingDetails: boolean = false;
 }
 
 
@@ -288,5 +289,21 @@ export class VendorReport {
   Type_of_Vendor?: number[];
   ISO_Due_Date?: Date;
   Nicerglobe_Registration?: boolean;
+}
+
+export class GST_Filing_Dto {
+  Form_Id: number;
+  Last_FetchOn: Date | string;
+  GST_Filing_Details_Dtos: GST_Filing_Details_Dto[];
+}
+
+export class GST_Filing_Details_Dto {
+  arn: string;
+  mof: string;
+  status: string;
+  rtntype: string;
+  ret_prd: string;
+  dof: string;
+  valid: string;
 }
 

@@ -25,7 +25,7 @@ export class BankDetailsComponent {
     private _fb: FormBuilder,
     private _commonService: CommonService,
     private _registration: RegistrationService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.bankDetailsForm = this._fb.group({
@@ -93,5 +93,18 @@ export class BankDetailsComponent {
     bankDetail.Id = this.bankId ? this.bankId : 0;
     bankDetail.Form_Id = this.form_Id;
     return bankDetail;
+  }
+
+  getAccountDetails() {
+    if (this.bankDetailsForm.value.Account_Number && this.bankDetailsForm.value.IFSC) {
+      this._registration.getAccountDetails(this.bankDetailsForm.value.Account_Number, this.bankDetailsForm.value.IFSC).subscribe({
+        next: (res) => {
+          this.bankDetailsForm.get("AccountHolder").patchValue(res.nameAtBank);
+        }
+      })
+    }
+    else {
+      this._commonService.openSnackbar("Please fill Account Number and IFSC code", snackbarStatus.Danger);
+    }
   }
 }

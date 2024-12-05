@@ -80,4 +80,14 @@ export class RegistrationService {
     const URL = `${this.baseURL}/Registration/GetGstDetails?gstin=${gstin}`;
     return this._http.get(URL);
   }
+
+  getGstFilingDetails(gstin: string): Observable<any> {
+    const URL = `${this.baseURL}/Registration/GetGstFilingDetails?gstin=${gstin}`;
+    return this._http.get(URL);
+  }
+
+  getAccountDetails(accountno: string, ifsc: string): Observable<any> {
+    const URL = `${this.baseURL}/Registration/GetAccountDetails?accountno=${accountno}&ifsc=${ifsc}`;
+    return this._http.get(URL);
+  }
 }

@@ -11,7 +11,8 @@ import {
     Subsideries,
     TechnicalProfile,
     VendorBranch,
-    VendorOrganizationProfile
+    VendorOrganizationProfile,
+    GST_Filing_Dto
 } from "./Dtos";
 
 export class DomesticAndImportForm {
@@ -28,4 +29,5 @@ export class DomesticAndImportForm {
     ProprietorOrPartners: ProprietorOrPartner[];
     AnnualTurnOvers: AnnualTurnOver[];
     NocilRelatedEmployees: NocilRelatedEmployee[];
+    GstFilingDetails: GST_Filing_Dto[];
 }

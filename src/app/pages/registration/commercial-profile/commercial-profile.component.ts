@@ -35,7 +35,7 @@ export class CommercialProfileComponent {
     private _registration: RegistrationService,
     private _common: CommonService,
     private emitterService: EmitterService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.commercialProfileForm = this._fb.group({
@@ -63,7 +63,7 @@ export class CommercialProfileComponent {
         Validators.pattern("^(UDYAM-[A-Z]{2}-[0-9]{2}-[0-9]{7})+$"),
       ],
       ServiceCategory: [""],
-      Is_MSME_Type: [false, Validators.required],
+      Is_MSME_Type: [true, Validators.required],
     });
 
     this.authResponse = JSON.parse(getSession("userDetails"));
@@ -98,17 +98,17 @@ export class CommercialProfileComponent {
           this.commercialProfileForm
             .get("MSME_Number")
             .addValidators(Validators.required);
-            this.commercialProfileForm.updateValueAndValidity();
+          this.commercialProfileForm.updateValueAndValidity();
           this.astheriskRequired = true;
         }
-        else{
+        else {
           this.commercialProfileForm
             .get("MSME_Type")
             .removeValidators(Validators.required);
           this.commercialProfileForm
             .get("MSME_Number")
             .removeValidators(Validators.required);
-            this.commercialProfileForm.updateValueAndValidity();
+          this.commercialProfileForm.updateValueAndValidity();
           this.astheriskRequired = false;
         }
       },
@@ -126,18 +126,16 @@ export class CommercialProfileComponent {
             this.commercialProfileForm.patchValue(res);
           }
         },
-        error: (err) => {},
+        error: (err) => { },
       });
 
     this.emitterService.gstinValue.subscribe((gstin) => {
       this.commercialProfileForm.get("GSTIN").patchValue(gstin);
     });
-    console.log("HideGSTIN1", this.hideGSTIN);
     this.emitterService.gstVenClass.subscribe((isRegistered: boolean) => {
       if (this.v_Id == 4) {
         this.hideGSTIN = isRegistered;
       }
-      console.log("HideGSTIN2", this.hideGSTIN);
     });
   }
 
@@ -195,7 +193,7 @@ export class CommercialProfileComponent {
     this.emitterService.emitRequiredDocument(value);
   }
 
-  isMSMERequired(){
+  isMSMERequired() {
     const selectedMSME = this.commercialProfileForm.value.Is_MSME_Type;
     this.emitterService.emitIsMSMEValue(selectedMSME);
   }

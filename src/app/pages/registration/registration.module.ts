@@ -24,6 +24,7 @@ import { VendorPersonalInfoComponent } from './vendor-personal-info/vendor-perso
 import { VendorOrgProfileComponent } from './vendor-org-profile/vendor-org-profile.component';
 import { AdditionalFieldsComponent } from './additional-fields/additional-fields.component';
 import { VehicleDetailsComponent } from './vehicle-details/vehicle-details.component';
+import { GstFilingDetailsComponent } from './gst-filing-details/gst-filing-details.component';
 
 
 
@@ -57,6 +58,7 @@ const routes: Routes = [
     TankerDetailsComponent,
     AdditionalFieldsComponent,
     VehicleDetailsComponent,
+    GstFilingDetailsComponent,
   ],
   imports: [
     CommonModule,

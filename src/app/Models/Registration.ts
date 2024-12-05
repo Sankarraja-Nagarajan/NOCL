@@ -35,8 +35,8 @@ export class Rejection {
 }
 
 export class RequestForEdit {
-    FormId : number;
-    VendorCode : string;
+    FormId: number;
+    VendorCode: string;
     Reason: string;
 }
 export class ExpiryDetails {
@@ -62,5 +62,6 @@ export class AdditionalFieldsDto {
     SrvBased: string;
     Search_Term: string;
     PO_Code: string;
-    AccountGroup_Code:string;
+    AccountGroup_Code: string;
 }
+

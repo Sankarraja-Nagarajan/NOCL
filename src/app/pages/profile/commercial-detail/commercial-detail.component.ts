@@ -15,28 +15,28 @@ import { getSession } from '../../../Utils';
   styleUrls: ['./commercial-detail.component.scss']
 })
 export class CommercialDetailComponent implements OnInit {
- // @Input() formId: number = 17;
- @Output() hasComercialProfile: EventEmitter<any> = new EventEmitter();
- 
+  // @Input() formId: number = 17;
+  @Output() hasComercialProfile: EventEmitter<any> = new EventEmitter();
+
   msmeTypes: string[] = [];
   authResponse: AuthResponse;
-  astheriskRequired:boolean=false;
+  astheriskRequired: boolean = false;
   commercialProfileForm: FormGroup;
   commercialProfile: CommercialProfile = new CommercialProfile();
-  isEditBtn:boolean=true;
-  vendorInfo:any;
-  formId:number;
+  isEditBtn: boolean = true;
+  vendorInfo: any;
+  formId: number;
   role: string;
 
   constructor(private _registration: RegistrationService,
     private _commonService: CommonService,
-    private _dialog:MatDialog,
+    private _dialog: MatDialog,
     private _fb: FormBuilder,
-    private _config: AppConfigService) {}
+    private _config: AppConfigService) { }
 
   ngOnInit(): void {
     let vInfo = sessionStorage.getItem("vendorInfo");
-    this.vendorInfo    = JSON.parse(vInfo);
+    this.vendorInfo = JSON.parse(vInfo);
     this.formId = this.vendorInfo.FormId;
     this.commercialProfileForm = this._fb.group({
       Financial_Credit_Rating: [""],
@@ -58,7 +58,7 @@ export class CommercialDetailComponent implements OnInit {
         ],
       ],
       MSME_Type: [""],
-      MSME_Number: ["",Validators.pattern(
+      MSME_Number: ["", Validators.pattern(
         "^(UDYAM-[A-Z]{2}-[0-9]{2}-[0-9]{7})+$"
       )],
       ServiceCategory: [""],
@@ -69,15 +69,15 @@ export class CommercialDetailComponent implements OnInit {
     this.role = getSession("userDetails")['Role'];
   }
 
-  getCommercialProfile(){
+  getCommercialProfile() {
     this._registration.getFormData(this.formId, "CommercialProfile").subscribe({
-      next:(res)=>{
-        if(res){
+      next: (res) => {
+        if (res) {
           this.commercialProfile = res as CommercialProfile;
-          this.commercialProfileForm.patchValue(this.commercialProfile);     
+          this.commercialProfileForm.patchValue(this.commercialProfile);
           this.hasComercialProfile.emit(true);
         }
-        else{
+        else {
           this.hasComercialProfile.emit(false);
         }
       },
@@ -86,15 +86,14 @@ export class CommercialDetailComponent implements OnInit {
         this.hasComercialProfile.emit(false);
       },
     });
-    
   }
 
-  editCommProfile(){
+  editCommProfile() {
     this.isEditBtn = !this.isEditBtn;
     this.commercialProfileForm.enable();
   }
 
-  updateCommProfile(){
+  updateCommProfile() {
     this.isEditBtn = !this.isEditBtn;
     this.commercialProfileForm.disable();
   }

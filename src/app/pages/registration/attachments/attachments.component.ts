@@ -99,18 +99,27 @@ export class AttachmentsComponent implements OnInit, OnChanges {
             if (this.reqDoctypes.includes(element.File_Type)) {
               this.reqDatasource.data.push(element);
               this.FileType = element.File_Type;
-
             } else {
               this.additionalDatasource.data.push(element);
             }
           });
+
+          this.reqDatasource.data = this.reqDatasource.data.filter((attachment) =>
+            attachment.File_Name && attachment.File_Path
+          );
+
+          this.additionalDatasource.data = this.additionalDatasource.data.filter((attachment) =>
+            attachment.File_Name && attachment.File_Path
+          );
 
           this.reqDoctypes.forEach((element) => {
             if (!resFileTypes.includes(element)) {
               let attachment = new Attachment();
               attachment.Form_Id = this.form_Id;
               attachment.File_Type = element;
-              this.reqDatasource.data.push(attachment);
+              if (attachment.File_Name != null) {
+                this.reqDatasource.data.push(attachment);
+              }
             }
           });
 
@@ -338,11 +347,13 @@ export class AttachmentsComponent implements OnInit, OnChanges {
       next: (data) => {
         this.IsGstRequired = data;
         const gstAttachment = this.reqDatasource.data.find(item => item.File_Type === 'GST');
+        const gstAttachmentIndex = this.reqDatasource.data.findIndex(item => item.File_Type === 'GST');
         if (this.IsGstRequired) {
           if (!gstAttachment) {
             let attachment = new Attachment();
             attachment.Form_Id = this.form_Id;
             attachment.File_Type = 'GST';
+            attachment.File_Name = '';
             this.reqDatasource.data.push(attachment);
           }
         }

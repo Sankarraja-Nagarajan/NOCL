@@ -15,6 +15,7 @@ import { OrganizationProfileComponent } from './organization-profile/organizatio
 import { TransportVendorProfileComponent } from './transport-vendor-profile/transport-vendor-profile.component';
 import { TankerDetailsComponent } from './tanker-details/tanker-details.component';
 import { AttachmentProfileComponent } from './attachment-profile/attachment-profile.component';
+import { GstFilingDetailComponent } from './gst-filing-detail/gst-filing-detail.component';
 
 const routes: Routes = [
   {
@@ -29,7 +30,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [ProfileLayoutComponent, AddressProfileComponent, ContactProfileComponent, TechnicalDetailComponent, CommercialDetailComponent, BankInfoComponent, BranchInfoComponent, AnnualTurnoverDetailComponent, OrganizationProfileComponent, TransportVendorProfileComponent, TankerDetailsComponent, AttachmentProfileComponent],
+  declarations: [ProfileLayoutComponent, AddressProfileComponent, ContactProfileComponent, TechnicalDetailComponent, CommercialDetailComponent, BankInfoComponent, BranchInfoComponent, AnnualTurnoverDetailComponent, OrganizationProfileComponent, TransportVendorProfileComponent, TankerDetailsComponent, AttachmentProfileComponent, GstFilingDetailComponent],
   imports: [CommonModule, MaterialModule, RouterModule.forChild(routes)],
 })
 export class ProfileModule {}

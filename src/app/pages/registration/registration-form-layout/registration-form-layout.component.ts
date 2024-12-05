@@ -39,6 +39,8 @@ import { AdditionalFieldsComponent } from "../additional-fields/additional-field
 import { EmitterService } from "../../../Services/emitter.service";
 import { VehicleDetailsComponent } from "../vehicle-details/vehicle-details.component";
 import { EditRequestService } from "../../../Services/edit-request.service";
+import { GstFilingDetailComponent } from "../../profile/gst-filing-detail/gst-filing-detail.component";
+import { GstFilingDetailsComponent } from "../gst-filing-details/gst-filing-details.component";
 
 @Component({
   selector: "ngx-registration-form-layout",
@@ -70,7 +72,8 @@ export class RegistrationFormLayoutComponent implements OnInit {
   attachmentsComponent: AttachmentsComponent;
   @ViewChild(AdditionalFieldsComponent)
   additionalFieldsComponent: AdditionalFieldsComponent;
-
+  @ViewChild(GstFilingDetailsComponent)
+  gstFilingDetailsComponent: GstFilingDetailsComponent;
 
   form_Id: number = 1;
   v_Id: number = 1;
@@ -86,6 +89,7 @@ export class RegistrationFormLayoutComponent implements OnInit {
   gstDetail: GstDetail = new GstDetail();
   formsToShow: FormsToShow = new FormsToShow();
   isOrgTypeManufacturer: boolean = false;
+  isGstFilingReq: boolean = false;
 
 
   json_data: any;
@@ -130,6 +134,10 @@ export class RegistrationFormLayoutComponent implements OnInit {
         },
       });
     }
+
+    this.emitterService.requiredAttachments.subscribe((value) => {
+      this.isGstFilingReq = value;
+    });
 
 
     //this.ExpiryNotifications();
@@ -414,7 +422,8 @@ export class RegistrationFormLayoutComponent implements OnInit {
       this.vendorBranchesComponent.isValid() &&
       (!this.formsToShow.proprietorOrPartner || this.partnersComponent?.isValid()) &&
       this.annualTurnoverComponent.isValid() &&
-      this.attachmentsComponent.isValid()
+      this.attachmentsComponent.isValid() &&
+      this.gstFilingDetailsComponent.isValid()
     );
   }
 
@@ -427,7 +436,8 @@ export class RegistrationFormLayoutComponent implements OnInit {
       this.contactsComponent.isValid() &&
       this.bankDetailsComponent.isValid() &&
       this.commercialProfileComponent.isValid() &&
-      this.vendorBranchesComponent.isValid()
+      this.vendorBranchesComponent.isValid() &&
+      this.gstFilingDetailsComponent.isValid()
     );
   }
 
@@ -441,7 +451,8 @@ export class RegistrationFormLayoutComponent implements OnInit {
       this.contactsComponent.isValid() &&
       this.vendorBranchesComponent.isValid() &&
       (!this.formsToShow.proprietorOrPartner || this.partnersComponent?.isValid()) &&
-      this.attachmentsComponent.isValid()
+      this.attachmentsComponent.isValid() &&
+      this.gstFilingDetailsComponent.isValid()
     );
   }
   //#endregion
@@ -474,6 +485,8 @@ export class RegistrationFormLayoutComponent implements OnInit {
       this.annualTurnoverComponent.getAnnualTurnOvers();
     domesticAndImportForm.NocilRelatedEmployees =
       this.vendorOrgProfileComponent.getNocilRelatedEmployees();
+    domesticAndImportForm.GstFilingDetails =
+      this.gstFilingDetailsComponent.getGSTFiling();
     return this.createFormSubmitTemplate(domesticAndImportForm);
   }
 
@@ -491,6 +504,8 @@ export class RegistrationFormLayoutComponent implements OnInit {
       this.commercialProfileComponent.getCommercialProfile();
     transportForm.VendorBranches =
       this.vendorBranchesComponent.getVendorBranches();
+    transportForm.GstFilingDetails =
+      this.gstFilingDetailsComponent.getGSTFiling();
     return this.createFormSubmitTemplate(transportForm);
   }
 
@@ -517,6 +532,8 @@ export class RegistrationFormLayoutComponent implements OnInit {
       : [];
     serviceForm.NocilRelatedEmployees =
       this.vendorOrgProfileComponent.getNocilRelatedEmployees();
+    serviceForm.GstFilingDetails =
+      this.gstFilingDetailsComponent.getGSTFiling();
     return this.createFormSubmitTemplate(serviceForm);
   }
   //#endregion
@@ -581,6 +598,7 @@ export class RegistrationFormLayoutComponent implements OnInit {
     this.vendorOrgProfileComponent?.vendorOrgForm.markAllAsTouched();
     this.transportVendorsPersonalDetailsComponent?.transporterVendorsForm.markAllAsTouched();
     this.tankerDetailsComponent?.markTankerDetailFormAsTouched();
+    this.gstFilingDetailsComponent?.markGstFilingFormAsTouched();
   }
 
   // reset all forms
@@ -597,6 +615,7 @@ export class RegistrationFormLayoutComponent implements OnInit {
     this.vendorOrgProfileComponent.vendorOrgForm.reset();
     this.transportVendorsPersonalDetailsComponent.transporterVendorsForm.reset();
     this.tankerDetailsComponent.TankerDetailsForm.reset();
+    this.gstFilingDetailsComponent.gstFilingDetailsForm.reset();
   }
 
   getGstDetail(event) {

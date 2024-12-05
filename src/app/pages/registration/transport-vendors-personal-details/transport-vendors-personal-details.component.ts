@@ -163,16 +163,18 @@ export class TransportVendorsPersonalDetailsComponent {
   }
 
   onGSTVenClassChange() {
-    const selectedGSTVenClassId =
-      this.transporterVendorsForm.get("GSTVenClass_Id")?.value;
-    const selectedGSTVenClass = this.GST.find(
-      (gst) => gst.Id === selectedGSTVenClassId
-    );
+    const selectedGSTVenClassId =this.transporterVendorsForm.get("GSTVenClass_Id")?.value;
+    const selectedGSTVenClass = this.GST.find((gst) => gst.Id === selectedGSTVenClassId);
     const isRegistered = selectedGSTVenClass && selectedGSTVenClass.Id === 1;
+    const isnotRegistered = selectedGSTVenClass && selectedGSTVenClass.Id !=2;
     if (isRegistered) {
       this.emitterService.emitGSTVenClass(true);
     } else {
       this.emitterService.emitGSTVenClass(false);
     }
+    this.emitterService.emitRequiredAttachments(isnotRegistered);
+    return isnotRegistered;
   }
+
+
 }

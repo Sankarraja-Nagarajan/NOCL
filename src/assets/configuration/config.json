@@ -1,5 +1,5 @@
 {
-  "BaseURL": "https://localhost:44300/api",
+  "BaseURL": "https://localhost:7082/api",
   "MSME_Types": "Micro,Small,Medium",
   "Attachment_Types": "GST,PAN,Aadhar,MSME,ISO 9001,ISO 14001,ISO 45001,Certificate of Analysis,MSDS,No PE certificate",
   "Terms_And_Conditions": [
@@ -36,7 +36,8 @@
       "attachments": true,
       "bankDetails": true,
       "commercialProfile": true,
-      "vendorBranches": true
+      "vendorBranches": true,
+      "gstFilingDetails": true
     },
     "2": {
       "personalData": true,
@@ -51,7 +52,8 @@
       "attachments": true,
       "bankDetails": true,
       "commercialProfile": true,
-      "vendorBranches": true
+      "vendorBranches": true,
+      "gstFilingDetails": true
     },
     "3": {
       "personalData": true,
@@ -66,7 +68,8 @@
       "attachments": true,
       "bankDetails": true,
       "commercialProfile": true,
-      "vendorBranches": true
+      "vendorBranches": true,
+      "gstFilingDetails": true
     },
     "4": {
       "personalData": false,
@@ -81,7 +84,8 @@
       "attachments": true,
       "bankDetails": true,
       "commercialProfile": true,
-      "vendorBranches": true
+      "vendorBranches": true,
+      "gstFilingDetails": true
     },
     "5": {
       "personalData": true,
@@ -96,7 +100,8 @@
       "attachments": true,
       "bankDetails": true,
       "commercialProfile": true,
-      "vendorBranches": true
+      "vendorBranches": true,
+      "gstFilingDetails": false
     }
   },
   "Import_Organization_Types": "Manufacturer,Distributor,Trader,Others,Authorized Dealer"

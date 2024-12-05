@@ -95,49 +95,53 @@ export class ProfileLayoutComponent implements OnInit {
   renderTabs() {
     this.btnEnable = {
       "Transport Vendor Profile": {
-        isVisible: this.formToShow.transportPersonalData,
+        isVisible: this.formToShow?.transportPersonalData,
         hasData: true,
       },
       "Tanker Details": {
-        isVisible: this.formToShow.tankerDetails,
+        isVisible: this.formToShow?.tankerDetails,
         hasData: true,
       },
       Address: {
-        isVisible: this.formToShow.address,
+        isVisible: this.formToShow?.address,
         hasData: true,
       },
       Contact: {
-        isVisible: this.formToShow.contact,
+        isVisible: this.formToShow?.contact,
         hasData: true,
       },
       "Technical Profile": {
-        isVisible: this.formToShow.technicalProfile,
+        isVisible: this.formToShow?.technicalProfile,
         hasData: true,
       },
       "Commercial Profile": {
-        isVisible: this.formToShow.commercialProfile,
+        isVisible: this.formToShow?.commercialProfile,
         hasData: true,
       },
       "Organization Profile": {
-        isVisible: this.formToShow.organizationData,
+        isVisible: this.formToShow?.organizationData,
         hasData: true,
       },
       "Annual Turnover": {
-        isVisible: this.formToShow.annualTurnOver,
+        isVisible: this.formToShow?.annualTurnOver,
         hasData: true,
       },
       "Bank Detail": {
-        isVisible: this.formToShow.bankDetails,
+        isVisible: this.formToShow?.bankDetails,
         hasData: true,
       },
       "Vendor Branches": {
-        isVisible: this.formToShow.vendorBranches,
+        isVisible: this.formToShow?.vendorBranches,
         hasData: true,
       },
       Documents: {
-        isVisible: this.formToShow.attachments,
+        isVisible: this.formToShow?.attachments,
         hasData: true,
       },
+      "GST Filing Details": {
+        isVisible: this.formToShow?.gstFilingDetails,
+        hasData: true,
+      }
     };
 
     Object.entries(this.btnEnable).forEach(([key, value]) => {
@@ -169,8 +173,12 @@ export class ProfileLayoutComponent implements OnInit {
   changeTab(tabName: string) {
     this.openTab = tabName;
   }
+
+
   enableBtn(event: boolean, btnName: string) {
-    this.btnEnable[btnName].hasData = event;
+    if (this.btnEnable[btnName]) {
+      this.btnEnable[btnName].hasData = event;
+    }
   }
 
   openGradeDialog() {

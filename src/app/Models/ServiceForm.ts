@@ -10,7 +10,8 @@ import {
     Subsideries,
     TechnicalProfile,
     VendorBranch,
-    VendorOrganizationProfile
+    VendorOrganizationProfile,
+    GST_Filing_Dto
 } from "./Dtos";
 
 export class ServiceForm {
@@ -26,4 +27,5 @@ export class ServiceForm {
     VendorBranches: VendorBranch[];
     ProprietorOrPartners: ProprietorOrPartner[];
     NocilRelatedEmployees: NocilRelatedEmployee[];
+    GstFilingDetails: GST_Filing_Dto[];
 }
