@@ -27,5 +27,5 @@ export class ServiceForm {
     VendorBranches: VendorBranch[];
     ProprietorOrPartners: ProprietorOrPartner[];
     NocilRelatedEmployees: NocilRelatedEmployee[];
-    GstFilingDetails: GST_Filing_Dto[];
+    GstFilingDetails: GST_Filing_Dto;
 }

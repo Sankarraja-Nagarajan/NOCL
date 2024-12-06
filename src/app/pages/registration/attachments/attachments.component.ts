@@ -100,7 +100,9 @@ export class AttachmentsComponent implements OnInit, OnChanges {
               this.reqDatasource.data.push(element);
               this.FileType = element.File_Type;
             } else {
-              this.additionalDatasource.data.push(element);
+              if(!element.File_Type.toLowerCase().includes("iso")){
+                this.additionalDatasource.data.push(element);
+              }
             }
           });
 

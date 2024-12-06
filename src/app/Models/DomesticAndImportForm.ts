@@ -29,5 +29,5 @@ export class DomesticAndImportForm {
     ProprietorOrPartners: ProprietorOrPartner[];
     AnnualTurnOvers: AnnualTurnOver[];
     NocilRelatedEmployees: NocilRelatedEmployee[];
-    GstFilingDetails: GST_Filing_Dto[];
+    GstFilingDetails: GST_Filing_Dto;
 }

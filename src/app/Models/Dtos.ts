@@ -294,10 +294,10 @@ export class VendorReport {
 export class GST_Filing_Dto {
   Form_Id: number;
   Last_FetchOn: Date | string;
-  GST_Filing_Details_Dtos: GST_Filing_Details_Dto[];
+  GST_Filing_Details: GST_Filing_Details[];
 }
 
-export class GST_Filing_Details_Dto {
+export class GST_Filing_Details {
   arn: string;
   mof: string;
   status: string;

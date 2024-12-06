@@ -9,5 +9,5 @@ export class TransportForm {
     BankDetail: Bank_Detail;
     CommercialProfile: CommercialProfile;
     VendorBranches: VendorBranch[];
-    GstFilingDetails: GST_Filing_Dto[];
+    GstFilingDetails: GST_Filing_Dto;
 }

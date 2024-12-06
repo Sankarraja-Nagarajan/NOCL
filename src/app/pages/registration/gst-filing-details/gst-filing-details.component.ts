@@ -1,25 +1,25 @@
-import { Component, Input, ViewChild } from '@angular/core';
-import { getSession } from '../../../Utils';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthResponse } from '../../../Models/authModel';
-import { CommonService } from '../../../Services/common.service';
-import { RegistrationService } from '../../../Services/registration.service';
-import { snackbarStatus } from '../../../Enums/snackbar-status';
-import { MatTableDataSource } from '@angular/material/table';
-import { MatPaginator } from '@angular/material/paginator';
-import { GST_Filing_Dto } from '../../../Models/Dtos';
+import { Component, Input, ViewChild } from "@angular/core";
+import { getSession } from "../../../Utils";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { AuthResponse } from "../../../Models/authModel";
+import { CommonService } from "../../../Services/common.service";
+import { RegistrationService } from "../../../Services/registration.service";
+import { snackbarStatus } from "../../../Enums/snackbar-status";
+import { MatTableDataSource } from "@angular/material/table";
+import { MatPaginator } from "@angular/material/paginator";
+import { GST_Filing_Details, GST_Filing_Dto } from "../../../Models/Dtos";
 
 @Component({
-  selector: 'ngx-gst-filing-details',
-  templateUrl: './gst-filing-details.component.html',
-  styleUrls: ['./gst-filing-details.component.scss']
+  selector: "ngx-gst-filing-details",
+  templateUrl: "./gst-filing-details.component.html",
+  styleUrls: ["./gst-filing-details.component.scss"],
 })
 export class GstFilingDetailsComponent {
-
   @Input() form_Id: number;
   @Input() v_Id: number;
   @Input() isReadOnly: boolean;
-  gstFilingDetails: GST_Filing_Dto[] = [];
+  gstFilingHistory: GST_Filing_Dto = new GST_Filing_Dto();
+  gstFilingDetails: GST_Filing_Details[] = [];
   gstFilingId: number = 0;
   dataSource = new MatTableDataSource(this.gstFilingDetails);
   displayedColumns: string[] = [
@@ -29,7 +29,7 @@ export class GstFilingDetailsComponent {
     "rtntype",
     "ret_prd",
     "dof",
-    "valid"
+    "valid",
   ];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -40,7 +40,7 @@ export class GstFilingDetailsComponent {
     private _fb: FormBuilder,
     private _commonService: CommonService,
     private _registration: RegistrationService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.gstFilingDetailsForm = this._fb.group({
@@ -54,7 +54,6 @@ export class GstFilingDetailsComponent {
       ],
     });
 
-
     this.authResponse = JSON.parse(getSession("userDetails"));
     if (this.isReadOnly) {
       this.gstFilingDetailsForm.disable();
@@ -63,7 +62,9 @@ export class GstFilingDetailsComponent {
     this._registration.getFormData(this.form_Id, "GSTFilingDetails").subscribe({
       next: (res) => {
         if (res) {
-          this.gstFilingDetails = res;
+          this.gstFilingHistory = res as GST_Filing_Dto;
+          this.gstFilingDetails =
+            res.GST_Filing_Details as GST_Filing_Details[];
           this.dataSource = new MatTableDataSource(this.gstFilingDetails);
           this.dataSource.paginator = this.paginator;
         }
@@ -75,7 +76,10 @@ export class GstFilingDetailsComponent {
   }
 
   getGstFilingDetails() {
-    if (this.gstFilingDetailsForm.value.GSTIN && this.gstFilingDetailsForm.get("GSTIN").valid) {
+    if (
+      this.gstFilingDetailsForm.value.GSTIN &&
+      this.gstFilingDetailsForm.get("GSTIN").valid
+    ) {
       this._registration
         .getGstFilingDetails(this.gstFilingDetailsForm.value.GSTIN)
         .subscribe({
@@ -91,7 +95,10 @@ export class GstFilingDetailsComponent {
           },
         });
     } else {
-      this._commonService.openSnackbar("Enter Valid GSTIN Number", snackbarStatus.Danger);
+      this._commonService.openSnackbar(
+        "Enter Valid GSTIN Number",
+        snackbarStatus.Danger
+      );
     }
   }
 
@@ -105,21 +112,18 @@ export class GstFilingDetailsComponent {
     }
   }
 
-
   getGSTFiling() {
-    this.gstFilingDetails = this.dataSource.data;
-    this.gstFilingDetails.forEach((element) => {
-      element.Form_Id = this.form_Id;
-      element.Last_FetchOn = new Date().toLocaleString();
-    });
-    return this.gstFilingDetails;
+    this.gstFilingHistory.Form_Id = this.form_Id;
+    if (!this.gstFilingHistory.Last_FetchOn) {
+      this.gstFilingHistory.Last_FetchOn = new Date().toLocaleString();
+    }
+    this.gstFilingHistory.GST_Filing_Details = this.gstFilingDetails;
+    return this.gstFilingHistory;
   }
-
 
   markGstFilingFormAsTouched() {
     if (this.dataSource.data.length == 0) {
       this.gstFilingDetailsForm.markAllAsTouched();
     }
   }
-
 }
