@@ -4,7 +4,6 @@ import { DomesticAndImportForm } from "../../../Models/DomesticAndImportForm";
 import { ActivatedRoute, Router } from "@angular/router";
 import { RegistrationService } from "../../../Services/registration.service";
 import {
-  AdditionalFieldsDto,
   Approval,
   FormSubmitTemplate,
   Rejection,
@@ -21,11 +20,17 @@ import { TransportForm } from "../../../Models/TransportForm";
 import { CommonService } from "../../../Services/common.service";
 import { EncryptionService } from "../../../Services/encryption.service";
 import { getSession } from "../../../Utils";
+import { PreviewDialogComponent } from "../../../Dialogs/preview-dialog/preview-dialog.component";
+import { AppConfigService } from "../../../Services/app-config.service";
+import { EmitterService } from "../../../Services/emitter.service";
+import { EditRequestService } from "../../../Services/edit-request.service";
+import { ContactsComponent } from "../contacts/contacts.component";
+import { AdditionalFieldsComponent } from "../additional-fields/additional-fields.component";
 import { AnnualTurnoverComponent } from "../annual-turnover/annual-turnover.component";
 import { AttachmentsComponent } from "../attachments/attachments.component";
 import { BankDetailsComponent } from "../bank-details/bank-details.component";
 import { CommercialProfileComponent } from "../commercial-profile/commercial-profile.component";
-import { ContactsComponent } from "../contacts/contacts.component";
+import { GstFilingDetailsComponent } from "../gst-filing-details/gst-filing-details.component";
 import { PartnersComponent } from "../partners/partners.component";
 import { TankerDetailsComponent } from "../tanker-details/tanker-details.component";
 import { TechnicalProfileComponent } from "../technical-profile/technical-profile.component";
@@ -33,14 +38,6 @@ import { TransportVendorsPersonalDetailsComponent } from "../transport-vendors-p
 import { VendorBranchesComponent } from "../vendor-branches/vendor-branches.component";
 import { VendorOrgProfileComponent } from "../vendor-org-profile/vendor-org-profile.component";
 import { VendorPersonalInfoComponent } from "../vendor-personal-info/vendor-personal-info.component";
-import { PreviewDialogComponent } from "../../../Dialogs/preview-dialog/preview-dialog.component";
-import { AppConfigService } from "../../../Services/app-config.service";
-import { AdditionalFieldsComponent } from "../additional-fields/additional-fields.component";
-import { EmitterService } from "../../../Services/emitter.service";
-import { VehicleDetailsComponent } from "../vehicle-details/vehicle-details.component";
-import { EditRequestService } from "../../../Services/edit-request.service";
-import { GstFilingDetailComponent } from "../../profile/gst-filing-detail/gst-filing-detail.component";
-import { GstFilingDetailsComponent } from "../gst-filing-details/gst-filing-details.component";
 
 @Component({
   selector: "ngx-registration-form-layout",
@@ -90,7 +87,7 @@ export class RegistrationFormLayoutComponent implements OnInit {
   formsToShow: FormsToShow = new FormsToShow();
   isOrgTypeManufacturer: boolean = false;
   isGstFilingReq: boolean = false;
-
+  isDomesticVendor: boolean = false;
 
   json_data: any;
 
@@ -423,8 +420,14 @@ export class RegistrationFormLayoutComponent implements OnInit {
       (!this.formsToShow.proprietorOrPartner || this.partnersComponent?.isValid()) &&
       this.annualTurnoverComponent.isValid() &&
       this.attachmentsComponent.isValid() &&
-      this.gstFilingDetailsComponent.isValid()
+      (this.isDomesticVendor ? this.gstFilingDetailsComponent.isValid() : true)
     );
+  }
+
+  gstFilingForDomestic() {
+    if (this.v_Id != 5) {
+      this.isDomesticVendor = true;
+    }
   }
 
   checkValidationForTransport() {
@@ -485,8 +488,11 @@ export class RegistrationFormLayoutComponent implements OnInit {
       this.annualTurnoverComponent.getAnnualTurnOvers();
     domesticAndImportForm.NocilRelatedEmployees =
       this.vendorOrgProfileComponent.getNocilRelatedEmployees();
-    domesticAndImportForm.GstFilingDetails =
-      this.gstFilingDetailsComponent.getGSTFiling();
+    if (this.isDomesticVendor) {
+      domesticAndImportForm.GstFilingDetails = this.gstFilingDetailsComponent.getGSTFiling();
+    } else {
+      domesticAndImportForm.GstFilingDetails = null;
+    }
     return this.createFormSubmitTemplate(domesticAndImportForm);
   }
 

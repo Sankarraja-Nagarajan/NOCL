@@ -63,7 +63,7 @@ export class CommercialProfileComponent {
         Validators.pattern("^(UDYAM-[A-Z]{2}-[0-9]{2}-[0-9]{7})+$"),
       ],
       ServiceCategory: [""],
-      Is_MSME_Type: [true, Validators.required],
+      Is_MSME_Type: [false, Validators.required],
     });
 
     this.authResponse = JSON.parse(getSession("userDetails"));

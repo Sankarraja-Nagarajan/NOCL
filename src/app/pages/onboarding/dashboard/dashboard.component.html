@@ -10,7 +10,7 @@
       <img src="../../../assets/images/pngs/open.png" height="70" />
     </div>
 
-    <div class="d-flex justify-content-around align-items-center bg-white p-3 col rounded-3 x`"
+    <div class="d-flex justify-content-around align-items-center bg-white p-3 col rounded-3 tile"
       (click)="data('Pending')">
       <div>
         <p class="card-text mb-2">Pending Documents</p>
@@ -130,9 +130,9 @@
             Review
           </button> -->
           <button mat-raised-button class="btn btn-design btn-review" (click)="formReview(element)">
-          Review
-        </button>
-        <!-- <button *ngIf="element.Status=='EditRequested'" class="btn btn-design acceptButton" (click)="acceptEditRequest(element.FormId)">
+            Review
+          </button>
+          <!-- <button *ngIf="element.Status=='EditRequested'" class="btn btn-design acceptButton" (click)="acceptEditRequest(element.FormId)">
           <img src="../../../../assets/images/pngs/check.png" width="16" height="16" class="me-1" />
         </button>
         <button *ngIf="element.Status=='EditRequested'" class="btn btn-design acceptButton" (click)="openRequestDialog(element.FormId)">

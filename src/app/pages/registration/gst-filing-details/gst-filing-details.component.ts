@@ -35,12 +35,13 @@ export class GstFilingDetailsComponent {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   gstFilingDetailsForm: FormGroup;
   authResponse: AuthResponse;
+  lastFetchOn_date: string | Date = null;
 
   constructor(
     private _fb: FormBuilder,
     private _commonService: CommonService,
     private _registration: RegistrationService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.gstFilingDetailsForm = this._fb.group({
@@ -63,8 +64,7 @@ export class GstFilingDetailsComponent {
       next: (res) => {
         if (res) {
           this.gstFilingHistory = res as GST_Filing_Dto;
-          this.gstFilingDetails =
-            res.GST_Filing_Details as GST_Filing_Details[];
+          this.gstFilingDetails = res.GST_Filing_Details as GST_Filing_Details[];
           this.dataSource = new MatTableDataSource(this.gstFilingDetails);
           this.dataSource.paginator = this.paginator;
         }
@@ -76,18 +76,16 @@ export class GstFilingDetailsComponent {
   }
 
   getGstFilingDetails() {
-    if (
-      this.gstFilingDetailsForm.value.GSTIN &&
-      this.gstFilingDetailsForm.get("GSTIN").valid
-    ) {
+    if (this.gstFilingDetailsForm.value.GSTIN && this.gstFilingDetailsForm.get("GSTIN").valid) {
       this._registration
         .getGstFilingDetails(this.gstFilingDetailsForm.value.GSTIN)
         .subscribe({
           next: (res) => {
-            if (res) {
+            if (res && res.data && res.data.EFiledlist) {
               this.gstFilingDetails = res.data.EFiledlist;
               this.dataSource = new MatTableDataSource(this.gstFilingDetails);
               this.dataSource.paginator = this.paginator;
+              this.lastFetchOn_date = new Date().toLocaleString();
             }
           },
           error: (err) => {
@@ -116,6 +114,9 @@ export class GstFilingDetailsComponent {
     this.gstFilingHistory.Form_Id = this.form_Id;
     if (!this.gstFilingHistory.Last_FetchOn) {
       this.gstFilingHistory.Last_FetchOn = new Date().toLocaleString();
+    }
+    else {
+      this.gstFilingHistory.Last_FetchOn = this.lastFetchOn_date;
     }
     this.gstFilingHistory.GST_Filing_Details = this.gstFilingDetails;
     return this.gstFilingHistory;
