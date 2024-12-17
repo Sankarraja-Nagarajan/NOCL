@@ -50,7 +50,7 @@ export class VendorBranchesComponent implements OnInit {
       Name: ["", [Validators.required]],
       Designation: [""],
       Email_Id: ["", [Validators.required,
-        Validators.pattern("^[a-z][a-z0-9._-]+@[a-z]+\\.[a-z]{2,3}$")]],
+        Validators.pattern("^[a-zA-Z][a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")]],
       Mobile_No: ["", [Validators.required, Validators.maxLength(15)]],
       Location: ["", [Validators.required]],
     });

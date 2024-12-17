@@ -5,10 +5,9 @@ import { forkJoin } from 'rxjs';
 import { Incoterms, Industry, PurchaseOrganization, ReconciliationAccount, SchemaGroup, VendorAccountGroup } from '../../../Models/Master';
 import { AuthResponse } from '../../../Models/authModel';
 import { AdditionalFieldsDto } from '../../../Models/Registration';
-import { getSession, isNullOrEmpty } from '../../../Utils';
+import { getSession } from '../../../Utils';
 import { RegistrationService } from '../../../Services/registration.service';
 import { EmitterService } from '../../../Services/emitter.service';
-import { CommercialProfileComponent } from '../commercial-profile/commercial-profile.component';
 import { CommercialProfile } from '../../../Models/Dtos';
 
 @Component({
@@ -17,7 +16,8 @@ import { CommercialProfile } from '../../../Models/Dtos';
   styleUrls: ['./additional-fields.component.scss']
 })
 export class AdditionalFieldsComponent implements OnInit {
-
+  @Input() form_Id: number;
+  @Input() v_Id: number;
 
   additionalFieldsForm: FormGroup;
   Industries: Industry[] = [];
@@ -28,7 +28,7 @@ export class AdditionalFieldsComponent implements OnInit {
   VendorAccountGroups: VendorAccountGroup[] = [];
   authResponse: AuthResponse;
   additionalDto: AdditionalFieldsDto;
-  @Input() form_Id: number;
+  
   industryUpdate;
   commercialProfile: CommercialProfile[];
 

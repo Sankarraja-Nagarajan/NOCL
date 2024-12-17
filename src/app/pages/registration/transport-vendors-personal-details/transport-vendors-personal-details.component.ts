@@ -18,7 +18,7 @@ import { EmitterService } from "../../../Services/emitter.service";
 })
 export class TransportVendorsPersonalDetailsComponent {
   @Input() form_Id: number;
-  @Output() gstDetail: EventEmitter<GstDetail> = new EventEmitter<GstDetail>();
+  @Output() gstDetail: EventEmitter<boolean> = new EventEmitter<boolean>();
   
   transporterVendorsForm: FormGroup;
   authResponse: AuthResponse;
@@ -94,7 +94,6 @@ export class TransportVendorsPersonalDetailsComponent {
         .subscribe({
           next: (res) => {
             if (res) {
-              this.gstDetail.emit(res as GstDetail);
               this.transporterVendorsForm
                 .get("Name_of_Transporter")
                 .setValue(res.Name);
@@ -117,7 +116,9 @@ export class TransportVendorsPersonalDetailsComponent {
 
   isRegistered(): boolean {
     const selectedGSTVenClass = this.GST.find(gst => gst.Id === this.transporterVendorsForm.value.GSTVenClass_Id);
-    return !isNullOrEmpty(selectedGSTVenClass) && isNullOrEmpty(selectedGSTVenClass.Code); 
+    const isRegistered = selectedGSTVenClass && selectedGSTVenClass.Id !=2;
+    this.emitterService.emitRequiredAttachments(isRegistered);
+    return isRegistered;
   }
 
   // validations
@@ -167,12 +168,9 @@ export class TransportVendorsPersonalDetailsComponent {
     const selectedGSTVenClass = this.GST.find((gst) => gst.Id === selectedGSTVenClassId);
     const isRegistered = selectedGSTVenClass && selectedGSTVenClass.Id === 1;
     const isnotRegistered = selectedGSTVenClass && selectedGSTVenClass.Id !=2;
-    if (isRegistered) {
-      this.emitterService.emitGSTVenClass(true);
-    } else {
-      this.emitterService.emitGSTVenClass(false);
-    }
+    this.emitterService.emitGSTVenClass(isnotRegistered);
     this.emitterService.emitRequiredAttachments(isnotRegistered);
+    this.gstDetail.emit(isnotRegistered);
     return isnotRegistered;
   }
 

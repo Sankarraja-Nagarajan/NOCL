@@ -280,7 +280,6 @@ export class FormsToShow {
   gstFilingDetails: boolean = false;
 }
 
-
 export class VendorReport {
   Vendor_Category?: boolean;
   Country_Code?: string;
@@ -292,6 +291,7 @@ export class VendorReport {
 }
 
 export class GST_Filing_Dto {
+  GST_History_Id: number;
   Form_Id: number;
   Last_FetchOn: Date | string;
   GST_Filing_Details: GST_Filing_Details[];
@@ -306,4 +306,3 @@ export class GST_Filing_Details {
   dof: string;
   valid: string;
 }
-

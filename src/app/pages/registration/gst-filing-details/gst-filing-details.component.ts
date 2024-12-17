@@ -1,5 +1,5 @@
 import { Component, Input, ViewChild } from "@angular/core";
-import { getSession } from "../../../Utils";
+import { getSession, isArrayEmpty } from "../../../Utils";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { AuthResponse } from "../../../Models/authModel";
 import { CommonService } from "../../../Services/common.service";
@@ -111,6 +111,7 @@ export class GstFilingDetailsComponent {
   }
 
   getGSTFiling() {
+    this.gstFilingHistory = new GST_Filing_Dto();
     this.gstFilingHistory.Form_Id = this.form_Id;
     if (!this.gstFilingHistory.Last_FetchOn) {
       this.gstFilingHistory.Last_FetchOn = new Date().toLocaleString();
@@ -118,7 +119,7 @@ export class GstFilingDetailsComponent {
     else {
       this.gstFilingHistory.Last_FetchOn = this.lastFetchOn_date;
     }
-    this.gstFilingHistory.GST_Filing_Details = this.gstFilingDetails;
+    this.gstFilingHistory.GST_Filing_Details = !isArrayEmpty(this.gstFilingDetails) ? this.gstFilingDetails : this.dataSource.data;
     return this.gstFilingHistory;
   }
 

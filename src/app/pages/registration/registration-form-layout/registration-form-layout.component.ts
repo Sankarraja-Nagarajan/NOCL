@@ -12,7 +12,13 @@ import { AuthResponse } from "../../../Models/authModel";
 import { MatDialog } from "@angular/material/dialog";
 import { RejectReasonDialogComponent } from "../../../Dialogs/reject-reason-dialog/reject-reason-dialog.component";
 import { ServiceForm } from "../../../Models/ServiceForm";
-import { Attachment, FormsToShow, GstDetail, Reason, ReasonDetail } from "../../../Models/Dtos";
+import {
+  Attachment,
+  FormsToShow,
+  GstDetail,
+  Reason,
+  ReasonDetail,
+} from "../../../Models/Dtos";
 import { MatTableDataSource } from "@angular/material/table";
 import { TermsAndConditionsDialogComponent } from "../../../Dialogs/terms-and-conditions-dialog/terms-and-conditions-dialog.component";
 import { snackbarStatus } from "../../../Enums/snackbar-status";
@@ -101,11 +107,9 @@ export class RegistrationFormLayoutComponent implements OnInit {
     private _appConfig: AppConfigService,
     private emitterService: EmitterService,
     private _editRequest: EditRequestService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
-
-
     this.authResponse = JSON.parse(getSession("userDetails"));
     this.paramSubscription();
     if (this.authResponse?.Role === "Vendor") {
@@ -114,16 +118,17 @@ export class RegistrationFormLayoutComponent implements OnInit {
       this.openTermsAndConditionsDialog();
     }
 
-    if (this.form_status.includes('Edit')) {
+    if (this.form_status.includes("Edit")) {
       this.getEditRejectedReasons();
-    }
-    else {
+    } else {
       this._registration.getReasons(this.form_Id).subscribe({
         next: (res) => {
           if (res) {
-            console.log("reject", res)
+            console.log("reject", res);
             this.rejectedReason = res;
-            this.dataSource = new MatTableDataSource(this.rejectedReason.Reasons);
+            this.dataSource = new MatTableDataSource(
+              this.rejectedReason.Reasons
+            );
           }
         },
         error: (err) => {
@@ -135,7 +140,6 @@ export class RegistrationFormLayoutComponent implements OnInit {
     this.emitterService.requiredAttachments.subscribe((value) => {
       this.isGstFilingReq = value;
     });
-
 
     //this.ExpiryNotifications();
 
@@ -186,23 +190,20 @@ export class RegistrationFormLayoutComponent implements OnInit {
 
   //#region Submitting form API Call
   submitForm(formSubmitTemplate: FormSubmitTemplate) {
-    this.getAttachments(formSubmitTemplate)
+    this.getAttachments(formSubmitTemplate);
   }
   //#endregion
 
   //#region Updating form API call
   updateForm(formSubmitTemplate: FormSubmitTemplate) {
-
     this._registration.formUpdate(formSubmitTemplate).subscribe({
       next: (res) => {
         if (res.Status === 200) {
-
           this._commonService.openSnackbar(res.Message, snackbarStatus.Success);
           this._router.navigate(["/success"]);
         }
       },
       error: (err) => {
-
         this._commonService.openSnackbar(err, snackbarStatus.Danger);
       },
     });
@@ -212,13 +213,11 @@ export class RegistrationFormLayoutComponent implements OnInit {
     this._editRequest.editFormUpdate(formSubmitTemplate).subscribe({
       next: (res) => {
         if (res.Status === 200) {
-
           this._commonService.openSnackbar(res.Message, snackbarStatus.Success);
           this._router.navigate(["/success"]);
         }
       },
       error: (err) => {
-
         this._commonService.openSnackbar(err, snackbarStatus.Danger);
       },
     });
@@ -248,8 +247,7 @@ export class RegistrationFormLayoutComponent implements OnInit {
       this.domesticAndImportFormSubmit();
     } else if (this.v_Id === 3) {
       this.serviceFormSubmit();
-    }
-    else if (this.v_Id === 4) {
+    } else if (this.v_Id === 4) {
       this.transportFormSubmit();
     } else if (this.v_Id == 5) {
       this.domesticAndImportFormSubmit();
@@ -272,19 +270,16 @@ export class RegistrationFormLayoutComponent implements OnInit {
       next: (res) => {
         if (res) {
           let API;
-          if (this.form_status == 'EditApprovalPending') {
+          if (this.form_status == "EditApprovalPending") {
             API = this._editRequest.formRejection(res.reject as Rejection);
-          }
-          else if (this.form_status == 'EditRequested') {
+          } else if (this.form_status == "EditRequested") {
             API = this._editRequest.rejectEditRequest(res.reject as Rejection);
-          }
-          else {
+          } else {
             API = this._registration.formRejection(res.reject as Rejection);
           }
           // const API = this.form_status == 'EditApprovalPending' ? this._editRequest.formRejection(res.reject as Rejection) : this._registration.formRejection(res.reject as Rejection);
           API.subscribe({
             next: (res) => {
-
               if (res && res.Status == 200) {
                 this._commonService.openSnackbar(
                   res.Message,
@@ -294,7 +289,6 @@ export class RegistrationFormLayoutComponent implements OnInit {
               }
             },
             error: (err) => {
-
               this._commonService.openSnackbar(err, snackbarStatus.Danger);
             },
           });
@@ -317,29 +311,34 @@ export class RegistrationFormLayoutComponent implements OnInit {
       approval.RmEmployeeId = this.authResponse.RmEmployee_Id;
       approval.RmRoleId = this.authResponse.RmRole_Id;
       approval.RmRoleName = this.authResponse.RmRole;
-      approval.AdditionalFields = this.additionalFieldsComponent.getAllAdditionalData();
+      approval.AdditionalFields =
+        this.additionalFieldsComponent.getAllAdditionalData();
 
-      const API = this.form_status == 'EditApprovalPending' ? this._editRequest.formApproval(approval) : this._registration.formApproval(approval);
+      const API =
+        this.form_status == "EditApprovalPending"
+          ? this._editRequest.formApproval(approval)
+          : this._registration.formApproval(approval);
       API.subscribe({
         next: (res) => {
-
           if (res && res.Status == 200) {
-            this._commonService.openSnackbar(res.Message, snackbarStatus.Success);
+            this._commonService.openSnackbar(
+              res.Message,
+              snackbarStatus.Success
+            );
             this._router.navigate(["/onboarding/dashboard"]);
           }
         },
         error: (err) => {
-
           this._commonService.openSnackbar(err, snackbarStatus.Danger);
         },
       });
-    }
-    else {
-      this._commonService.openSnackbar("Please Fill out Additional Fields Information.", snackbarStatus.Danger);
+    } else {
+      this._commonService.openSnackbar(
+        "Please Fill out Additional Fields Information.",
+        snackbarStatus.Danger
+      );
     }
   }
-
-
 
   //#region Submit function call based on Vendor Type
   domesticAndImportFormSubmit() {
@@ -349,11 +348,9 @@ export class RegistrationFormLayoutComponent implements OnInit {
         this.submitForm(payload);
       } else if (this.form_status == "Rejected") {
         this.updateForm(payload);
-      }
-      else if (this.form_status == "EditReqApproved" || "EditReqRejected") {
+      } else if (this.form_status == "EditReqApproved" || "EditReqRejected") {
         this.updateEditForm(payload);
-      }
-      else {
+      } else {
         this._commonService.openSnackbar(
           `You can not submit the ${this.form_status} form`,
           snackbarStatus.Danger
@@ -371,8 +368,7 @@ export class RegistrationFormLayoutComponent implements OnInit {
         this.submitForm(payload);
       } else if (this.form_status == "Rejected") {
         this.updateForm(payload);
-      }
-      else if (this.form_status == "EditReqApproved" || "EditReqRejected") {
+      } else if (this.form_status == "EditReqApproved" || "EditReqRejected") {
         this.updateEditForm(payload);
       } else {
         this._commonService.openSnackbar(
@@ -392,8 +388,7 @@ export class RegistrationFormLayoutComponent implements OnInit {
         this.submitForm(payload);
       } else if (this.form_status == "Rejected") {
         this.updateForm(payload);
-      }
-      else if (this.form_status == "EditReqApproved" || "EditReqRejected") {
+      } else if (this.form_status == "EditReqApproved" || "EditReqRejected") {
         this.updateEditForm(payload);
       } else {
         this._commonService.openSnackbar(
@@ -417,30 +412,25 @@ export class RegistrationFormLayoutComponent implements OnInit {
       this.addressComponent.isValid() &&
       this.contactsComponent.isValid() &&
       this.vendorBranchesComponent.isValid() &&
-      (!this.formsToShow.proprietorOrPartner || this.partnersComponent?.isValid()) &&
+      (!this.formsToShow.proprietorOrPartner ||
+        this.partnersComponent?.isValid()) &&
       this.annualTurnoverComponent.isValid() &&
       this.attachmentsComponent.isValid() &&
-      (this.isDomesticVendor ? this.gstFilingDetailsComponent.isValid() : true)
+      (this.v_Id != 5 ? this.gstFilingDetailsComponent?.isValid() : true)
     );
   }
 
-  gstFilingForDomestic() {
-    if (this.v_Id != 5) {
-      this.isDomesticVendor = true;
-    }
-  }
-
   checkValidationForTransport() {
-    console.log(this.tankerDetailsComponent.isValid());
     return (
       this.transportVendorsPersonalDetailsComponent.isValid() &&
-      this.tankerDetailsComponent.isValid() &&
       this.addressComponent.isValid() &&
       this.contactsComponent.isValid() &&
       this.bankDetailsComponent.isValid() &&
       this.commercialProfileComponent.isValid() &&
       this.vendorBranchesComponent.isValid() &&
-      this.gstFilingDetailsComponent.isValid()
+      (this.formsToShow.gstFilingDetails
+        ? this.gstFilingDetailsComponent?.isValid()
+        : true)
     );
   }
 
@@ -453,7 +443,8 @@ export class RegistrationFormLayoutComponent implements OnInit {
       this.addressComponent.isValid() &&
       this.contactsComponent.isValid() &&
       this.vendorBranchesComponent.isValid() &&
-      (!this.formsToShow.proprietorOrPartner || this.partnersComponent?.isValid()) &&
+      (!this.formsToShow.proprietorOrPartner ||
+        this.partnersComponent?.isValid()) &&
       this.attachmentsComponent.isValid() &&
       this.gstFilingDetailsComponent.isValid()
     );
@@ -488,8 +479,9 @@ export class RegistrationFormLayoutComponent implements OnInit {
       this.annualTurnoverComponent.getAnnualTurnOvers();
     domesticAndImportForm.NocilRelatedEmployees =
       this.vendorOrgProfileComponent.getNocilRelatedEmployees();
-    if (this.isDomesticVendor) {
-      domesticAndImportForm.GstFilingDetails = this.gstFilingDetailsComponent.getGSTFiling();
+    if (this.v_Id != 5) {
+      domesticAndImportForm.GstFilingDetails =
+        this.gstFilingDetailsComponent.getGSTFiling();
     } else {
       domesticAndImportForm.GstFilingDetails = null;
     }
@@ -504,14 +496,15 @@ export class RegistrationFormLayoutComponent implements OnInit {
     transportForm.Contacts = this.contactsComponent.getContacts();
     transportForm.TankerDetails =
       this.tankerDetailsComponent.getTankerDetails();
-    transportForm.VehicleDetails = this.tankerDetailsComponent.vehicleDetailsComponent.getVehicleDetails();
+    transportForm.VehicleDetails =
+      this.tankerDetailsComponent.vehicleDetailsComponent.getVehicleDetails();
     transportForm.BankDetail = this.bankDetailsComponent.getBankDetail();
     transportForm.CommercialProfile =
       this.commercialProfileComponent.getCommercialProfile();
     transportForm.VendorBranches =
       this.vendorBranchesComponent.getVendorBranches();
     transportForm.GstFilingDetails =
-      this.gstFilingDetailsComponent.getGSTFiling();
+      this.gstFilingDetailsComponent?.getGSTFiling();
     return this.createFormSubmitTemplate(transportForm);
   }
 
@@ -564,22 +557,26 @@ export class RegistrationFormLayoutComponent implements OnInit {
         break;
       case 2:
         this.formsToShow = this._appConfig.getSubItem(
-          "FormsToShow", "2"
+          "FormsToShow",
+          "2"
         ) as FormsToShow;
         break;
       case 3:
         this.formsToShow = this._appConfig.getSubItem(
-          "FormsToShow", "3"
+          "FormsToShow",
+          "3"
         ) as FormsToShow;
         break;
       case 4:
         this.formsToShow = this._appConfig.getSubItem(
-          "FormsToShow", "4"
+          "FormsToShow",
+          "4"
         ) as FormsToShow;
         break;
       case 5:
         this.formsToShow = this._appConfig.getSubItem(
-          "FormsToShow", "5"
+          "FormsToShow",
+          "5"
         ) as FormsToShow;
         break;
     }
@@ -625,10 +622,8 @@ export class RegistrationFormLayoutComponent implements OnInit {
   }
 
   getGstDetail(event) {
-    this.gstDetail = event;
+    this.v_Id == 4 ? (this.formsToShow.gstFilingDetails = event) : "";
   }
-
-
 
   getAttachments(formSubmitTemplate: FormSubmitTemplate) {
     this._registration.getFormData(this.form_Id, "Attachments").subscribe({
@@ -636,17 +631,16 @@ export class RegistrationFormLayoutComponent implements OnInit {
         this.attachmentsArray = res;
         this.openDialog(formSubmitTemplate);
       },
-      error: (err) => { }
+      error: (err) => {},
     });
   }
 
   openDialog(formSubmitTemplate: FormSubmitTemplate): void {
     const dialogRef = this._dialog.open(PreviewDialogComponent, {
-      data:
-        { attach: this.attachmentsArray },
+      data: { attach: this.attachmentsArray },
       height: "500px",
       width: "700px",
-      autoFocus: false
+      autoFocus: false,
     });
 
     dialogRef.afterClosed().subscribe({
@@ -654,7 +648,10 @@ export class RegistrationFormLayoutComponent implements OnInit {
         this._registration.formSubmit(formSubmitTemplate).subscribe({
           next: (res) => {
             if (res.Status === 200) {
-              this._commonService.openSnackbar(res.Message, snackbarStatus.Success);
+              this._commonService.openSnackbar(
+                res.Message,
+                snackbarStatus.Success
+              );
               this._router.navigate(["/success"]);
             }
           },
@@ -662,15 +659,15 @@ export class RegistrationFormLayoutComponent implements OnInit {
             this._commonService.openSnackbar(err, snackbarStatus.Danger);
           },
         });
-      }
-    })
+      },
+    });
   }
 
   getEditRejectedReasons() {
     this._editRequest.getReasons(this.form_Id).subscribe({
       next: (res) => {
         if (res) {
-          console.log("edit", res)
+          console.log("edit", res);
           this.editRejectedReason = res;
           this.dataSource = new MatTableDataSource(this.editRejectedReason);
         }
@@ -681,23 +678,17 @@ export class RegistrationFormLayoutComponent implements OnInit {
     });
   }
 
-
   acceptEditRequest() {
     this._editRequest.acceptEditRequest(this.form_Id).subscribe({
       next: (res) => {
-
         if (res && res.Status == 200) {
-          this._commonService.openSnackbar(
-            res.Message,
-            snackbarStatus.Success
-          );
+          this._commonService.openSnackbar(res.Message, snackbarStatus.Success);
           this._router.navigate(["/onboarding/dashboard"]);
         }
       },
       error: (err) => {
-
         this._commonService.openSnackbar(err, snackbarStatus.Danger);
       },
-    })
+    });
   }
 }

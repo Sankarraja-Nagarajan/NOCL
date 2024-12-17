@@ -3,7 +3,6 @@ import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { MatTableDataSource } from "@angular/material/table";
 import { Contact } from "../../../Models/Dtos";
 import { CommonService } from "../../../Services/common.service";
-import { LoginService } from "../../../Services/login.service";
 import { ContactType } from "../../../Models/Master";
 import { MasterService } from "../../../Services/master.service";
 import { snackbarStatus } from "../../../Enums/snackbar-status";
@@ -52,7 +51,7 @@ export class ContactsComponent implements OnInit {
         "",
         [
           Validators.required,
-          Validators.pattern("^[a-z][a-z0-9._-]+@[a-z]+\\.[a-z]{2,3}$"),
+          Validators.pattern("^[a-zA-Z][a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"),
         ],
       ],
       Phone_Number: ["", [Validators.maxLength(11), Validators.minLength(11)]],

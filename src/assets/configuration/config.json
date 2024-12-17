@@ -1,5 +1,5 @@
 {
-  "BaseURL": "https://localhost:7082/api",
+  "BaseURL": "https://localhost:44300/api",
   "MSME_Types": "Micro,Small,Medium",
   "Attachment_Types": "GST,PAN,Aadhar,MSME,ISO 9001,ISO 14001,ISO 45001,Certificate of Analysis,MSDS,No PE certificate",
   "Terms_And_Conditions": [
@@ -14,7 +14,7 @@
   ],
   "Required_Attachments": "GST,MSME,PAN,Blank Cheque",
   "Import_Required_Attachments": "ISO 9001,ISO 14001,ISO 45001,MSME,Blank Cheque,Certificate of Analysis,MSDS,No PE certificate",
-  "Expiry_Attachments": "ISO 9001,ISO 14001,ISO 45001,MSME,Certificate of Analysis,MSDS",
+  "Expiry_Attachments": "ISO 9001,ISO 14001,ISO 45001,MSME",
   "RequiredDocs": {
     "1": "GST,MSME,PAN,Blank Cheque",
     "2": "GST,MSME,PAN,Blank Cheque",

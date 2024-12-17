@@ -124,10 +124,7 @@ export class TankerDetailsComponent implements OnInit {
       return false;
     }
   }
-
-
-
-
+  
   // Get Tanker Details Data, calls by layout component
   getTankerDetails() {
     this.tankerDetails = this.dataSource.data;
